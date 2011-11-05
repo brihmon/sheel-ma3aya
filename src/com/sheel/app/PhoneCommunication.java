@@ -1,12 +1,10 @@
 package com.sheel.app;
 
 import android.app.Activity;
-import android.app.PendingIntent;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.View;
 
