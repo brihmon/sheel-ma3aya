@@ -9,12 +9,19 @@
         android:layout_height="wrap_content"
         android:text="@string/hello" />
     
-    <Button 
-  	android:layout_height="wrap_content"
-  	android:layout_width="wrap_content" 
-  	android:text="Go Call!"
-  	android:onClick="onClick_go">
-    </Button>      
-
+     <Button 
+  		android:layout_height="wrap_content"
+  		android:layout_width="wrap_content" 
+  		android:text="Call"
+  		android:onClick="onClick_call">
+    </Button> 
+    
+     <Button 
+  		android:layout_height="wrap_content"
+  		android:layout_width="wrap_content" 
+  		android:text="Send SMS"
+  		android:onClick="onClick_send_SMS">
+    </Button>  
+         
 
 </LinearLayout>
