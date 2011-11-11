@@ -7,8 +7,15 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 // Sending mail: http://mobile.tutsplus.com/tutorials/android/android-email-intent/
+
+/**
+ * @author Hossam Amer
+ *
+ */
+
 
 public class PhoneCommunication extends Activity {
 	
@@ -17,6 +24,10 @@ public class PhoneCommunication extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.communicate);
 	}
+	
+	/*
+	 * Used for calling a given user.
+	 */
 
 	public void onClick_call (View v) 
 	 {
@@ -38,6 +49,11 @@ public class PhoneCommunication extends Activity {
 		} 
 		
 	}// end onClick_call
+	
+	
+	/*
+	 * Used for sending SMS a given user.
+	 */
 	
 	public void onClick_send_SMS (View v) 
 	 {
@@ -69,7 +85,6 @@ public class PhoneCommunication extends Activity {
 								+ "\n" + "\n" + sms_content6;
 			
 			Intent sendIntent = new Intent(Intent.ACTION_VIEW, Uri.fromParts("sms", number, null));
-//			sendIntent.putExtra("sms_body", "Content of the SMS goes here...");
 			sendIntent.putExtra("sms_body", sms_content);
 			startActivity(sendIntent);
 			
@@ -80,8 +95,48 @@ public class PhoneCommunication extends Activity {
 		} 
 		
 	}// end onClick_call
-
 	
 	
+	public void onClick_send_email(View v)
+	{
+		/**
+		 * 
+		 * Hello User2,Ê
+		 * This is an auto confirmation from Sheel M3aya app describing details of your transaction.
+		 * You have requested/offered N kilograms from User1 with N euros.
+		 * Have a nice flight,
+		 * Sheel M3aya team
+		 */
+		
+		try {
+			
+			Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);  
+			  
+//			String aEmailList[] = { "hossam.amer12@gmail.com","user2@fakehost.com" };  
+//			String aEmailCCList[] = { "user3@fakehost.com","user4@fakehost.com"};  
+//			String aEmailBCCList[] = { "user5@fakehost.com" };  
+			  
+			emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, "hossam.amer12@gmail.com");  
+//			emailIntent.putExtra(android.content.Intent.EXTRA_CC, aEmailCCList);  
+//			emailIntent.putExtra(android.content.Intent.EXTRA_BCC, aEmailBCCList);  
+			  
+//			emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "My subject");  
+			  
+//			emailIntent.setType("plain/text");  
+//			emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, "My message body.");  
+			startActivity(Intent.createChooser(emailIntent, "Send your email in:"));  
+  
+//			startActivity(emailIntent); 
+			
+		} catch (ActivityNotFoundException e) {
+			// TODO: handle exception
+			
+			Log.e("PhoneCommunication.java", "Email failed!", e);
+			Toast.makeText(getApplicationContext(), "E-mail application " +
+					"does not exist"
+					, Toast.LENGTH_SHORT).show();
+		}
+		
+	}
 	
-}
+}//end class PhoneCommunication

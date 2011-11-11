@@ -100,7 +100,8 @@
             android:textSize="15dp"   
             android:layout_span="3"
             android:padding="10dip" 
-            android:textColor="#000"/>
+            android:textColor="#000"
+            android:onClick="onClick_send_email"/>
     </TableRow>  
          
            
