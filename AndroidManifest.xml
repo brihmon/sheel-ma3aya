@@ -19,8 +19,11 @@
             </intent-filter>
         </activity>
         
+            
+           <!-- Don't forget to list your activities here -->
           <activity android:name=".PhoneCommunication"></activity>
           <activity android:name=".SearchFacebookActivity"></activity>
+          
     </application>
 
        <uses-permission android:name="android.permission.CALL_PHONE"></uses-permission>
