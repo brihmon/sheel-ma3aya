@@ -96,7 +96,8 @@ public class PhoneCommunication extends Activity {
 		
 	}// end onClick_call
 	
-	
+// http://stackoverflow.com/questions/1930177/android-difference-in-action-send-between-api-level-2-and-5
+	//http://blog.iangclifton.com/2010/05/17/sending-html-email-with-android-intent/
 	public void onClick_send_email(View v)
 	{
 		/**
