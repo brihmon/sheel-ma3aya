@@ -119,7 +119,7 @@ public class SearchFacebookActivity extends Activity {
 			Log.e(ERROR_TAG, "login: " + "FB session expired");
 
 			facebook.authorize(this, new DialogListener() {
-				@Override
+				// @Override
 				public void onComplete(Bundle values) {
 
 					/*
@@ -144,17 +144,17 @@ public class SearchFacebookActivity extends Activity {
 
 				}// end onComplete:
 
-				@Override
+				// @Override
 				public void onFacebookError(FacebookError error) {
 					Log.e(ERROR_TAG, "onFacebookError");
 				}
 
-				@Override
+				// @Override
 				public void onError(DialogError e) {
 					Log.e(ERROR_TAG, "onError");
 				}
 
-				@Override
+				// @Override
 				public void onCancel() {
 					Log.e(ERROR_TAG, "onCancel");
 				}
@@ -187,21 +187,21 @@ public class SearchFacebookActivity extends Activity {
 		}.run();*/
 				
 		asyncFacebookRunner.request("me", new RequestListener() {
-			@Override
+		//	@Override
 			public void onComplete(String response, Object state) {
 				// TODO Auto-generated method stub
 				Log.e(ERROR_TAG,"getUserInformation(): onComplete: response("+response+")  state("+state+")");
 				
 			}// end onComplete
 
-			@Override
+			// @Override
 			public void onIOException(IOException e, Object state) {
 				// TODO Auto-generated method stub
 				Log.e(ERROR_TAG,"getUserInformation(): onIOException");
 				
 			}// end onIOException
 
-			@Override
+			// @Override
 			public void onFileNotFoundException(FileNotFoundException e,
 					Object state) {
 				// TODO Auto-generated method stub
@@ -209,14 +209,14 @@ public class SearchFacebookActivity extends Activity {
 				
 			}// end onFileNotFoundException
 
-			@Override
+		//	@Override
 			public void onMalformedURLException(MalformedURLException e,
 					Object state) {
 				// TODO Auto-generated method stub
 				Log.e(ERROR_TAG,"getUserInformation(): onMalformedURLException");
 			}// end onMalformedURLException
 
-			@Override
+			// @Override
 			public void onFacebookError(FacebookError e, Object state) {
 				// TODO Auto-generated method stub
 				Log.e(ERROR_TAG,"getUserInformation(): onFacebookError");
