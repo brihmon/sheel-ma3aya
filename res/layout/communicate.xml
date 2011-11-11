@@ -1,27 +1,107 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" >
-
-    <TextView
-        android:layout_width="fill_parent"
+    android:stretchColumns="1"
+    >
+    
+      <!-- Row 1 with User name -->
+    <TableRow
         android:layout_height="wrap_content"
-        android:text="@string/hello" />
-    
-     <Button 
-  		android:layout_height="wrap_content"
-  		android:layout_width="wrap_content" 
-  		android:text="Call"
-  		android:onClick="onClick_call">
-    </Button> 
-    
-     <Button 
-  		android:layout_height="wrap_content"
-  		android:layout_width="wrap_content" 
-  		android:text="Send SMS"
-  		android:onClick="onClick_send_SMS">
-    </Button>  
-         
+        android:layout_width="fill_parent"
+        android:gravity="center_horizontal">
+        <TextView
+            android:text="Hossam Amer"
+            android:id="@+id/username"
+        	android:drawableLeft="@drawable/android_icon"
+            android:layout_width="wrap_content" 
+            android:layout_height="wrap_content"
+            android:textSize="15dp"   
+            android:layout_span="3"
+            android:padding="10dip" 
+            android:background="#b0b0b0"
+            android:textColor="#000"/>
+        
+        
+    </TableRow>  
+ 
+    <!-- Row 2 with Mobile number -->
+    <TableRow>
+        <TextView
+            android:text="Mobile number: "
+            android:padding="8dip" />
+        
+        <TextView
+            android:id="@+id/mobile_number"
+            android:text="0101577990"
+            android:padding="5dip" />
+<!--        <TextView
+            android:text="Hossam"
+            android:gravity="right"
+            android:padding="3dip" />
+-->              
+    </TableRow>
 
-</LinearLayout>
+     <!-- Row 3 with E-mail -->
+     
+    <TableRow>
+        <TextView
+            android:text="E-mail: "
+            android:padding="8dip" />
+        
+        <TextView
+            android:id="@+id/email"
+            android:text="hashas12@hotmail.com"
+            android:padding="5dip" />
+              
+    </TableRow>
+    
+ 
+     <!-- Row 4 with Facebook account -->
+    <TableRow>
+        <TextView
+            android:text="Facebook Account: "
+            android:padding="8dip" />
+        
+        <TextView
+            android:id = "@+id/fb_account"
+            android:text="hossam.amer@facebook.com"
+            android:padding="5dip" />
+  
+    </TableRow>
+    
+      <!-- Row 5 with Call and send buttons -->
+        
+     <TableRow>
+
+       <ImageButton 
+           	android:id="@+id/btn_call"
+			android:src="@drawable/call_pic"
+             android:padding="8dip"
+             android:background="#0000"
+             android:onClick="onClick_call"
+            
+          />
+        <Button
+            android:id="@+id/btn_send_sms"
+            android:text="Send SMS"
+            android:padding="8dip" 
+            android:onClick="onClick_send_SMS"/>
+  
+    </TableRow>  
+
+     <TableRow>
+
+         <Button
+            android:text="Confirm the deal"
+            android:id="@+id/btn_confirm"
+            android:layout_width="wrap_content" 
+            android:layout_height="wrap_content"
+            android:textSize="15dp"   
+            android:layout_span="3"
+            android:padding="10dip" 
+            android:textColor="#000"/>
+    </TableRow>  
+         
+           
+</TableLayout>
