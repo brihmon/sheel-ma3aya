@@ -18,6 +18,7 @@ import com.facebook.android.Facebook;
 import com.facebook.android.Facebook.DialogListener;
 import com.facebook.android.FacebookError;
 import com.sheel.datastructures.FacebookUser;
+import com.sheel.webservices.FacebookWebservice;
 
 public class SearchFacebookActivity extends Activity {
 
@@ -68,8 +69,18 @@ public class SearchFacebookActivity extends Activity {
 
 		Log.e(TAG_CLASS_PACKAGE + "onCreate: ", "start");
 
-		login();
-
+		//login();
+		
+		FacebookWebservice fbService = new FacebookWebservice();
+		// will automatically login and get the first set of info
+		fbService.login(this);
+		
+		//while(!fbService.isInitializedUser){
+			
+		//}
+		
+		//fbService.getUserFriends();
+		
 	}// end onCreate
 
 	@Override
