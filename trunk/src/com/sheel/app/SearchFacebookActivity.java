@@ -151,7 +151,7 @@ public class SearchFacebookActivity extends Activity {
 
 				// @Override
 				public void onError(DialogError e) {
-					Log.e(ERROR_TAG, "onError");
+					Log.e(ERROR_TAG, "onError " + e.getMessage());
 				}
 
 				// @Override
