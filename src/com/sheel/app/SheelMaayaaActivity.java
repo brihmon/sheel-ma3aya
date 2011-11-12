@@ -28,5 +28,11 @@ public class SheelMaayaaActivity extends Activity {
 		 Log.e("Passant","Going to facebook");
 		 startActivity(new Intent(this, SearchFacebookActivity.class));
 	}	 
+	 
+	 public void onClick_view1 (View v) 
+	 {
+		 startActivity(new Intent(this, GetUserInfoActivity.class));
+	 }	
+	 
 	
 }
