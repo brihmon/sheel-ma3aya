@@ -11,6 +11,13 @@ import android.os.Looper;
 import android.util.Log;
 import android.widget.Toast;
 
+/**
+ * 
+ * @author mohsen
+ * Use at your own risk
+ *
+ */
+
 
 //Responsible for sending HTTP requests and getting HTTP response
 public abstract class SheelMaaayaClient {
