@@ -1,0 +1,112 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#004D79"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="34dp"
+        android:text="I&apos;m searching for users having"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <ToggleButton
+        android:id="@+id/lessWeight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="36dp"
+        android:layout_marginTop="87dp"
+        android:textOn="Less weight"
+        android:textOff="Less weight"
+       android:onClick="onClick_lessWeight"
+        android:textSize="18dp" />
+
+    <ToggleButton
+        android:id="@+id/extraWeight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/textView1"
+        android:layout_alignTop="@+id/lessWeight"
+        android:layout_marginRight="17dp"
+        android:textOn="Extra weight"
+        android:textOff="Extra weight"
+        android:onClick="onClick_extraWeight"
+        android:textSize="18dp"/>
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textView1"
+        android:layout_below="@+id/lessWeight"
+        android:layout_marginTop="50dp"
+        android:text="On"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/dateDisplay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/lessWeight"
+        android:layout_below="@+id/textView2"
+        android:text=""
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <Button
+        android:id="@+id/pickDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/dateDisplay"
+        android:layout_alignRight="@+id/extraWeight"
+        android:layout_marginRight="15dp"
+        android:onClick="onClick_datePicker"
+        android:text="Change date"
+        android:textSize="18dp" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textView2"
+        android:layout_below="@+id/dateDisplay"
+        android:layout_marginTop="40dp"
+        android:text="Using"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <ToggleButton
+        android:id="@+id/srcDes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/extraWeight"
+        android:layout_below="@+id/textView3"
+        android:layout_marginTop="17dp"
+        android:textOn="Source &amp; Destination"
+        android:textOff="Source &amp; Destination"
+        android:onClick="onClick_srcDes"
+        android:textSize="18dp" />
+
+    <ToggleButton
+        android:id="@+id/flightNo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/srcDes"
+        android:layout_alignLeft="@+id/lessWeight"
+        android:layout_alignTop="@+id/srcDes"
+        android:onClick="onClick_flightNo"
+        android:textOff="Flight Number"
+        android:textOn="Flight Number"
+        android:textSize="18dp" />
+
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:onClick="onClick_checkSelectedButtons"
+        android:text="Enter Trip Details" />
+
+</RelativeLayout>
