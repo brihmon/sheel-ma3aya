@@ -27,8 +27,6 @@ public class SheelMaayaaActivity extends Activity {
 	 public void onClick_goToFacebook (View v) 
 	 {
 		 //Toast.makeText(getApplicationContext(), "Displaying contact info", Toast.LENGTH_SHORT).show();
-		// Log.e("Passant","Going to facebook");
-		// startActivity(new Intent(this, SearchFacebookActivity.class));
 		 FacebookWebservice fbService = new FacebookWebservice();
 		 // will automatically login and get the first set of info
 		 fbService.login(this);
