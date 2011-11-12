@@ -158,7 +158,7 @@ public class FacebookWebservice {
 					 * Called when the loginning in for FB + APP is successful
 					 * -> basic data of user is there
 					 */
-					Log.e(TAG_CLASS_PACKAGE, "onComplete");
+					Log.e(TAG_CLASS_PACKAGE, "login : onComplete");
 					// Log.e(ERROR_TAG,"Welcome "+name);
 
 					/*
