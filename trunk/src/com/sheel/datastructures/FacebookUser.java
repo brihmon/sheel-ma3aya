@@ -3,9 +3,19 @@
  */
 package com.sheel.datastructures;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.net.MalformedURLException;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.facebook.android.AsyncFacebookRunner;
+import com.facebook.android.AsyncFacebookRunner.RequestListener;
+import com.facebook.android.FacebookError;
+
+import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.util.Log;
 
 
@@ -24,7 +34,7 @@ public class FacebookUser {
 	 * Constant used for tracing purposes "class name (package name)"
 	 */
 	private final String TAG_PACKAGE_CLASS = "FacebookUser (com.sheel.datastructures): ";
-
+		
 	private int userId=-1;
 	private String firstName="";
 	private String middleName="";
@@ -87,6 +97,11 @@ public class FacebookUser {
 			Log.e(TAG_PACKAGE_CLASS,"User response info could NOT be parsed");
 			e.printStackTrace();
 		}// end catch
+		
+	}// end constructor
+	
+	
+	public FacebookUser (){
 		
 	}// end constructor
 	
@@ -170,6 +185,7 @@ public class FacebookUser {
 		return isVerified;
 	}// end isTrustWorthyUser
 	
+		
 	@Override
 	public String toString(){
 		String result="";
@@ -191,6 +207,10 @@ public class FacebookUser {
 		
 		return result;
 	}// end toString
+	
+	
+	
+	
 	
 	
 }// end class
