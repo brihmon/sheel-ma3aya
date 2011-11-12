@@ -5,6 +5,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -17,21 +20,25 @@ import com.facebook.android.DialogError;
 import com.facebook.android.Facebook;
 import com.facebook.android.Facebook.DialogListener;
 import com.facebook.android.FacebookError;
+import com.sheel.datastructures.FacebookUser;
 
 public class SearchFacebookActivity extends Activity {
 
 	/**
-	 * Constant used for tracing purposes (package + activity name)
+	 * Constant used for tracing purposes "class name (package name)"
 	 */
-	private final String ERROR_TAG = "" + ":" + "ProjectActivity" + ":";
+	private final String TAG_CLASS_PACKAGE = "SearchFacebookActivity (com.sheel.app): ";
 	/**
 	 * Constant identifying the app ID in facebook
 	 */
 	private final String APP_ID = "301637916526853";
-	/**
-	 * URL in open graph to get the user information
+	
+	/* Not grouped in an enumeration to avoid writing code for 
+	 * passing their values. (class implementation)
+	 * Check URL: 
+	 * http://javahowto.blogspot.com/2006/10/custom-string-values-for-enum.html
 	 */
-	private final String GRAPH_PATH_FOR_USER = "http://graph.facebook.com/me";
+	
 	/**
 	 * Shared preferences key for user access token
 	 */
@@ -54,13 +61,15 @@ public class SearchFacebookActivity extends Activity {
 	 * Different settings saved for different apps in android settings
 	 */
 	SharedPreferences sharedPreferences;
+	
+	
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 
-		Log.e(ERROR_TAG + "onCreate: ", "start");
+		Log.e(TAG_CLASS_PACKAGE + "onCreate: ", "start");
 
 		login();
 
@@ -69,9 +78,9 @@ public class SearchFacebookActivity extends Activity {
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		Log.e(ERROR_TAG, "onActivityResult: start");
+		Log.e(TAG_CLASS_PACKAGE, "onActivityResult: start");
 		facebook.authorizeCallback(requestCode, resultCode, data);
-		Log.e(ERROR_TAG, "onActivityResult: end");
+		Log.e(TAG_CLASS_PACKAGE, "onActivityResult: end");
 	}
 
 	// -----------------------------------------------------------
@@ -90,21 +99,21 @@ public class SearchFacebookActivity extends Activity {
 		// Get the shared preferences of the user
 		sharedPreferences = getPreferences(MODE_PRIVATE);
 
-		Log.e(ERROR_TAG, "login: sharedPreferences: " + sharedPreferences);
+		Log.e(TAG_CLASS_PACKAGE, "login: sharedPreferences: " + sharedPreferences);
 
 		// Search for user access token and its expiry duration
 		String accessToken = sharedPreferences.getString(SP_ACCESS_TOKEN, null);
 		long accessTokenExpiry = sharedPreferences.getLong(
 				SP_ACCESS_TOKEN_EXPIRY, -1);
 
-		Log.e(ERROR_TAG, "login: accessToken( " + accessToken + ")  expiry("
+		Log.e(TAG_CLASS_PACKAGE, "login: accessToken( " + accessToken + ")  expiry("
 				+ accessTokenExpiry + ")");
 
 		if (accessToken != null && accessTokenExpiry >= 0) {
-			Log.e(ERROR_TAG, "login: " + "FB session is working");
+			Log.e(TAG_CLASS_PACKAGE, "login: " + "FB session is working");
 			facebook.setAccessToken(accessToken);
 			facebook.setAccessExpires(accessTokenExpiry);
-			Log.e(ERROR_TAG, "login: " + "FB token setting is done");
+			Log.e(TAG_CLASS_PACKAGE, "login: " + "FB token setting is done");
 			
 			getUserInformation();
 		}// end if : user already logged in -> pass token + expiry
@@ -116,7 +125,7 @@ public class SearchFacebookActivity extends Activity {
 		 * ##############################################################
 		 */
 		if (!facebook.isSessionValid()) {
-			Log.e(ERROR_TAG, "login: " + "FB session expired");
+			Log.e(TAG_CLASS_PACKAGE, "login: " + "FB session expired");
 
 			facebook.authorize(this, new DialogListener() {
 				// @Override
@@ -126,7 +135,7 @@ public class SearchFacebookActivity extends Activity {
 					 * Called when the loginning in for FB + APP is successful
 					 * -> basic data of user is there
 					 */
-					Log.e(ERROR_TAG, "onComplete");
+					Log.e(TAG_CLASS_PACKAGE, "onComplete");
 					// Log.e(ERROR_TAG,"Welcome "+name);
 
 					/*
@@ -146,17 +155,17 @@ public class SearchFacebookActivity extends Activity {
 
 				// @Override
 				public void onFacebookError(FacebookError error) {
-					Log.e(ERROR_TAG, "onFacebookError");
+					Log.e(TAG_CLASS_PACKAGE, "onFacebookError");
 				}
 
 				// @Override
 				public void onError(DialogError e) {
-					Log.e(ERROR_TAG, "onError " + e.getMessage());
+					Log.e(TAG_CLASS_PACKAGE, "onError " + e.getMessage());
 				}
 
 				// @Override
 				public void onCancel() {
-					Log.e(ERROR_TAG, "onCancel");
+					Log.e(TAG_CLASS_PACKAGE, "onCancel");
 				}
 			});
 
@@ -166,38 +175,25 @@ public class SearchFacebookActivity extends Activity {
 	private Bundle getUserInformation(){
 		// Result
 		Bundle values = new Bundle();
-		Log.e(ERROR_TAG,"getUserInformation(): Start");
-		/* new Runnable() {
-			
-			@Override
-			public void run() {
-				// TODO Auto-generated method stub
-				try {
-					String result = facebook.request(GRAPH_PATH_FOR_USER);
-					Log.e(ERROR_TAG+":run(): ","result: "+ result );
-				} catch (MalformedURLException e) {
-					Log.e(ERROR_TAG+":run(): ","Error: MalformedURLException");
-					e.printStackTrace();
-				} catch (IOException e) {
-					Log.e(ERROR_TAG+":run(): ","Error: IOException");
-					e.printStackTrace();
-				}
-				
-			}
-		}.run();*/
-				
+		Log.e(TAG_CLASS_PACKAGE,"getUserInformation(): Start");
+						
 		asyncFacebookRunner.request("me", new RequestListener() {
 		//	@Override
 			public void onComplete(String response, Object state) {
 				// TODO Auto-generated method stub
-				Log.e(ERROR_TAG,"getUserInformation(): onComplete: response("+response+")  state("+state+")");
+				Log.e(TAG_CLASS_PACKAGE,"getUserInformation(): onComplete: response("+response+")  state("+state+")");
 				
+				// Create a data structure from the provided NEEDED info
+				FacebookUser fbUser = new FacebookUser(response);
+				// TESTING purpose
+				System.out.println(fbUser);
+								
 			}// end onComplete
 
 			// @Override
 			public void onIOException(IOException e, Object state) {
 				// TODO Auto-generated method stub
-				Log.e(ERROR_TAG,"getUserInformation(): onIOException");
+				Log.e(TAG_CLASS_PACKAGE,"getUserInformation(): onIOException");
 				
 			}// end onIOException
 
@@ -205,7 +201,7 @@ public class SearchFacebookActivity extends Activity {
 			public void onFileNotFoundException(FileNotFoundException e,
 					Object state) {
 				// TODO Auto-generated method stub
-				Log.e(ERROR_TAG,"getUserInformation(): onFileNotFoundException");
+				Log.e(TAG_CLASS_PACKAGE,"getUserInformation(): onFileNotFoundException");
 				
 			}// end onFileNotFoundException
 
@@ -213,16 +209,16 @@ public class SearchFacebookActivity extends Activity {
 			public void onMalformedURLException(MalformedURLException e,
 					Object state) {
 				// TODO Auto-generated method stub
-				Log.e(ERROR_TAG,"getUserInformation(): onMalformedURLException");
+				Log.e(TAG_CLASS_PACKAGE,"getUserInformation(): onMalformedURLException");
 			}// end onMalformedURLException
 
 			// @Override
 			public void onFacebookError(FacebookError e, Object state) {
 				// TODO Auto-generated method stub
-				Log.e(ERROR_TAG,"getUserInformation(): onFacebookError");
+				Log.e(TAG_CLASS_PACKAGE,"getUserInformation(): onFacebookError");
 			}// end onFacebookError
 		});
-		Log.e(ERROR_TAG,"getUserInformation(): End");
+		Log.e(TAG_CLASS_PACKAGE,"getUserInformation(): End");
 		// return result
 		return values;		
 	}// end getUserInformation
