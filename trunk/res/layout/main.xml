@@ -15,7 +15,15 @@
   	android:text="Go Call!"
   	android:onClick="onClick_go">
     </Button>  
-    
+   
+    <Button 
+  	android:layout_height="wrap_content"
+  	android:layout_width="wrap_content" 
+  	android:text="Go Call! with HTTP client"
+  	android:onClick="onClick_goHTTP">
+    </Button>      
+        
+        
     <Button 
   	android:layout_height="wrap_content"
   	android:layout_width="wrap_content" 
