@@ -24,6 +24,9 @@
           <activity android:name=".PhoneCommunication"></activity>
           <activity android:name=".SearchFacebookActivity"></activity>
           <activity android:name=".GetUserInfoActivity"></activity>
+          <activity android:name=".SearchByFlightNoActivity"></activity>
+          <activity android:name=".SearchBySrcDesActivity"></activity>
+         
           
           
     </application>
