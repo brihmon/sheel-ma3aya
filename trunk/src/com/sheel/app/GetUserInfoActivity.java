@@ -18,6 +18,7 @@ public class GetUserInfoActivity extends Activity {
     /** Called when the activity is first created. */
 	
 	String searchStatus;
+	String selectedDate;
 	
 	ToggleButton lessWeight;
 	ToggleButton extraWeight;
@@ -63,12 +64,16 @@ public class GetUserInfoActivity extends Activity {
     }
     
     private void updateDisplay() {
+    	
         dateDisplay.setText(
             new StringBuilder()
                     // Month is 0 based so add 1
                     .append(month + 1).append("-")
                     .append(day).append("-")
                     .append(year).append(" "));
+        
+        selectedDate = (String) dateDisplay.getText();
+
     }
     
     private DatePickerDialog.OnDateSetListener mDateSetListener =
@@ -126,10 +131,11 @@ public class GetUserInfoActivity extends Activity {
 		else if(extraWeight.isChecked())
 			searchStatus = "extra weight";
 			
-	/*	if(flightNo.isChecked()){
+		if(flightNo.isChecked()){
 			
 			Intent intent = new Intent(getBaseContext(), SearchByFlightNoActivity.class);
 			intent.putExtra("searchStatus", searchStatus);
+			intent.putExtra("selectedDate", selectedDate);
 			startActivity(intent);
 		}
 				
@@ -137,8 +143,9 @@ public class GetUserInfoActivity extends Activity {
 			
 			Intent intent = new Intent(getBaseContext(), SearchBySrcDesActivity.class);
 			intent.putExtra("searchStatus", searchStatus);
+			intent.putExtra("selectedDate", selectedDate);
 			startActivity(intent);
-		}*/
+		}
 		
 	}
    
