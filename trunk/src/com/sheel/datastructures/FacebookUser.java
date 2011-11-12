@@ -34,13 +34,39 @@ public class FacebookUser {
 	 * Constant used for tracing purposes "class name (package name)"
 	 */
 	private final String TAG_PACKAGE_CLASS = "FacebookUser (com.sheel.datastructures): ";
-		
+	
+	/**
+	 * Numeric user ID in facebook to identify home page and other user-relevant
+	 * stuff
+	 */
 	private int userId=-1;
+	/**
+	 * First name of user
+	 */
 	private String firstName="";
+	/**
+	 * Middle name of user
+	 */
 	private String middleName="";
+	/**
+	 * Last name of user
+	 */
 	private String lastName="";
+	/**
+	 * Indicates gender. If set to true ==> user is a female.
+	 * Else either user is a male or N/A
+	 */
 	boolean isFemale=false;
+	/**
+	 * variable indicating trust worthiness of user.
+	 * see {@link #isTrustWorthyUser()} for understanding the
+	 * logical value
+	 */
 	private boolean isVerified = false;
+	/**
+	 * represents email of user in facebook and used to send
+	 * confirmation messages to him/her
+	 */
 	private String email="";	
 	
 	/**
@@ -100,7 +126,15 @@ public class FacebookUser {
 		
 	}// end constructor
 	
-	
+	/**
+	 * Default constructor for initializing the object. 
+	 * <ul>
+	 * 		<li>All int values are set to -1</li>
+	 *  	<li>All String values are set to empty string</li>
+	 *   	<li>All boolean values are set to false</li>
+	 * </ul>
+	 * 
+	 */
 	public FacebookUser (){
 		
 	}// end constructor
