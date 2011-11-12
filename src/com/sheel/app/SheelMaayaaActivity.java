@@ -32,6 +32,33 @@ public class SheelMaayaaActivity extends Activity {
 		 fbService.login(this);
 	}	 
 	 
+	 public void onClick_goHTTP (View v) 
+	 {
+	        SheelMaaayaClient sc = new SheelMaaayaClient() {
+				
+				@Override
+				public void doSomething() {
+					final String str = this.rspStr;
+					 
+								 runOnUiThread(new Runnable()
+	                             {
+	                                 @Override
+	                                 public void run()
+	                                 {
+	                                     Toast.makeText(SheelMaayaaActivity.this, str, Toast.LENGTH_LONG).show();
+	                                     startActivity(new Intent(SheelMaayaaActivity.this, PhoneCommunication.class));
+	                                 }
+	                             });
+
+				}
+			};
+	        
+	        sc.runHttpRequest("/test");
+	        Toast.makeText(getApplicationContext(), "MainApp" , Toast.LENGTH_SHORT).show();
+		 	
+		 
+	}	 
+	 
 	 public void onClick_view1 (View v) 
 	 {
 		 startActivity(new Intent(this, GetUserInfoActivity.class));
