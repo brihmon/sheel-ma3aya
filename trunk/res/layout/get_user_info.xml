@@ -20,10 +20,10 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="36dp"
         android:layout_marginTop="87dp"
-        android:textOn="Less weight"
+        android:onClick="onClick_lessWeight"
         android:textOff="Less weight"
-       android:onClick="onClick_lessWeight"
-        android:textSize="18dp" />
+        android:textOn="Less weight"
+        android:textSize="16dp" />
 
     <ToggleButton
         android:id="@+id/extraWeight"
@@ -32,10 +32,10 @@
         android:layout_alignRight="@+id/textView1"
         android:layout_alignTop="@+id/lessWeight"
         android:layout_marginRight="17dp"
-        android:textOn="Extra weight"
-        android:textOff="Extra weight"
         android:onClick="onClick_extraWeight"
-        android:textSize="18dp"/>
+        android:textOff="Extra weight"
+        android:textOn="Extra weight"
+        android:textSize="16dp" />
 
     <TextView
         android:id="@+id/textView2"
@@ -84,22 +84,10 @@
         android:layout_alignLeft="@+id/extraWeight"
         android:layout_below="@+id/textView3"
         android:layout_marginTop="17dp"
-        android:textOn="Source &amp; Destination"
-        android:textOff="Source &amp; Destination"
+        android:background="@drawable/src_des_xml"
         android:onClick="onClick_srcDes"
-        android:textSize="18dp" />
-
-    <ToggleButton
-        android:id="@+id/flightNo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/srcDes"
-        android:layout_alignLeft="@+id/lessWeight"
-        android:layout_alignTop="@+id/srcDes"
-        android:onClick="onClick_flightNo"
-        android:textOff="Flight Number"
-        android:textOn="Flight Number"
-        android:textSize="18dp" />
+        android:textOff=""
+        android:textOn="" />
 
     <Button
         android:id="@+id/button1"
@@ -108,5 +96,34 @@
         android:layout_alignParentBottom="true"
         android:onClick="onClick_checkSelectedButtons"
         android:text="Enter Trip Details" />
+
+    <ToggleButton
+        android:id="@+id/flightNo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/srcDes"
+        android:layout_toLeftOf="@+id/pickDate"
+        android:background="@drawable/flight_xml"
+        android:onClick="onClick_flightNo"
+        android:textOff=""
+        android:textOn="" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/textView1"
+        android:layout_below="@+id/srcDes"
+        android:text="Source &amp; Destination"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/flightNo"
+        android:layout_below="@+id/flightNo"
+        android:text="Flight Number"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
 
 </RelativeLayout>
