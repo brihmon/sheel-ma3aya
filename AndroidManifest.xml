@@ -23,6 +23,8 @@
            <!-- Don't forget to list your activities here -->
           <activity android:name=".PhoneCommunication"></activity>
           <activity android:name=".SearchFacebookActivity"></activity>
+          <activity android:name=".GetUserInfoActivity"></activity>
+          
           
     </application>
 
