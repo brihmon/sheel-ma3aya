@@ -22,6 +22,13 @@
   	android:text="Go to facebook!"
   	android:onClick="onClick_goToFacebook">
     </Button>      
+    
+    <Button 
+  	android:layout_height="wrap_content"
+  	android:layout_width="wrap_content" 
+  	android:text="Go To View 1"
+  	android:onClick="onClick_view1">
+    </Button>      
 
 
 </LinearLayout>
