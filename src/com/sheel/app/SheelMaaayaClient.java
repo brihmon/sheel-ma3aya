@@ -48,7 +48,7 @@ public abstract class SheelMaaayaClient {
 	            try
 	            {
 	                 DefaultHttpClient CLIENT = new DefaultHttpClient();   
-	                 RESPONSE = CLIENT.execute(new HttpGet(SERVER + "/test"));
+	                 RESPONSE = CLIENT.execute(new HttpGet(SERVER + PATH));
 	                
 		             if (RESPONSE.getStatusLine().getStatusCode() == HttpStatus.SC_OK)
 		                {
