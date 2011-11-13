@@ -5,8 +5,7 @@
     android:background="#004D79"
     android:stretchColumns="2"
     >
-    
-      <!-- Row 1 with User name -->
+
     <TableRow
         android:layout_height="wrap_content"
         android:layout_width="fill_parent"
