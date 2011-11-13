@@ -4,4 +4,1429 @@
     <string name="hello">Hello World, SheelMaayaaActivity!</string>
     <string name="app_name">SheelMaayaa</string>
 
+    <string-array name="airports_array">
+    	
+		<item>Aberdeen</item>
+		<item>Abidjan</item>
+		<item>Abuja</item>
+		<item>Abu Dhabi</item>
+		<item>Accra</item>
+		<item>Addis Ababa</item>
+		<item>Ajaccio</item>
+		<item>Al Ain Int\'l</item>
+		<item>Albany (NY)</item>
+		<item>Albury</item>
+		<item>Aleppo</item>
+		<item>Alghero</item>
+		<item>Algiers</item>
+		<item>Almeria</item>
+		<item>Amman</item>
+		<item>Amritsar</item>
+		<item>Amsterdam</item>
+		<item>Ankara</item>
+		<item>Athens</item>
+		<item>Atlantic City</item>
+		<item>Auckland</item>
+		<item>Austin</item>
+		<item>Baghdad</item>
+		<item>Bahrain</item>
+		<item>Bangkok (Suvarnabhumi)</item>
+		<item>Bangkok (Don Muang)</item>
+		<item>Barcelona</item>
+		<item>Barcelona (Venezuela)</item>
+		<item>Basel</item>
+		<item>Beijing</item>
+		<item>Beirut</item>
+		<item>Benghazi</item>
+		<item>Berlin Tegel</item>
+		<item>Berlin Schönefeld</item>
+		<item>Berlin Tempelhof</item>
+		<item>Bermuda</item>
+		<item>Berne</item>
+		<item>Bhubaneswar</item>
+		<item>Biarritz</item>
+		<item>Bilbao</item>
+		<item>Billund</item>
+		<item>Birmingham (UK)</item>
+		<item>Birmingham (US)</item>
+		<item>Bishkek</item>
+		<item>Blackpool</item>
+		<item>Blantyre</item>
+		<item>Bloemfontein</item>
+		<item>Bloomington</item>
+		<item>Bocas del Toro</item>
+		<item>Bodo</item>
+		<item>Bodrum</item>
+		<item>Bogota</item>
+		<item>Boise</item>
+		<item>Bologna Marconi</item>
+		<item>Bologna Forli</item>
+		<item>Bombay (Mumbai)</item>
+		<item>Bordeaux</item>
+		<item>Borg El Arab</item>
+		<item>Boston Logan</item>
+		<item>Bourgas</item>
+		<item>Bournemouth</item>
+		<item>Brasilia</item>
+		<item>Bratislava</item>
+		<item>Bremen</item>
+		<item>Brescia</item>
+		<item>Bridgetown</item>
+		<item>Brindisi</item>
+		<item>Brisbane</item>
+		<item>Bristol</item>
+		<item>Broome Int\'l</item>
+		<item>Brussels Zaventem</item>
+		<item>Brussels Charleroi</item>
+		<item>Bucharest</item>
+		<item>Budapest</item>
+		<item>Buenos Aires</item>
+		<item>Bujumbura</item>
+		<item>Cagliari</item>
+		<item>Cairns</item>
+		<item>Cairo</item>
+		<item>Calgary</item>
+		<item>Calcutta (Kolkata)</item>
+		<item>Cancun</item>
+		<item>Canberra</item>
+		<item>Cape Town</item>
+		<item>Caracas</item>
+		<item>Carcassonne</item>
+		<item>Cardiff</item>
+		<item>Cartagena</item>
+		<item>Casablanca</item>
+		<item>Catania</item>
+		<item>Chiang Mai</item>
+		<item>Chiang Rai</item>
+		<item>Chicago O\'Hare</item>
+		<item>Chicago Midway</item>
+		<item>Chisinau</item>
+		<item>Clermont Ferrand</item>
+		<item>Cleveland Int\'l</item>
+		<item>Cluj-Napoca</item>
+		<item>Cochabamba</item>
+		<item>Cochin</item>
+		<item>Coffs Harbour</item>
+		<item>Coimbatore</item>
+		<item>Colombo</item>
+		<item>Cologne-Bonn</item>
+		<item>Colorado Springs</item>
+		<item>Columbus (OH)</item>
+		<item>Cooma-Snowy Mountains</item>
+		<item>Copenhagen</item>
+		<item>Dakar</item>
+		<item>Dalaman</item>
+		<item>Dallas Love Field</item>
+		<item>Dallas-Ft Worth</item>
+		<item>Damascus</item>
+		<item>Dalian</item>
+		<item>Dammam</item>
+		<item>Da Nang</item>
+		<item>Dar es Salaam</item>
+		<item>Delhi</item>
+		<item>Denpasar Bali</item>
+		<item>Denver</item>
+		<item>Detroit</item>
+		<item>Dhaka</item>
+		<item>Dinard</item>
+		<item>Djibouti</item>
+		<item>Doha</item>
+		<item>Donetsk</item>
+		<item>Dortmund</item>
+		<item>Dresden</item>
+		<item>Dubai</item>
+		<item>Dublin</item>
+		<item>Dubrovnik</item>
+		<item>Dundee</item>
+		<item>Dunedin</item>
+		<item>Durban</item>
+		<item>Durham/Tees Valley</item>
+		<item>Dushanbe</item>
+		<item>Dusseldorf</item>
+		<item>East Midlands</item>
+		<item>Edinburgh</item>
+		<item>Edmonton Int\'l</item>
+		<item>Eilat</item>
+		<item>Eindhoven</item>
+		<item>Ekaterinburg</item>
+		<item>El Calafate</item>
+		<item>El Paso</item>
+		<item>El Salvador Intl</item>
+		<item>Faro</item>
+		<item>Florence</item>
+		<item>Fortaleza</item>
+		<item>Fort Lauderdale</item>
+		<item>Fort Myers</item>
+		<item>Frankfurt Main</item>
+		<item>Frankfurt Hahn</item>
+		<item>Freetown</item>
+		<item>Friedrichshafen</item>
+		<item>Geneva</item>
+		<item>Genoa</item>
+		<item>Gibraltar</item>
+		<item>Gimhae</item>
+		<item>Girona</item>
+		<item>Glacier Park</item>
+		<item>Glasgow</item>
+		<item>Glasgow Prestwick</item>
+		<item>Goa</item>
+		<item>Goiania-Santa Genoveva</item>
+		<item>Gold Coast (Coolangatta)</item>
+		<item>Gothenburg</item>
+		<item>Gothenburg City</item>
+		<item>Granada</item>
+		<item>Grand Rapids</item>
+		<item>Graz</item>
+		<item>Greater Rochester Int\'l</item>
+		<item>Greater Binghampton</item>
+		<item>Grenoble</item>
+		<item>Griffith</item>
+		<item>Guadalajara</item>
+		<item>Guangzhou</item>
+		<item>Guatemala</item>
+		<item>Guayaquil</item>
+		<item>Guernsey</item>
+		<item>Guilin</item>
+		<item>Gulfport</item>
+		<item>Haifa</item>
+		<item>Haikou</item>
+		<item>Hakodate</item>
+		<item>Halifax Intl</item>
+		<item>Hamburg</item>
+		<item>Hamburg Lübek</item>
+		<item>Hamilton</item>
+		<item>Hangzhou</item>
+		<item>Hanoi</item>
+		<item>Hannover</item>
+		<item>Harare</item>
+		<item>Hartford Int\'l</item>
+		<item>Hatay</item>
+		<item>Hat Yai</item>
+		<item>Havana</item>
+		<item>Helsinki</item>
+		<item>Hong Kong</item>
+		<item>Honiara</item>
+		<item>Honolulu</item>
+		<item>Hurghada</item>
+		<item>Hyderabad</item>
+		<item>Ibiza</item>
+		<item>Iloilo</item>
+		<item>Ilhéus</item>
+		<item>Indianapolis</item>
+		<item>Innsbruck</item>
+		<item>Inverness</item>
+		<item>Ireland West Airport Knock</item>
+		<item>Irkutsk</item>
+		<item>Islamabad</item>
+		<item>Isle of Man</item>
+		<item>Istanbul</item>
+		<item>Istanbul Sabiha Gökçen</item>
+		<item>Izmir</item>
+		<item>Jackson Hole</item>
+		<item>Jacksonville Intl</item>
+		<item>Jakarta</item>
+		<item>Jeddah</item>
+		<item>Jerez</item>
+		<item>Jersey</item>
+		<item>Johannesburg</item>
+		<item>Kabul</item>
+		<item>Kahului</item>
+		<item>Kaliningrad</item>
+		<item>Karlsruhe/Baden-Baden</item>
+		<item>Kazan</item>
+		<item>Khartoum</item>
+		<item>Kiev</item>
+		<item>Kiev Zhulyany</item>
+		<item>Kingston (Jamaica)</item>
+		<item>Kingston (Ontario)</item>
+		<item>Kolkata</item>
+		<item>Kuwait Int\'l</item>
+		<item>Lagos</item>
+		<item>Las Vegas</item>
+		<item>Leeds Bradford</item>
+		<item>Leipzig</item>
+		<item>Leon/Guanajuato</item>
+		<item>Lima</item>
+		<item>Linz</item>
+		<item>Lisbon</item>
+		<item>Lismore</item>
+		<item>Little Rock</item>
+		<item>Liverpool</item>
+		<item>Livingstone</item>
+		<item>Ljubljana</item>
+		<item>London City</item>
+		<item>London Gatwick</item>
+		<item>London Heathrow</item>
+		<item>London Stansted</item>
+		<item>Los Angeles</item>
+		<item>Luanda</item>
+		<item>Lusaka</item>
+		<item>Luxembourg</item>
+		<item>Luxor</item>
+		<item>Lviv</item>
+		<item>Lyon</item>
+		<item>Macau</item>
+		<item>MacArthur</item>
+		<item>Madras</item>
+		<item>Madrid</item>
+		<item>Mahon</item>
+		<item>Malaga</item>
+		<item>Malta</item>
+		<item>Manchester</item>
+		<item>Marsa Alam</item>
+		<item>Marseilles</item>
+		<item>Mashhad</item>
+		<item>Mauritius</item>
+		<item>Melbourne</item>
+		<item>Melbourne (USA)</item>
+		<item>Melbourne Avalon</item>
+		<item>Memmingen</item>
+		<item>Memphis</item>
+		<item>Mexico City</item>
+		<item>Miami</item>
+		<item>Milan Linate</item>
+		<item>Milan Malpensa</item>
+		<item>Milan Orio al Serio</item>
+		<item>Milwaukee</item>
+		<item>Minneapolis St Paul</item>
+		<item>Montreal Dorval</item>
+		<item>Moscow Sheremetyevo</item>
+		<item>Moscow Domodedovo</item>
+		<item>Mumbai (Bombay)</item>
+		<item>Munich</item>
+		<item>Nairobi</item>
+		<item>Nantes</item>
+		<item>Naples</item>
+		<item>Newcastle (UK)</item>
+		<item>Newcastle (NSW)</item>
+		<item>New Orleans</item>
+		<item>Newquay</item>
+		<item>New York</item>
+		<item>New York, La Guardia</item>
+		<item>Nice</item>
+		<item>Nuremburg</item>
+		<item>Oakland</item>
+		<item>Oklahoma City</item>
+		<item>Orlando Int\'l</item>
+		<item>Orlando Sanford</item>
+		<item>Osaka</item>
+		<item>Oslo</item>
+		<item>Oslo, Torp</item>
+		<item>Ottawa Int\'l</item>
+		<item>Palma de Mallorca</item>
+		<item>Palm Springs</item>
+		<item>Panama</item>
+		<item>Panama City Albrook</item>
+		<item>Papeete</item>
+		<item>Paphos</item>
+		<item>Paris CDG</item>
+		<item>Paris Orly</item>
+		<item>Philadelphia Int\'l</item>
+		<item>Phnom Penh</item>
+		<item>Phoenix</item>
+		<item>Phuket Int\'l</item>
+		<item>Piarco Intl</item>
+		<item>Porto</item>
+		<item>Poznan</item>
+		<item>Prague</item>
+		<item>Quebec City</item>
+		<item>Quingdao</item>
+		<item>Quito</item>
+		<item>Raipur</item>
+		<item>Rio de Janeiro</item>
+		<item>Riyadh</item>
+		<item>Rockhampton</item>
+		<item>Rodez</item>
+		<item>Rome Fiumicino</item>
+		<item>Rome Ciampino</item>
+		<item>Rostov na Donu</item>
+		<item>Rotterdam</item>
+		<item>Rovaniemi</item>
+		<item>Sacramento Int\'l</item>
+		<item>Saint Lucia</item>
+		<item>Sal International</item>
+		<item>Salt Lake City</item>
+		<item>Salvador</item>
+		<item>Salzburg</item>
+		<item>Sana\'a</item>
+		<item>San Diego</item>
+		<item>San Francisco</item>
+		<item>San Jose (California)</item>
+		<item>San Jose (Costa Rica)</item>
+		<item>San Juan</item>
+		<item>San Luis Potosi</item>
+		<item>San Sebastian</item>
+		<item>Santander</item>
+		<item>Santiago</item>
+		<item>Santo Domingo</item>
+		<item>Santorini</item>
+		<item>Sanya</item>
+		<item>Sao Paulo</item>
+		<item>Sao Paulo Congonhas</item>
+		<item>Seoul Incheon</item>
+		<item>Seoul Gimpo</item>
+		<item>Seville</item>
+		<item>Seychelles Intl</item>
+		<item>Shanghai</item>
+		<item>Shanghai PuDong</item>
+		<item>Shannon</item>
+		<item>Sharjah</item>
+		<item>Sharm El Sheikh</item>
+		<item>Siem Reap Int\'l</item>
+		<item>Shenyang</item>
+		<item>Simferopol</item>
+		<item>Shenzhen</item>
+		<item>Singapore Changi</item>
+		<item>Singapore Seletar</item>
+		<item>Sofia</item>
+		<item>Southampton</item>
+		<item>St Petersburg</item>
+		<item>Stockholm Arlanda</item>
+		<item>Stockholm Bromma</item>
+		<item>Stockholm Skavsta</item>
+		<item>Stockholm Vasteras</item>
+		<item>Strasbourg</item>
+		<item>Stuttgart</item>
+		<item>Sydney</item>
+		<item>Taba International</item>
+		<item>Taipei</item>
+		<item>Tehran Mehrabad</item>
+		<item>Tehran Imam Khoneini</item>
+		<item>Tel Aviv</item>
+		<item>Tenerife</item>
+		<item>Tokyo Haneda</item>
+		<item>Tokyo Narita</item>
+		<item>Toronto</item>
+		<item>Toronto City Centre</item>
+		<item>Toulouse</item>
+		<item>Townsville</item>
+		<item>Trapani-Birgi</item>
+		<item>Trieste</item>
+		<item>Tripoli</item>
+		<item>Trivandrum</item>
+		<item>Tunis</item>
+		<item>Turin</item>
+		<item>Udaipur</item>
+		<item>Udon Thani</item>
+		<item>Ulaanbaatar</item>
+		<item>Ushuaia</item>
+		<item>Valencia (Spain)</item>
+		<item>Valencia (Venezuela)</item>
+		<item>Valladolid</item>
+		<item>Vancouver</item>
+		<item>Varna</item>
+		<item>Venice Marco Polo</item>
+		<item>Vienna</item>
+		<item>Vientiane</item>
+		<item>Warsaw</item>
+		<item>Washington Reagan</item>
+		<item>Washington Dulles</item>
+		<item>Wellington</item>
+		<item>Westchester County</item>
+		<item>Westerland - Sylt</item>
+		<item>Xiamen</item>
+		<item>Xi\'an Xianyang</item>
+		<item>Yangon</item>
+		<item>Yaounde</item>
+		<item>Yerevan</item>
+		<item>Yogyakarta</item>
+		<item>Yuzhno Sakhalinsk</item>
+		<item>Zagreb</item>
+		<item>Zakynthos</item>
+		<item>Zanzibar</item>
+		<item>Zaragoza</item>
+		<item>Zhengzhou</item>
+		<item>Zhuhai</item>
+		<item>Zurich</item>
+		    
+    </string-array>
+    
+     
+
+	<string-array name="nationalities_array">
+        <item>
+                <value>Afghan</value>
+        </item>
+        <item>
+               
+                <value>Albanian</value>
+        </item>
+        <item>
+          
+                <value>Algerian</value>
+        </item>
+        <item>
+               
+                <value>American</value>
+        </item>
+        <item>
+             
+                <value>American Samoan</value>
+        </item>
+        <item>
+             
+                <value>Andorran</value>
+        </item>
+        <item>
+                
+                <value>Angolan</value>
+        </item>
+        <item>
+              
+                <value>Anguillan</value>
+        </item>
+        <item>
+                
+                <value>Antarctican</value>
+        </item>
+        <item>
+                
+                <value>Antigua and Barbuda national</value>
+        </item>
+        <item>
+              
+                <value>Antillean</value>
+        </item>
+        <item>
+                
+                <value>Argentinian</value>
+        </item>
+        <item>
+               
+                <value>Armenian</value>
+        </item>
+        <item>
+              
+                <value>Aruban</value>
+        </item>
+        <item>
+              
+                <value>Australian</value>
+        </item>
+        <item>
+               
+                <value>Austrian</value>
+        </item>
+        <item>
+             
+                <value>Azerbaijani</value>
+        </item>
+        <item>
+              
+                <value>Bahamian</value>
+        </item>
+        <item>
+               
+                <value>Bahraini</value>
+        </item>
+        <item>
+                
+                <value>Bangladeshi</value>
+        </item>
+        <item>
+             
+                <value>Barbadian</value>
+        </item>
+        <item>
+               
+                <value>Basotho</value>
+        </item>
+        <item>
+               
+                <value>Belarusian</value>
+        </item>
+        <item>
+              
+                <value>Belgian</value>
+        </item>
+        <item>
+             
+                <value>Belizean</value>
+        </item>
+        <item>
+              
+                <value>Beninese</value>
+        </item>
+        <item>
+               
+                <value>Bermudian</value>
+        </item>
+        <item>
+               
+                <value>Bhutanese</value>
+        </item>
+        <item>
+               
+                <value>Bolivian</value>
+        </item>
+        <item>
+                
+                <value>Bosnia and Herzegovina national</value>
+        </item>
+        <item>
+              
+                <value>Botswanan</value>
+        </item>
+        <item>
+              
+                <value>Bouvet Island</value>
+        </item>
+        <item>
+                
+                <value>Brazilian</value>
+        </item>
+        <item>
+                
+                <value>British Indian Ocean Territory</value>
+        </item>
+        <item>
+                
+                <value>British Virgin Islander</value>
+        </item>
+        <item>
+               
+                <value>Briton</value>
+        </item>
+        <item>
+               
+                <value>Bruneian</value>
+        </item>
+        <item>
+               
+                <value>Bulgarian</value>
+        </item>
+        <item>
+               
+                <value>Burkinabe</value>
+        </item>
+        <item>
+                
+                <value>Burmese</value>
+        </item>
+        <item>
+                
+                <value>Burundian</value>
+        </item>
+        <item>
+               
+                <value>Cambodian</value>
+        </item>
+        <item>
+                
+                <value>Cameroonian</value>
+        </item>
+        <item>
+              
+                <value>Canadian</value>
+        </item>
+        <item>
+                
+                <value>Cape Verdean</value>
+        </item>
+        <item>
+              
+                <value>Caymanian</value>
+        </item>
+        <item>
+                
+                <value>Central African</value>
+        </item>
+        <item>
+                
+                <value>Chadian</value>
+        </item>
+        <item>
+               
+                <value>Chilean</value>
+        </item>
+        <item>
+               
+                <value>Chinese</value>
+        </item>
+        <item>
+                
+                <value>Christmas Islander</value>
+        </item>
+        <item>
+            
+                <value>Cocos Islander</value>
+        </item>
+        <item>
+              
+                <value>Colombian</value>
+        </item>
+        <item>
+               
+                <value>Comorian</value>
+        </item>
+        <item>
+               
+                <value>Congolese</value>
+        </item>
+        <item>
+           
+                <value>Congolese</value>
+        </item>
+        <item>
+            
+                <value>Cook Islander</value>
+        </item>
+        <item>
+               
+                <value>Costa Rican</value>
+        </item>
+        <item>
+                
+                <value>Croat</value>
+        </item>
+        <item>
+      
+                <value>Cuban</value>
+        </item>
+        <item>
+            
+                <value>Cypriot</value>
+        </item>
+        <item>
+               
+                <value>Czech</value>
+        </item>
+        <item>
+      
+                <value>Dane</value>
+        </item>
+        <item>
+              
+                <value>Djiboutian</value>
+        </item>
+        <item>
+              
+                <value>Dominican</value>
+        </item>
+        <item>
+            
+                <value>East Timorese</value>
+        </item>
+        <item>
+             
+                <value>Ecuadorian</value>
+        </item>
+        <item>
+             
+                <value>Egyptian</value>
+        </item>
+        <item>
+             
+                <value>Emirian</value>
+        </item>
+        <item>
+              
+                <value>Equatorial Guinean</value>
+        </item>
+        <item>
+
+                <value>Eritrean</value>
+        </item>
+        <item>
+              
+                <value>Estonian</value>
+        </item>
+        <item>
+               
+                <value>Ethiopian</value>
+        </item>
+        <item>
+                
+                <value>Faeroese</value>
+        </item>
+        <item>
+            
+                <value>Falkland Islander</value>
+        </item>
+        <item>
+              
+                <value>Fiji Islander</value>
+        </item>
+        <item>
+             
+                <value>Filipino</value>
+        </item>
+        <item>
+           
+                <value>Finn</value>
+        </item>
+        <item>
+           
+                <value>French</value>
+        </item>
+        <item>
+               
+                <value>French Southern Territories</value>
+        </item>
+        <item>
+              
+                <value>Gabonese</value>
+        </item>
+        <item>
+              
+                <value>Gambian</value>
+        </item>
+        <item>
+             
+                <value>Georgian</value>
+        </item>
+        <item>
+               
+                <value>German</value>
+        </item>
+        <item>
+               
+                <value>Ghanaian</value>
+        </item>
+        <item>
+             
+                <value>Gibraltarian</value>
+        </item>
+        <item>
+          
+                <value>Greek</value>
+        </item>
+        <item>
+            
+                <value>Greenlander</value>
+        </item>
+        <item>
+          
+                <value>Grenadian</value>
+        </item>
+        <item>
+             
+                <value>Guadeloupean</value>
+        </item>
+        <item>
+               
+                <value>Guamanian</value>
+        </item>
+        <item>
+          
+                <value>Guatemalan</value>
+        </item>
+        <item>
+            
+                <value>Guianese</value>
+        </item>
+        <item>
+               
+                <value>Guinea-Bissau national</value>
+        </item>
+        <item>
+         
+                <value>Guinean</value>
+        </item>
+        <item>
+           
+                <value>Guyanese</value>
+        </item>
+        <item>
+             
+                <value>Haitian</value>
+        </item>
+        <item>
+             
+                <value>Heard Island and McDonald Islands</value>
+        </item>
+        <item>
+          
+                <value>Honduran</value>
+        </item>
+        <item>
+         
+                <value>Hong Kong Chinese</value>
+        </item>
+        <item>
+             
+                <value>Hungarian</value>
+        </item>
+        <item>
+           
+                <value>Icelander</value>
+        </item>
+        <item>
+           
+                <value>Indian</value>
+        </item>
+        <item>
+                <value>Indonesian</value>
+        </item>
+        <item>
+            
+                <value>Iranian</value>
+        </item>
+        <item>
+           
+                <value>Iraqi</value>
+        </item>
+        <item>
+               
+                <value>Irish</value>
+        </item>
+        <item>
+             
+                <value>Israeli</value>
+        </item>
+        <item>
+               
+                <value>Italian</value>
+        </item>
+        <item>
+            
+                <value>Ivorian</value>
+        </item>
+        <item>
+               
+                <value>Jamaican</value>
+        </item>
+        <item>
+                
+                <value>Japanese</value>
+        </item>
+        <item>
+              
+                <value>Jordanian</value>
+        </item>
+        <item>
+            
+                <value>Kazakh</value>
+        </item>
+        <item>
+             
+                <value>Kenyan</value>
+        </item>
+        <item>
+                
+                <value>Kiribatian</value>
+        </item>
+        <item>
+              
+                <value>Kuwaiti</value>
+        </item>
+        <item>
+             
+                <value>Kyrgyz</value>
+        </item>
+        <item>
+               
+                <value>Lao</value>
+        </item>
+        <item>
+              
+                 <value>Latvian</value>
+        </item>
+        <item>
+               
+                <value>Lebanese</value>
+        </item>
+        <item>
+             
+                <value>Liberian</value>
+        </item>
+        <item>
+            
+                <value>Libyan</value>
+        </item>
+        <item>
+             
+                <value>Liechtensteiner</value>
+        </item>
+        <item>
+              
+                <value>Lithuanian</value>
+        </item>
+        <item>
+                
+                <value>Luxembourger</value>
+        </item>
+        <item>
+            
+                <value>Macanese</value>
+        </item>
+        <item>
+              
+                <value>Macedonian</value>
+        </item>
+        <item>
+               
+                <value>Mahorais</value>
+        </item>
+        <item>
+               
+                <value>Malagasy</value>
+        </item>
+        <item>
+              
+                <value>Malawian</value>
+        </item>
+        <item>
+              
+                <value>Malaysian</value>
+        </item>
+        <item>
+             
+                <value>Maldivian</value>
+        </item>
+        <item>
+              
+                <value>Malian</value>
+        </item>
+        <item>
+                
+                <value>Maltese</value>
+        </item>
+        <item>
+           
+                <value>Marshallese</value>
+        </item>
+        <item>
+             
+                <value>Martinican</value>
+        </item>
+        <item>
+             
+                <value>Mauritanian</value>
+        </item>
+        <item>
+            
+                <value>Mauritian</value>
+        </item>
+        <item>
+                
+                <value>Mexican</value>
+        </item>
+        <item>
+               
+                <value>Micronesian</value>
+        </item>
+        <item>
+                
+                <value>Moldovan</value>
+        </item>
+        <item>
+             
+                <value>Monegasque</value>
+        </item>
+        <item>
+                
+                <value>Mongolian</value>
+        </item>
+        <item>
+                
+                <value>Montenegrian</value>
+        </item>
+        <item>
+               
+                <value>Montserratian</value>
+        </item>
+        <item>
+            
+                <value>Moroccan</value>
+        </item>
+        <item>
+           
+                <value>Mozambican</value>
+        </item>
+        <item>
+          
+                <value>Namibian</value>
+        </item>
+        <item>
+           
+                <value>Nauruan</value>
+        </item>
+        <item>
+               
+                <value>Nepalese</value>
+        </item>
+        <item>
+              
+                <value>Dutch</value>
+        </item>
+        <item>
+                
+                <value>New Caledonian</value>
+        </item>
+        <item>
+              
+                <value>New Zealander</value>
+        </item>
+        <item>
+              
+                <value>Nicaraguan</value>
+        </item>
+        <item>
+           
+                <value>Nigerian</value>
+        </item>
+        <item>
+              
+                <value>Nigerien</value>
+        </item>
+        <item>
+              
+                <value>Niuean</value>
+        </item>
+        <item>
+             
+                <value>Norfolk Islander</value>
+        </item>
+        <item>
+                
+                <value>North Korean</value>
+        </item>
+        <item>
+             
+                <value>Northern Mariana Islander</value>
+        </item>
+        <item>
+              
+                <value>Norwegian</value>
+        </item>
+        <item>
+            
+                <value>Omani</value>
+        </item>
+        <item>
+                
+                <value>Pakistani</value>
+        </item>
+        <item>
+                
+                <value>Palauan</value>
+        </item>
+        <item>
+      
+                <value>Panamanian</value>
+        </item>
+        <item>
+         
+                <value>Papua New Guinean</value>
+        </item>
+        <item>
+            
+                <value>Paraguayan</value>
+        </item>
+        <item>
+              
+                <value>Peruvian</value>
+        </item>
+        <item>
+              
+                <value>Pitcairner</value>
+        </item>
+        <item>
+                
+                <value>Pole</value>
+        </item>
+        <item>
+           
+                <value>Polynesian</value>
+        </item>
+        <item>
+              
+                <value>Portuguese</value>
+        </item>
+        <item>
+              
+                <value>Puerto Rican</value>
+        </item>
+        <item>
+               
+                <value>Qatari</value>
+        </item>
+        <item>
+          
+                <value>Reunionese</value>
+        </item>
+        <item>
+              
+                <value>Romanian</value>
+        </item>
+        <item>
+      
+                <value>Russian</value>
+        </item>
+        <item>
+           
+                <value>Rwandan</value>
+        </item>
+        <item>
+             
+                <value>Sahrawi</value>
+        </item>
+        <item>
+           
+                <value>Saint Helenian</value>
+        </item>
+        <item>
+            
+                <value>Saint Kitts and Nevis national</value>
+        </item>
+        <item>
+               
+                <value>Saint Lucian</value>
+        </item>
+        <item>
+             
+                <value>Saint Pierre and Miquelon national</value>
+        </item>
+        <item>
+                
+                <value>Salvadorian</value>
+        </item>
+        <item>
+               
+                <value>Samoan</value>
+        </item>
+        <item>
+                <value>San Marinese</value>
+        </item>
+        <item>
+               
+                <value>São Toméan</value>
+        </item>
+        <item>
+               
+                <value>Saudi Arabian</value>
+        </item>
+        <item>
+           
+                <value>Senegalese</value>
+        </item>
+        <item>
+           
+                <value>Serbian</value>
+        </item>
+        <item>
+              
+                <value>Seychellois</value>
+        </item>
+        <item>
+             
+                <value>Sierra Leonean</value>
+        </item>
+        <item>
+               
+                <value>Singaporean</value>
+        </item>
+        <item>
+             
+                <value>Slovak</value>
+        </item>
+        <item>
+                
+                <value>Slovene</value>
+        </item>
+        <item>
+               
+                <value>Solomon Islander</value>
+        </item>
+        <item>
+              
+                <value>Somali</value>
+        </item>
+        <item>
+              
+                <value>South African</value>
+        </item>
+        <item>
+              
+                <value>South Georgia and the South Sandwich Islands</value>
+        </item>
+        <item>
+                
+                <value>South Korean</value>
+        </item>
+        <item>
+                
+                <value>Spanish</value>
+        </item>
+        <item>
+                
+                <value>Sri Lankan</value>
+        </item>
+        <item>
+                
+                <value>Sudanese</value>
+        </item>
+        <item>
+             
+                <value>Surinamer</value>
+        </item>
+        <item>
+               
+                <value>Svalbard and Jan Mayen</value>
+        </item>
+        <item>
+           
+                <value>Swazi</value>
+        </item>
+        <item>
+             
+                <value>Swede</value>
+        </item>
+        <item>
+                <value>Swiss</value>
+        </item>
+        <item>
+               >
+                <value>Syrian</value>
+        </item>
+        <item>
+             
+                <value>Taiwanese</value>
+        </item>
+        <item>
+                
+                <value>Tajik</value>
+        </item>
+        <item>
+             
+                <value>Tanzanian</value>
+        </item>
+        <item>
+              
+                <value>Thai</value>
+        </item>
+        <item>
+            
+                <value>Togolese</value>
+        </item>
+        <item>
+              
+                <value>Tokelauan</value>
+        </item>
+        <item>
+             
+                <value>Tongan</value>
+        </item>
+        <item>
+               
+                <value>Trinidad and Tobago national</value>
+        </item>
+        <item>
+              
+                <value>Tunisian</value>
+        </item>
+        <item>
+                <value>Turk</value>
+        </item>
+        <item>
+              
+                <value>Turkmen</value>
+        </item>
+        <item>
+               
+                <value>Turks and Caicos Islander</value>
+        </item>
+        <item>
+              
+                <value>Tuvaluan</value>
+        </item>
+        <item>
+                
+                <value>Ugandan</value>
+        </item>
+        <item>
+               
+                <value>Ukrainian</value>
+        </item>
+        <item>
+                
+                <value>United States Minor Outlying Islands</value>
+        </item>
+        <item>
+               
+                <value>Uruguayan</value>
+        </item>
+        <item>
+               
+                <value>US Virgin Islander</value>
+        </item>
+        <item>
+               
+                <value>Uzbek</value>
+        </item>
+        <item>
+                
+                <value>Vanuatuan</value>
+        </item>
+        <item>
+              
+                <value>Vatican</value>
+        </item>
+        <item>
+               
+                <value>Venezuelan</value>
+        </item>
+        <item>
+              
+                <value>Vietnamese</value>
+        </item>
+        <item>
+                
+                <value>Vincentian</value>
+        </item>
+        <item>
+                
+                <value>Wallis and Futuna Islander</value>
+        </item>
+        <item>
+        
+                <value>Yemeni</value>
+        </item>
+        <item>
+                
+                <value>Zambian</value>
+        </item>
+        <item>
+           
+                <value>Zimbabwean</value>
+        </item>
+        <item>
+                <value>Åland Islander</value>
+        </item>
+	</string-array>
+	
+	<string-array name="numbers_array">
+	    <item>1</item>
+	    <item>2</item>
+	    <item>3</item>
+	    <item>4</item>
+	    <item>5</item>
+	    <item>6</item>
+	    <item>7</item>
+	    <item>8</item>
+	    <item>9</item>
+	    <item>10</item>
+	    <item>11</item>
+	    <item>12</item>
+	    <item>13</item>
+	    <item>14</item>
+	    <item>15</item>
+	    <item>16</item>
+	    <item>17</item>
+	    <item>18</item>
+	    <item>19</item>
+	    <item>20</item>
+	    <item>21</item>
+	    <item>22</item>
+	    <item>23</item>
+	    <item>24</item>
+	    <item>25</item>
+	    <item>26</item>
+	    <item>27</item>
+	    <item>28</item>
+	    <item>29</item>
+	    <item>30</item>
+	</string-array>
+
 </resources>
