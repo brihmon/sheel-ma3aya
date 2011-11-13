@@ -19,6 +19,7 @@ public class GetUserInfoActivity extends Activity {
 	
 	String searchStatus;
 	String selectedDate;
+	String searchMethod;
 	
 	ToggleButton lessWeight;
 	ToggleButton extraWeight;
@@ -133,18 +134,25 @@ public class GetUserInfoActivity extends Activity {
 			
 		if(flightNo.isChecked()){
 			
+			searchMethod = "flight number";
+			
 			Intent intent = new Intent(getBaseContext(), SearchByFlightNoActivity.class);
 			intent.putExtra("searchStatus", searchStatus);
 			intent.putExtra("selectedDate", selectedDate);
+			intent.putExtra("searchMethod", searchMethod);
 			startActivity(intent);
 		}
 				
 		else if(srcDes.isChecked()){
 			
+			searchMethod = "source-destination";
+			
 			Intent intent = new Intent(getBaseContext(), SearchBySrcDesActivity.class);
 			intent.putExtra("searchStatus", searchStatus);
 			intent.putExtra("selectedDate", selectedDate);
+			intent.putExtra("searchMethod", searchMethod);
 			startActivity(intent);
+			
 		}
 		
 	}
