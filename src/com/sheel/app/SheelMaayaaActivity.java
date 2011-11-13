@@ -64,5 +64,9 @@ public class SheelMaayaaActivity extends Activity {
 		 startActivity(new Intent(this, GetUserInfoActivity.class));
 	 }	
 	 
+	 public void onClick_register (View v) 
+	 {
+		 startActivity(new Intent(this, NewUserActivity.class));
+	 }	
 	
 }
