@@ -126,4 +126,13 @@
         android:text="Flight Number"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/srcDes"
+        android:layout_marginBottom="15dp"
+        android:layout_toLeftOf="@+id/textView5"
+        android:text="  or" />
+
 </RelativeLayout>
