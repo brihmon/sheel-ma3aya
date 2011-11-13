@@ -86,9 +86,28 @@
         android:textOff=""
         android:textOn="" />
 
-       
-        
+
+    </TableRow>
+
+	 <TableRow>
+        <TextView android:padding="8dip" android:text="Passport Number: "></TextView>
+        <EditText android:id="@+id/passNum" android:layout_height="wrap_content" android:layout_width="fill_parent">
+            <requestFocus></requestFocus>
+        </EditText>
     
     </TableRow>
-           
+    
+    <TableRow>
+        <TextView android:padding="8dip" android:text="Passport Photo: " ></TextView>
+        <ImageButton
+        android:id="@+id/takePhoto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:onClick="onClick_takePhoto"
+        android:src="@drawable/camera_icon" />
+    
+    </TableRow>
+    <Button android:text="Register" android:id="@+id/register" android:layout_width="wrap_content" android:layout_height="wrap_content" android:onClick="OnClick_register"></Button>
+               
 </TableLayout>

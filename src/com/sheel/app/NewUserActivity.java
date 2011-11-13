@@ -6,7 +6,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
@@ -17,8 +19,21 @@ public class NewUserActivity extends Activity{
 	ToggleButton toggleFemale; //female
 	
 	AutoCompleteTextView countryCodes;
+	EditText mobileNumberField;
+	EditText firstNameField;
+	EditText middleNameField;
+	EditText lastNameField;
+	EditText emailField;
+	EditText passportNumberField;
 	
-	String gender;
+	String gender; 
+    String firstName;
+    String middleName;
+    String lastName;
+    String passportPhoto;
+    String passportNumber;
+    String email;
+    String mobileNumber;
 	
 	 /** Called when the activity is first created. */
     @Override
@@ -39,6 +54,17 @@ public class NewUserActivity extends Activity{
         String[] codeStrings = getResources().getStringArray(R.array.codes);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.list_item, codeStrings);   
         countryCodes.setAdapter(adapter);
+        
+        mobileNumberField = (EditText) findViewById(R.id.mobileNumber);
+        
+        firstNameField = (EditText) findViewById(R.id.FirstName);
+        middleNameField = (EditText) findViewById(R.id.MiddleName);
+        lastNameField = (EditText) findViewById(R.id.LastName);
+        
+        emailField = (EditText) findViewById(R.id.email);
+        
+        passportNumberField = (EditText) findViewById(R.id.passNum);
+        
     }
     
     public void onClick_male(View v) 
@@ -51,6 +77,28 @@ public class NewUserActivity extends Activity{
 	{
 		toggleMale.setChecked(false);
 		gender = "female";
+	}
+	
+	public void onClick_takePhoto(View v)
+	{
+		
+	}
+	
+	public void OnClick_register(View v)
+	{
+		String countryCode = countryCodes.getText().toString();
+		mobileNumber = countryCode + (mobileNumberField.getText().toString());
+		firstName = firstNameField.getText().toString();
+		middleName = middleNameField.getText().toString();
+		lastName = lastNameField.getText().toString();
+		email = emailField.getText().toString();
+		passportNumber = passportNumberField.getText().toString();
+		String toToast =  mobileNumber + " " + firstName + " " + middleName + " " + lastName + 
+				" " + email + " " + passportNumber + " " + gender;
+	
+		
+		Toast toast = Toast.makeText(this, toToast, 0);
+		toast.show();
 	}
 
 }
