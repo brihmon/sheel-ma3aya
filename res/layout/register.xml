@@ -1,6 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-  android:id="@+id/textview"
-  android:layout_width="fill_parent"
-  android:layout_height="fill_parent"
-  android:text="Nada"/>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#004D79"
+    android:stretchColumns="2"
+    >
+    
+      <!-- Row 1 with User name -->
+    <TableRow
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:gravity="center_horizontal">
+        <TextView
+            android:text="New User"
+            android:id="@+id/new_user"
+            android:layout_width="wrap_content" 
+            android:layout_height="wrap_content"
+            android:textSize="15dp"   
+            android:layout_span="3"
+            android:padding="10dip" 
+            android:background="#b0b0b0"
+            android:textColor="#000"/>
+        
+        
+    </TableRow>  
+ 
+    <TableRow>
+        <TextView android:text="Mobile: " android:padding="8dip" ></TextView>
+        <AutoCompleteTextView android:id="@+id/auto" android:layout_height="wrap_content" android:layout_width="fill_parent" android:singleLine="true" ></AutoCompleteTextView>
+    
+        <EditText android:id="@+id/mobileNumber" android:layout_height="wrap_content" android:inputType="phone" android:layout_width="fill_parent"></EditText>
+               
+    </TableRow>
+    
+    <TableRow>
+        <TextView android:padding="8dip" android:text="First Name: "></TextView>
+        <EditText android:id="@+id/FirstName" android:layout_height="wrap_content" android:layout_width="fill_parent">
+            <requestFocus></requestFocus>
+        </EditText>
+    
+    </TableRow>
+    
+     <TableRow>
+        <TextView android:padding="8dip" android:text="Middle Name: "></TextView>
+        <EditText android:id="@+id/MiddleName" android:layout_height="wrap_content" android:layout_width="100dp">
+            <requestFocus></requestFocus>
+        </EditText>
+    
+    </TableRow>
+    
+     <TableRow>
+        <TextView android:padding="8dip" android:text="Last Name: "></TextView>
+        <EditText android:id="@+id/LastName" android:layout_height="wrap_content" android:layout_width="fill_parent">
+            <requestFocus></requestFocus>
+        </EditText>
+    
+    </TableRow>
+
+   <TableRow>
+        <TextView android:padding="8dip" android:text="Email: "></TextView>
+        <EditText android:id="@+id/email" android:layout_height="wrap_content" android:layout_width="fill_parent">
+            <requestFocus></requestFocus>
+        </EditText>
+    
+    </TableRow>
+    
+     <TableRow>
+        <TextView android:padding="8dip" android:text="Gender: "></TextView>
+      <ToggleButton
+        android:id="@+id/toggleMale"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/male_gender"
+        android:onClick="onClick_male"
+        android:textOff=""
+        android:textOn="" />
+
+    <ToggleButton
+        android:id="@+id/toggleFemale"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/female_gender"
+        android:onClick="onClick_female"
+        android:textOff=""
+        android:textOn="" />
+
+       
+        
+    
+    </TableRow>
+           
+</TableLayout>
