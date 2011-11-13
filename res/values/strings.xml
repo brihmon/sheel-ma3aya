@@ -3,6 +3,16 @@
 
     <string name="hello">Hello World, SheelMaayaaActivity!</string>
     <string name="app_name">SheelMaayaa</string>
+    
+    <string-array name="codes">
+        <item>Egypt</item>
+        <item>Canada</item>
+        <item>France</item>
+        <item>Greece</item>
+        <item>Greenland</item>
+        <item>India</item>
+        <item>Italy</item>
+    </string-array>
 
     <string-array name="airports_array">
     	
