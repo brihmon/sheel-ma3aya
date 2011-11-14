@@ -87,6 +87,12 @@
 
 
     </TableRow>
+    
+     <TableRow>
+        <TextView android:text="Nationality: " android:padding="8dip" ></TextView>
+        <AutoCompleteTextView android:id="@+id/autoNationality" android:layout_height="wrap_content" android:layout_width="fill_parent" android:singleLine="true" ></AutoCompleteTextView>
+           
+    </TableRow>
 
 	 <TableRow>
         <TextView android:padding="8dip" android:text="Passport Number: "></TextView>

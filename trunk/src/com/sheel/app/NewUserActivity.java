@@ -1,8 +1,11 @@
 package com.sheel.app;
 
 
+import java.util.Arrays;
+
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -54,10 +57,38 @@ public class NewUserActivity extends Activity{
         toggleFemale = (ToggleButton) findViewById(R.id.toggleFemale);
     	
         countryCodes = (AutoCompleteTextView)findViewById(R.id.auto);
-        String[] codeStrings = getResources().getStringArray(R.array.codes);
+        final String[] codeStrings = getResources().getStringArray(R.array.codes);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.list_item, codeStrings);   
         countryCodes.setAdapter(adapter);
-        
+        Validator validator = new Validator() {
+			
+			@Override
+			public boolean isValid(CharSequence text) {
+				 Log.v("Test", "Checking if valid: "+ text);
+		           Arrays.sort(codeStrings);
+		            if (Arrays.binarySearch(codeStrings, text.toString()) > 0) {
+		            	allValid = true;
+		            	
+		            	//Toast toast = Toast.makeText(NewUserActivity.this, "Valid", 0);
+		        		//toast.show();
+		                return true;
+		            }
+		            allValid = false;
+		            Toast toast = Toast.makeText(NewUserActivity.this, "Please insert a valid country", 0);
+		    		toast.show();
+				return false;
+			}
+			
+			@Override
+			public CharSequence fixText(CharSequence invalidText) {
+				//Log.v("Test", "Returning fixed text");
+				//Toast toast = Toast.makeText(NewUserActivity.this, "Fixing", 0);
+				//toast.show();
+				return invalidText;
+			}
+		};
+		
+        countryCodes.setValidator(validator);
         
         mobileNumberField = (EditText) findViewById(R.id.mobileNumber);
         
@@ -90,7 +121,11 @@ public class NewUserActivity extends Activity{
 	
 	public void validate()
 	{
-		if(mobileNumber.length()>0 && firstName.length()>0 && middleName.length()>0 &&
+		String countryCode = countryCodes.getText().toString();
+		countryCodes.getValidator().isValid(countryCode);
+		
+		
+		if(allValid  && mobileNumber.length()>5 && firstName.length()>0 && middleName.length()>0 &&
 				lastName.length()>0 && email.length()>0 && passportNumber.length()>0 && gender!=null)
 			allValid = true;
 		else
@@ -100,7 +135,8 @@ public class NewUserActivity extends Activity{
 	public void OnClick_register(View v)
 	{
 		String countryCode = countryCodes.getText().toString();
-		mobileNumber = countryCode + (mobileNumberField.getText().toString());
+		
+		mobileNumber = (mobileNumberField.getText().toString());
 		firstName = firstNameField.getText().toString();
 		middleName = middleNameField.getText().toString();
 		lastName = lastNameField.getText().toString();
@@ -110,7 +146,10 @@ public class NewUserActivity extends Activity{
 		validate();
 		if(allValid == false) Toast.makeText(this, "Please fill all the data", 0).show();
 		else{
-		String toToast =  mobileNumber + " " + firstName + " " + middleName + " " + lastName + 
+			
+			String phoneCode = countryCode.toString().split(" ")[1];
+			mobileNumber = phoneCode + mobileNumber;
+			String toToast =  mobileNumber + " " + firstName + " " + middleName + " " + lastName + 
 				" " + email + " " + passportNumber + " " + gender;
 	
 		Toast toast = Toast.makeText(this, toToast, 0);

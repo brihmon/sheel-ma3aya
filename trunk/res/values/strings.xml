@@ -5,13 +5,13 @@
     <string name="app_name">SheelMaayaa</string>
     
     <string-array name="codes">
-        <item>Egypt</item>
-        <item>Canada</item>
-        <item>France</item>
-        <item>Greece</item>
-        <item>Greenland</item>
-        <item>India</item>
-        <item>Italy</item>
+        <item value="20">Egypt (+20)</item>
+        <item value="33">Canada (+33)</item>
+        <item value="56">France</item>
+        <item value="77">Greece</item>
+        <item value="88">Greenland</item>
+        <item value="99">India</item>
+        <item value="00">Italy</item>
     </string-array>
 
     <string-array name="airports_array">
