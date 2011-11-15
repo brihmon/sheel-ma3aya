@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+ 
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_marginTop="20px"
+    android:stretchColumns="1"
+    >
+    <TableRow>
+	<TextView android:text="Flight Details"
+     android:textColorHighlight="@android:color/primary_text_light"
+     android:layout_marginBottom="20px"
+	 />
+</TableRow>
+
+  
+    
+    
+    <TableRow>
+    <TextView android:text="Flight Number :"/>
+    <EditText android:id="@+id/fNum"/>
+    </TableRow>
+    
+    <TableRow>
+    <TextView android:text="Source Airport :"/>
+    
+    <AutoCompleteTextView         
+    android:id="@+id/sAirport"        
+    android:layout_width="fill_parent"        
+    android:layout_height="wrap_content"     />   
+    <!--android:prompt="@string/airports2"  --> 
+     
+    </TableRow>
+    <TableRow>
+    <TextView android:text="Destination Airport :"/>
+    <AutoCompleteTextView         
+    android:id="@+id/dAirport"        
+    android:layout_width="fill_parent"        
+    android:layout_height="wrap_content"   />     
+    <!-- android:prompt="@string/airports2"     -->
+    
+    </TableRow>
+    
+     <TableRow>
+    <TextView android:text="Departure date :"/>
+    <TextView  android:id="@+id/editText1" 
+    android:layout_height="wrap_content" 
+    android:layout_width="wrap_content"
+    android:clickable="true">
+        <requestFocus></requestFocus>
+    </TextView >
+     
+    
+    </TableRow>
+    <TableRow>
+    <TextView android:text="Departure time :"/>
+    <TextView android:id="@+id/editText2" 
+    android:layout_height="wrap_content" 
+    android:layout_width="wrap_content" 
+    android:clickable="true">
+    </TextView>
+  
+     
+    
+    </TableRow>
+    <TableRow>
+    <Button android:text="Submit"
+     android:layout_marginTop="50px"></Button>
+    </TableRow>
+
+
+
+</TableLayout>
+
