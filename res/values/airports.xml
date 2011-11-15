@@ -1,0 +1,389 @@
+<?xml version="1.0" encoding="utf-8"?> 
+<resources> 
+<string-array name="intl_airports_array"> 
+<item>Alexandria International Airport</item>
+<item>Aswan International Airport</item>
+<item>Cairo International Airport</item>
+<item>Hurghada International Airport</item>
+<item>Luxor International Airport</item>
+<item>Marsa Alam International Airport</item>
+<item>Mersa Matruh Airport</item>
+<item>Sharm el-Sheikh International Airport</item>
+<item>Taba International Airport</item>
+<item>Adrar – Touat-Cheikh Sidi Mohamed Belkebir Airport</item>
+<item>Algiers – Houari Boumedienne Airport</item>
+<item>Annaba – Rabah Bitat Airport</item>
+<item>Batna – Batna Airport</item>
+<item>Bejaia – Soummam Airport</item>
+<item>Biskra Airport</item>
+<item>Chlef International Airport</item>
+<item>Constantine – Mohamed Boudiaf Airport</item>
+<item>Hassi Messaoud – Oued Irara Airport</item>
+<item>Jijel Ferhat Abbas Airport</item>
+<item>Oran Es Senia Airport</item>
+<item>Setif – Ain Arnat Airport</item>
+<item>Tamanrasset Airport</item>
+<item>Tlemcen – Zenata Airport</item>
+<item>Benghazi – Benina International Airport</item>
+<item>Sebha Airport</item>
+<item>Tripoli International Airport</item>
+<item>Djerba – Zarzis Airport</item>
+<item>Enfidha-Hammamet International Airport</item>
+<item>Monastir – Habib Bourguiba International Airport</item>
+<item>Thyna International Airport</item>
+<item>7 Novembre International Airport</item>
+<item>Nefta International Airport</item>
+<item>Carthage International Airport</item>
+<item>Cape Town International Airport</item>
+<item>Durban – King Shaka International Airport</item>
+<item>Johannesburg – OR Tambo International Airport</item>
+<item>Nassau – Lynden Pindling International Airport</item>
+<item>Chub Cay International Airport</item>
+<item>Exuma International Airport</item>
+<item>Freeport - Grand Bahama International Airport</item>
+<item>Rock Sound International Airport</item>
+<item>Calgary International Airport</item>
+<item>Edmonton International Airport</item>
+<item>Halifax – Halifax Stanfield International Airport</item>
+<item>Hamilton - John C. Munro Hamilton International Airport</item>
+<item>Kelowna International Airport</item>
+<item>Moncton International Airport</item>
+<item>Mont-Tremblant – Rivière Rouge – Mont Tremblant International Airport</item>
+<item>Montréal-Pierre Elliott Trudeau International Airport</item>
+<item>Ottawa Macdonald-Cartier International Airport</item>
+<item>Quebec City – Québec/Jean Lesage International Airport</item>
+<item>Regina – Regina International Airport</item>
+<item>Saskatoon John G. Diefenbaker International Airport</item>
+<item>Sydney, Nova Scotia – J.A. Douglas McCurdy Sydney Airport</item>
+<item>Toronto/Mississauga – Toronto Pearson International Airport</item>
+<item>Vancouver International Airport</item>
+<item>Victoria – Victoria International Airport</item>
+<item>Winnipeg James Armstrong Richardson International Airport</item>
+<item>Acapulco – General Juan N. Alvarez International Airport</item>
+<item>Aguascalientes – Lic. Jesús Terán Peredo International Airport</item>
+<item>Cabo San Lucas International Airport</item>
+<item>Campeche - Ing. Alberto Acuña Ongay International Airport</item>
+<item>Cancún International Airport</item>
+<item>Chihuahua – Roberto Fierro Villalobos International Airport</item>
+<item>Ciudad del Carmen International Airport</item>
+<item>Cozumel International Airport</item>
+<item>Culiacán - Federal de Bachigualato International Airport</item>
+<item>Durango – General Guadalupe Victoria International Airport</item>
+<item>Guadalajara – Don Miguel Hidalgo y Costilla International Airport</item>
+<item>Huatulco – Bahías de Huatulco International Airport</item>
+<item>Ixtapa–Zihuatanejo – Ixtapa-Zihuatanejo International Airport</item>
+<item>León – Del Bajío International Airport</item>
+<item>Loreto - Loreto International Airport</item>
+<item>Manzanillo – Playa de Oro International Airport</item>
+<item>Mazatlán – General Rafael Buelna International Airport</item>
+<item>Mérida – Manuel Crescencio Rejón International Airport</item>
+<item>Mexico City International Airport</item>
+<item>Monterrey – General Mariano Escobedo International Airport</item>
+<item>Morelia – General Francisco J. Mujica International Airport</item>
+<item>Oaxaca – Xoxocotlán International Airport</item>
+<item>Puebla – Hermanos Serdán International Airport</item>
+<item>Puerto Vallarta – Lic. Gustavo Díaz Ordaz International Airport</item>
+<item>Saltillo – Plan de Guadalupe International Airport</item>
+<item>San José del Cabo – Los Cabos International Airport</item>
+<item>San Luis Potosí – Ponciano Arriaga International Airport</item>
+<item>Querétaro – Querétaro International Airport</item>
+<item>Tampico – General Francisco Javier Mina International Airport</item>
+<item>Tijuana - Gral. Abelardo L. Rodríguez International Airport</item>
+<item>Toluca – Lic. Adolfo López Mateos International Airport</item>
+<item>Tuxtla Gutierrez – Angel Albino Corzo International Airport</item>
+<item>Torreón – Francisco Sarabia International Airport</item>
+<item>Veracruz – General Heriberto Jara International Airport</item>
+<item>Villahermosa – Carlos Rovirosa Pérez International Airport</item>
+<item>Akron - Akron Fulton International Airport</item>
+<item>Albany - Albany International Airport</item>
+<item>Albuquerque – Albuquerque International Airport</item>
+<item>Alexandria - Alexandria International Airport</item>
+<item>Alice - Alice International Airport</item>
+<item>Allentown - Lehigh Valley International Airport</item>
+<item>Anchorage – Ted Stevens Anchorage International Airport</item>
+<item>Atlanta – Hartsfield-Jackson Atlanta International Airport</item>
+<item>Atlantic City International Airport</item>
+<item>Austin - Austin-Bergstrom International Airport</item>
+<item>Baltimore-Washington International Thurgood Marshall Airport</item>
+<item>Bellingham - Bellingham International Airport</item>
+<item>Billings - Billings Logan International Airport</item>
+<item>Birmingham - Birmingham-Shuttlesworth International Airport</item>
+<item>Binghamton - Greater Binghamton Airport</item>
+<item>Boston – Logan International Airport</item>
+<item>Brownsville - Brownsville/South Padre Island International Airport</item>
+<item>Buffalo - Buffalo Niagara International Airport</item>
+<item>Burlington - Burlington International Airport</item>
+<item>Calexico - Calexico International Airport</item>
+<item>Casper - Casper/Natrona County International Airport</item>
+<item>Charlotte – Charlotte/Douglas International Airport</item>
+<item>Cincinnati/Northern Kentucky International Airport</item>
+<item>Cleveland Hopkins International Airport</item>
+<item>Columbus - Port Columbus International Airport</item>
+<item>Corpus Christi - Corpus Christi International Airport</item>
+<item>Dallas/Fort Worth – Dallas/Fort Worth International Airport</item>
+<item>Dayton - James M. Cox Dayton International Airport</item>
+<item>Daytona Beach International Airport</item>
+<item>Denver International Airport</item>
+<item>Del Bonita - Whetstone International Airport</item>
+<item>Del Rio - Del Rio International Airport</item>
+<item>Des Moines International Airport</item>
+<item>Detroit Metropolitan Wayne County Airport</item>
+<item>Duluth - Duluth International Airport</item>
+<item>Eagle Pass - Maverick County Memorial International Airport</item>
+<item>Edinburg - South Texas International Airport </item>
+<item>El Paso International Airport</item>
+<item>Erie - Erie International Airport</item>
+<item>Fairbanks International Airport</item>
+<item>Fargo - Hector International Airport</item>
+<item>Flint - Bishop International Airport</item>
+<item>Fort Lauderdale – Fort Lauderdale-Hollywood International Airport</item>
+<item>Fort Myers - Southwest Florida International Airport</item>
+<item>Fort Worth Meacham International Airport</item>
+<item>Fresno Yosemite International Airport</item>
+<item>Harlingen - Valley International Airport</item>
+<item>Harrisburg/Middletown - Harrisburg International Airport</item>
+<item>Honolulu International Airport</item>
+<item>Houlton - Houlton International Airport</item>
+<item>Houston – George Bush Intercontinental Airport</item>
+<item>Huntsville - Huntsville International Airport</item>
+<item>Glasgow - Glasgow International Airport</item>
+<item>Great Falls - Great Falls International Airport</item>
+<item>Grand Rapids - Gerald R. Ford International Airport</item>
+<item>Green Bay - Austin Straubel International Airport</item>
+<item>Greenville/Spartanburg - Greenville-Spartanburg International Airport</item>
+<item>Greensboro - Piedmont Triad International Airport</item>
+<item>Gulfport\Biloxi - Gulfport-Biloxi International Airport</item>
+<item>Indianapolis International Airport</item>
+<item>International Falls - Falls International Airport</item>
+<item>Jackson - Jackson-Evers International Airport</item>
+<item>Jacksonville International Airport</item>
+<item>Juneau International Airport</item>
+<item>Kalamazoo/Battle Creek - Kalamazoo/Battle Creek International Airport</item>
+<item>Kalispell - Glacier Park International Airport</item>
+<item>Kansas City – Kansas City International Airport</item>
+<item>Key West International Airport</item>
+<item>Ketchikan International Airport</item>
+<item>Kona – Kona International Airport</item>
+<item>Lake Charles - Chennault International Airport</item>
+<item>Lansing - Capital Region International Airport</item>
+<item>Laredo - Laredo International Airport</item>
+<item>Las Cruces - Las Cruces International Airport</item>
+<item>Las Vegas – McCarran International Airport</item>
+<item>Lubbock - Lubbock Preston Smith International Airport</item>
+<item>Los Angeles International Airport</item>
+<item>Louisville – Louisville International Airport</item>
+<item>Marquette/Gwinn - Sawyer International Airport</item>
+<item>Massena - Massena International Airport</item>
+<item>McAllen - McAllen-Miller International Airport</item>
+<item>Medford - Rogue Valley International-Medford Airport</item>
+<item>Melbourne - Melbourne International Airport</item>
+<item>Memphis – Memphis International Airport</item>
+<item>Miami International Airport</item>
+<item>Minneapolis/Saint Paul – Minneapolis-Saint Paul International Airport</item>
+<item>Milwaukee – General Mitchell International Airport</item>
+<item>Missoula - Missoula International Airport</item>
+<item>Monticello - Sullivan County International Airport</item>
+<item>Moses Lake - Grant County International Airport</item>
+<item>Myrtle Beach International Airport</item>
+<item>Nashville International Airport</item>
+<item>Newburgh - Stewart International Airport</item>
+<item>Newport News/Williamsburg International Airport</item>
+<item>New Orleans – Louis Armstrong New Orleans International Airport</item>
+<item>New York City – John F. Kennedy International Airport</item>
+<item>New York City – LaGuardia Airport</item>
+<item>Newark – Newark Liberty International Airport</item>
+<item>Niagara Falls International Airport</item>
+<item>Norfolk - Norfolk International Airport</item>
+<item>North Charleston - Charleston International Airport</item>
+<item>Oakland - Metropolitan Oakland International Airport</item>
+<item>Ogdensburg - Ogdensburg International Airport</item>
+<item>Ontario - Ontario International Airport</item>
+<item>Orlando – Orlando International Airport</item>
+<item>Palm Springs International Airport</item>
+<item>Panama City Beach - Northwest Florida Beaches International Airport</item>
+<item>Philadelphia International Airport</item>
+<item>Phoenix, Arizona – Phoenix Sky Harbor International Airport</item>
+<item>Plattsburgh - Plattsburgh International Airport</item>
+<item>Pontiac - Oakland County International Airport</item>
+<item>Port Angeles - William R. Fairchild International Airport</item>
+<item>Port Huron - St. Clair County International Airport</item>
+<item>Portland, Oregon – Portland International Airport</item>
+<item>Portsmouth - Portsmouth International Airport</item>
+<item>Port Townsend - Jefferson County International Airport</item>
+<item>Raleigh – Raleigh-Durham International Airport</item>
+<item>Reno - Reno-Tahoe International Airport</item>
+<item>Richmond – Richmond International Airport</item>
+<item>Rochester, Minnesota - Rochester International Airport</item>
+<item>Rochester, New York - Greater Rochester International Airport</item>
+<item>Sacramento – Sacramento International Airport</item>
+<item>Saginaw - MBS International Airport</item>
+<item>Salt Lake City International Airport</item>
+<item>San Antonio International Airport</item>
+<item>Santa Ana/Orange County – John Wayne Airport</item>
+<item>San Diego International Airport</item>
+<item>San Jose – San Jose International Airport</item>
+<item>San Francisco International Airport</item>
+<item>Sarasota\Bradenton - Sarasota-Bradenton International Airport</item>
+<item>Sault Ste. Marie - Chippewa County International Airport</item>
+<item>Savannah - Savannah/Hilton Head International Airport</item>
+<item>Seattle-Tacoma International Airport</item>
+<item>Spokane International Airport</item>
+<item>Saint Louis – Lambert-Saint Louis International Airport</item>
+<item>St. Petersburg - St. Petersburg-Clearwater International Airport</item>
+<item>Sweetgrass - Ross International Airport</item>
+<item>Syracuse - Greater Rochester International Airport</item>
+<item>Tampa Bay – Tampa International Airport</item>
+<item>Tucson – Tucson International Airport</item>
+<item>Tulsa International Airport</item>
+<item>Washington, D.C. – Washington Dulles International Airport</item>
+<item>Watertown - Watertown International Airport</item>
+<item>West Palm Beach – Palm Beach International Airport</item>
+<item>Wilkes-Barre/Scranton - Wilkes-Barre/Scranton International Airport</item>
+<item>Wilmington - Wilmington International Airport</item>
+<item>Windsor Locks - Bradley International Airport</item>
+<item>Yuma - Yuma International Airport</item>
+<item>Negev - Ovda International Airport</item>
+<item>Greater Tel Aviv – Ben Gurion International Airport</item>
+<item>Hafia - Haifa Airport</item>
+<item>Kuwait International Airport</item>
+<item>Dammam – King Fahad International Airport</item>
+<item>Jeddah – King Abdulaziz International Airport</item>
+<item>Medina – Prince Mohammad Bin Abdulaziz International Airport</item>
+<item>Riyadh – King Khalid International Airport</item>
+<item>Graz Airport</item>
+<item>Klagenfurt Airport</item>
+<item>Innsbruck Airport</item>
+<item>Linz Airport</item>
+<item>Salzburg Airport</item>
+<item>Vienna International Airport</item>
+<item>Aalborg Airport</item>
+<item>Aarhus Airport</item>
+<item>Billund – Billund Airport</item>
+<item>Copenhagen Airport</item>
+<item>Bastia – Poretta Airport</item>
+<item>Beauvais-Tillé Airport</item>
+<item>Bergerac – Bergerac-Roumanière Airport</item>
+<item>Biarritz Airport</item>
+<item>Bordeaux – Mérignac Airport</item>
+<item>Brest – Brest Bretagne Airport</item>
+<item>Carcassonne – Salvaza Airport</item>
+<item>Châlons-en-Champagne – Châlons Vatry Airport</item>
+<item>Chambéry-Savoie Airport</item>
+<item>Dinard – Pleurtuit Airport</item>
+<item>Figari Sud-Corse Airport</item>
+<item>Grenoble-Isère Airport</item>
+<item>Île de Ré Airport</item>
+<item>Lille Lesquin Airport</item>
+<item>Limoges – Bellegarde Airport</item>
+<item>Lyon – Saint-Exupéry Airport</item>
+<item>Marseille – Provence Airport</item>
+<item>Méditerranée Airport</item>
+<item>Mulhouse – Basel-Mulhouse-Freiburg Airport</item>
+<item>Nantes Atlantique Airport</item>
+<item>Nîmes – Garons Airport</item>
+<item>Paris – Charles de Gaulle Airport</item>
+<item>Paris – Orly Airport</item>
+<item>Pau – Uzein Airport</item>
+<item>Perpignan – Llabanère Airport</item>
+<item>Poitiers – Biard Airport</item>
+<item>Rodez – Marcillac Airport</item>
+<item>Bouthéon Airport</item>
+<item>Strasbourg Airport</item>
+<item>Toulon – Hyères Le Palyvestre Airport</item>
+<item>Toulouse – Blagnac Airport</item>
+<item>Tours Loire Valley Airport</item>
+<item>Altenburg – Leipzig-Altenburg Airport</item>
+<item>Baden-Baden/Karlsruhe – Baden Airpark</item>
+<item>Berlin – Berlin Tegel Airport</item>
+<item>Bremen Airport</item>
+<item>Cologne/Bonn Airport</item>
+<item>Dortmund Airport</item>
+<item>Düsseldorf Airport</item>
+<item>Frankfurt Airport</item>
+<item>Frankfurt-Hahn Airport</item>
+<item>Friedrichshafen Airport</item>
+<item>Hamburg Airport</item>
+<item>Hanover – Langenhagen Airport</item>
+<item>Lübeck Airport</item>
+<item>Memmingen Airport</item>
+<item>Munich Airport</item>
+<item>Nuremberg Airport</item>
+<item>Stuttgart Airport</item>
+<item>Weeze Airport</item>
+<item>Cork – Cork Airport</item>
+<item>Dublin Airport</item>
+<item>Kerry – Kerry Airport</item>
+<item>Knock – Ireland West Airport </item>
+<item>Shannon – Shannon Airport</item>
+<item>Alghero – Fertilia Airport</item>
+<item>Ancona Airport</item>
+<item>Palese Airport</item>
+<item>Bergamo – Orio al Serio Airport</item>
+<item>Bologna Airport</item>
+<item>Brescia Airport</item>
+<item>Brindisi Airport</item>
+<item>Cagliari Airport</item>
+<item>Elmas Airport</item>
+<item>Catania – Fontanarossa Airport</item>
+<item>Cuneo Levaldigi Airport</item>
+<item>Florence – Peretola Airport</item>
+<item>Genoa – Cristoforo Colombo Airport</item>
+<item>Lamezia Terme Airport</item>
+<item>Milan – Malpensa Airport</item>
+<item>Milan – Linate Airport</item>
+<item>Naples – Capodichino Airport</item>
+<item>Olbia – Costa Smeralda Airport</item>
+<item>Palermo Airport</item>
+<item>Parma Airport</item>
+<item>Perugia – San Egidio Airport</item>
+<item>Pescara – Abruzzo Airport</item>
+<item>Pisa – Galileo Galilei Airport</item>
+<item>Rimini – Federico Fellini Airport</item>
+<item>Rome – Leonardo da Vinci-Fiumicino Airport</item>
+<item>Rome – Rome Ciampino Airport</item>
+<item>Trapani – Vincenzo Florio Airport</item>
+<item>Trieste – Friuli Venezia Giulia Airport</item>
+<item>Turin – Caselle Airport</item>
+<item>Venice Marco Polo Airport</item>
+<item>Verona Airport</item>
+<item>Amsterdam – Amsterdam Airport </item>
+<item>Eindhoven Airport</item>
+<item>Groningen – Groningen Airport </item>
+<item>Maastricht-Aachen Airport</item>
+<item>Rotterdam The Hague Airport</item>
+<item>Bern-Belp Airport</item>
+<item>Geneva International Airport</item>
+<item>St. Gallen-Altenrhein Airport</item>
+<item>Zurich Airport</item>
+<item>Aberdeen Airport</item>
+<item>Belfast International Airport</item>
+<item>George Best Belfast City Airport</item>
+<item>Birmingham International Airport</item>
+<item>Bournemouth Airport</item>
+<item>Bristol International Airport</item>
+<item>Cardiff Airport</item>
+<item>City of Derry Airport</item>
+<item>Robin Hood Airport</item>
+<item>Durham Tees Valley Airport</item>
+<item>Edinburgh Airport</item>
+<item>East Midlands Airport</item>
+<item>Exeter International Airport</item>
+<item>Glasgow International Airport</item>
+<item>Glasgow Prestwick Airport</item>
+<item>Inverness Airport</item>
+<item>Leeds/Bradford – Leeds Bradford International Airport</item>
+<item>Liverpool John Lennon Airport</item>
+<item>London – London City Airport</item>
+<item>London – London Gatwick Airport</item>
+<item>London – London Heathrow Airport</item>
+<item>London – London Luton Airport</item>
+<item>London - Southend Airport</item>
+<item>London – Stansted Airport</item>
+<item>Manchester – Manchester Airport</item>
+<item>Newcastle upon Tyne – Newcastle Airport</item>
+<item>Newquay Cornwall Airport</item>
+<item>Norwich International Airport</item>
+<item>Southampton Airport</item>
+</string-array> 
+ 
+</resources>
