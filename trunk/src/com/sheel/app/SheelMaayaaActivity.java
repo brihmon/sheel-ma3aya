@@ -40,7 +40,10 @@ public class SheelMaayaaActivity extends Activity {
 	 {
 		  fbService.logout(this);
 	 }	 
-	 
+	 	 
+	 public void onClick_goToSearchResults(View v){
+		 startActivity(new Intent(this, ViewSearchResultsActivity.class));
+	 }
 	 
 	 public void onClick_goHTTP (View v) 
 	 {
