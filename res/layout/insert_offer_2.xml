@@ -65,10 +65,10 @@
      
     
     </TableRow>
-    <TableRow>
+   
     <Button android:text="Submit"
      android:layout_marginTop="50px"></Button>
-    </TableRow>
+    
 
 
 
