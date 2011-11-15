@@ -1,16 +1,14 @@
 package com.sheel.datastructures;
 
-import java.util.Date;
+//import java.util.Date;
  
 /**
  * @author Mohsen
- * Under construction
  * Client side model for flight
+ * Doesn't provide relations.
  */
 public class Flight
 {
-	
-
 		public Long id;
 		
 	  	public String flightNumber;
