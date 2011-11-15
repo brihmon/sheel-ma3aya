@@ -27,6 +27,7 @@ import com.facebook.android.DialogError;
 import com.facebook.android.Facebook;
 import com.facebook.android.Facebook.DialogListener;
 import com.facebook.android.FacebookError;
+import com.sheel.app.SheelMaaayaClient;
 import com.sheel.datastructures.FacebookUser;
 
 /**
@@ -813,5 +814,21 @@ public class FacebookWebservice {
 		
 		
 	}// end tester
+	
+	private void tester2(){
+		
+		class Client2 extends SheelMaaayaClient{
+
+			@Override
+			public void doSomething() {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		}// end class
+		
+		Client2 c= new Client2();
+		c.runHttpRequest("path");
+	}// end tester2
 
 }// end class
