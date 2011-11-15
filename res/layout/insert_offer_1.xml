@@ -48,7 +48,8 @@
     
     
      <Button android:text="Next"
-     android:layout_marginTop="50px"></Button>
+     android:layout_marginTop="50px"
+     android:onClick="onClick_next"></Button>
     
     <TextView android:text="*Amount entered should be in US dollars. Please enter an equivalent amount in US dollars if the local currency is different."></TextView>
 
