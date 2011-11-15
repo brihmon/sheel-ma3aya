@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/relativeLayout1"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" 
+        android:background="#004D79">
+
+        <SlidingDrawer
+            android:id="@+id/slidingDrawer_details"
+            android:layout_width="fill_parent"
+            android:layout_height="210dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:content="@+id/content_slidingDrawer"
+            android:handle="@+id/button_slidingDrawer"                   
+            >
+
+            <Button
+                android:id="@+id/button_slidingDrawer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Details" />
+
+            <LinearLayout
+                android:id="@+id/content_slidingDrawer"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/details_textView_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Wants 5 dollar/Kg"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+                
+                <TextView
+                    android:id="@+id/details_textView_facebookStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Facebook friend"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                <TextView
+                    android:id="@+id/details_textView_mobileNumber"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" +20105005872"
+                 />
+
+                <TextView
+                    android:id="@+id/details_textView_email"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" passant.elagroudy@gmail.com"
+                  />
+                
+                <LinearLayout
+                android:id="@+id/content_slidingDrawer_buttons"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:orientation="horizontal"
+                android:gravity="center_horizontal" >
+                
+	                <Button
+	                android:id="@+id/details_button_call"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:text="Call" />
+	                
+	                <Button
+	                android:id="@+id/details_button_sendSms"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:text="SMS" />
+	                 
+	                 <Button
+	                android:id="@+id/details_button_confirm"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:text="Confirm" />
+                 
+                </LinearLayout>
+
+            </LinearLayout>
+        </SlidingDrawer>
+
+    </RelativeLayout>
+
