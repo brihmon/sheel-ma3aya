@@ -10,6 +10,10 @@ import android.view.View;
 import android.widget.Toast;
 
 public class SheelMaayaaActivity extends Activity {
+	
+	// New FB service
+	FacebookWebservice fbService = new FacebookWebservice();
+	
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -27,10 +31,16 @@ public class SheelMaayaaActivity extends Activity {
 	 public void onClick_goToFacebook (View v) 
 	 {
 		 //Toast.makeText(getApplicationContext(), "Displaying contact info", Toast.LENGTH_SHORT).show();
-		 FacebookWebservice fbService = new FacebookWebservice();
+		 //FacebookWebservice fbService = new FacebookWebservice();
 		 // will automatically login and get the first set of info
 		 fbService.login(this);
 	}	 
+	 
+	 public void onClick_goToFacebookToLogout (View v) 
+	 {
+		  fbService.logout(this);
+	 }	 
+	 
 	 
 	 public void onClick_goHTTP (View v) 
 	 {
