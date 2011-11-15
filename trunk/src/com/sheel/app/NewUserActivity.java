@@ -4,6 +4,7 @@ package com.sheel.app;
 import java.util.Arrays;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -116,7 +117,7 @@ public class NewUserActivity extends Activity{
 	
 	public void onClick_takePhoto(View v)
 	{
-		
+		startActivity(new Intent(this, TakePhotoActivity.class));
 	}
 	
 	public void validate()
