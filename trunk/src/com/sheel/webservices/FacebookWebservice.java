@@ -696,21 +696,19 @@ public class FacebookWebservice {
 	}// end filterOffersFromFriendsOfFriends
 	
 	
-	
-	
 	private void tester_filterOffersFromFriends(){
 		
 		// Input list: cannot make value = null -> exception
 		Hashtable<String, Object>offersFromUsers = new Hashtable<String, Object>();
-		offersFromUsers.put("32529", new Object()); // friend
-		offersFromUsers.put("48304588",new Object()); // friend
-		offersFromUsers.put("58215973",new Object()); // friend
-		offersFromUsers.put("1207059", new Object()); // non friend
+		offersFromUsers.put("32529", new Object()); 	// friend
+		offersFromUsers.put("48304588",new Object()); 	// friend
+		offersFromUsers.put("58215973",new Object()); 	// friend
+		offersFromUsers.put("1207059", new Object()); 	// non friend
 		
 		// Expected output : Arraylist having 32529 , 48304588 , 58215973
-		// STATUS : 
+		// STATUS : SUCCESSFUL
 		
-		/* Comments: */
+		/* Comments: CANNOT TEST ON YOUR OWN ACCOUNTS : user- dependent */
 		
 		
 		// Execute method
