@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.Semaphore;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -461,10 +462,6 @@ public class FacebookWebservice {
 			 *  List of result of owners in friends of the user
 			 */
 			private ArrayList<String> ownersIdsFromFriends = new ArrayList<String>();
-			/**
-			 *  Current Owner ID to be checked for friendship status with user
-			 */
-			private String currentOwnerFacebookId="";
 			
 			/**
 			 * Total number of offers that must be processed. It is used for scheduling
@@ -477,22 +474,33 @@ public class FacebookWebservice {
 			 * from the method because the thread executing the HTTP calls hasn't 
 			 * finished yet
 			 */
-			final Semaphore waitForAllOffersProcessing = new Semaphore(0);
+			private final Semaphore waitForAllOffersProcessing = new Semaphore(0);
 			
 			//_____________________ Different Actions _____________________
 			
 			public void onComplete(String response, Object state) {
 				
 				try {
-					JSONObject receivedData = new JSONObject(response);
-					
 					totalNumberOfOffersRemaining --;
 					
-					if (receivedData.length()>0){
-						ownersIdsFromFriends.add(currentOwnerFacebookId);
-						Log.e(TAG_CLASS_PACKAGE,METHOD_NAME + ":oncomplete:  ownrId("+currentOwnerFacebookId+") #remain("+totalNumberOfOffersRemaining+")");
-					}// end if : if both are friends => FB returns FB ID of checked friend mapped to his/her name 
+					// Contains friend data and paging data
+					JSONObject receivedData = new JSONObject(response);
+					// Get friend data	
+					JSONArray friendData = receivedData.getJSONArray("data");
 					
+					if (friendData.length() > 0){
+						// If friends -> array has one JSONObject entry
+						JSONObject friendDataDetails = friendData.getJSONObject(0);
+						// Get the facebook ID of the friend. To get the name -> use "name"
+						String friendFacebookId = friendDataDetails.getString("id");
+						// Add to results list
+						ownersIdsFromFriends.add(friendFacebookId);	
+						
+					}/* end if : if both are friends 
+					  * 		=>
+					  * FB returns FB ID of checked friend mapped to his/her name
+					  */
+				
 					if (totalNumberOfOffersRemaining == 0){					
 						waitForAllOffersProcessing.release();
 					}// end if : all offers are processed -> release semaphore to return result
@@ -534,27 +542,29 @@ public class FacebookWebservice {
 		
 		// Create new listener for friendship status
 		FriendShipStatusCheckListener friendshipStatusCheckListener = new FriendShipStatusCheckListener();
-		
+		/* Set number of offers that should be processed to signal when result should 
+		 * be returned
+		 */
 		friendshipStatusCheckListener.totalNumberOfOffersRemaining = ownersIds.size();
 		
 		while(ownersIdsIterator.hasNext()){
 			
-			// Current Owner ID to be checked for friendship status with user
-			friendshipStatusCheckListener.currentOwnerFacebookId= ownersIdsIterator.next();
-			
-			Log.e(TAG_CLASS_PACKAGE,friendshipStatusCheckListener.METHOD_NAME+"currOwn("+friendshipStatusCheckListener.currentOwnerFacebookId+")");
-			
-			// String representing relation evaluation request in Facebook graph API format (friends or not)
-			String userOwnerRelationRequest = "me/friends/"+friendshipStatusCheckListener.currentOwnerFacebookId;
-			// Issue an HTTP request to check if user and owner are friends or not 
-			asyncFacebookRunner.request(userOwnerRelationRequest, friendshipStatusCheckListener);			
+			/* Issue an HTTP request to check if user and owner are friends or not 
+			 * The request format to the graph API of facebook is : <me/friends/friendId>
+			 * where:
+			 * 		me= fixed keyword representing signed-in user
+			 * 		friendId= facebook ID of offer owner to be checked
+			 * The only permissions needed for operation to be performed is <access_token>
+			 * to be granted
+			 */
+			asyncFacebookRunner.request("me/friends/"+ownersIdsIterator.next(), friendshipStatusCheckListener);	
+						
 		}// end while : check IDs of all offer owners		
-		
 		
 		try {
 			
 			/* Since no permits are available -> thread will sleep till .release() is called
-			 * .realse() won't be called until all offers are processed 
+			 * .release() won't be called until all offers are processed 
 			 * (look at onComplete method in the inner class)
 			 * This is done to force sequential order for result returning
 			 */
@@ -562,8 +572,9 @@ public class FacebookWebservice {
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}// end catch: in case of interruptions to the thread
+		}// end catch: in case of interruptions to the thread	
 		
+		// Return result list when all offers are analyzed
 		return friendshipStatusCheckListener.ownersIdsFromFriends;
 	}// end filterOffersFromFriends
 	
