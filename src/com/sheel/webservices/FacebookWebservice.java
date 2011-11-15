@@ -4,6 +4,12 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.Dictionary;
+import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.Semaphore;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -121,7 +127,7 @@ public class FacebookWebservice {
 		 */
 		
 		// Get the shared preferences of the user from the activity
-		sharedPreferences = parentActivity.getPreferences(Context.MODE_PRIVATE);
+	/*	sharedPreferences = parentActivity.getPreferences(Context.MODE_PRIVATE);
 
 		Log.e(TAG_CLASS_PACKAGE, "login: sharedPreferences: " + sharedPreferences);
 
@@ -140,6 +146,9 @@ public class FacebookWebservice {
 			getUserInfoForApp();
 			Log.e(TAG_CLASS_PACKAGE, "login: " + "FB token setting is done");			
 		}// end if : user already logged in -> pass token + expiry
+		*/
+		
+		sharedPreferences = parentActivity.getPreferences(Context.MODE_PRIVATE);
 		
 		/*
 		 * ##############################################################
@@ -166,12 +175,16 @@ public class FacebookWebservice {
 					 * access token and its expiry date
 					 */
 					// TODO why do we need this
+					
+					
 					SharedPreferences.Editor editor = sharedPreferences.edit();
 					editor.putString(SP_ACCESS_TOKEN, facebook.getAccessToken());
 					editor.putLong(SP_ACCESS_TOKEN_EXPIRY,
 							facebook.getAccessExpires());
 					editor.commit();
 					getUserInfoForApp();
+					
+					tester_filterOffersFromFriends();
 				}// end onComplete:
 
 				public void onFacebookError(FacebookError error) {
@@ -191,6 +204,48 @@ public class FacebookWebservice {
 	
 		
 	}// end login
+	
+	public void logout(Activity parentActivity){
+		asyncFacebookRunner.logout(parentActivity.getApplicationContext(), new RequestListener(){
+
+			@Override
+			public void onComplete(String response, Object state) {
+				Log.e(TAG_CLASS_PACKAGE,"logout: onComplete");
+				
+			}
+
+			@Override
+			public void onIOException(IOException e, Object state) {
+				Log.e(TAG_CLASS_PACKAGE,"logout: onIOException");
+				
+			}
+
+			@Override
+			public void onFileNotFoundException(FileNotFoundException e,
+					Object state) {
+				Log.e(TAG_CLASS_PACKAGE,"logout: onFileNotFoundException");
+				
+				
+			}
+
+			@Override
+			public void onMalformedURLException(MalformedURLException e,
+					Object state) {
+				Log.e(TAG_CLASS_PACKAGE,"logout: onMalformedURLException");
+				
+				
+			}
+
+			@Override
+			public void onFacebookError(FacebookError e, Object state) {
+				Log.e(TAG_CLASS_PACKAGE,"logout: onFacebookError");
+				
+				
+			}
+			
+		});
+		
+	}// end logout
 	
 	public void getUserInfoForApp(){
 		// Create list of required Information from user object
@@ -235,7 +290,7 @@ public class FacebookWebservice {
 					fbUser = new FacebookUser(response);
 					System.out.println(fbUser);
 					
-					getUserFriends();
+					//getUserFriends();
 				
 									
 				}// end onComplete
@@ -280,6 +335,11 @@ public class FacebookWebservice {
 				try {
 					JSONObject parsedValues = new JSONObject(response);
 					
+					Iterator it = parsedValues.keys();
+					
+						//Map<String , String> dic = new Map<String, String>();
+						
+					
 				} catch (JSONException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -310,9 +370,439 @@ public class FacebookWebservice {
 		});
 	}// end getUserFriends
 	
-	public Object[] getMutualFriends(){
-		throw new UnsupportedOperationException("Not implemented yet");
-	}// end getMutualFriends
+	/**
+	 * This method is filter offers coming from user's friends from a more
+	 * generic set of offers. This method assumes the list of user friends
+	 * is already retrieved.
+	 * 
+	 * @param userFriends
+	 * 		JSON string representing user friends. see @link {@link FacebookWebservice#getUserFriends()}
+	 * 
+	 * @param offersFromUsers 
+	 * 		Hash table where:
+	 * 			<ul>
+	 * 				<li>the <code>key</code> is Facebook ID of requested offer owner</li>
+	 * 				<li>the <code>value</code> is object representing offer</li>
+	 * 			</ul> 
+	 * @return
+	 * 		list containing Facebook IDs of offer owners who are friends with 
+	 * 		the user. In case all owners are NOT friends with the user, the list
+	 * 		is returned empty (size=0). This list can be used later to index the 
+	 * 		offers (in the input hash table for example) and retrieve them for
+	 * 		displaying.
+	 * 
+	 */
+	public ArrayList<String> filterOffersFromFriends(JSONObject userFriends,Hashtable<String,Object> offersFromUsers){
+		
+		// List of result of owners in friends of the user
+		ArrayList<String> ownersIdsFromFriends = new ArrayList<String>();
+		
+		// List of facebook IDs of offer owners without duplicates
+		Set<String> ownersIds= offersFromUsers.keySet();
+		
+		// Get an iterator to loop the set of owners IDs for checking
+		Iterator<String> ownersIdsIterator = ownersIds.iterator();
+		
+		while(ownersIdsIterator.hasNext()){
+			
+			// Owner ID to be checked in the iteration
+			String currentOwnerFacebookId = ownersIdsIterator.next();
+			if (userFriends.has(currentOwnerFacebookId)){
+				ownersIdsFromFriends.add(currentOwnerFacebookId);
+			}// end if : offer owner ID exists in friends of user -> add to output list
+			
+		}// end while : check IDs of all offer owners		
+		
+		return ownersIdsFromFriends;
+	}// end filterOffersFromFriends
 	
+	/**
+	 * This method is filter offers coming from user's friends from a more
+	 * generic set of offers. This method will issue (N) HTTP requests for checking
+	 * whether owners are friends with user or not. N is the number of owners to
+	 * be checked
+	 * 
+	 * @param offersFromUsers 
+	 * 		Hash table where:
+	 * 			<ul>
+	 * 				<li>the <code>key</code> is Facebook ID of requested offer owner</li>
+	 * 				<li>the <code>value</code> is object representing offer</li>
+	 * 			</ul> 
+	 * @return
+	 * 		list containing Facebook IDs of offer owners who are friends with 
+	 * 		the user. In case all owners are NOT friends with the user, the list
+	 * 		is returned empty (size=0). This list can be used later to index the 
+	 * 		offers (in the input hash table for example) and retrieve them for
+	 * 		displaying.
+	 * 
+	 */
+	public ArrayList<String> filterOffersFromFriends(Hashtable<String,Object> offersFromUsers){		
+	
+		/**
+		 * Inner class for listening to different actions while requesting
+		 * friendship status between the user and an owner of an offer
+		 * 
+		 * @author passant
+		 *
+		 */
+		class FriendShipStatusCheckListener implements RequestListener{
+			
+			//_____________________ Constants ____________________________
+			
+			/**
+			 * Used for tracing purposes
+			 */
+			private final String METHOD_NAME = "filterOffersFromFriends(Hashtable<String,Object> offersFromUsers)";
+
+			
+			//_____________________ Instance parameters __________________			
+						
+			/**
+			 *  List of result of owners in friends of the user
+			 */
+			private ArrayList<String> ownersIdsFromFriends = new ArrayList<String>();
+			/**
+			 *  Current Owner ID to be checked for friendship status with user
+			 */
+			private String currentOwnerFacebookId="";
+			
+			/**
+			 * Total number of offers that must be processed. It is used for scheduling
+			 * reasons to know when to allow return of result from the method
+			 */
+			private int totalNumberOfOffersRemaining =-1;
+			/**
+			 * Semaphore to indicate when to wake up the method thread and allow it 
+			 * to return results. It is used to prevent returning of uncompleted result
+			 * from the method because the thread executing the HTTP calls hasn't 
+			 * finished yet
+			 */
+			final Semaphore waitForAllOffersProcessing = new Semaphore(0);
+			
+			//_____________________ Different Actions _____________________
+			
+			public void onComplete(String response, Object state) {
+				
+				try {
+					JSONObject receivedData = new JSONObject(response);
+					
+					totalNumberOfOffersRemaining --;
+					
+					if (receivedData.length()>0){
+						ownersIdsFromFriends.add(currentOwnerFacebookId);
+						Log.e(TAG_CLASS_PACKAGE,METHOD_NAME + ":oncomplete:  ownrId("+currentOwnerFacebookId+") #remain("+totalNumberOfOffersRemaining+")");
+					}// end if : if both are friends => FB returns FB ID of checked friend mapped to his/her name 
+					
+					if (totalNumberOfOffersRemaining == 0){					
+						waitForAllOffersProcessing.release();
+					}// end if : all offers are processed -> release semaphore to return result
+				} catch (JSONException e) {
+					Log.e(TAG_CLASS_PACKAGE,METHOD_NAME+":onComplete: Exception in parsing received data");
+					e.printStackTrace();
+				}// end catch
+				
+			}// end onComplete
+			public void onIOException(IOException e, Object state) {
+				Log.e(TAG_CLASS_PACKAGE,METHOD_NAME+":onIOException");
+				e.printStackTrace();					
+			}// end onIOException
+
+			public void onFileNotFoundException(FileNotFoundException e,Object state) {
+				Log.e(TAG_CLASS_PACKAGE,METHOD_NAME+":onFileNotFoundException");
+				e.printStackTrace();				
+			}// end onFileNotFoundException
+
+			public void onMalformedURLException(MalformedURLException e,
+					Object state) {
+				Log.e(TAG_CLASS_PACKAGE,METHOD_NAME+":onMalformedURLException");
+				e.printStackTrace();				
+			}// end onMalformedURLException
+
+			public void onFacebookError(FacebookError e, Object state) {
+				Log.e(TAG_CLASS_PACKAGE,METHOD_NAME+":onFacebookError");
+				e.printStackTrace();					
+			}// end onFacebookError	
+			
+		}// end class: FriendShipStatusCheckListener	
+		
+		
+		// List of facebook IDs of offer owners without duplicates
+		Set<String> ownersIds= offersFromUsers.keySet();
+		
+		// Get an iterator to loop the set of owners IDs for checking
+		Iterator<String> ownersIdsIterator = ownersIds.iterator();
+		
+		// Create new listener for friendship status
+		FriendShipStatusCheckListener friendshipStatusCheckListener = new FriendShipStatusCheckListener();
+		
+		friendshipStatusCheckListener.totalNumberOfOffersRemaining = ownersIds.size();
+		
+		while(ownersIdsIterator.hasNext()){
+			
+			// Current Owner ID to be checked for friendship status with user
+			friendshipStatusCheckListener.currentOwnerFacebookId= ownersIdsIterator.next();
+			
+			Log.e(TAG_CLASS_PACKAGE,friendshipStatusCheckListener.METHOD_NAME+"currOwn("+friendshipStatusCheckListener.currentOwnerFacebookId+")");
+			
+			// String representing relation evaluation request in Facebook graph API format (friends or not)
+			String userOwnerRelationRequest = "me/friends/"+friendshipStatusCheckListener.currentOwnerFacebookId;
+			// Issue an HTTP request to check if user and owner are friends or not 
+			asyncFacebookRunner.request(userOwnerRelationRequest, friendshipStatusCheckListener);			
+		}// end while : check IDs of all offer owners		
+		
+		
+		try {
+			
+			/* Since no permits are available -> thread will sleep till .release() is called
+			 * .realse() won't be called until all offers are processed 
+			 * (look at onComplete method in the inner class)
+			 * This is done to force sequential order for result returning
+			 */
+			friendshipStatusCheckListener.waitForAllOffersProcessing.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}// end catch: in case of interruptions to the thread
+		
+		return friendshipStatusCheckListener.ownersIdsFromFriends;
+	}// end filterOffersFromFriends
+	
+	/**
+	 * This method is used to filter offers coming from friends of user friends 
+	 * from a more generic set of offers. This method will issue (N) HTTP requests 
+	 * for checking whether owners have mutual friends with the user or not. 
+	 * N is the number of owners to be checked. 
+	 * 
+	 * @param offersFromUsers
+	 * 		Hash table where:
+	 * 			<ul>
+	 * 				<li>the <code>key</code> is Facebook ID of offer owner</li>
+	 * 				<li>the <code>value</code> is object representing offer</li>
+	 * 			</ul> 
+	 * @return
+	 * 		Hash table containing
+	 * 		<ul>
+	 * 				<li>the <code>key</code> is Facebook ID of requested offer owner</li>
+	 * 				<li>the <code>value</code> is JSONObject representing the mutual friends
+	 * 				between the user and the offer owner. 
+	 * 				<br>To know the number of mutual friends between the user and an offer
+	 * 				owner, use {@link JSONObject#length()}  method. 
+	 * 				<br>To know the names of mutual friends between the user and an offer 
+	 * 				owner, use {@link JSONObject#keys()}  method, then loop on them and call
+	 * 				{@link JSONObject#getString(String)} method </li>
+	 * 		</ul>
+	 * 		In case no friends of friends were found in the input hash table, the hash table
+	 * 		is returned empty (size=0). This map can be used later to index the 
+	 * 		offers (in the input hash table for example) and retrieve them for
+	 * 		displaying.
+	 */
+	public Hashtable<String, JSONObject> filterOffersFromFriendsOfFriends(Hashtable<String,Object> offersFromUsers){
+			
+		/**
+		 * Inner class for listening to different actions while requesting
+		 * mutual friends between the user and an owner of an offer
+		 * 
+		 * @author passant
+		 *
+		 */
+		class MutualFriendsCheckListener implements RequestListener{
+			
+			//_____________________ Constants ____________________________
+			
+			/**
+			 * Used for tracing purposes
+			 */
+			private final String METHOD_NAME = "filterOffersFromFriendsOfFriends(Hashtable<String,Object> offersFromUsers)";
+
+			//_____________________ Instance parameters __________________
+			
+			// List of result of owners in friends of the user
+			private Hashtable<String, JSONObject> ownersFromFriendsOfFriends = new Hashtable<String, JSONObject>();
+			// Current Owner ID to be checked for friendship status with user
+			private String currentOwnerFacebookId="";
+			
+			//_____________________ Different Actions _____________________
+			
+			public void onComplete(String response, Object state) {
+				
+				try {
+					JSONObject receivedDataOfMutualFriends = new JSONObject(response);
+					
+					if (receivedDataOfMutualFriends.length()>0){
+						ownersFromFriendsOfFriends.put(currentOwnerFacebookId, receivedDataOfMutualFriends);
+					}// end if : if owner is a friend of user's friend => FB returns mutual friends between both 
+				} catch (JSONException e) {
+					Log.e(TAG_CLASS_PACKAGE,METHOD_NAME+":onComplete: Exception in parsing received data");
+					e.printStackTrace();
+				}// end catch
+				
+			}// end onComplete
+
+			public void onIOException(IOException e, Object state) {
+				Log.e(TAG_CLASS_PACKAGE,METHOD_NAME+":onIOException");
+				e.printStackTrace();					
+			}// end onIOException
+			
+			public void onFileNotFoundException(FileNotFoundException e,Object state) {
+				Log.e(TAG_CLASS_PACKAGE,METHOD_NAME+":onFileNotFoundException");
+				e.printStackTrace();				
+			}// end onFileNotFoundException
+			
+			public void onMalformedURLException(MalformedURLException e,
+					Object state) {
+				Log.e(TAG_CLASS_PACKAGE,METHOD_NAME+":onMalformedURLException");
+				e.printStackTrace();				
+			}// end onMalformedURLException
+			
+			public void onFacebookError(FacebookError e, Object state) {
+				Log.e(TAG_CLASS_PACKAGE,METHOD_NAME+":onFacebookError");
+				e.printStackTrace();					
+			}// end onFacebookError	
+						
+		}// end class: MutualFriendsCheckListener	
+		
+		
+		// List of Facebook IDs of offer owners without duplicates
+		Set<String> ownersIds= offersFromUsers.keySet();
+		
+		// Get an iterator to loop the set of owners IDs for checking
+		Iterator<String> ownersIdsIterator = ownersIds.iterator();
+		
+		// Create new listener for friendship status
+		MutualFriendsCheckListener mutualFriendsCheckListener = new MutualFriendsCheckListener();
+		
+		while(ownersIdsIterator.hasNext()){
+			
+			// Current Owner ID to be checked for friendship status with user
+			mutualFriendsCheckListener.currentOwnerFacebookId= ownersIdsIterator.next();
+			// String representing relation evaluation request in Facebook graph API format (friends or not)
+			String userOwnerRelationRequest = "me/mutualfriends/"+mutualFriendsCheckListener.currentOwnerFacebookId;
+			// Issue an HTTP request to check if user has mutual friends with owner or not 
+			asyncFacebookRunner.request(userOwnerRelationRequest, mutualFriendsCheckListener);			
+		}// end while : check IDs of all offer owners		
+		
+		return mutualFriendsCheckListener.ownersFromFriendsOfFriends;
+	}// end filterOffersFromFriendsOfFriends
+	
+	
+	
+	
+	private void tester_filterOffersFromFriends(){
+		
+		// Input list: cannot make value = null -> exception
+		Hashtable<String, Object>offersFromUsers = new Hashtable<String, Object>();
+		offersFromUsers.put("32529", new Object()); // friend
+		offersFromUsers.put("48304588",new Object()); // friend
+		offersFromUsers.put("58215973",new Object()); // friend
+		offersFromUsers.put("1207059", new Object()); // non friend
+		
+		// Expected output : Arraylist having 32529 , 48304588 , 58215973
+		// STATUS : 
+		
+		/* Comments: */
+		
+		
+		// Execute method
+		ArrayList<String> friendsIds  = filterOffersFromFriends(offersFromUsers);
+		
+		// Display results
+		String friendsIdsForDisplay = "friends IDs retrieved: ";		
+		for (int i = 0 ; i < friendsIds.size() ; i++)
+			friendsIdsForDisplay += friendsIds.get(i) + " , ";
+		
+		Log.e(TAG_CLASS_PACKAGE, "tester_filterOffersFromFriends: " + friendsIdsForDisplay);
+		
+	}// end tester_filterOffersFromFriends
+	
+	
+	public void tester(){
+		
+		Hashtable<String, Object> x=null;
+		boolean hasKey = x.containsKey("gjgdgf");
+		boolean hasValue = x.containsValue("jhkjdf");
+		boolean has = x.contains(new Object());
+		
+	
+		
+		/*RequestListener reqList = new RequestListener() {
+			
+			public ArrayList<String> myArray = new ArrayList<String>();
+			
+			@Override
+			public void onMalformedURLException(MalformedURLException e, Object state) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void onIOException(IOException e, Object state) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void onFileNotFoundException(FileNotFoundException e, Object state) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void onFacebookError(FacebookError e, Object state) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void onComplete(String response, Object state) {
+				myArray.add("HelloWorld");
+				
+			}
+			
+			
+			public ArrayList<String> getMyArray(){
+				return myArray;
+			}
+		}; */
+		
+		class MyRequestListener implements RequestListener{
+
+			private ArrayList<String> myArray = new ArrayList<String>();
+			
+			public void onComplete(String response, Object state) {
+				myArray.add("HelloWorld");
+				
+			}
+
+			public void onIOException(IOException e, Object state) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			public void onFileNotFoundException(FileNotFoundException e,
+					Object state) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			public void onMalformedURLException(MalformedURLException e,
+					Object state) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			public void onFacebookError(FacebookError e, Object state) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		}
+		
+		MyRequestListener reqList = new MyRequestListener();
+		ArrayList<String> arr = reqList.myArray;
+		
+		
+		
+		
+	}// end tester
 
 }// end class
