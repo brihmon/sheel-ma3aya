@@ -25,23 +25,25 @@
     
     <TableRow>
     <TextView android:text="Source Airport :"/>
-    
-    <AutoCompleteTextView         
+     
+    </TableRow>
+     
+  
+           <AutoCompleteTextView         
     android:id="@+id/sAirport"        
     android:layout_width="fill_parent"        
     android:layout_height="wrap_content"     />   
-    <!--android:prompt="@string/airports2"  --> 
-     
-    </TableRow>
+  
+        
+   
     <TableRow>
     <TextView android:text="Destination Airport :"/>
-    <AutoCompleteTextView         
+    
+    </TableRow>
+       <AutoCompleteTextView         
     android:id="@+id/dAirport"        
     android:layout_width="fill_parent"        
     android:layout_height="wrap_content"   />     
-    <!-- android:prompt="@string/airports2"     -->
-    
-    </TableRow>
     
      <TableRow>
     <TextView android:text="Departure date :"/>
@@ -65,10 +67,14 @@
      
     
     </TableRow>
-   
+   <TableRow>
+    <Button android:text="back"
+     android:layout_marginTop="50px"
+     android:onClick="onClick_back"></Button>
     <Button android:text="Submit"
      android:layout_marginTop="50px"></Button>
-    
+    </TableRow>
+   
 
 
 
