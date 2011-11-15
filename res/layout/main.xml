@@ -36,6 +36,13 @@
   	android:layout_width="wrap_content" 
   	android:text="Logout facebook!"
   	android:onClick="onClick_goToFacebookToLogout">
+    </Button> 
+    
+    <Button 
+  	android:layout_height="wrap_content"
+  	android:layout_width="wrap_content" 
+  	android:text="View Search results!"
+  	android:onClick="onClick_goToSearchResults">
     </Button>      
     
     <Button 
