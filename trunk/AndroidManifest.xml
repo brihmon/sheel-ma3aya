@@ -30,6 +30,7 @@
           <activity android:name=".FilterPreferencesActivity"></activity>
            <activity android:name=".TakePhotoActivity"></activity>
              <activity android:name=".InsertOfferActivity"></activity>
+             <activity android:name=".ViewSearchResultsActivity"></activity>
           
 
          
