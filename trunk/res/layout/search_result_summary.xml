@@ -12,11 +12,12 @@
         android:layout_margin="5dp"
         android:layout_weight="0.25"
         android:text="Passant Akram El.Agroudy" />
-    <TextView
+	
+	<TextView
         android:id="@+id/summary_numberOfKilos"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:text="give 5 Kg" />
-
+	
 </LinearLayout>
