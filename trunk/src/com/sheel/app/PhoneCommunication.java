@@ -108,36 +108,32 @@ public class PhoneCommunication extends Activity {
 		 * Have a nice flight,
 		 * Sheel M3aya team
 		 */
-		
-		try {
+		String path = "/insertconfirmation/8/13/0";
+        SheelMaaayaClient sc = new SheelMaaayaClient() {
 			
-			Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);  
-			  
-//			String aEmailList[] = { "hossam.amer12@gmail.com","user2@fakehost.com" };  
-//			String aEmailCCList[] = { "user3@fakehost.com","user4@fakehost.com"};  
-//			String aEmailBCCList[] = { "user5@fakehost.com" };  
-			  
-			emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, "hossam.amer12@gmail.com");  
-//			emailIntent.putExtra(android.content.Intent.EXTRA_CC, aEmailCCList);  
-//			emailIntent.putExtra(android.content.Intent.EXTRA_BCC, aEmailBCCList);  
-			  
-//			emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "My subject");  
-			  
-//			emailIntent.setType("plain/text");  
-//			emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, "My message body.");  
-			startActivity(Intent.createChooser(emailIntent, "Send your email in:"));  
-  
-//			startActivity(emailIntent); 
-			
-		} catch (ActivityNotFoundException e) {
-			// TODO: handle exception
-			
-			Log.e("PhoneCommunication.java", "Email failed!", e);
-			Toast.makeText(getApplicationContext(), "E-mail application " +
-					"does not exist"
-					, Toast.LENGTH_SHORT).show();
-		}
-		
-	}
+			@Override
+			public void doSomething() {
+				final String str = this.rspStr;
+				 
+							 runOnUiThread(new Runnable()
+                             {
+  //                               @Override
+                                 public void run()
+                                 {
+                                     Toast.makeText(PhoneCommunication.this, str, Toast.LENGTH_LONG).show();
+                                     // Check the response string if success and ready
+                                     // Then you go and startActivity of send SMS
+//                                     startActivity(new Intent(PhoneCommunication.this, PhoneCommunication.class));
+
+                                 }
+                             });
+
+			}
+		};
+        
+        sc.runHttpRequest(path);
+        Toast.makeText(getApplicationContext(), "PH Activity" , Toast.LENGTH_SHORT).show();
+
+}
 	
 }//end class PhoneCommunication
