@@ -298,7 +298,49 @@ public class OfferDisplay {
 	public ArrayList<String> getFacebookExtraInfo() {
 		return facebookExtraInfo;
 	}// end getFacebookExtraInfo
+	
+	@Override
+	public String toString() {
+		String result =
+					"OfferDisplay:"+
+					" (ownerFbId= " +this.ownerFacebookId+")"+
+					" (offerId= "+ this.offerId + ")" +
+					" (ownerName= " + this.displayName + ")"+
+					" (Email: " + this.email + ")"+
+					" (Mobile: "+ this.mobile+ ")"+
+					" (WeightStatus: " + this.weightStatus+")"+
+					" (NumberOfKgs: " + this.numOfKgs+")"+
+					" (Price: " + this.price+")"+					
+					" (FbRelationWithUser: "+this.ownerFbStatus + ")"+
+					" \nFbExtraInfo: ";
+		
+		for (int i=0 ; i<this.facebookExtraInfo.size();i++){
+			result += this.facebookExtraInfo.get(i) + "  ";
+		}// end for 		
+		
+		return result;
+	}// end toString
 
+	/**
+	 * Checks if 2 <code>OfferDisplay</code> objects are 
+	 * equal or not. 2 objects are defined to be equal if
+	 * they have same offer id.
+	 */
+	@Override	
+	public boolean equals(Object o) {
+		
+		if (o.getClass() == OfferDisplay.class){
+			OfferDisplay castedO = (OfferDisplay)o;
+			
+			if ( this.offerId == castedO.offerId){
+				return true;
+			}// end if : same owner and offer and	
+			
+		}// end if: checked object is the same type
+
+		return false;
+	}// end equals
+	
 	/**
 	 * Helper method used to initialize different parameters
 	 * @param ownerId 
