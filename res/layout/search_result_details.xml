@@ -13,7 +13,7 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:content="@+id/content_slidingDrawer"
-            android:handle="@+id/button_slidingDrawer"                   
+            android:handle="@+id/button_slidingDrawer"                               
             >
 
             <Button
@@ -85,6 +85,14 @@
 
             </LinearLayout>
         </SlidingDrawer>
+
+        <ListView
+            android:id="@+id/listView_searchResults"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true" >
+        </ListView>
 
     </RelativeLayout>
 
