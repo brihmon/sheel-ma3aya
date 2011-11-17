@@ -655,10 +655,10 @@ public class FacebookWebservice {
 			}// end constructor
 			
 			@Override
-			public void processRequest(JSONObject receivedDataOfMutualFriends, Object state) {
-				//JSONObject receivedDataOfMutualFriends = extractDataJsonObject(parsedResponse);
-				if (receivedDataOfMutualFriends.length()>0){		
-				//if (receivedDataOfMutualFriends != null){	
+			public void processRequest(JSONObject parsedResponse, Object state) {
+				// get data relevant to mutual friends
+				JSONObject receivedDataOfMutualFriends = extractDataJsonObject(parsedResponse);
+				if (receivedDataOfMutualFriends != null){	
 					// Get owner ID currently checked for mutual friends
 					String ownerId = (String)state;
 					generateLogMessage(": onComplete: has mutual friends ownerId: " + ownerId);
@@ -784,17 +784,16 @@ public class FacebookWebservice {
 	private JSONObject extractDataJsonObject(JSONObject receviedResponse){
 		
 		// Get friend data	
-		JSONArray resposneData;
+		JSONArray responseData;
 		try {
-			resposneData = receviedResponse.getJSONArray("data");
-			
-			if (resposneData.length() > 0){
-				// If responseData -> array has one JSONObject entry
-				return resposneData.getJSONObject(0);
-			}
+			responseData = receviedResponse.getJSONArray("data");
+		
+			if (responseData.length() > 0){
+				return responseData.getJSONObject(0);				
+			}// end if: array has any data -> make it an object
 			else{
 				return null;
-			}
+			}// end else: no data was sent
 		} catch (JSONException e) {
 			Log.e(TAG_CLASS_PACKAGE,"extractDataJsonObject(JSONObject receviedResponse): error in JSON parsing");
 			e.printStackTrace();
