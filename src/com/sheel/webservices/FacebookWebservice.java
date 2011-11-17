@@ -18,6 +18,7 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -216,8 +217,7 @@ public class FacebookWebservice {
 		}
 		
 	}// end login
-	
-	
+		
 	public void logout(Activity parentActivity){
 		asyncFacebookRunner.logout(parentActivity.getApplicationContext(), new RequestListener(){
 
@@ -383,6 +383,45 @@ public class FacebookWebservice {
 		});
 	}// end getUserFriends
 	
+	public void login2(Activity parentActivity){
+				
+		class LoginListener implements DialogListener{
+			
+			public void onComplete(Bundle values) {
+				Log.e(TAG_CLASS_PACKAGE,"login2: onComplete: Login successful" );
+				Log.e(TAG_CLASS_PACKAGE,"login2: onComplete: Login data " + values );
+			}
+			
+			public void onCancel() {
+				// TODO Auto-generated method stub
+				
+			}
+
+			public void onError(DialogError e) {
+				// TODO Auto-generated method stub				
+			}
+			
+			public void onFacebookError(FacebookError e) {
+				// TODO Auto-generated method stub				
+			}
+			
+		}// end class
+		
+		if (!facebook.isSessionValid()){
+			
+			Log.e(TAG_CLASS_PACKAGE,"Login2: session expired");
+			
+			String[] permissions = new String[]{"email"};
+			
+			facebook.authorize(parentActivity, permissions, new LoginListener());
+			
+		}// end if : session is ended -> non access token -> request new one
+		else{
+			Log.e(TAG_CLASS_PACKAGE,"Login2: session active");
+		}// end else: session is valid -> access token is found -> retrieve and use
+	}// end login
+	
+	
 	/**
 	 * This method is filter offers coming from user's friends from a more
 	 * generic set of offers. This method assumes the list of user friends
@@ -428,8 +467,7 @@ public class FacebookWebservice {
 		
 		return ownersIdsFromFriends;
 	}// end filterOffersFromFriends
-	
-	
+		
 	/**
 	 * This method is filter offers coming from user's friends from a more
 	 * generic set of offers. This method will issue (N) HTTP requests for checking
@@ -523,8 +561,7 @@ public class FacebookWebservice {
 		
 		return friendshipStatusCheckListener.getFilteredOffers();
 	}// end filterOffersFromOwnersWithMutualFriends
-	
-	
+		
 	/**
 	 * This method is used to filter offers coming from offer owners with mutual 
 	 * friends with the app user from a more generic set of offers. This method
@@ -615,6 +652,21 @@ public class FacebookWebservice {
 		
 		return mutualFriendsCheckListener.getFilteredOffers();
 	}// end filterOffersFromOwnersWithMutualFriends2
+	
+	/**
+	 * IMPORTANT: This method must be invoked at the top of the calling
+     * activity's onActivityResult() function or Facebook authentication will
+     * not function properly! (FROMO FACEBOOK SDK)
+     * It must be called in (onActivityResult) method "overriden method
+     * in activity handling authentication
+     * 
+	 * @param requestCode
+	 * @param resultCode
+	 * @param data
+	 */
+	public void authorizeCallback(int requestCode, int resultCode, Intent data){
+		facebook.authorizeCallback(requestCode, resultCode, data);
+	}// end authorizeCallback
 	
 	/**
 	 * Used to filter all elements of <code>needsFiltering</code> from <code>main</code>
