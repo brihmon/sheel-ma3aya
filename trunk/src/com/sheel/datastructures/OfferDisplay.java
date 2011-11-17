@@ -294,6 +294,15 @@ public class OfferDisplay {
 		this.facebookExtraInfo =response;
 	}// end setFacebookExtraInfo
 	
+	/**
+	 * Used to define the facebook relation between app user and offer owner
+	 * 
+	 * @param status
+	 * 		one of the predefined statues
+	 */
+	public void setFacebookStatus(OwnerFacebookStatus status){
+		this.ownerFbStatus = status;
+	}// end setFacebookStatus
 	
 	@Override
 	public String toString() {
