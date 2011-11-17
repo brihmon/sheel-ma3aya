@@ -603,7 +603,6 @@ public class FacebookWebservice {
 		return friendshipStatusCheckListener.ownersIdsFromFriends;
 	}// end filterOffersFromFriends
 	
-
 	/**
 	 * This method is used to filter offers coming from offer owners with mutual 
 	 * friends with the app user from a more generic set of offers. This method
@@ -685,6 +684,28 @@ public class FacebookWebservice {
 		
 		return mutualFriendsCheckListener.getFilteredOffers();
 	}// end filterOffersFromOwnersWithMutualFriends2
+	
+	/**
+	 * Used to filter all elements of <code>needsFiltering</code> from <code>main</code>
+	 * @param main
+	 * 		Reference hashtable that will be kept as is
+	 * @param needsFiltering
+	 * 		Hashtable that will get filtered (elements existing in main will be removed)
+	 */
+	public static void removeDuplicates(Hashtable<String, OfferDisplay> main , Hashtable<String, OfferDisplay> needsFiltering){
+		
+		Iterator contentIt = main.keySet().iterator();
+		
+		while(contentIt.hasNext()){
+			String key = (String)contentIt.next();
+			
+			if (needsFiltering.containsKey(key)){
+				needsFiltering.remove(key);
+			}// end if : needsFiltering has duplicate from main -> remove
+			
+		}// end while: remove all elements in main from needsFiltering
+		
+	}// end removeDuplicates
 	
 	/**
 	 * Helper method for acquiring a semaphore with the try and 
@@ -853,7 +874,7 @@ public class FacebookWebservice {
 		offersFromUsers.put(usrId3, ofr3);
 		
 		// Expected output : Arraylist having ofr1 , ofr2 
-		// STATUS : PARTIAL SUCCESS
+		// STATUS : SUCCESSFUL
 		
 		/* Comments: CANNOT TEST ON YOUR OWN ACCOUNTS : user- dependent
 		 * 
@@ -861,7 +882,7 @@ public class FacebookWebservice {
 		 *  	1) Sync as result is returned before processing all
 		 *  	offers -> FIXED
 		 *  	2) Data should be extracted from response and not the whole
-		 *  	response including pagination
+		 *  	response including pagination -> FIXED
 		 *  	
 		 */
 		
@@ -875,6 +896,32 @@ public class FacebookWebservice {
 		
 	}// end tester_filterOffersFromOwnersWithMutualFriends
 	
+	public void tester_removeDuplicates(){
+		
+		// Input	
+		Hashtable<String, OfferDisplay> main = new Hashtable<String, OfferDisplay>();
+		main.put("1", new OfferDisplay());
+		main.put("2", new OfferDisplay());
+		
+		Hashtable<String, OfferDisplay> filter = new Hashtable<String, OfferDisplay>();
+		filter.put("1", new OfferDisplay());
+		filter.put("2", new OfferDisplay());
+		filter.put("3", new OfferDisplay("myOwner", "myOffer",OwnerFacebookStatus.FRIEND ));
+		
+		// Expected output : filter having only 1 element (last one) 
+				// STATUS : SUCCESS
+				
+				/* Comments:
+				 *  	
+				 */
+		
+		// call method
+		removeDuplicates(main, filter);
+		
+		for (int i=0 ; i<filter.size() ; i++)
+			System.out.println("Result: " + filter);
+		
+	}
 	public void tester(){
 		
 		Hashtable<String, Object> x=null;
