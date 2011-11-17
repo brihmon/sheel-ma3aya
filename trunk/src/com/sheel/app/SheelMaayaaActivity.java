@@ -33,14 +33,22 @@ public class SheelMaayaaActivity extends Activity {
 		 //Toast.makeText(getApplicationContext(), "Displaying contact info", Toast.LENGTH_SHORT).show();
 		 //FacebookWebservice fbService = new FacebookWebservice();
 		 // will automatically login and get the first set of info
+		 Log.e("passant","Login");
 		 fbService.login(this);
 	}	 
 	 
 	 public void onClick_goToFacebookToLogout (View v) 
 	 {
+		  Log.e("passant","Logout");
 		  fbService.logout(this);
 	 }	 
-	 	 
+	 
+	 public void onClick_doSocialSearch(View v){
+		 ViewSearchResultsActivity act = new ViewSearchResultsActivity();
+		 Log.e("Passant", "start testing search results");
+		 act.test_searchUsingFacebook();
+	 }
+	 
 	 public void onClick_goToSearchResults(View v){
 		 startActivity(new Intent(this, ViewSearchResultsActivity.class));
 	 }
