@@ -126,6 +126,19 @@ public class OfferDisplay {
 	}// end constructor
 	
 	/**
+	 * Constructor for creating object for testing
+	 * @param ownerId 
+	 * 		Owner facebook ID
+	 * @param offerId 
+	 * 		Offer ID in app database	 
+	 * @param displayName
+	 * 		name of offer owner
+	 */
+	public OfferDisplay(String ownerId , String offerId , String displayName){
+		initParameters(ownerId, offerId, displayName, "", "", OfferWeightStatus.UNDEFINED, -1, -1, OwnerFacebookStatus.UNRELATED);
+	}// end constructor
+	
+	/**
 	 * Default constructor for initializing the object. 
 	 * <ul>
 	 * 		<li>All int values are set to -1</li>
