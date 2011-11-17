@@ -46,7 +46,7 @@ public class OffersFilterListener implements RequestListener{
 	/**
 	 *  List of offers after filtering according to a certain condition
 	 */
-	private ArrayList<OfferDisplay> filteredOffers = new ArrayList<OfferDisplay>();
+	private Hashtable<String,OfferDisplay> filteredOffers = new Hashtable<String,OfferDisplay>();
 	
 	/**
 	 * Total number of offers that must be processed. It is used for scheduling
@@ -207,10 +207,16 @@ public class OffersFilterListener implements RequestListener{
 	 * @link {@link OffersFilterListener#processRequest(JSONObject, Object)}
 	 * 
 	 * @return
+	 * 		Hash table where:
+	 * 		<ul>
+	 * 			<li>the <code>key</code> is Facebook ID of requested offer owner</li>
+	 * 			<li>the <code>value</code> is hybrid object containing important data
+	 * 			about offer and user for displaying a search result</li>
+	 * 		</ul> 
 	 * 		If no offers are chosen due to filtering conditions, 
-	 * 		empty list is returned
+	 * 		empty hash table is returned.
 	 */
-	public ArrayList<OfferDisplay> getFilteredOffers(){
+	public Hashtable<String,OfferDisplay> getFilteredOffers(){
 		return this.filteredOffers;
 	}// end getFilteredOffers
 	
@@ -225,6 +231,18 @@ public class OffersFilterListener implements RequestListener{
 	public OfferDisplay getOfferDisplayBy(String ownerId){
 		return this.offersFromUsers.get(ownerId);
 	}// end getOfferDisplayBy
+	
+	/**
+	 * Used to add a filtered offer to the result. An offer
+	 * is mapped to its owner ID as its key and it automatically
+	 * retrieved from the full list of offers
+	 * 
+	 * @param ownerId
+	 * 		facebook ID of offer owner
+	 */
+	public void addFilteredOfferDisplay(String ownerId){
+		this.filteredOffers.put(ownerId, this.offersFromUsers.get(ownerId));
+	}// end addFilteredOffer
 	
 	/**
 	 * Used to generate log messages with default format
