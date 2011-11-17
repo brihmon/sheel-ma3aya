@@ -32,6 +32,7 @@ import com.sheel.app.SheelMaaayaClient;
 import com.sheel.datastructures.FacebookUser;
 import com.sheel.datastructures.OfferDisplay;
 import com.sheel.datastructures.enums.OwnerFacebookStatus;
+import com.sheel.listeners.OffersFilterListener;
 
 
 /**
@@ -620,9 +621,8 @@ public class FacebookWebservice {
 	 * 		List of search results having owners with common friends with app
 	 * 		user. If no owners with mutual friends were found, list is returned
 	 * 		empty.
-	 */
+	 */	
 	public ArrayList<OfferDisplay> filterOffersFromOwnersWithMutualFriends (Hashtable<String,OfferDisplay> offersFromUsers){
-		
 		
 		/**
 		 * Inner class for listening to different actions while requesting
@@ -631,156 +631,70 @@ public class FacebookWebservice {
 		 * @author passant
 		 *
 		 */
-		class MutualFriendsCheckListener implements RequestListener{
-					
-			//_____________________ Constants ____________________________
-			
-			/**
-			 * Used for tracing purposes
-			 */
-			private final String METHOD_NAME = "filterOffersFromOwnersWithMutualFriends(Hashtable<String,OfferDisplay> offersFromUsers)";
+		class MutualFriendsCheckListener extends OffersFilterListener{
 
-			//_____________________ Instance parameters __________________
-			
 			/**
-			 *  List of all available offers from different owners
-			 */
-			private Hashtable<String,OfferDisplay> offersFromUsers;
-			/**
-			 *  List of offers of owners in the app user facebook friends of friends 
-			 */
-			private ArrayList<OfferDisplay> ownersFromFriendsOfFriends = new ArrayList<OfferDisplay>();
-			
-			/**
-			 * Total number of offers that must be processed. It is used for scheduling
-			 * reasons to know when to allow return of result from the method
-			 */
-			private int totalNumberOfOffersRemaining =-1;
-			/**
-			 * Semaphore to indicate when to wake up the method thread and allow it 
-			 * to return results. It is used to prevent returning of uncompleted result
-			 * from the method because the thread executing the HTTP calls hasn't 
-			 * finished yet
-			 */
-			private final Semaphore waitForAllOffersProcessing = new Semaphore(0);
-			
-			//_____________________ Constructor ___________________________
-			
-			/**
-			 * Listener for getting the mutual friends between an offer owner and 
-			 * an app user 
-			 * 
+			 * Constructor
 			 * @param offersFromUsers
-			 * 		List of all available offers from different owners (one that includes
-			 * 		offer owner that is currently being evaluated).
+			 * 		Hash table where:
+			 * 		<ul>
+			 * 			<li>the <code>key</code> is Facebook ID of requested offer owner</li>
+			 * 			<li>the <code>value</code> is object representing offer</li>
+			 * 		</ul> 
+			 * @param classPackageName
+			 * 		class name (package name) where listener is called. It is used
+			 * 		for tracing purposes in the log messages	
+			 * @param methodName
+			 * 		method name where the listener is used. It is used
+			 * 		for tracing purposes in the log messages	 
 			 */
-			public MutualFriendsCheckListener(Hashtable<String,OfferDisplay> offersFromUsers) {
-				this.offersFromUsers = offersFromUsers;
-				this.totalNumberOfOffersRemaining = offersFromUsers.size();
-				Log.e(TAG_CLASS_PACKAGE,METHOD_NAME+" CONSTRUCTOR totalNumberOfOffersRemaining: " + this.totalNumberOfOffersRemaining);
+			public MutualFriendsCheckListener(Hashtable<String, OfferDisplay> offersFromUsers,
+					String classPackageName, String methodName) {
+				super(offersFromUsers, classPackageName, methodName);
+				
 			}// end constructor
 			
-					
-			//_____________________ Different Actions _____________________
-			
-			public void onComplete(String response, Object state) {
-				
-				try {
-					// Parse response 										
-					JSONObject receivedDataOfMutualFriends = new JSONObject(response);
-					
-					Log.e(TAG_CLASS_PACKAGE,METHOD_NAME+": onComplete:" + "Offer start to process ownrId: " + (String)state);
-					
-					if (receivedDataOfMutualFriends.length()>0){
-						
-						// Get owner ID currently checked for mutual friends
-						String ownerId = (String)state;
-						Log.e(TAG_CLASS_PACKAGE,METHOD_NAME+": onComplete:" + "has mutual friends ownerId: " + state);
-						// Get the OfferDisplay of that owner and save mutual friends
-						offersFromUsers.get(ownerId).setFacebookExtraInfo(receivedDataOfMutualFriends);
-						Log.e(TAG_CLASS_PACKAGE,METHOD_NAME+": onComplete:" + "Extra info set ");
-								
-					}// end if : if owner is a friend of user's friend => FB returns mutual friends between both
-					
-					/*
-					 * Location of variable is CRITICAL
-					 * It CANNOT be in the beginning of the onComplete because
-					 * the result might fight before all offers owners are 
-					 * processed.
-					 * CONSIDER the following sequence 2 offer owners should be evaluated: 
-					 * 		1) owner1 onComplete 1st line (counter --) 
-					 * 		2) owner2 onComplete 1st line (counter --) 
-					 * 		3) owner1 onComplete rest of method
-					 * 			if statement (counter ==0 ) -> true -> release
-					 * 			ALTHOUGH owner2 is NOT processed yet
-					 */
-					this.totalNumberOfOffersRemaining --;
-					Log.e(TAG_CLASS_PACKAGE,METHOD_NAME+" totalNumberOfOffersRemaining: " + this.totalNumberOfOffersRemaining);
-					
-					if (totalNumberOfOffersRemaining == 0){	
-						Log.e(TAG_CLASS_PACKAGE,METHOD_NAME+": onComplete:" + "Semaphore will be released ");
-						waitForAllOffersProcessing.release();						
-					}// end if : all offers are processed -> release semaphore to return result
-					
-				} catch (JSONException e) {
-					Log.e(TAG_CLASS_PACKAGE,METHOD_NAME+":onComplete: Exception in parsing received data to JSON object");
-					e.printStackTrace();
-				}// end catch
-				
-			}// end onComplete
-
-			public void onIOException(IOException e, Object state) {
-				Log.e(TAG_CLASS_PACKAGE,METHOD_NAME+":onIOException");
-				e.printStackTrace();					
-			}// end onIOException
-			
-			public void onFileNotFoundException(FileNotFoundException e,Object state) {
-				Log.e(TAG_CLASS_PACKAGE,METHOD_NAME+":onFileNotFoundException");
-				e.printStackTrace();				
-			}// end onFileNotFoundException
-			
-			public void onMalformedURLException(MalformedURLException e,
-					Object state) {
-				Log.e(TAG_CLASS_PACKAGE,METHOD_NAME+":onMalformedURLException");
-				e.printStackTrace();				
-			}// end onMalformedURLException
-			
-			public void onFacebookError(FacebookError e, Object state) {
-				Log.e(TAG_CLASS_PACKAGE,METHOD_NAME+":onFacebookError");
-				e.printStackTrace();					
-			}// end onFacebookError	
-						
-		}// end class: MutualFriendsCheckListener	
-				
-		// Get an iterator to loop the set of owners IDs for checking
-		Iterator<String> ownersIdsIterator = offersFromUsers.keySet().iterator();
+			@Override
+			public void processRequest(JSONObject receivedDataOfMutualFriends, Object state) {
+				//JSONObject receivedDataOfMutualFriends = extractDataJsonObject(parsedResponse);
+				if (receivedDataOfMutualFriends.length()>0){		
+				//if (receivedDataOfMutualFriends != null){	
+					// Get owner ID currently checked for mutual friends
+					String ownerId = (String)state;
+					generateLogMessage(": onComplete: has mutual friends ownerId: " + ownerId);
+					// Get the OfferDisplay of that owner and save mutual friends
+					getOfferDisplayBy(ownerId).setFacebookExtraInfo(receivedDataOfMutualFriends);
+					generateLogMessage(": onComplete: Extra info set for ownerId " + ownerId);		
+				}// end if : if owner and user have common friends => FB returns mutual friends between both
+			}// end processRequest			
+		}// end class
+		
+		// Used for tracing purposes
+		String methodName = "filterOffersFromOwnersWithMutualFriends (Hashtable<String,OfferDisplay> offersFromUsers)";
 		
 		// Create new listener for friends of friends status
-		MutualFriendsCheckListener mutualFriendsCheckListener = new MutualFriendsCheckListener(offersFromUsers);
-		
-		while(ownersIdsIterator.hasNext()){
+		MutualFriendsCheckListener mutualFriendsCheckListener = new MutualFriendsCheckListener(offersFromUsers,TAG_CLASS_PACKAGE,methodName);
 			
-			// Get owner ID
-			String currentOwnerFacebookId = ownersIdsIterator.next();
-			
-			/* Issue an HTTP request to check if an offer owner and app user have
-			 * mutual friends
-			 * The request format to the graph API of facebook is : <me/mutualfriends/friendId>
-			 * where:
-			 * 		me= fixed keyword representing signed-in user
-			 * 		friendId= facebook ID of offer owner to be checked
-			 * The only permissions needed for operation to be performed is <access_token>
-			 * to be granted
-			 * 
-			 * State is set to be the offer owner ID to be accessible on receiving a response
-			 */
-			asyncFacebookRunner.request("me/mutualfriends/"+currentOwnerFacebookId, mutualFriendsCheckListener, currentOwnerFacebookId);
-			Log.e(TAG_CLASS_PACKAGE,mutualFriendsCheckListener.METHOD_NAME+": request sent ownerId:" + currentOwnerFacebookId + " number of available permits: " + mutualFriendsCheckListener.waitForAllOffersProcessing.availablePermits());
+		/* Send HTTP request. Graph API path: me/mutualfriends/friendId.  
+		 * The only permissions needed for operation to be performed is <access_token>
+		 * to be granted 
+		 */
+		requestOfferFilteringByRelationBetweenAppUserAnd(offersFromUsers, "mutualfriends", mutualFriendsCheckListener, true);
 		
-		}// end while : check IDs of all offer owners
+		blockThreadUntilAllOffersAreProcessed(mutualFriendsCheckListener.getSemaphore());
 		
+		return mutualFriendsCheckListener.getFilteredOffers();
+	}// end filterOffersFromOwnersWithMutualFriends2
+	
+	/**
+	 * Helper method for acquiring a semaphore with the try and 
+	 * catch needed for handling exceptions
+	 * 
+	 * @param s
+	 * 	Semaphore that will trying acquiring a permit
+	 */
+	private void blockThreadUntilAllOffersAreProcessed(Semaphore s){
 		try {
-			
 			/* Since no permits are available -> thread will sleep till .release() is called
 			 * .release() won't be called until all offers are processed 
 			 * (look at onComplete method in the inner class)
@@ -788,19 +702,111 @@ public class FacebookWebservice {
 			 * This is done to allow parallel processing of results but force sequential order
 			 * for result returning
 			 */
-			mutualFriendsCheckListener.waitForAllOffersProcessing.acquire();
+			s.acquire();
 		} catch (InterruptedException e) {
-			Log.e(TAG_CLASS_PACKAGE,"filterOffersFromOwnersWithMutualFriends (Hashtable<String,OfferDisplay> offersFromUsers): semaphore was interrupted");
+			Log.e(TAG_CLASS_PACKAGE,"blockThreadUntilAllOffersAreProcessed: semaphore was interrupted");
 			e.printStackTrace();
-		}// end catch: in case of interruptions to the thread	
-			
-		// return result
-		return mutualFriendsCheckListener.ownersFromFriendsOfFriends;
+		}// end catch
+	}// end blockThreadUntilAllOffersAreProcessed
 	
-	}// end filterOffersFromFriendsOfFriends
+	/**
+	 * Helper method used as to perform the same connection status 
+	 * request between the app user and set of owners for offers
+	 * to filter them. The method does the REQUEST part only, while
+	 * the listener does the FILTERING PART
+	 * 
+	  * @param offersFromUsers
+	 * 		Hash table where:
+	 * 			<ul>
+	 * 				<li>the <code>key</code> is Facebook ID of offer owner</li>
+	 * 				<li>the <code>value</code> is object representing offer 
+	 * 				and user details needed to display a search result</li>
+	 * 			</ul> 
+	 * @param filterName
+	 * 		Name of connection that will be used as the path in the
+	 * 		graph API. 
+	 * 		<br><br>The format is:<code>me/FILTER_NAME/ownerFbId</code>,
+	 *  	where:
+	 * 		me= fixed keyword representing signed-in user
+	 * 		friendId= facebook ID of offer owner to be checked
+	 * 		<br><br>Available options are: 
+	 * 		<code>friends</code>,<code>mutualfriends</code><br><br>
+	 * @param listener
+	 * 		Listener that handles the results upon receiving them from 
+	 * 		the facebook server. It should contain all the filtering logic
+	 * @param isSendOwnerIdInState
+	 * 			<ul>
+	 * 				<li><code>True</code>: send owner ID in the state variable
+	 * 				to be accessible on receiving a response</li>
+	 * 				<li><code>False</code>: leave state variable null</li>
+	 * 			</ul> 
+	 */
+	private void requestOfferFilteringByRelationBetweenAppUserAnd(
+			Hashtable<String, OfferDisplay> offersFromUsers, 
+			String filterName, OffersFilterListener listener,
+			boolean isSendOwnerIdInState){
+		
+		// Get an iterator to loop the set of owners IDs for checking
+		Iterator<String> ownersIdsIterator = offersFromUsers.keySet().iterator();
+	
+		while(ownersIdsIterator.hasNext()){
+			
+			// Get owner ID
+			String currentOwnerFacebookId = ownersIdsIterator.next();
+			
+			/* Issue an HTTP request to check if an offer owner and app user have
+			 * a certain relation/connection			 
+			 */
+			if (isSendOwnerIdInState){
+				asyncFacebookRunner.request("me/"+filterName+ "/"+currentOwnerFacebookId, listener, currentOwnerFacebookId);
+			}// end if: send ownerID in state
+			else{
+				asyncFacebookRunner.request("me/"+filterName+ "/"+currentOwnerFacebookId, listener);
+			}// end if: leave state null
+			
+		}// end while : check IDs of all offer owners
+	}// end requestOfferFilteringByRelationBetweenAppUserAnd
+	
+	/**
+	 * Helper method used to parse some responses from facebook server.
+	 * Some responses are formatted as 2 arrays: one containing data and 
+	 * another containing pagination information. The method extracts the
+	 * data part and returns it as a JSONObject
+	 * 
+	 * @param receviedResponse
+	 * 		the response received from the facebook server, parsed to
+	 * 		a JSONObject
+	 * 
+	 * @return
+	 * 		data object. If not found (no data was transfered) or 
+	 * 		in case of exceptions, it will return null
+	 */
+	private JSONObject extractDataJsonObject(JSONObject receviedResponse){
+		
+		// Get friend data	
+		JSONArray resposneData;
+		try {
+			resposneData = receviedResponse.getJSONArray("data");
+			
+			if (resposneData.length() > 0){
+				// If responseData -> array has one JSONObject entry
+				return resposneData.getJSONObject(0);
+			}
+			else{
+				return null;
+			}
+		} catch (JSONException e) {
+			Log.e(TAG_CLASS_PACKAGE,"extractDataJsonObject(JSONObject receviedResponse): error in JSON parsing");
+			e.printStackTrace();
+			return null;
+		}// end catch
+				
+	}// end extractDataJsonObject
+	// ________________________________TESTING METHODS________________
 	
 	private void methodTester(){
-		tester_filterOffersFromFriends();
+		//tester_filterOffersFromFriends();
+		tester_filterOffersFromOwnersWithMutualFriends();
 	}
 	
 	private void tester_filterOffersFromFriends(){
@@ -976,4 +982,6 @@ public class FacebookWebservice {
 		c.runHttpRequest("path");
 	}// end tester2
 
+	
+	
 }// end class
