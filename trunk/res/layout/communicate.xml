@@ -104,5 +104,16 @@
             android:onClick="onClick_send_email"/>
     </TableRow>  
          
-           
+         <TableRow>
+
+          <TextView
+            android:text="Please do not confirm the offer unless you are sure that it is the one!"
+        	android:drawableLeft="@drawable/warning_sign"
+            android:layout_width="wrap_content" 
+            android:layout_height="wrap_content"
+            android:textSize="15dp" 
+            android:layout_span="3"
+            android:padding="10dip" 
+            android:textColor="#ff0000"/>
+    </TableRow>  
 </TableLayout>
