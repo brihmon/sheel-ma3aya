@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.sheel.datastructures.enums.OfferWeightStatus;
+import com.sheel.datastructures.enums.OwnerFacebookStatus;
+
 import android.util.Log;
 
 /**
@@ -15,62 +18,8 @@ import android.util.Log;
  * @author passant
  *
  */
-public class OfferDisplay {
+public class OfferDisplay {	
 	
-	/**
-	 * Enumeration representing possible weight statuses of 
-	 * luggage in an offer
-	 * 
-	 * @author passant
-	 *
-	 */
-	enum OfferWeightStatus{
-		/**
-		 * Offer owner has less weight, i.e. searching for people
-		 * to give him/her luggage
-		 */
-		LESS,
-		/**
-		 * Offer owner has more weight, i.e. searching for people
-		 * to take from him/her luggage
-		 */
-		MORE,
-		/**
-		 * Initial status of an offer before being defined
-		 */
-		UNDEFINED
-	}// end enum
-	
-	/**
-	 * Enumeration representing possible relationships
-	 * between app user and an offer owner
-	 * 
-	 * @author passant
-	 *
-	 */
-	enum OwnerFacebookStatus{
-		/**
-		 * App user and offer owner are friends
-		 */
-		FRIEND,
-		/**
-		 * Offer owner is a friend of friend for the 
-		 * app user (they have mutual friends but are
-		 * not directly related)
-		 */
-		FRIEND_OF_FRIEND,
-		/**
-		 * App user and offer owner are not directly
-		 * friends or related through friends but have 
-		 * common networks
-		 */
-		COMMON_NETWORKS,
-		/**
-		 * App user and offer owner are not related in 
-		 * any possible way
-		 */
-		UNRELATED
-	}// end enum
 	
 	/**
 	 * Constant used for tracing purposes "class name (package name)"
@@ -116,17 +65,20 @@ public class OfferDisplay {
 	 * Relation between App user and offer owner
 	 */
 	private OwnerFacebookStatus ownerFbStatus = OwnerFacebookStatus.UNRELATED;
+		
 	/**
 	 * Holds extra information about facebook relation depending on the 
-	 * relation itself (value of <code>ownerFbStatus</code>).
+	 * relation itself (value of <code>ownerFbStatus</code>). It is the 
+	 * parsing of the facebook response to mutual friends request to a
+	 * JSON object indexed by different available keys
 	 * <ul>
-	 * 		<li><code>{@link OwnerFacebookStatus#FRIEND}</code> : list is empty</li>
-	 * 		<li><code>{@link OwnerFacebookStatus#FRIEND_OF_FRIEND}</code> : list has names of mutual friends</li>
-	 *  	<li><code>{@link OwnerFacebookStatus#COMMON_NETWORKS}</code> : list has names of networks</li>
-	 *   	<li><code>{@link OwnerFacebookStatus#UNRELATED}</code> : list is empty</li>
+	 * 		<li><code>{@link OwnerFacebookStatus#FRIEND}</code> : object is empty </li>
+	 * 		<li><code>{@link OwnerFacebookStatus#FRIEND_OF_FRIEND}</code> : object has names and IDs of mutual friends</li>
+	 *  	<li><code>{@link OwnerFacebookStatus#COMMON_NETWORKS}</code> : object has names and IDs of networks</li>
+	 *   	<li><code>{@link OwnerFacebookStatus#UNRELATED}</code> : object is empty</li>
 	 * </ul>
 	 */
-	ArrayList<String> facebookExtraInfo= new ArrayList<String>();
+	JSONObject facebookExtraInfo = null;
 	
 	
 	/**
@@ -158,6 +110,19 @@ public class OfferDisplay {
 		
 		initParameters(ownerId, offerId, displayName, email, mobile, weightS, numKg, price, facebookS);
 		
+	}// end constructor
+	
+	/**
+	 * Constructor for creating object for testing
+	 * @param ownerId 
+	 * 		Owner facebook ID
+	 * @param offerId 
+	 * 		Offer ID in app database	 
+	 * @param facebookS
+	 * 		Relation between App user and offer owner
+	 */
+	public OfferDisplay(String ownerId , String offerId, OwnerFacebookStatus facebookS){
+		initParameters(ownerId, offerId, "", "", "", OfferWeightStatus.LESS, -1, -1, facebookS);
 	}// end constructor
 	
 	/**
@@ -288,16 +253,47 @@ public class OfferDisplay {
 	 * 	
 	 * @return 
 	 * 		If relation is:
-	 *  	<ul>
-	 * 			<li><code>{@link OwnerFacebookStatus#FRIEND}</code> : list is empty</li>
+	 * 		<ul>
+	 * 			<li><code>{@link OwnerFacebookStatus#FRIEND}</code> : object is empty </li>
+	 * 			<li><code>{@link OwnerFacebookStatus#FRIEND_OF_FRIEND}</code> : object has names and IDs of mutual friends</li>
+	 *  		<li><code>{@link OwnerFacebookStatus#COMMON_NETWORKS}</code> : object has names and IDs of common networks</li>
+	 *   		<li><code>{@link OwnerFacebookStatus#UNRELATED}</code> : object is empty</li>
+	 * 		</ul>
+	 */
+	public JSONObject getFacebookExtraInfo() {
+		return facebookExtraInfo;
+	}// end getFacebookExtraInfo	
+	
+	/**
+	 * Formats the extra info received from @link {@link OfferDisplay#getFacebookExtraInfo()} 
+	 * to a more understandable list
+	 * 
+	 * @return
+	 * 		If relation is:
+	 * 		<ul>
+	 * 			<li><code>{@link OwnerFacebookStatus#FRIEND}</code> : list is empty </li>
 	 * 			<li><code>{@link OwnerFacebookStatus#FRIEND_OF_FRIEND}</code> : list has names of mutual friends</li>
-	 *  		<li><code>{@link OwnerFacebookStatus#COMMON_NETWORKS}</code> : list has names of networks</li>
+	 *  		<li><code>{@link OwnerFacebookStatus#COMMON_NETWORKS}</code> : list has names of common networks</li>
 	 *   		<li><code>{@link OwnerFacebookStatus#UNRELATED}</code> : list is empty</li>
 	 * 		</ul>
 	 */
-	public ArrayList<String> getFacebookExtraInfo() {
-		return facebookExtraInfo;
-	}// end getFacebookExtraInfo
+	public ArrayList<String> parseFacebookExtraInfo(){
+		// TODO implement later
+		return null;		
+	}// end parseFacebookExtraInfo
+	
+	/**
+	 * Holds extra information about facebook relation depending on the 
+	 * relation itself (value of <code>ownerFbStatus</code>). 
+	 * See @link {@link OfferDisplay#getFacebookExtraInfo()}
+	 * 
+	 * @param response
+	 * 		response received from the facebook database on a certain request.
+	 */
+	public void setFacebookExtraInfo(JSONObject response){
+		this.facebookExtraInfo =response;
+	}// end setFacebookExtraInfo
+	
 	
 	@Override
 	public String toString() {
@@ -312,11 +308,16 @@ public class OfferDisplay {
 					" (NumberOfKgs: " + this.numOfKgs+")"+
 					" (Price: " + this.price+")"+					
 					" (FbRelationWithUser: "+this.ownerFbStatus + ")"+
-					" \nFbExtraInfo: ";
-		
-		for (int i=0 ; i<this.facebookExtraInfo.size();i++){
+					" \n(FbExtraInfo: ";
+		if (this.facebookExtraInfo != null)
+			//result += this.facebookExtraInfo.toString()+")";
+			result+= "There is extra info";
+		else
+			result += "No extra info available)";
+		// TODO print the extra facebook properties
+		/*for (int i=0 ; i<this.facebookExtraInfo.size();i++){
 			result += this.facebookExtraInfo.get(i) + "  ";
-		}// end for 		
+		}// end for 	*/	
 		
 		return result;
 	}// end toString
