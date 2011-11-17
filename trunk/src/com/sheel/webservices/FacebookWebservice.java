@@ -133,7 +133,7 @@ public class FacebookWebservice {
 		 * ##########################################################
 		 */
 		
-		// Get the shared preferences of the user from the activity
+	/*	// Get the shared preferences of the user from the activity
 		sharedPreferences = parentActivity.getPreferences(Context.MODE_PRIVATE);
 
 		Log.e(TAG_CLASS_PACKAGE, "login: sharedPreferences: " + sharedPreferences);
@@ -155,7 +155,7 @@ public class FacebookWebservice {
 		}// end if : user already logged in -> pass token + expiry
 		
 		
-		sharedPreferences = parentActivity.getPreferences(Context.MODE_PRIVATE);
+		sharedPreferences = parentActivity.getPreferences(Context.MODE_PRIVATE); */
 		
 		/*
 		 * ##############################################################
@@ -186,11 +186,11 @@ public class FacebookWebservice {
 					 * session
 					 */
 					
-					SharedPreferences.Editor editor = sharedPreferences.edit();
+				/*	SharedPreferences.Editor editor = sharedPreferences.edit();
 					editor.putString(SP_ACCESS_TOKEN, facebook.getAccessToken());
 					editor.putLong(SP_ACCESS_TOKEN_EXPIRY,
 							facebook.getAccessExpires());
-					editor.commit();
+					editor.commit();*/
 					getUserInfoForApp();
 
 					methodTester();
@@ -738,6 +738,7 @@ public class FacebookWebservice {
 		// Get friend data	
 		JSONArray responseData;
 		try {
+			Log.e("passant", "extractDataJsonObject receivedResponse: " + receviedResponse);
 			responseData = receviedResponse.getJSONArray("data");
 		
 			if (responseData.length() > 0){
