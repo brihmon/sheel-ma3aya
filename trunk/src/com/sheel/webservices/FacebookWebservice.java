@@ -450,7 +450,9 @@ public class FacebookWebservice {
 	 * 			<ul>
 	 * 				<li>the <code>key</code> is Facebook ID of offer owner</li>
 	 * 				<li>the <code>value</code> is object representing offer 
-	 * 				and user details needed to display a search result</li>
+	 * 				and user details needed to display a search result. By default
+	 * 				it will check its facebook status to
+	 * 				@link {@link OwnerFacebookStatus#FRIEND}</li>
 	 * 			</ul> 
 	 */
 	public Hashtable<String,OfferDisplay>  filterOffersFromFriends(Hashtable<String,OfferDisplay> offersFromUsers){
@@ -494,7 +496,7 @@ public class FacebookWebservice {
 						// Get owner facebook ID currently checked if a friend or not
 						String ownerId = receivedDataOfFriend.getString("id");
 						// Get the OfferDisplay of that owner and save in result
-						addFilteredOfferDisplay(ownerId);
+						addFilteredOfferDisplay(ownerId,OwnerFacebookStatus.FRIEND);
 						generateLogMessage(": processRequest: New offer from friend added ->ownerID:" + ownerId);
 					}catch(JSONException e){
 						generateLogMessage("processRequest: Error: could not get id ");
@@ -544,7 +546,9 @@ public class FacebookWebservice {
 	 * 			<ul>
 	 * 				<li>the <code>key</code> is Facebook ID of offer owner</li>
 	 * 				<li>the <code>value</code> is object representing offer 
-	 * 				and user details needed to display a search result</li>
+	 * 				and user details needed to display a search result. By default
+	 * 				it will check its facebook status to
+	 * 				@link {@link OwnerFacebookStatus#FRIEND_OF_FRIEND}</li>
 	 * 			</ul> 
 	 */	
 	public Hashtable<String,OfferDisplay>  filterOffersFromOwnersWithMutualFriends (Hashtable<String,OfferDisplay> offersFromUsers){
@@ -589,7 +593,7 @@ public class FacebookWebservice {
 					generateLogMessage(": onComplete: has mutual friends ownerId: " + ownerId);
 					// Get the OfferDisplay of that owner and save mutual friends
 					getOfferDisplayBy(ownerId).setFacebookExtraInfo(receivedDataOfMutualFriends);
-					addFilteredOfferDisplay(ownerId);
+					addFilteredOfferDisplay(ownerId,OwnerFacebookStatus.FRIEND_OF_FRIEND);
 					generateLogMessage(": onComplete: Extra info set for ownerId " + ownerId);		
 				}// end if : if owner and user have common friends => FB returns mutual friends between both
 			}// end processRequest			
