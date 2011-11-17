@@ -3,6 +3,7 @@ package com.sheel.webservices;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.security.acl.Owner;
 import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.Hashtable;
@@ -29,6 +30,9 @@ import com.facebook.android.Facebook.DialogListener;
 import com.facebook.android.FacebookError;
 import com.sheel.app.SheelMaaayaClient;
 import com.sheel.datastructures.FacebookUser;
+import com.sheel.datastructures.OfferDisplay;
+import com.sheel.datastructures.enums.OwnerFacebookStatus;
+
 
 /**
  * This class is used as a web service to interact with facebook for requests
@@ -186,7 +190,8 @@ public class FacebookWebservice {
 					editor.commit();
 					getUserInfoForApp();
 					
-					tester_filterOffersFromFriends();
+					//tester_filterOffersFromFriends();
+					tester_filterOffersFromOwnersWithMutualFriends();
 				}// end onComplete:
 
 				public void onFacebookError(FacebookError error) {
@@ -608,7 +613,7 @@ public class FacebookWebservice {
 	 * 		offers (in the input hash table for example) and retrieve them for
 	 * 		displaying.
 	 */
-	public Hashtable<String, JSONObject> filterOffersFromFriendsOfFriends(Hashtable<String,Object> offersFromUsers){
+	public Hashtable<String, JSONObject> filterOffersFromFriendsOfFriends2(Hashtable<String,OfferDisplay> offersFromUsers){
 			
 		/**
 		 * Inner class for listening to different actions while requesting
@@ -690,10 +695,178 @@ public class FacebookWebservice {
 			// String representing relation evaluation request in Facebook graph API format (friends or not)
 			String userOwnerRelationRequest = "me/mutualfriends/"+mutualFriendsCheckListener.currentOwnerFacebookId;
 			// Issue an HTTP request to check if user has mutual friends with owner or not 
-			asyncFacebookRunner.request(userOwnerRelationRequest, mutualFriendsCheckListener);			
+			asyncFacebookRunner.request(userOwnerRelationRequest, mutualFriendsCheckListener);
+			
 		}// end while : check IDs of all offer owners		
 		
 		return mutualFriendsCheckListener.ownersFromFriendsOfFriends;
+	}// end filterOffersFromFriendsOfFriends
+	
+	
+	public ArrayList<OfferDisplay> filterOffersFromOwnersWithMutualFriends (Hashtable<String,OfferDisplay> offersFromUsers){
+		
+		
+		/**
+		 * Inner class for listening to different actions while requesting
+		 * mutual friends between the user and an owner of an offer
+		 * 
+		 * @author passant
+		 *
+		 */
+		class MutualFriendsCheckListener implements RequestListener{
+					
+			//_____________________ Constants ____________________________
+			
+			/**
+			 * Used for tracing purposes
+			 */
+			private final String METHOD_NAME = "filterOffersFromFriendsOfFriends(Hashtable<String,OfferDisplay> offersFromUsers)";
+
+			//_____________________ Instance parameters __________________
+			
+			/**
+			 *  List of all available offers from different owners
+			 */
+			private Hashtable<String,OfferDisplay> offersFromUsers;
+			/**
+			 *  List of offers of owners in the app user facebook friends of friends 
+			 */
+			private ArrayList<OfferDisplay> ownersFromFriendsOfFriends = new ArrayList<OfferDisplay>();
+			
+			/**
+			 * Total number of offers that must be processed. It is used for scheduling
+			 * reasons to know when to allow return of result from the method
+			 */
+			private int totalNumberOfOffersRemaining =-1;
+			/**
+			 * Semaphore to indicate when to wake up the method thread and allow it 
+			 * to return results. It is used to prevent returning of uncompleted result
+			 * from the method because the thread executing the HTTP calls hasn't 
+			 * finished yet
+			 */
+			private final Semaphore waitForAllOffersProcessing = new Semaphore(0);
+			
+			//_____________________ Constructor ___________________________
+			
+			/**
+			 * Listener for getting the mutual friends between an offer owner and 
+			 * an app user 
+			 * 
+			 * @param offersFromUsers
+			 * 		List of all available offers from different owners (one that includes
+			 * 		offer owner that is currently being evaluated).
+			 */
+			public MutualFriendsCheckListener(Hashtable<String,OfferDisplay> offersFromUsers) {
+				this.offersFromUsers = offersFromUsers;
+				this.totalNumberOfOffersRemaining = offersFromUsers.size();
+				Log.e(TAG_CLASS_PACKAGE,METHOD_NAME+" CONSTRUCTOR totalNumberOfOffersRemaining: " + this.totalNumberOfOffersRemaining);
+			}// end constructor
+			
+					
+			//_____________________ Different Actions _____________________
+			
+			public void onComplete(String response, Object state) {
+				
+				try {
+															
+					JSONObject receivedDataOfMutualFriends = new JSONObject(response);
+					
+					Log.e(TAG_CLASS_PACKAGE,METHOD_NAME+": onComplete:" + "Offer start to process ownrId: " + (String)state);
+					
+					if (receivedDataOfMutualFriends.length()>0){
+						
+						// Get owner ID currently checked for mutual friends
+						String ownerId = (String)state;
+						Log.e(TAG_CLASS_PACKAGE,METHOD_NAME+": onComplete:" + "has mutual friends ownerId: " + state);
+						// Get the OfferDisplay of that owner and save mutual friends
+						offersFromUsers.get(ownerId).setFacebookExtraInfo(receivedDataOfMutualFriends);
+						Log.e(TAG_CLASS_PACKAGE,METHOD_NAME+": onComplete:" + "Extra info set ");
+								
+					}// end if : if owner is a friend of user's friend => FB returns mutual friends between both
+					
+					this.totalNumberOfOffersRemaining --;
+					Log.e(TAG_CLASS_PACKAGE,METHOD_NAME+" totalNumberOfOffersRemaining: " + this.totalNumberOfOffersRemaining);
+					
+					if (totalNumberOfOffersRemaining == 0){	
+						Log.e(TAG_CLASS_PACKAGE,METHOD_NAME+": onComplete:" + "Semaphore will be released ");
+						waitForAllOffersProcessing.release();						
+					}// end if : all offers are processed -> release semaphore to return result
+					
+				} catch (JSONException e) {
+					Log.e(TAG_CLASS_PACKAGE,METHOD_NAME+":onComplete: Exception in parsing received data to JSON object");
+					e.printStackTrace();
+				}// end catch
+				
+			}// end onComplete
+
+			public void onIOException(IOException e, Object state) {
+				Log.e(TAG_CLASS_PACKAGE,METHOD_NAME+":onIOException");
+				e.printStackTrace();					
+			}// end onIOException
+			
+			public void onFileNotFoundException(FileNotFoundException e,Object state) {
+				Log.e(TAG_CLASS_PACKAGE,METHOD_NAME+":onFileNotFoundException");
+				e.printStackTrace();				
+			}// end onFileNotFoundException
+			
+			public void onMalformedURLException(MalformedURLException e,
+					Object state) {
+				Log.e(TAG_CLASS_PACKAGE,METHOD_NAME+":onMalformedURLException");
+				e.printStackTrace();				
+			}// end onMalformedURLException
+			
+			public void onFacebookError(FacebookError e, Object state) {
+				Log.e(TAG_CLASS_PACKAGE,METHOD_NAME+":onFacebookError");
+				e.printStackTrace();					
+			}// end onFacebookError	
+						
+		}// end class: MutualFriendsCheckListener	
+				
+		// Get an iterator to loop the set of owners IDs for checking
+		Iterator<String> ownersIdsIterator = offersFromUsers.keySet().iterator();
+		
+		// Create new listener for friends of friends status
+		MutualFriendsCheckListener mutualFriendsCheckListener = new MutualFriendsCheckListener(offersFromUsers);
+		
+		while(ownersIdsIterator.hasNext()){
+			
+			// Get owner ID
+			String currentOwnerFacebookId = ownersIdsIterator.next();
+			
+			/* Issue an HTTP request to check if an offer owner and app user have
+			 * mutual friends
+			 * The request format to the graph API of facebook is : <me/mutualfriends/friendId>
+			 * where:
+			 * 		me= fixed keyword representing signed-in user
+			 * 		friendId= facebook ID of offer owner to be checked
+			 * The only permissions needed for operation to be performed is <access_token>
+			 * to be granted
+			 * 
+			 * State is set to be the offer owner ID to be accessible on receiving a response
+			 */
+			asyncFacebookRunner.request("me/mutualfriends/"+currentOwnerFacebookId, mutualFriendsCheckListener, currentOwnerFacebookId);
+			
+			Log.e(TAG_CLASS_PACKAGE,mutualFriendsCheckListener.METHOD_NAME+": request sent ownerId:" + currentOwnerFacebookId);
+		}// end while : check IDs of all offer owners
+		
+		try {
+			
+			/* Since no permits are available -> thread will sleep till .release() is called
+			 * .release() won't be called until all offers are processed 
+			 * (look at onComplete method in the inner class)
+			 * 
+			 * This is done to allow parallel processing of results but force sequential order
+			 * for result returning
+			 */
+			mutualFriendsCheckListener.waitForAllOffersProcessing.acquire();
+		} catch (InterruptedException e) {
+			Log.e(TAG_CLASS_PACKAGE,"filterOffersFromOwnersWithMutualFriends (Hashtable<String,OfferDisplay> offersFromUsers): semaphore was interrupted");
+			e.printStackTrace();
+		}// end catch: in case of interruptions to the thread	
+			
+		// return result
+		return mutualFriendsCheckListener.ownersFromFriendsOfFriends;
+	
 	}// end filterOffersFromFriendsOfFriends
 	
 	
@@ -724,6 +897,30 @@ public class FacebookWebservice {
 		
 	}// end tester_filterOffersFromFriends
 	
+	private void tester_filterOffersFromOwnersWithMutualFriends(){
+		
+		OwnerFacebookStatus fbStatus = OwnerFacebookStatus.FRIEND_OF_FRIEND;
+		String usrId1 = "32529"; 	// will have mutual friends
+		String usrId2 = "48304588";	// will have mutual friends
+		String usrId3 = "1207059";	// no mutual friends
+		
+		OfferDisplay ofr1 = new OfferDisplay(usrId1,"1",fbStatus);
+		OfferDisplay ofr2 = new OfferDisplay(usrId2,"2",fbStatus);
+		OfferDisplay ofr3 = new OfferDisplay(usrId1,"3",fbStatus);
+		
+		Hashtable<String, OfferDisplay> offersFromUsers = new Hashtable<String, OfferDisplay>();
+		offersFromUsers.put(usrId1, ofr1);
+		offersFromUsers.put(usrId2, ofr2);
+		offersFromUsers.put(usrId3, ofr3);
+		
+		ArrayList<OfferDisplay> result = filterOffersFromOwnersWithMutualFriends(offersFromUsers);
+		
+		Log.e(TAG_CLASS_PACKAGE,"tester_filterOffersFromOwnersWithMutualFriends: result retrieved ");
+		for (int i=0 ; i<result.size(); i++)
+			//Log.e(TAG_CLASS_PACKAGE,"tester_filterOffersFromOwnersWithMutualFriends: OfferDisplay: " + result.get(i));
+			System.out.println(result.get(i));
+		
+	}// end tester_filterOffersFromOwnersWithMutualFriends
 	
 	public void tester(){
 		
