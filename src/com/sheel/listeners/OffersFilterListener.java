@@ -15,6 +15,7 @@ import android.util.Log;
 import com.facebook.android.FacebookError;
 import com.facebook.android.AsyncFacebookRunner.RequestListener;
 import com.sheel.datastructures.OfferDisplay;
+import com.sheel.datastructures.enums.OwnerFacebookStatus;
 
 /**
  * Listener used to handle filtering multiple offers using
@@ -239,9 +240,13 @@ public class OffersFilterListener implements RequestListener{
 	 * 
 	 * @param ownerId
 	 * 		facebook ID of offer owner
+	 * @param status
+	 * 		defines relation between app user and offer owner
+	 * 		
 	 */
-	public void addFilteredOfferDisplay(String ownerId){
-		this.filteredOffers.put(ownerId, this.offersFromUsers.get(ownerId));
+	public void addFilteredOfferDisplay(String ownerId, OwnerFacebookStatus status){
+		this.offersFromUsers.get(ownerId).setFacebookStatus(status);
+		this.filteredOffers.put(ownerId, this.offersFromUsers.get(ownerId));		
 	}// end addFilteredOffer
 	
 	/**
