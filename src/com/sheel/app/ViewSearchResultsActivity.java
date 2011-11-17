@@ -198,8 +198,51 @@ public class ViewSearchResultsActivity extends Activity {
     	email.setText("   "+user.getEmail());
     }// end updateDetailsPane
     
+    private void updateSearchResultsList(Hashtable<String,OfferDisplay> offersFromFriends, 
+    		Hashtable<String,OfferDisplay> offersFromFriendsOfFriends, 
+    		Hashtable<String,OfferDisplay> offersFromCommonNetworks,
+    		Hashtable<String, OfferDisplay> offersFromUnRelatedOwners){
+    	
+    	// Sort list of friends of friends (ones with highest number of mutual friends on top)
+    	
+    	// Sort list of common networks (ones with highest number of common networks on top)
+    	
+    	// Display each list in order( friends, mutual sorted , network sorted , unrelated)
+    	updateSearchResultsList(offersFromFriends,false);
+    	updateSearchResultsList(offersFromFriendsOfFriends, true);
+    	updateSearchResultsList(offersFromCommonNetworks, true);
+    	updateSearchResultsList(offersFromUnRelatedOwners, true);
+    }// end updateSearchResultsList
     
-    public void SearchUsingSocialNetworks(Hashtable<String,OfferDisplay> offers , OwnerFacebookStatus maximumOwnerFacebookStatus ){
+    private void updateSearchResultsList(Hashtable<String,OfferDisplay> offersFromUsers,
+    		boolean isAppend){
+    	// TODO implement and link to list
+    	Log.e("Search results: " ,offersFromUsers.toString());
+    }// end updateSearchResultsList
+    
+    
+    /**
+     * Used to filter results using information from facebook account of user
+     *  
+     * @param offersFromUsers
+     * 		returned search results from querying app database,  where:
+	 * 			<ul>
+	 * 				<li>the <code>key</code> is Facebook ID of offer owner</li>
+	 * 				<li>the <code>value</code> is object representing offer 
+	 * 				and user details needed to display a search result</li>
+	 * 			</ul> 
+     * @param maximumOwnerFacebookStatus
+     * 		represents depth of search needed. Each level includes also its previous 
+     * 		more filtered levels. Available levels are ordered from most filtered level
+     * 		on top to least filtered: 
+     * 			<ol>
+	 * 				<li> {@link OwnerFacebookStatus#FRIEND} : filter offers from facebook
+	 * 				friends only</li>
+	 * 				<li> {@link OwnerFacebookStatus#FRIEND_OF_FRIEND} : filter offers from facebook
+	 * 				friends or friends of friends</li>
+	 * 			</ol> 
+     */
+    public void searchUsingFacebook(Hashtable<String,OfferDisplay> offersFromUsers , OwnerFacebookStatus maximumOwnerFacebookStatus ){
     	
     	if (maximumOwnerFacebookStatus != OwnerFacebookStatus.UNRELATED){
     		
@@ -208,17 +251,26 @@ public class ViewSearchResultsActivity extends Activity {
     		Hashtable<String,OfferDisplay> offersFromCommonNetworks=null;
     		
     		// Search for offers with owners friends with the app user 
+    		offersFromFriends = fbService.filterOffersFromFriends(offersFromUsers);
     		
     		// Reduce offers searched by removing offers whose owners are friends with the app user
-    		Hashtable<String,OfferDisplay> offersNotFromFriends = (Hashtable<String, OfferDisplay>)offers.clone();
-    		FacebookWebservice.removeDuplicates(offersFromFriends, offersNotFromFriends);
+    		@SuppressWarnings("unchecked")
+			Hashtable<String,OfferDisplay> remainingOffers = (Hashtable<String, OfferDisplay>)offers.clone();
+    		FacebookWebservice.removeDuplicates(offersFromFriends, remainingOffers);
     		
     		// Search for offers with owners friends of user friends but not the user's friends
     		if (maximumOwnerFacebookStatus == OwnerFacebookStatus.FRIEND_OF_FRIEND || maximumOwnerFacebookStatus == OwnerFacebookStatus.COMMON_NETWORKS ){
-    			offersFromFriendsOfFriends = fbService.filterOffersFromOwnersWithMutualFriends(offersNotFromFriends);
+    			offersFromFriendsOfFriends = fbService.filterOffersFromOwnersWithMutualFriends(remainingOffers);
+    			FacebookWebservice.removeDuplicates(offersFromFriendsOfFriends, remainingOffers);
     		}// end if : user wants to see offers from indirect acquaintances
     		
+    		// TODO next sprint add networks
+    		
+    		// Display results
+    		updateSearchResultsList(offersFromFriends, offersFromFriendsOfFriends, offersFromCommonNetworks, remainingOffers);
     	}// end if : if user does not care -> why waste internet data on searching
     	
-    }// end offers
+    }// end searchUsingSocialNetworks
+    
+    
 }// end Activity
