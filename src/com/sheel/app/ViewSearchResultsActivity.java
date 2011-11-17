@@ -217,7 +217,11 @@ public class ViewSearchResultsActivity extends Activity {
     private void updateSearchResultsList(Hashtable<String,OfferDisplay> offersFromUsers,
     		boolean isAppend){
     	// TODO implement and link to list
-    	Log.e("Search results: " ,offersFromUsers.toString());
+    	
+    	if (offersFromUsers != null)
+    		Log.e("Search results: " ,offersFromUsers.toString());
+    	else
+    		Log.e("Search results: " ,"List is empty");	
     }// end updateSearchResultsList
     
     
@@ -246,31 +250,60 @@ public class ViewSearchResultsActivity extends Activity {
     	
     	if (maximumOwnerFacebookStatus != OwnerFacebookStatus.UNRELATED){
     		
+    		Log.e("passant","social network filtering enabled");
+    		
     		Hashtable<String,OfferDisplay> offersFromFriends=null;
     		Hashtable<String,OfferDisplay> offersFromFriendsOfFriends=null;
     		Hashtable<String,OfferDisplay> offersFromCommonNetworks=null;
     		
     		// Search for offers with owners friends with the app user 
     		offersFromFriends = fbService.filterOffersFromFriends(offersFromUsers);
+    		Log.e("passant","offers from friends are filtered");
     		
     		// Reduce offers searched by removing offers whose owners are friends with the app user
     		@SuppressWarnings("unchecked")
 			Hashtable<String,OfferDisplay> remainingOffers = (Hashtable<String, OfferDisplay>)offers.clone();
     		FacebookWebservice.removeDuplicates(offersFromFriends, remainingOffers);
+    		Log.e("passant","offers from NON friends are filtered");
     		
     		// Search for offers with owners friends of user friends but not the user's friends
     		if (maximumOwnerFacebookStatus == OwnerFacebookStatus.FRIEND_OF_FRIEND || maximumOwnerFacebookStatus == OwnerFacebookStatus.COMMON_NETWORKS ){
     			offersFromFriendsOfFriends = fbService.filterOffersFromOwnersWithMutualFriends(remainingOffers);
+    			Log.e("passant","offers from  friends of friends are filtered");    	    	
     			FacebookWebservice.removeDuplicates(offersFromFriendsOfFriends, remainingOffers);
+    			Log.e("passant","unrelated offers are filtered");    	    	
     		}// end if : user wants to see offers from indirect acquaintances
     		
     		// TODO next sprint add networks
-    		
+    		Log.e("passant","search results will be displayed");
+        	
     		// Display results
     		updateSearchResultsList(offersFromFriends, offersFromFriendsOfFriends, offersFromCommonNetworks, remainingOffers);
     	}// end if : if user does not care -> why waste internet data on searching
     	
     }// end searchUsingSocialNetworks
+    
+    public void test_searchUsingFacebook(){
+    	
+    	// Create input
+    	String usrId1 = "32529";		// naglaa
+    	String usrId2 = "1446932354";	// olcay
+    	String usrId3 = "592566654";	// ahmad
+    	String usrId4 = "1207059"; 		// total stranger 
+    	String usrId5 = "1041486620";	// total stranger: ahmed celil 
+    	
+    	Hashtable<String, OfferDisplay> offersFromUsers = new Hashtable<String, OfferDisplay>();
+    	offersFromUsers.put(usrId1, new OfferDisplay(usrId1, "ofr1","naglaa_friend"));
+    	offersFromUsers.put(usrId2, new OfferDisplay(usrId1, "ofr2","olcay_friend"));
+    	offersFromUsers.put(usrId3, new OfferDisplay(usrId1, "ofr3","ahmad_friendOfFriend"));
+    	offersFromUsers.put(usrId4, new OfferDisplay(usrId1, "ofr4","stranger"));
+    	offersFromUsers.put(usrId5, new OfferDisplay(usrId1, "ofr5","ahmed celil_stranger"));
+    	
+    	// Invoke test method
+    	searchUsingFacebook(offersFromUsers, OwnerFacebookStatus.FRIEND_OF_FRIEND);
+    	
+    }// end test_searchUsingFacebook
+    
     
     
 }// end Activity
