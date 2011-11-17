@@ -97,7 +97,7 @@ public class OffersFilterListener implements RequestListener{
 		try {
 			// Parse received data
 			JSONObject receivedData = new JSONObject(response);
-			Log.e(TAG_CLASS_PACKAGE,METHOD_NAME+": onComplete:" + "Offer start to process ownrId: " + (String)state);
+			Log.e(TAG_CLASS_PACKAGE,METHOD_NAME+": onComplete:" + "Offer start to process from OffersFilterListener" );
 						
 			// Do logic
 			processRequest(receivedData, state);
