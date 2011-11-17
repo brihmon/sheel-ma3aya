@@ -111,6 +111,7 @@
         android:layout_centerHorizontal="true"
         android:onClick="onClick_takePhoto"
         android:src="@drawable/camera_icon" />
+        <ImageView android:layout_width="wrap_content" android:id="@+id/pictureView" android:src="@drawable/android_icon" android:layout_height="wrap_content"></ImageView>
     
     </TableRow>
     <Button android:text="Register" android:id="@+id/register" android:layout_width="wrap_content" android:layout_height="wrap_content" android:onClick="OnClick_register"></Button>
