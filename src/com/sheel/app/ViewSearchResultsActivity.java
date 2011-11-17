@@ -51,8 +51,15 @@ public class ViewSearchResultsActivity extends Activity {
         setContentView(R.layout.search_result_details);
         setIconsForDetailsItems();
         initListView();
+        
+        fbService.login2(this);
     }// end onCreate
     
+    @Override 
+    protected void onActivityResult(int requestCode, int resultCode, android.content.Intent data) {
+    	fbService.authorizeCallback(requestCode, resultCode, data);
+    }// end onActivityResult
+        
     /**
      * This method is used to set the default icons for the 
      * different details in the details pane
