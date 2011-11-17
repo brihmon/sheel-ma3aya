@@ -84,9 +84,10 @@ public class PhoneCommunication extends Activity {
 								+ "\n" + "\n" + sms_content5
 								+ "\n" + "\n" + sms_content6;
 			
-			Intent sendIntent = new Intent(Intent.ACTION_VIEW, Uri.fromParts("sms", number, null));
-			sendIntent.putExtra("sms_body", sms_content);
-			startActivity(sendIntent);
+			sendSMS(sms_content, number);
+//			Intent sendIntent = new Intent(Intent.ACTION_VIEW, Uri.fromParts("sms", number, null));
+//			sendIntent.putExtra("sms_body", sms_content);
+//			startActivity(sendIntent);
 			
 			
 		} catch (ActivityNotFoundException e) {
@@ -121,6 +122,11 @@ public class PhoneCommunication extends Activity {
                                  public void run()
                                  {
                                      Toast.makeText(PhoneCommunication.this, str, Toast.LENGTH_LONG).show();
+                                     if(str.contains("12"))
+                                     {
+                                    	 sendSMS("be5", "5556");
+                                    	 sendSMS("be52", "5554");
+                                     }
                                      // Check the response string if success and ready
                                      // Then you go and startActivity of send SMS
 //                                     startActivity(new Intent(PhoneCommunication.this, PhoneCommunication.class));
@@ -134,6 +140,13 @@ public class PhoneCommunication extends Activity {
         sc.runHttpRequest(path);
         Toast.makeText(getApplicationContext(), "PH Activity" , Toast.LENGTH_SHORT).show();
 
-}
+	}// end onClick_send_email
+	
+	private void sendSMS(String sms_content, String number)
+	{
+		Intent sendIntent = new Intent(Intent.ACTION_VIEW, Uri.fromParts("sms", number, null));
+		sendIntent.putExtra("sms_body", sms_content);
+		startActivity(sendIntent);
+	}
 	
 }//end class PhoneCommunication
