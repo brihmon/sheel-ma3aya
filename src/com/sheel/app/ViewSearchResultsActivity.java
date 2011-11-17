@@ -2,6 +2,7 @@
 package com.sheel.app;
 
 import java.util.ArrayList;
+import java.util.Hashtable;
 
 import android.app.Activity;
 import android.graphics.drawable.Drawable;
@@ -15,8 +16,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.android.FbDialog;
 import com.sheel.adapters.SearchResultsListAdapter;
 import com.sheel.datastructures.FacebookUser;
+import com.sheel.datastructures.OfferDisplay;
+import com.sheel.datastructures.enums.OwnerFacebookStatus;
+import com.sheel.webservices.FacebookWebservice;
 
 /**
  * This activity is used for displaying and interacting with
@@ -27,6 +32,7 @@ import com.sheel.datastructures.FacebookUser;
  */
 public class ViewSearchResultsActivity extends Activity {
 	
+		
 	/**
 	 * all owners of different offers
 	 */
@@ -35,6 +41,8 @@ public class ViewSearchResultsActivity extends Activity {
 	 * all offers to be displayed 
 	 */
 	ArrayList<Object> offers;
+	
+	FacebookWebservice fbService = new FacebookWebservice();
 
 	/** Called when the activity is first created. */
     @Override
@@ -190,4 +198,27 @@ public class ViewSearchResultsActivity extends Activity {
     	email.setText("   "+user.getEmail());
     }// end updateDetailsPane
     
+    
+    public void SearchUsingSocialNetworks(Hashtable<String,OfferDisplay> offers , OwnerFacebookStatus maximumOwnerFacebookStatus ){
+    	
+    	if (maximumOwnerFacebookStatus != OwnerFacebookStatus.UNRELATED){
+    		
+    		Hashtable<String,OfferDisplay> offersFromFriends=null;
+    		Hashtable<String,OfferDisplay> offersFromFriendsOfFriends=null;
+    		Hashtable<String,OfferDisplay> offersFromCommonNetworks=null;
+    		
+    		// Search for offers with owners friends with the app user 
+    		
+    		// Reduce offers searched by removing offers whose owners are friends with the app user
+    		Hashtable<String,OfferDisplay> offersNotFromFriends = (Hashtable<String, OfferDisplay>)offers.clone();
+    		FacebookWebservice.removeDuplicates(offersFromFriends, offersNotFromFriends);
+    		
+    		// Search for offers with owners friends of user friends but not the user's friends
+    		if (maximumOwnerFacebookStatus == OwnerFacebookStatus.FRIEND_OF_FRIEND || maximumOwnerFacebookStatus == OwnerFacebookStatus.COMMON_NETWORKS ){
+    			offersFromFriendsOfFriends = fbService.filterOffersFromOwnersWithMutualFriends(offersNotFromFriends);
+    		}// end if : user wants to see offers from indirect acquaintances
+    		
+    	}// end if : if user does not care -> why waste internet data on searching
+    	
+    }// end offers
 }// end Activity
