@@ -6,29 +6,33 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.EditText;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 public class FilterPreferencesActivity extends Activity {
 	
-	String searchStatus;
+	int searchStatus;
 	String selectedDate;
-	String searchMethod;
+	int searchMethod;
 	String flightNumber;
 	String srcAirport;
 	String desAirport;
 	
-	ToggleButton toggleButton1; //both
-	ToggleButton toggleButton2; //male
-	ToggleButton toggleButton3; //female
+	ToggleButton male; 
+	ToggleButton female;
 
-	AutoCompleteTextView numOfKgs;
-	AutoCompleteTextView price;
+	EditText numOfKgsText;
+	EditText priceText;
 	AutoCompleteTextView nationalityView;
 	
 	String availableKgs;
 	String pricePerKg;
 	String gender;
 	String nationality;
+	
+	int kgs, price;
+	boolean allValid;
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -38,12 +42,12 @@ public class FilterPreferencesActivity extends Activity {
         Bundle extras = getIntent().getExtras();
         
         	if(extras !=null){
-        		searchStatus = extras.getString("searchStatus");
+        		searchStatus = extras.getInt("searchStatus");
         		selectedDate = extras.getString("selectedDate");
-        		searchMethod = extras.getString("searchMethod");
+        		searchMethod = extras.getInt("searchMethod");
         		
         		
-        		if(searchMethod.equals("flight number"))
+        		if(searchMethod == 0)
         			flightNumber = extras.getString("flightNo");
         		
         		
@@ -54,27 +58,25 @@ public class FilterPreferencesActivity extends Activity {
         			
         	}
         
-        	gender = "both";
+        gender = "both";
+       	nationality  = "none";
+       	
+    	kgs = 0;
+    	price = 0;
+		allValid = true;
         	
-        setAdaptors();
+        numOfKgsText = (EditText) findViewById(R.id.autoCompleteTextView1);
+       	priceText = (EditText) findViewById(R.id.autoCompleteTextView2);
+        male = (ToggleButton) findViewById(R.id.male);
+        female = (ToggleButton) findViewById(R.id.female);
+        	
+        setNationalityAdaptor();
      }
 	
-	public void setAdaptors(){
-		
-		toggleButton1 = (ToggleButton) findViewById(R.id.toggleButton1);
-        toggleButton2 = (ToggleButton) findViewById(R.id.toggleButton2);
-        toggleButton3 = (ToggleButton) findViewById(R.id.toggleButton3);
-        
-        numOfKgs = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView1);
-        price = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView2);
+	public void setNationalityAdaptor(){
+	
         nationalityView = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView3);
-        
-        String[] numbers = getResources().getStringArray(R.array.numbers_array);
-        ArrayAdapter<String> numAdapter = new ArrayAdapter<String>(this, R.layout.list_item, numbers);
-    
-        numOfKgs.setAdapter(numAdapter);
-        price.setAdapter(numAdapter);
-        
+  
         String[] nationalities = getResources().getStringArray(R.array.nationalities_array);
         ArrayAdapter<String> nationalityAdapter = new ArrayAdapter<String>(this, R.layout.list_item, nationalities);
         
@@ -83,40 +85,102 @@ public class FilterPreferencesActivity extends Activity {
 		
 	}
 	
-	public void onClick_both_genders(View v) 
-	{
-		toggleButton2.setChecked(false);
-		toggleButton3.setChecked(false);
-		gender = "both";
+	public String removeSpaces(String str){
 		
+		str = str.trim();
+		
+		str = str.replaceAll(" ", "%20");
+		
+		return str;
 	}
 	
+
 	public void onClick_male_gender(View v) 
 	{
-		toggleButton1.setChecked(false);
-		toggleButton3.setChecked(false);
+		female.setChecked(false);
 		gender = "male";
 	}
 	
 	public void onClick_female_gender(View v) 
 	{
-		toggleButton1.setChecked(false);
-		toggleButton2.setChecked(false);
+		male.setChecked(false);
 		gender = "female";
 	}
 	
 	public void onClick_search_offers(View v) 
 	{
-		availableKgs = numOfKgs.getText().toString();
-		pricePerKg = price.getText().toString();
-		nationality = nationalityView.getText().toString();
 		
-		Log.e("mm", availableKgs);
-		Log.e("mm", pricePerKg);
+		if(!male.isChecked() && !female.isChecked())
+			gender = "both";
+		
+		availableKgs = numOfKgsText.getText().toString();
+		pricePerKg = priceText.getText().toString();
+		
+		nationality = nationalityView.getText().toString();
+		nationality = removeSpaces(nationality);
+		
+		if(!availableKgs.equals("")){
+			kgs = Integer.parseInt(availableKgs);
+			
+			if(kgs > 30){
+				 Toast.makeText(FilterPreferencesActivity.this, "Available Kgs should not exceed 30 kgs", 
+						 											Toast.LENGTH_LONG).show();
+				 allValid = false;
+			}	
+		}
+		
+		if(!pricePerKg.equals("")){
+			price = Integer.parseInt(pricePerKg);
+			
+			if(price > 30){
+				 Toast.makeText(FilterPreferencesActivity.this, "Price per Kg should not exceed 30 euros", 
+						 											Toast.LENGTH_LONG).show();
+				 allValid = false;
+			}
+		}
+		
+		if(nationality.equals(""))
+			nationality = "none";
+		
+		Log.e("mm", kgs + " ");
+		Log.e("mm", price + " ");
 		Log.e("mm", gender);
 		Log.e("mm", nationality);
 		
+		if(allValid)
+			filterOffers();
+	}
+	
+	public void filterOffers(){
 		
+		SheelMaaayaClient sc = new SheelMaaayaClient() {
+	           
+				@Override
+				public void doSomething() {
+					final String str = this.rspStr;
+					 
+								 runOnUiThread(new Runnable()
+	                             {
+	                                 @Override
+	                                 public void run()
+	                                 {
+	                                     Toast.makeText(FilterPreferencesActivity.this, str, Toast.LENGTH_LONG).show();
+	                                   //  startActivity(new Intent(SearchByFlightNoActivity.this, PhoneCommunication.class));
+	                                 }
+	                             });
+
+				}
+			};
+	        
+			if(searchMethod == 0)
+				sc.runHttpRequest("/filterflightnumberoffers/" + flightNumber + "/" + selectedDate + "/" + searchStatus +
+															"/" + kgs + "/" + price + "/" + gender + "/" + nationality); 
+			
+			else
+				sc.runHttpRequest("/filterairportsoffers/" + srcAirport + "/" + desAirport + "/" + selectedDate 
+						+ "/" + searchStatus + "/" + kgs + "/" + price + "/" + gender + "/" + nationality);
+				
+		 	
 	}
 	
 }
