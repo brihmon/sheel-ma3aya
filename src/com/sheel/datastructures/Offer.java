@@ -20,9 +20,9 @@ public class Offer
 	 */
 	public Long userId;
 
-	public float pricePerKilogram;
+	public int pricePerKilogram;
 
-    public float noOfKilograms;
+    public int noOfKilograms;
 
     public int userStatus;  //1 for Extra weight and 0 for Less weight
 
@@ -30,8 +30,8 @@ public class Offer
     
     //public String currency; //Will be done next sprint
     
-    public Offer(float noOfKilograms,
-    		float pricePerKilogram,
+    public Offer(int noOfKilograms,
+    		int pricePerKilogram,
             int userStatus,
             String offerStatus) 
     {
@@ -46,7 +46,7 @@ public class Offer
         return noOfKilograms;
     }
 
-    public void setNoOfKilograms(float noOfKilograms) {
+    public void setNoOfKilograms(int noOfKilograms) {
         this.noOfKilograms = noOfKilograms;
     }
 
@@ -62,7 +62,7 @@ public class Offer
         return pricePerKilogram;
     }
 
-    public void setPricePerKilogram(float pricePerKilogram) {
+    public void setPricePerKilogram(int pricePerKilogram) {
         this.pricePerKilogram = pricePerKilogram;
     }
 
