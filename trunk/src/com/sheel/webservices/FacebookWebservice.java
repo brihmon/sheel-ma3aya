@@ -132,6 +132,20 @@ public class FacebookWebservice {
 	}// end getFacebookUser
 	
 	/**
+	 * Returns session status (whether user is still logged in 
+	 * or not)
+	 * 
+	 * @return
+	 *		<ul>
+	 * 			<li><code>true</code>: session is valid</li>
+	 * 			<li><code>false</code>: session has expired and you should log in</li>
+	 * 		</ul>	
+	 */
+	public boolean isSessionValid(){
+		return facebook.isSessionValid();
+	}// end isSessionValid
+	
+	/**
 	 * Open login window in browser for signing-in facebook and app and optionally
 	 * retrieve user basic information. If user has facebook app on the mobile, it
 	 * will do auto single-sign on. It guarantees the basic permissions needed for 
