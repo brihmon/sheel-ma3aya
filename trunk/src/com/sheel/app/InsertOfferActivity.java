@@ -1,6 +1,7 @@
 package com.sheel.app;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -40,8 +41,28 @@ public class InsertOfferActivity extends Activity {
 	 
 	 public void onClick_next(View v){
 		 
+		 ////////////////////////////////////////////SOME VALIDATION///////////////////////////////////////////////
+		 String checkErrors = "";
 		 
-		 
+		 if(noKGsET.getText().toString().equals("")||
+		    pricePerKGET.getText().toString().equals("")){
+			 checkErrors += "Please insert the number of kilograms and the corresponding price.\n";
+		 }
+		 else{
+			 
+		 if(Integer.parseInt(noKGsET.getText().toString())>30){
+			 checkErrors += "Number of kilograms cannot exceed 30.\n";
+		 }
+		 if( Integer.parseInt(pricePerKGET.getText().toString())>30){
+			 checkErrors += "Price per kilogram cannot exceed 30 euros.\n";
+		 }
+		 }
+		 if(!checkErrors.equals("")){
+			 showErrors(checkErrors);
+			 return;
+		 }
+		 ////////////////////////////////////////////SOME VALIDATION///////////////////////////////////////////////
+			
 		 offer = new Offer(
 				 !noKGsET.getText().toString().equals("")?
 				 Integer.parseInt(noKGsET.getText().toString()):0,
@@ -54,6 +75,13 @@ public class InsertOfferActivity extends Activity {
 		 
 	 }
 	 
+	 public void showErrors(String message){
+		 AlertDialog alertDialog;
+		 alertDialog = new AlertDialog.Builder(this).create();
+		 alertDialog.setTitle("Error");
+		 alertDialog.setMessage(message);
+		 alertDialog.show();
+	 }
 	 
 	 
 
