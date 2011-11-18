@@ -21,6 +21,9 @@ public class SheelMaayaaActivity extends Activity {
         setContentView(R.layout.main);
     }
     
+    public void onClick_goToSheelMa3aya(View v){
+    	startActivity(new Intent(this, ConnectorWelcomePageActivity.class));
+    }
     
 	 public void onClick_go (View v) 
 	 {
