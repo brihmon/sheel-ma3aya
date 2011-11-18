@@ -44,9 +44,9 @@ public class InsertOfferActivity extends Activity {
 		 
 		 offer = new Offer(
 				 !noKGsET.getText().toString().equals("")?
-				 Float.parseFloat(noKGsET.getText().toString()):0.0f,
+				 Integer.parseInt(noKGsET.getText().toString()):0,
 				 !pricePerKGET.getText().toString().equals("")?
-				 Float.parseFloat(pricePerKGET.getText().toString()):0.0f,
+				 Integer.parseInt(pricePerKGET.getText().toString()):0,
 				 type.getCheckedRadioButtonId()==R.id.exWeight?1:0,
 				 "new");
 		 
