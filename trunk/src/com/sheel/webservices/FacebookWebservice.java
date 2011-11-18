@@ -33,6 +33,7 @@ import com.sheel.app.SheelMaaayaClient;
 import com.sheel.datastructures.FacebookUser;
 import com.sheel.datastructures.OfferDisplay;
 import com.sheel.datastructures.enums.OwnerFacebookStatus;
+import com.sheel.listeners.AppDialogListener;
 import com.sheel.listeners.OffersFilterListener;
 
 
@@ -385,26 +386,12 @@ public class FacebookWebservice {
 	
 	public void login2(Activity parentActivity){
 				
-		class LoginListener implements DialogListener{
-			
+		class LoginListener extends AppDialogListener{
+			@Override
 			public void onComplete(Bundle values) {
 				Log.e(TAG_CLASS_PACKAGE,"login2: onComplete: Login successful" );
 				Log.e(TAG_CLASS_PACKAGE,"login2: onComplete: Login data " + values );
-			}
-			
-			public void onCancel() {
-				// TODO Auto-generated method stub
-				
-			}
-
-			public void onError(DialogError e) {
-				// TODO Auto-generated method stub				
-			}
-			
-			public void onFacebookError(FacebookError e) {
-				// TODO Auto-generated method stub				
-			}
-			
+			}// end onComplete			
 		}// end class
 		
 		if (!facebook.isSessionValid()){
@@ -416,9 +403,7 @@ public class FacebookWebservice {
 			facebook.authorize(parentActivity, permissions, new LoginListener());
 			
 		}// end if : session is ended -> non access token -> request new one
-		else{
-			Log.e(TAG_CLASS_PACKAGE,"Login2: session active");
-		}// end else: session is valid -> access token is found -> retrieve and use
+	
 	}// end login
 	
 	
