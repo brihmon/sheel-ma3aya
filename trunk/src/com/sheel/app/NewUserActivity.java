@@ -67,7 +67,7 @@ public class NewUserActivity extends Activity {
 
 	boolean allValid = false;
 
-	public void NewUser() {
+	/* public void NewUser() {
 		String gender = "";
 		String firstName = "";
 		String middleName = "";
@@ -84,6 +84,7 @@ public class NewUserActivity extends Activity {
 
 		}// end if: extract info sent by the intent
 
+
 		firstNameField.setText(firstName);
 		middleNameField.setText(middleName);
 		lastNameField.setText(lastName);
@@ -94,7 +95,9 @@ public class NewUserActivity extends Activity {
 			toggleMale.setChecked(true);
 		else if (gender.equalsIgnoreCase("female"))
 			toggleFemale.setChecked(true);
+			
 	}
+	*/
 
 	/** Called when the activity is first created. */
 	@Override
@@ -103,7 +106,7 @@ public class NewUserActivity extends Activity {
 		setContentView(R.layout.register);
 
 		setVariables();
-		NewUser();
+		//NewUser();
 
 	}
 

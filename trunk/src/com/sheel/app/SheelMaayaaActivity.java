@@ -91,10 +91,10 @@ public class SheelMaayaaActivity extends Activity {
 	 public void onClick_register (View v) 
 	 {
 
-		  // startActivity(new Intent(this, NewUserActivity.class));
+		   startActivity(new Intent(this, NewUserActivity.class));
 		
 		 
-		   Intent mIntent = new Intent(this, NewUserActivity.class);
+		  /* Intent mIntent = new Intent(this, NewUserActivity.class);
 			// Pass variable to detailed view activity using the intent
 			mIntent.putExtra(NewUserActivity.FIRST_NAME_KEY, "NADA");
 			mIntent.putExtra(NewUserActivity.MIDDLE_NAME_KEY, "EMAD");
@@ -102,6 +102,7 @@ public class SheelMaayaaActivity extends Activity {
 			mIntent.putExtra(NewUserActivity.GENDER_KEY, "female");
 			// Start the new activity
 			startActivity(mIntent);
+			*/
 	 
 	 }
 	
