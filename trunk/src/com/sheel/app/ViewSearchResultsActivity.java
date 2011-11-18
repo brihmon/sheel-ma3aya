@@ -52,7 +52,7 @@ public class ViewSearchResultsActivity extends Activity {
         setIconsForDetailsItems();
         initListView();
         
-        fbService.login2(this,true,false);
+        fbService.login2(this,true,true);
     }// end onCreate
     
     @Override 
