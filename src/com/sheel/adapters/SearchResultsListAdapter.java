@@ -4,8 +4,11 @@ import java.util.ArrayList;
 
 import com.sheel.app.R;
 import com.sheel.datastructures.FacebookUser;
+import com.sheel.datastructures.OfferDisplay;
+import com.sheel.datastructures.enums.OfferWeightStatus;
 
 import android.content.Context;
+import android.database.DataSetObserver;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,10 +32,10 @@ public class SearchResultsListAdapter extends BaseAdapter {
 	 */
 	private Context context;
 	/**
-	 * List of facebook users used to display data about 
-	 * owners of offers
+	 * List of hybrid object used to display data about the 
+	 * offer and its owner
 	 */
-	private ArrayList<FacebookUser> users;
+	private ArrayList<OfferDisplay> searchResults;
 	
 	/**
 	 * Constructor to control the behaviour of a certain ListView
@@ -40,22 +43,22 @@ public class SearchResultsListAdapter extends BaseAdapter {
 	 * 		Context of the application having the list view. 
 	 * 		It is used to have access to (inflation) properties
 	 * @param users
-	 * 		List of facebook users used to display data about 
-	 * 		owners of offers
+	 * 		List of hybrid object used to display data about the 
+	 * 		offer and its owner
 	 */
-	public SearchResultsListAdapter(Context c, ArrayList<FacebookUser> users ){
+	public SearchResultsListAdapter(Context c, ArrayList<OfferDisplay> users ){
 		this.context = c;
-		this.users = users;
+		this.searchResults = users;
 	}// end constructor
 
 	@Override
 	public int getCount() {
-		return users.size();
+		return searchResults.size();
 	}// end getCount
 
 	@Override
 	public Object getItem(int position) {
-		return users.get(position);
+		return searchResults.get(position);
 	}// end getItem
 
 	@Override
@@ -71,7 +74,7 @@ public class SearchResultsListAdapter extends BaseAdapter {
 		
 		if (convertView == null){
 			
-			FacebookUser user = users.get(position);
+			OfferDisplay offerDisplay = searchResults.get(position);
 			
 			// Get the needed inflater to read the XML layout file
 			LayoutInflater inflater = (LayoutInflater) context
@@ -82,10 +85,10 @@ public class SearchResultsListAdapter extends BaseAdapter {
 			
 			// Set (Name) of the user 
 			TextView summary_name = (TextView) listItem.findViewById(R.id.summary_name);
-			summary_name.setText(user.getFullName());
+			summary_name.setText(offerDisplay.getDisplayName());
 			
 			// Set (Gender) image according to user gender			
-			if (user.isFemale()){
+			if (offerDisplay.isFemale()){
 				setIconForATextField(summary_name, R.drawable.gender_female, 0);
 			}// end if : user is female -> show female image
 			else{
@@ -93,10 +96,18 @@ public class SearchResultsListAdapter extends BaseAdapter {
 			}// end if : user is male or N/A -> show male image			
 			
 			// Set (Number of Kilograms) according to offer			
-			// TODO where is offer object ?? complete later currently static
 			TextView summary_kilos = (TextView) listItem.findViewById(R.id.summary_numberOfKilos);
-			summary_kilos.setText("gives 5 kilos");
-			
+			if (offerDisplay.getWeightStatus() == OfferWeightStatus.LESS){
+				summary_kilos.setText("takes " + offerDisplay.getNumberOfKgs()+ " kilos");	
+				
+			}// end if : offer owner has less weight, i.e. wants to carry luggage
+			else if (offerDisplay.getWeightStatus() == OfferWeightStatus.MORE){
+				summary_kilos.setText("gives " + offerDisplay.getNumberOfKgs()+ " kilos");
+				
+			}// end if : offer owner has more weight, i.e. wants to give luggage
+			else{
+				summary_kilos.setText("N/A");				
+			}// end if : offer status is unknown		
 
 		}// end if : first time to initialize
 		else{
@@ -105,6 +116,11 @@ public class SearchResultsListAdapter extends BaseAdapter {
 		
 		return listItem;
 	}// end getView
+	
+	public void setList(ArrayList<OfferDisplay> newResults){
+		this.searchResults = newResults;
+		this.notifyDataSetChanged();
+	}
 	
 	  /** Used as a helper method to add an image to the left side of a text view.
 	     * @param textViewId 
@@ -132,4 +148,5 @@ public class SearchResultsListAdapter extends BaseAdapter {
 	    	txtView.setCompoundDrawables( img, null, null, null );
 	    }// end SetIconForATextField
 	   
+	    
 }// end SearchResultsListAdapter
