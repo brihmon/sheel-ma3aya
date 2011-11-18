@@ -593,390 +593,103 @@
         <item>Mexican</item>
         <item>Micronesian</item>
         <item>Moldovan</item>
-        <item>
-             
-                <value>Monegasque</value>
-        </item>
-        <item>
-                
-                <value>Mongolian</value>
-        </item>
-        <item>
-                
-                <value>Montenegrian</value>
-        </item>
-        <item>
-               
-                <value>Montserratian</value>
-        </item>
-        <item>
-            
-                <value>Moroccan</value>
-        </item>
-        <item>
-           
-                <value>Mozambican</value>
-        </item>
-        <item>
-          
-                <value>Namibian</value>
-        </item>
-        <item>
-           
-                <value>Nauruan</value>
-        </item>
-        <item>
-               
-                <value>Nepalese</value>
-        </item>
-        <item>
-              
-                <value>Dutch</value>
-        </item>
-        <item>
-                
-                <value>New Caledonian</value>
-        </item>
-        <item>
-              
-                <value>New Zealander</value>
-        </item>
-        <item>
-              
-                <value>Nicaraguan</value>
-        </item>
-        <item>
-           
-                <value>Nigerian</value>
-        </item>
-        <item>
-              
-                <value>Nigerien</value>
-        </item>
-        <item>
-              
-                <value>Niuean</value>
-        </item>
-        <item>
-             
-                <value>Norfolk Islander</value>
-        </item>
-        <item>
-                
-                <value>North Korean</value>
-        </item>
-        <item>
-             
-                <value>Northern Mariana Islander</value>
-        </item>
-        <item>
-              
-                <value>Norwegian</value>
-        </item>
-        <item>
-            
-                <value>Omani</value>
-        </item>
-        <item>
-                
-                <value>Pakistani</value>
-        </item>
-        <item>
-                
-                <value>Palauan</value>
-        </item>
-        <item>
-      
-                <value>Panamanian</value>
-        </item>
-        <item>
-         
-                <value>Papua New Guinean</value>
-        </item>
-        <item>
-            
-                <value>Paraguayan</value>
-        </item>
-        <item>
-              
-                <value>Peruvian</value>
-        </item>
-        <item>
-              
-                <value>Pitcairner</value>
-        </item>
-        <item>
-                
-                <value>Pole</value>
-        </item>
-        <item>
-           
-                <value>Polynesian</value>
-        </item>
-        <item>
-              
-                <value>Portuguese</value>
-        </item>
-        <item>
-              
-                <value>Puerto Rican</value>
-        </item>
-        <item>
-               
-                <value>Qatari</value>
-        </item>
-        <item>
-          
-                <value>Reunionese</value>
-        </item>
-        <item>
-              
-                <value>Romanian</value>
-        </item>
-        <item>
-      
-                <value>Russian</value>
-        </item>
-        <item>
-           
-                <value>Rwandan</value>
-        </item>
-        <item>
-             
-                <value>Sahrawi</value>
-        </item>
-        <item>
-           
-                <value>Saint Helenian</value>
-        </item>
-        <item>
-            
-                <value>Saint Kitts and Nevis national</value>
-        </item>
-        <item>
-               
-                <value>Saint Lucian</value>
-        </item>
-        <item>
-             
-                <value>Saint Pierre and Miquelon national</value>
-        </item>
-        <item>
-                
-                <value>Salvadorian</value>
-        </item>
-        <item>
-               
-                <value>Samoan</value>
-        </item>
-        <item>
-                <value>San Marinese</value>
-        </item>
-        <item>
-               
-                <value>São Toméan</value>
-        </item>
-        <item>
-               
-                <value>Saudi Arabian</value>
-        </item>
-        <item>
-           
-                <value>Senegalese</value>
-        </item>
-        <item>
-           
-                <value>Serbian</value>
-        </item>
-        <item>
-              
-                <value>Seychellois</value>
-        </item>
-        <item>
-             
-                <value>Sierra Leonean</value>
-        </item>
-        <item>
-               
-                <value>Singaporean</value>
-        </item>
-        <item>
-             
-                <value>Slovak</value>
-        </item>
-        <item>
-                
-                <value>Slovene</value>
-        </item>
-        <item>
-               
-                <value>Solomon Islander</value>
-        </item>
-        <item>
-              
-                <value>Somali</value>
-        </item>
-        <item>
-              
-                <value>South African</value>
-        </item>
-        <item>
-              
-                <value>South Georgia and the South Sandwich Islands</value>
-        </item>
-        <item>
-                
-                <value>South Korean</value>
-        </item>
-        <item>
-                
-                <value>Spanish</value>
-        </item>
-        <item>
-                
-                <value>Sri Lankan</value>
-        </item>
-        <item>
-                
-                <value>Sudanese</value>
-        </item>
-        <item>
-             
-                <value>Surinamer</value>
-        </item>
-        <item>
-               
-                <value>Svalbard and Jan Mayen</value>
-        </item>
-        <item>
-           
-                <value>Swazi</value>
-        </item>
-        <item>
-             
-                <value>Swede</value>
-        </item>
-        <item>
-                <value>Swiss</value>
-        </item>
-        <item>
-               >
-                <value>Syrian</value>
-        </item>
-        <item>
-             
-                <value>Taiwanese</value>
-        </item>
-        <item>
-                
-                <value>Tajik</value>
-        </item>
-        <item>
-             
-                <value>Tanzanian</value>
-        </item>
-        <item>
-              
-                <value>Thai</value>
-        </item>
-        <item>
-            
-                <value>Togolese</value>
-        </item>
-        <item>
-              
-                <value>Tokelauan</value>
-        </item>
-        <item>
-             
-                <value>Tongan</value>
-        </item>
-        <item>
-               
-                <value>Trinidad and Tobago national</value>
-        </item>
-        <item>
-              
-                <value>Tunisian</value>
-        </item>
-        <item>
-                <value>Turk</value>
-        </item>
-        <item>
-              
-                <value>Turkmen</value>
-        </item>
-        <item>
-               
-                <value>Turks and Caicos Islander</value>
-        </item>
-        <item>
-              
-                <value>Tuvaluan</value>
-        </item>
-        <item>
-                
-                <value>Ugandan</value>
-        </item>
-        <item>
-               
-                <value>Ukrainian</value>
-        </item>
-        <item>
-                
-                <value>United States Minor Outlying Islands</value>
-        </item>
-        <item>
-               
-                <value>Uruguayan</value>
-        </item>
-        <item>
-               
-                <value>US Virgin Islander</value>
-        </item>
-        <item>
-               
-                <value>Uzbek</value>
-        </item>
-        <item>
-                
-                <value>Vanuatuan</value>
-        </item>
-        <item>
-              
-                <value>Vatican</value>
-        </item>
-        <item>
-               
-                <value>Venezuelan</value>
-        </item>
-        <item>
-              
-                <value>Vietnamese</value>
-        </item>
-        <item>
-                
-                <value>Vincentian</value>
-        </item>
-        <item>
-                
-                <value>Wallis and Futuna Islander</value>
-        </item>
-        <item>
-        
-                <value>Yemeni</value>
-        </item>
-        <item>
-                
-                <value>Zambian</value>
-        </item>
-        <item>
-           
-                <value>Zimbabwean</value>
-        </item>
-        <item>
-                <value>Åland Islander</value>
-        </item>
+        <item>Monegasque</item>
+        <item>Mongolian</item>
+        <item>Montenegrian</item>
+        <item>Montserratian</item>
+        <item>Moroccan</item>
+        <item>Mozambican</item>
+        <item>Namibian</item>
+        <item>Nauruan</item>
+        <item>Nepalese</item>
+        <item>Dutch</item>
+        <item>New Caledonian</item>
+        <item>New Zealander</item>
+        <item>Nicaraguan</item>
+        <item>Nigerian</item>
+        <item>Nigerien</item>
+        <item>Niuean</item>
+        <item>Norfolk Islander</item>
+        <item>North Korean</item>
+        <item>Northern Mariana Islander</item>
+        <item>Norwegian</item>
+        <item>Omani</item>
+        <item>Pakistani</item>
+        <item>Palauan</item>
+        <item>Panamanian</item>
+        <item>Papua New Guinean</item>
+        <item>Paraguayan</item>
+        <item>Peruvian</item>
+        <item>Pitcairner</item>
+        <item>Pole</item>
+        <item>Polynesian</item>
+        <item>Portuguese</item>
+        <item>Puerto Rican</item>
+        <item>Qatari</item>
+        <item>Reunionese</item>
+        <item>Romanian</item>
+        <item>Russian</item>
+        <item>Rwandan</item>
+        <item>Sahrawi</item>
+        <item>Saint Helenian</item>
+        <item>Saint Kitts and Nevis national</item>
+        <item>Saint Lucian</item>
+        <item>Saint Pierre and Miquelon national</item>
+        <item>Salvadorian</item>
+        <item>Samoan</item>
+        <item>San Marinese</item>
+        <item>São Toméan</item>
+        <item>Saudi Arabian</item>
+        <item>Senegalese</item>
+        <item>Serbian</item>
+        <item>Seychellois</item>
+        <item>Sierra Leonean</item>
+        <item>Singaporean</item>
+        <item>Slovak</item>
+        <item>Slovene</item>
+        <item>Solomon Islander</item>
+        <item>Somali</item>
+        <item>South African</item>
+        <item>South Georgia and the South Sandwich Islands</item>
+        <item>South Korean</item>
+        <item>Spanish</item>
+        <item>Sri Lankan</item>
+        <item>Sudanese</item>
+        <item>Surinamer</item>
+        <item>Svalbard and Jan Mayen</item>
+        <item>Swazi</item>
+        <item>Swedish</item>
+        <item>Swiss</item>
+        <item>Syrian</item>
+        <item>Taiwanese</item>
+        <item>Tajik</item>
+        <item>Tanzanian</item>
+        <item>Thai</item>
+        <item>Togolese</item>
+        <item>Tokelauan</item>
+        <item>Tongan</item>
+        <item>Trinidad and Tobago national</item>
+        <item>Tunisian</item>
+        <item>Turkish</item>
+        <item>Turkmen</item>
+        <item>Turks and Caicos Islander</item>
+        <item>Tuvaluan</item>
+        <item>Ugandan</item>
+        <item>Ukrainian</item>
+        <item>United States Minor Outlying Islands</item>
+        <item>Uruguayan</item>
+        <item>US Virgin Islander</item>
+        <item>Uzbek</item>
+        <item>Vanuatuan</item>
+        <item>Vatican</item>
+        <item>Venezuelan</item>
+        <item>Vietnamese</item>
+        <item>Vincentian</item>
+        <item>Wallis and Futuna Islander</item>
+        <item>Yemeni</item>
+        <item>Zambian</item>
+        <item>Zimbabwean</item>
+        <item>Åland Islander</item>
 	</string-array>
 
 </resources>
