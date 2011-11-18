@@ -34,7 +34,7 @@ public class SheelMaayaaActivity extends Activity {
 		 //FacebookWebservice fbService = new FacebookWebservice();
 		 // will automatically login and get the first set of info
 		 Log.e("passant","Login");
-		 fbService.login(this);
+		 //fbService.login(this);
 	}	 
 	 
 	 public void onClick_goToFacebookToLogout (View v) 
