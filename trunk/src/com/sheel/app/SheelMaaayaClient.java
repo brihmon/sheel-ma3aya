@@ -25,8 +25,8 @@ import com.sheel.datastructures.Flight;
 //Responsible for sending HTTP requests and getting HTTP response
 public abstract class SheelMaaayaClient {
 	
-	 final String SERVER  = "http://sheelmaaayaa.appspot.com";
-	 //final String SERVER  = "http://192.168.1.3:9004";
+	 //final String SERVER  = "http://sheelmaaayaa.appspot.com";
+	 final String SERVER  = "http://192.168.1.3:9004";
      String PATH   = "";
      HttpResponse RESPONSE = null;
      Thread THREAD = null;
@@ -74,18 +74,14 @@ public abstract class SheelMaaayaClient {
             	
              	httpost.setHeader("Accept", "text/javascript");
         		httpost.setHeader("Content-type", "text/javascript");
-        		
-        		//httpost.setHeader("xx", JSON);
-        	//	Gson gson = new Gson();
-        	//	Flight x = gson.fromJson("{id: 10, flightNumber : LH123 }", Flight.class);
-        		
+
                  RESPONSE = CLIENT.execute(httpost);
                 
-	          //   if (RESPONSE.getStatusLine().getStatusCode() == HttpStatus.SC_OK)
-	           //     {
+	             if (RESPONSE.getStatusLine().getStatusCode() == HttpStatus.SC_OK)
+	                {
 	                 rspStr += EntityUtils.toString(RESPONSE.getEntity());
-	                 rspStr+=RESPONSE.getStatusLine().getStatusCode();
-	           //     }
+	                 //rspStr+=RESPONSE.getStatusLine().getStatusCode();
+	                }
                 
             }
             catch (Exception e)
