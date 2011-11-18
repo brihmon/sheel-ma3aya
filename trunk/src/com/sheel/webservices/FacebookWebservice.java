@@ -34,6 +34,7 @@ import com.sheel.datastructures.FacebookUser;
 import com.sheel.datastructures.OfferDisplay;
 import com.sheel.datastructures.enums.OwnerFacebookStatus;
 import com.sheel.listeners.AppDialogListener;
+import com.sheel.listeners.AppRequestListener;
 import com.sheel.listeners.OffersFilterListener;
 
 
@@ -384,13 +385,22 @@ public class FacebookWebservice {
 		});
 	}// end getUserFriends
 	
-	public void login2(Activity parentActivity){
-				
+	public void login2(Activity parentActivity ,final boolean getUserInfo , final boolean isInfoForApp){
+		
+		/**
+		 * Inner class for listening to different 
+		 * events relevant to login process dialog
+		 * 
+		 * @author passant
+		 *
+		 */
 		class LoginListener extends AppDialogListener{
 			@Override
 			public void onComplete(Bundle values) {
 				Log.e(TAG_CLASS_PACKAGE,"login2: onComplete: Login successful" );
-				Log.e(TAG_CLASS_PACKAGE,"login2: onComplete: Login data " + values );
+				if (getUserInfo){
+					getUserInformation(isInfoForApp);
+				}// end if : 1st time to log in -> get user data
 			}// end onComplete			
 		}// end class
 		
@@ -406,6 +416,27 @@ public class FacebookWebservice {
 	
 	}// end login
 	
+	public void getUserInformation(boolean isForApp){
+		
+		class BasicInfoListener extends AppRequestListener{
+			@Override
+			public void onComplete(String response, Object state) {
+				fbUser = new FacebookUser(response);
+				Log.e(TAG_CLASS_PACKAGE,"getUserInformation: onComplete: LoggedIn user=" + fbUser);
+			}// end onComplete
+		}// end class
+		
+		if (facebook.isSessionValid()){
+			String fields="";
+			
+			if (isForApp){
+				fields="?fields=id,first_name,middle_name,last_name,gender,verified,email";
+			}// end if: get only needed parameters for the app
+			
+			asyncFacebookRunner.request("me"+fields, new BasicInfoListener());
+			
+		}// end if : get information if session is valid
+	}// end getUserInformationForApp
 	
 	/**
 	 * This method is filter offers coming from user's friends from a more
