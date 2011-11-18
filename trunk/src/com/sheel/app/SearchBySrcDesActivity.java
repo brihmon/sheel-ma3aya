@@ -7,14 +7,15 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Toast;
 import android.widget.AutoCompleteTextView.Validator;
 import android.widget.TextView;
 
 public class SearchBySrcDesActivity extends Activity{
 	
-	String searchStatus;
+	int searchStatus;
 	String selectedDate;
-	String searchMethod;
+	int searchMethod;
 	TextView textDisplay;
  	
 	AutoCompleteTextView source;
@@ -31,16 +32,21 @@ public class SearchBySrcDesActivity extends Activity{
         Bundle extras = getIntent().getExtras();
         
         if(extras !=null){
-        	searchStatus = extras.getString("searchStatus");
+        	searchStatus = extras.getInt("searchStatus");
         	selectedDate = extras.getString("selectedDate");
-        	searchMethod = extras.getString("searchMethod");
+        	searchMethod = extras.getInt("searchMethod");
        	}
 
+        String status = "less weight";
+        
+        if(searchStatus == 1)
+        	status = "extra weight";
+        
         textDisplay = (TextView) findViewById(R.id.textView1);
         
         textDisplay.setText(
                 new StringBuilder()
-                        .append("I'm searching for users having ").append(searchStatus)
+                        .append("I'm searching for users having ").append(status)
                         .append(" travelling on ").append(selectedDate));
         
         source = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView2);
@@ -51,15 +57,27 @@ public class SearchBySrcDesActivity extends Activity{
         
         source.setAdapter(adapter);
         destination.setAdapter(adapter);
-        
-       // textView1.setValidator(new Validator());
 	}
-
+	
+	public String removeSpaces(String str){
+		
+		str = str.trim();
+		
+		str = str.replaceAll(" ", "%20");
+		
+		return str;
+	}
+	
 	 public void onClick_filter (View v) 
 	 {
 		srcAirport = source.getText().toString();
 		desAirport = destination.getText().toString();
 		
+		srcAirport = removeSpaces(srcAirport);
+		desAirport = removeSpaces(desAirport);
+		
+		if(srcAirport.equals("") || desAirport.equals(""))
+			return;
 		
 		Intent intent = new Intent(getBaseContext(), FilterPreferencesActivity.class);
 		intent.putExtra("searchStatus", searchStatus);
@@ -69,4 +87,40 @@ public class SearchBySrcDesActivity extends Activity{
 		intent.putExtra("desAirport", desAirport);
 		startActivity(intent);
 	 }	
+	 
+	 public void onClick_searchOffersByAirports (View v) 
+	 {
+		srcAirport = source.getText().toString();
+		desAirport = destination.getText().toString();
+		
+		srcAirport = removeSpaces(srcAirport);
+		desAirport = removeSpaces(desAirport);
+	
+		if(srcAirport.equals("") || desAirport.equals(""))
+			return;
+		
+		SheelMaaayaClient sc = new SheelMaaayaClient() {
+	           
+				@Override
+				public void doSomething() {
+					final String str = this.rspStr;
+					 
+								 runOnUiThread(new Runnable()
+	                             {
+	                                 @Override
+	                                 public void run()
+	                                 {
+	                                     Toast.makeText(SearchBySrcDesActivity.this, str, Toast.LENGTH_LONG).show();
+	                                   //  startActivity(new Intent(SearchByFlightNoActivity.this, PhoneCommunication.class));
+	                                 }
+	                             });
+
+				}
+			};
+	        
+	        sc.runHttpRequest("/getoffersbyairports/" + srcAirport + "/" + desAirport + "/" + selectedDate 
+	        															+ "/" + searchStatus);
+		 	
+		 
+	}	 
 }
