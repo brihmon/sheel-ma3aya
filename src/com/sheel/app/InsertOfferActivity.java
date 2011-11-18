@@ -78,7 +78,7 @@ public class InsertOfferActivity extends Activity {
 	 public void showErrors(String message){
 		 AlertDialog alertDialog;
 		 alertDialog = new AlertDialog.Builder(this).create();
-		 alertDialog.setTitle("Error");
+		 alertDialog.setTitle("Invalid input");
 		 alertDialog.setMessage(message);
 		 alertDialog.show();
 	 }
