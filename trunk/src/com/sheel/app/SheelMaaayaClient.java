@@ -10,18 +10,6 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.sheel.datastructures.Flight;
-
-/**
- * 
- * @author mohsen
- * @Warning Use at your own risk
- *
- */
-
-
 //Responsible for sending HTTP requests and getting HTTP response
 public abstract class SheelMaaayaClient {
 	
@@ -35,15 +23,6 @@ public abstract class SheelMaaayaClient {
 	public SheelMaaayaClient(){
 		
 	}
-	
-	 
-	// HttpResponse resposta = null;
-	//  StringEntity sEntity = new StringEntity(jsonString, "UTF-8");
-	//requisicao.setEntity(sEntity);
-
-//	resposta = httpClient.execute(requisicao);
-//	resultado = HttpProxy.leRespostaServidor(resposta);
-	
 	
 	static String JSON = "";
 	
@@ -132,7 +111,7 @@ public abstract class SheelMaaayaClient {
 	    THREAD.start();
     }
     
-    //To be implemented by according to the activity needs
+    //To be implemented according to the activity needs
     public abstract void doSomething();
     	
 }
