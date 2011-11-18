@@ -17,9 +17,9 @@ import android.widget.ToggleButton;
 public class GetUserInfoActivity extends Activity {
     /** Called when the activity is first created. */
 	
-	String searchStatus;
+	int searchStatus;
 	String selectedDate;
-	String searchMethod;
+	int searchMethod;
 	
 	ToggleButton lessWeight;
 	ToggleButton extraWeight;
@@ -71,7 +71,7 @@ public class GetUserInfoActivity extends Activity {
                     // Month is 0 based so add 1
                     .append(month + 1).append("-")
                     .append(day).append("-")
-                    .append(year).append(" "));
+                    .append(year));
         
         selectedDate = (String) dateDisplay.getText();
 
@@ -127,14 +127,14 @@ public class GetUserInfoActivity extends Activity {
 			return;
 		
 		if(lessWeight.isChecked())
-			searchStatus = "less weight";
+			searchStatus = 0;
 		
 		else if(extraWeight.isChecked())
-			searchStatus = "extra weight";
+			searchStatus = 1;
 			
 		if(flightNo.isChecked()){
 			
-			searchMethod = "flight number";
+			searchMethod = 0;
 			
 			Intent intent = new Intent(getBaseContext(), SearchByFlightNoActivity.class);
 			intent.putExtra("searchStatus", searchStatus);
@@ -145,7 +145,7 @@ public class GetUserInfoActivity extends Activity {
 				
 		else if(srcDes.isChecked()){
 			
-			searchMethod = "source-destination";
+			searchMethod = 1;
 			
 			Intent intent = new Intent(getBaseContext(), SearchBySrcDesActivity.class);
 			intent.putExtra("searchStatus", searchStatus);
