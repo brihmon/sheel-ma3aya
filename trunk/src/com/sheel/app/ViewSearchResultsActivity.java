@@ -3,6 +3,7 @@ package com.sheel.app;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.Iterator;
 
 import android.app.Activity;
 import android.graphics.drawable.Drawable;
@@ -21,6 +22,7 @@ import com.facebook.android.FbDialog;
 import com.sheel.adapters.SearchResultsListAdapter;
 import com.sheel.datastructures.FacebookUser;
 import com.sheel.datastructures.OfferDisplay;
+import com.sheel.datastructures.enums.OfferWeightStatus;
 import com.sheel.datastructures.enums.OwnerFacebookStatus;
 import com.sheel.webservices.FacebookWebservice;
 
@@ -33,16 +35,9 @@ import com.sheel.webservices.FacebookWebservice;
  */
 public class ViewSearchResultsActivity extends Activity {
 	
+	SearchResultsListAdapter adapter;
 		
-	/**
-	 * all owners of different offers
-	 */
-	ArrayList<FacebookUser> users;
-	/**
-	 * all offers to be displayed 
-	 */
-	ArrayList<Object> offers;
-	
+	ArrayList<OfferDisplay> searchResults=new ArrayList<OfferDisplay>();
 	FacebookWebservice fbService = new FacebookWebservice();
 
 	/** Called when the activity is first created. */
@@ -113,7 +108,7 @@ public class ViewSearchResultsActivity extends Activity {
     	// Get list using its ID
     	ListView searchResultsList = (ListView)findViewById(R.id.listView_searchResults);
     	
-    	new FacebookUser(-1, "firstName", "middleName", "lastName", true, "passant@gmail.com", true);
+    /*	new FacebookUser(-1, "firstName", "middleName", "lastName", true, "passant@gmail.com", true);
     	users = new ArrayList<FacebookUser>();
     	users.add(new FacebookUser(1,"Passant", "Akram", "El.Agroudy", true,"passant@gmail.com", true));
     	users.add(new FacebookUser(2,"Hossam", "Mostafa", "Amer", false, "hossam@hotmail.com", true));
@@ -124,9 +119,11 @@ public class ViewSearchResultsActivity extends Activity {
     	users.add(new FacebookUser(7,"Passant", "Akram", "El.Agroudy", true,"passant@gmail.com", true));
     	//users.add(new FacebookUser(8,"Hossam", "Mostafa", "Amer", false));
     	//users.add(new FacebookUser(9,"Nada", "", "Adly", true));
-    	 
+    	 */
+    	
+    	searchResults.add(new OfferDisplay("ownr", "OFR", "Passant", "passant@gmail.com", "+20105005872", OfferWeightStatus.LESS, 5, 3, OwnerFacebookStatus.FRIEND, true));
     	// Create adapter to control how list is displayed
-    	SearchResultsListAdapter adapter = new SearchResultsListAdapter(this, users);
+    	adapter = new SearchResultsListAdapter(this, searchResults);
     	// Set adapter to the list view 	
     	searchResultsList.setAdapter(adapter);
     	    	
@@ -143,7 +140,9 @@ public class ViewSearchResultsActivity extends Activity {
     	    	//Button detailsBtn = (Button)findViewById(R.id.button_slidingDrawer);
     	    	    	    	
     	    	// TODO : update details pane with appropriate data
-    	    	updateDetailsPane(position);
+    	    	//updateDetailsPane(position);
+    	    	
+    	    	test_searchUsingFacebook();
     	    	
     	    }// end onItemClick
     	  });
@@ -162,8 +161,8 @@ public class ViewSearchResultsActivity extends Activity {
      */
     private void updateDetailsPane(int position){
     	
-    	FacebookUser user = users.get(position);
-    	// TODO get offer
+    	// Hybrid Datastructure having owner/offer necessary info
+    	OfferDisplay searchResult = searchResults.get(position);
     	
     	// Get different GUI components to be updated
     	TextView price = (TextView)findViewById(R.id.details_textView_price);
@@ -172,14 +171,11 @@ public class ViewSearchResultsActivity extends Activity {
     	TextView email = (TextView)findViewById(R.id.details_textView_email);
     	
     	// Set price value from offer
-    	// TODO currently static because i have no offer
-    	    	
-    	// get status from offer
-    	boolean wantToGive=true;
-    	String prefix="";
+    		
+       	String prefix="";
     	
     	// according to offer status -> specify prefix
-    	if (wantToGive){
+    	if (searchResult.getWeightStatus() == OfferWeightStatus.MORE){
     		prefix = " Pays";
     	}// end if : offer for giving luggage -> prefix: pay
     	else{
@@ -187,26 +183,37 @@ public class ViewSearchResultsActivity extends Activity {
     	}// end if : offer for carrying luggage -> prefix: wants
     	
     	// get price
-    	prefix += " 10 " + "dollar/Kg";
+    	prefix += " "+searchResult.getPrice()+" " + "dollar/Kg";
     	
     	// Set price
     	price.setText(prefix);
     	
-    	// Set facebook status of user 
+    	// Set facebook status of user    		
+    	String facebookTxt ="";
+    	OwnerFacebookStatus relation = searchResult.getOwnerFacebookRelationWithUser();
     	
-    	// TODO currently static because there is no common data structure
-    		
+    	if (relation == OwnerFacebookStatus.FRIEND){
+    		facebookTxt = "Facebook friend";
+    	}// end if : user and owner are friends
+    	else if (relation == OwnerFacebookStatus.FRIEND_OF_FRIEND){
+    		facebookTxt = "Friend of Friend ("+searchResult.getFacebookExtraInfo().length()+ " mutual friends)";
+    	}// end else: owner is a friend of user friend
+    	else if (relation == OwnerFacebookStatus.COMMON_NETWORKS){
+    		facebookTxt = "Common networks ("+searchResult.getFacebookExtraInfo().length()+ " networks)";
+    	}// end else: user and owner have common networks only
+    	else{
+    		facebookTxt = "Stranger";
+    	}// end else: user and owner are not related
+    	
     		// Set displayed text
-    		fbStatus.setText(" Facebook friend");
-    		// Set image for expansion
+    		fbStatus.setText(facebookTxt);
+    		// TODO Set image for expansion
     	
-    	// Set mobile from user in data base
-    	
-    	// TODO currently static because no common data structure
-    	mobile.setText("   +20105096872");
-    	
+    	// Set mobile from user in data base    	
+    	mobile.setText("   "+searchResult.getMobile());
+    	    	
     	// Set email from facebook user
-    	email.setText("   "+user.getEmail());
+    	email.setText("   "+searchResult.getEmail());
     }// end updateDetailsPane
     
     private void updateSearchResultsList(Hashtable<String,OfferDisplay> offersFromFriends, 
@@ -227,12 +234,26 @@ public class ViewSearchResultsActivity extends Activity {
     
     private void updateSearchResultsList(Hashtable<String,OfferDisplay> offersFromUsers,
     		boolean isAppend){
-    	// TODO implement and link to list
     	
-    	if (offersFromUsers != null)
-    		Log.e("Search results: " ,offersFromUsers.toString());
-    	else
-    		Log.e("Search results: " ,"List is empty");	
+    	if (offersFromUsers != null){
+    		if (!isAppend){
+        		searchResults.clear();
+        	}// end if : list not initialized or want to display new search result list
+        	
+        	searchResults.addAll(offersFromUsers.values());  
+        	Log.e("passant", "list size: " + offersFromUsers.size() + " list content: " + offersFromUsers);
+        	Log.e("Final list: " , searchResults.toString() + "  list size: " + searchResults.size());
+        	
+        	// Get list using its ID
+        	//adapter.setList(searchResults);
+        	ListView searchResultsList = (ListView)findViewById(R.id.listView_searchResults);
+        	//searchResultsList.invalidateViews();
+        	searchResultsList.setAdapter(new SearchResultsListAdapter(this, searchResults));
+    	}// end if : list has something
+    	else{
+    		Log.e("passant","list is empty");
+    	}    	
+   
     }// end updateSearchResultsList
     
     
