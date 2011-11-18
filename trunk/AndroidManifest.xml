@@ -1,51 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.sheel.app"
-    android:versionCode="1"
-    android:versionName="1.0" >
+	package="com.sheel.app" android:versionCode="1" android:versionName="1.0">
 
-    <uses-sdk android:minSdkVersion="4" />
-	
-    <application
-        android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name" >
-        <activity
-            android:label="@string/app_name"
-            android:name=".SheelMaayaaActivity" >
-            <intent-filter >
-                <action android:name="android.intent.action.MAIN" />
+	<uses-sdk android:minSdkVersion="4" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        
-            
-           <!-- Don't forget to list your activities here -->
-          
-          <activity android:name=".PhoneCommunication"></activity>
-          <activity android:name=".SearchFacebookActivity"></activity>
-          <activity android:name=".GetUserInfoActivity"></activity>
-          <activity android:name=".SearchByFlightNoActivity"></activity>
-          <activity android:name=".SearchBySrcDesActivity"></activity>
-          <activity android:name=".NewUserActivity"></activity>
-          <activity android:name=".FilterPreferencesActivity"></activity>
-           <activity android:name=".TakePhotoActivity"></activity>
-             <activity android:name=".InsertOfferActivity"></activity>
-             <activity android:name=".ViewSearchResultsActivity"></activity>
-             
-           <activity android:name=".ConnectorWelcomePageActivity"></activity>
-          
+	<application android:icon="@drawable/ic_launcher"
+		android:label="@string/app_name">
+		<activity android:label="@string/app_name" android:name=".SheelMaayaaActivity">
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN" />
 
-         
-          
-          
-    </application>
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
 
-       <uses-permission android:name="android.permission.CALL_PHONE"></uses-permission>
-       <uses-permission android:name="android.permission.SEND_SMS"></uses-permission>
-       <uses-permission android:name="android.permission.INTERNET" />
-       <uses-permission android:name="android.permission.CAMERA" />
-       
-      <uses-feature android:name="android.hardware.camera" />
-        
+
+		<!-- Don't forget to list your activities here -->
+
+		<activity android:name=".PhoneCommunication"></activity>
+		<activity android:name=".SearchFacebookActivity"></activity>
+		<activity android:name=".GetUserInfoActivity"></activity>
+		<activity android:name=".SearchByFlightNoActivity"></activity>
+		<activity android:name=".SearchBySrcDesActivity"></activity>
+		<activity android:name=".NewUserActivity"></activity>
+		<activity android:name=".FilterPreferencesActivity"></activity>
+		<activity android:name=".TakePhotoActivity"></activity>
+		<activity android:name=".InsertOfferActivity"></activity>
+		<activity android:name=".ViewSearchResultsActivity"></activity>
+
+		<activity android:name=".ConnectorUserActionsActivity"></activity>
+		<activity android:name=".ConnectorWelcomePageActivity"></activity>
+
+
+
+
+
+
+	</application>
+
+	<uses-permission android:name="android.permission.CALL_PHONE"></uses-permission>
+	<uses-permission android:name="android.permission.SEND_SMS"></uses-permission>
+	<uses-permission android:name="android.permission.INTERNET" />
+	<uses-permission android:name="android.permission.CAMERA" />
+
+	<uses-feature android:name="android.hardware.camera" />
+
 </manifest>
