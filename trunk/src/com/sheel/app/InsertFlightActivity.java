@@ -17,7 +17,9 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.sheel.datastructures.Flight;
 
 /**
@@ -190,6 +192,44 @@ public class InsertFlightActivity extends Activity {
 		 startActivity(new Intent(this, InsertOfferActivity.class));
 		  
 	 }
+	 
+	 
+	 public void onClick_submit(View v){
+		 
+
+			flight = new Flight(flightNumberET.getText().toString(),
+						 sAirportET.getText().toString(),
+						 dAirportET.getText().toString(),
+						 mDateDisplay.getText().toString());
+			 
+				 
+				 //startActivity(new Intent(this, InsertOfferActivity.class));
+				  
+			SheelMaaayaClient sc = new SheelMaaayaClient() {
+				
+				@Override
+				public void doSomething() {
+					final String str = this.rspStr;
+					 
+								 runOnUiThread(new Runnable()
+	                             {
+	                                 @Override
+	                                 public void run()
+	                                 {
+	                                     Toast.makeText(InsertFlightActivity.this, str, Toast.LENGTH_LONG).show();
+	                                 }
+	                             });
+
+				}
+			};
+			
+			Gson gson = new Gson();
+			String input = gson.toJson(flight);
+			input+= "<>"+gson.toJson(InsertOfferActivity.offer);
+			sc.runHttpPost("/insertnewoffer", input);
+			
+			
+			 }
 	 
 	 
  
