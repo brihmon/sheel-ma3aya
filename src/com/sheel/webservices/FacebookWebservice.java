@@ -122,12 +122,40 @@ public class FacebookWebservice {
 	
 	/**
 	 * Gets the facebook user (data structure) storing all data that was received about the user
-	 * @return data structure having all information retrieved so far about user
+	 * 
+	 * @return 
+	 * 		data structure having all information retrieved so far about user. If not initialized,
+	 * 		it will return null
 	 */
 	public FacebookUser getFacebookUser(){
 		return fbUser;
 	}// end getFacebookUser
-		
+	
+	/**
+	 * Open login window in browser for signing-in facebook and app and optionally
+	 * retrieve user basic information. If user has facebook app on the mobile, it
+	 * will do auto single-sign on. It guarantees the basic permissions needed for 
+	 * the app the first time user registers. Permission covered is: email 
+	 * 
+	 * @param parentActivity
+	 * 		activity that the user will be diverted to after signing-in
+	 * @param getUserInfo
+	 * 		<ul>
+	 * 			<li><code>true</code>: retrieve user basic information
+	 * 			after signing in. See 
+	 * 			{@link FacebookWebservice#getUserInformation(boolean)} for more 
+	 * 			information about retrieved data.</li>
+	 * 			<li><code>false</code>: just sign in without retrieving data</li>
+	 * 		</ul>
+	 * @param isInfoForApp
+	 * 		<ul>
+	 * 			<li><code>true</code>: retrieve user basic information
+	 * 			related to APP ONLY. See 
+	 * 			{@link FacebookWebservice#getUserInformation(boolean)} for more 
+	 * 			information about retrieved data.</li>
+	 * 			<li><code>false</code>: retrieve all public information of the user</li>
+	 * 		</ul>	
+	 */
 	public void login(Activity parentActivity ,final boolean getUserInfo , final boolean isInfoForApp){
 		
 		/**
@@ -162,10 +190,41 @@ public class FacebookWebservice {
 	
 	}// end login
 	
+	/**
+	 * Ends the current session of user in the app
+	 * 
+	 * @param parentActivity
+	 * 		activity where the logout is called upon to retrieve context
+	 */
 	public void logout(Activity parentActivity){
 		asyncFacebookRunner.logout(parentActivity.getApplicationContext(),new AppRequestListener());
 	}// end logout
 	
+	/**
+	 * Ends the current session of user in the app
+	 * 
+	 * @param c
+	 * 		application context
+	 */
+	public void logout(Context c){
+		asyncFacebookRunner.logout(c,new AppRequestListener());
+	}// end logout
+	
+	/**
+	 * Used to retrieve user basic information. User must be signed in
+	 * and having active access_token for the method to perform properly.
+	 * The information is loaded and can be retrieved using
+	 * {@link FacebookWebservice#getFacebookUser()}
+	 * 
+	 * @param isForApp
+	 * 		<ul>
+	 * 			<li><code>true</code>: retrieve user basic information
+	 * 			related to APP ONLY. See {@link FacebookUser} for more 
+	 * 			information about retrieved data.</li>
+	 * 			<li><code>false</code>: retrieve all public information 
+	 * 			of the user</li>
+	 * 		</ul>	
+	 */
 	public void getUserInformation(boolean isForApp){
 		
 		class BasicInfoListener extends AppRequestListener{
