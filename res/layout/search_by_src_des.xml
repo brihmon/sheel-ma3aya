@@ -20,6 +20,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
+        android:onClick="onClick_searchOffersByAirports"
         android:text="Search for Offers ..." />
 
     <ImageButton
