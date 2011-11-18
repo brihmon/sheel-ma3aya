@@ -27,11 +27,11 @@ public class AppRequestListener implements RequestListener{
 	/**
 	 * Used for tracing purposes
 	 */
-	private String TAG_CLASS_PACKAGE;
+	private String TAG_CLASS_PACKAGE="";
 	/**
 	 * Used for tracing purposes
 	 */
-	private String METHOD_NAME;
+	private String METHOD_NAME="";
 	
 	//_____________________ Constructor __________________________
 
