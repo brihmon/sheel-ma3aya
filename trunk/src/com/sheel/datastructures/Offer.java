@@ -42,7 +42,7 @@ public class Offer
 
     } 
 
-    public float getNoOfKilograms() {
+    public int getNoOfKilograms() {
         return noOfKilograms;
     }
 
@@ -58,7 +58,7 @@ public class Offer
         this.offerStatus = offerStatus;
     }
 
-    public float getPricePerKilogram() {
+    public int getPricePerKilogram() {
         return pricePerKilogram;
     }
 
