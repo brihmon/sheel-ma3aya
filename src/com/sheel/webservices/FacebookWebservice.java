@@ -169,25 +169,13 @@ public class FacebookWebservice {
 	public void getUserInformation(boolean isForApp){
 		
 		class BasicInfoListener extends AppRequestListener{
-			
-			/**
-			 * Semaphore to make sure data is retrieved before
-			 * allowing any code afterwards to run
-			 */
-			Semaphore dataIsReceived = new Semaphore(0);
-			
+				
 			@Override
 			public void onComplete(String response, Object state) {
 				Log.e(TAG_CLASS_PACKAGE,"getUserInformation: onComplete: LoggedIn user response=" + response);
 				fbUser = new FacebookUser(response);
-				Log.e(TAG_CLASS_PACKAGE,"getUserInformation: onComplete: LoggedIn user=" + fbUser);
-				Log.e("Passant", "Semaphore will be released now");
-				dataIsReceived.release();
-			}// end onComplete
-			
-			public Semaphore getSemaphore(){
-				return this.dataIsReceived;
-			}// end getSemaphore
+				Log.e(TAG_CLASS_PACKAGE,"getUserInformation: onComplete: LoggedIn user=" + fbUser);				
+			}// end onComplete		
 		}// end class
 		
 		if (facebook.isSessionValid()){
@@ -197,12 +185,9 @@ public class FacebookWebservice {
 				fields="?fields=id,first_name,middle_name,last_name,gender,verified,email&";
 			}// end if: get only needed parameters for the app
 			
-			BasicInfoListener listener = new BasicInfoListener();
-			asyncFacebookRunner.request("me"+fields, listener);
-			Log.e("Passant", "Method will wait now");
-			blockThreadUntilAllOffersAreProcessed(listener.getSemaphore());
-			Log.e("Passant", "Method is done now");
+			asyncFacebookRunner.request("me"+fields, new BasicInfoListener());		
 		}// end if : get information if session is valid
+		
 	}// end getUserInformationForApp
 		
 	/**
