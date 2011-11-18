@@ -40,6 +40,11 @@ public class OfferDisplay {
 	 */
 	private String displayName="";
 	/**
+	 * Indicates gender. If set to true ==> user is a female.
+	 * Else either user is a male or N/A
+	 */
+	boolean isFemale=false;
+	/**
 	 * represents email of user in facebook and used to send
 	 * confirmation messages to him/her
 	 */
@@ -102,13 +107,19 @@ public class OfferDisplay {
 	 * 		Price requested by the owner per Kg
 	 * @param facebookS
 	 * 		Relation between App user and offer owner
+	 * @param isFemale
+	 *  	<ul>
+	 * 			<li>True: user is a female</li>
+	 * 			<li>False: user is a male or N/A</li>
+	 * 		</ul>
+	 * 		
 	 */
 	public OfferDisplay(
 			String ownerId, String offerId , String displayName , 
 			String email, String mobile, OfferWeightStatus weightS,
-			int numKg , int price , OwnerFacebookStatus facebookS ){
+			int numKg , int price , OwnerFacebookStatus facebookS, boolean isFemale ){
 		
-		initParameters(ownerId, offerId, displayName, email, mobile, weightS, numKg, price, facebookS);
+		initParameters(ownerId, offerId, displayName, email, mobile, weightS, numKg, price, facebookS, isFemale);
 		
 	}// end constructor
 	
@@ -122,7 +133,7 @@ public class OfferDisplay {
 	 * 		Relation between App user and offer owner
 	 */
 	public OfferDisplay(String ownerId , String offerId, OwnerFacebookStatus facebookS){
-		initParameters(ownerId, offerId, "", "", "", OfferWeightStatus.LESS, -1, -1, facebookS);
+		initParameters(ownerId, offerId, "", "", "", OfferWeightStatus.LESS, -1, -1, facebookS,false);
 	}// end constructor
 	
 	/**
@@ -135,7 +146,7 @@ public class OfferDisplay {
 	 * 		name of offer owner
 	 */
 	public OfferDisplay(String ownerId , String offerId , String displayName){
-		initParameters(ownerId, offerId, displayName, "", "", OfferWeightStatus.UNDEFINED, -1, -1, OwnerFacebookStatus.UNRELATED);
+		initParameters(ownerId, offerId, displayName, "", "", OfferWeightStatus.UNDEFINED, -1, -1, OwnerFacebookStatus.UNRELATED,false);
 	}// end constructor
 	
 	/**
@@ -199,6 +210,18 @@ public class OfferDisplay {
 	public String getDisplayName() {
 		return displayName;
 	}// end getDisplayName
+	
+	/**
+	 * Gets the gender of a user
+	 * @return 
+	 * <ul>
+	 * 		<li>True: user is a female</li>
+	 * 		<li>False: user is a male or N/A</li>
+	 * </ul>
+	 */
+	public boolean isFemale() {
+		return isFemale;
+	}// end isFemale
 
 	/**
 	 * Gets the email of the offer owner used for communication
@@ -390,7 +413,7 @@ public class OfferDisplay {
 	private void initParameters(
 			String ownerId, String offerId , String displayName , 
 			String email, String mobile, OfferWeightStatus weightS,
-			int numKg , int price , OwnerFacebookStatus facebookS){
+			int numKg , int price , OwnerFacebookStatus facebookS, boolean isFemale){
 		
 		this.ownerFacebookId = ownerId;
 		this.offerId = offerId;
@@ -401,6 +424,7 @@ public class OfferDisplay {
 		this.email = email;
 		this.weightStatus = weightS;
 		this.ownerFbStatus = facebookS;	
+		this.isFemale = isFemale;
 	}// end initParameters
 	
 	
