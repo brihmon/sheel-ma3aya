@@ -13,8 +13,8 @@ import org.apache.http.util.EntityUtils;
 //Responsible for sending HTTP requests and getting HTTP response
 public abstract class SheelMaaayaClient {
 	
-	 //final String SERVER  = "http://sheelmaaayaa.appspot.com";
-	 final String SERVER  = "http://192.168.1.3:9004";
+	 final String SERVER  = "http://sheelmaaayaa.appspot.com";
+	 //final String SERVER  = "http://192.168.1.3:9004";
      String PATH   = "";
      HttpResponse RESPONSE = null;
      Thread THREAD = null;
