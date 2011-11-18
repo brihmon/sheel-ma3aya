@@ -21,6 +21,7 @@
         
             
            <!-- Don't forget to list your activities here -->
+          
           <activity android:name=".PhoneCommunication"></activity>
           <activity android:name=".SearchFacebookActivity"></activity>
           <activity android:name=".GetUserInfoActivity"></activity>
@@ -31,6 +32,8 @@
            <activity android:name=".TakePhotoActivity"></activity>
              <activity android:name=".InsertOfferActivity"></activity>
              <activity android:name=".ViewSearchResultsActivity"></activity>
+             
+           <activity android:name=".ConnectorWelcomePageActivity"></activity>
           
 
          
