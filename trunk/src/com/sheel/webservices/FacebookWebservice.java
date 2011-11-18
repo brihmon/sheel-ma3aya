@@ -127,48 +127,6 @@ public class FacebookWebservice {
 	public FacebookUser getFacebookUser(){
 		return fbUser;
 	}// end getFacebookUser
-			
-	public void logout2(Activity parentActivity){
-		asyncFacebookRunner.logout(parentActivity.getApplicationContext(), new RequestListener(){
-
-			@Override
-			public void onComplete(String response, Object state) {
-				Log.e(TAG_CLASS_PACKAGE,"logout: onComplete");
-				
-			}
-
-			@Override
-			public void onIOException(IOException e, Object state) {
-				Log.e(TAG_CLASS_PACKAGE,"logout: onIOException");
-				
-			}
-
-			@Override
-			public void onFileNotFoundException(FileNotFoundException e,
-					Object state) {
-				Log.e(TAG_CLASS_PACKAGE,"logout: onFileNotFoundException");
-				
-				
-			}
-
-			@Override
-			public void onMalformedURLException(MalformedURLException e,
-					Object state) {
-				Log.e(TAG_CLASS_PACKAGE,"logout: onMalformedURLException");
-				
-				
-			}
-
-			@Override
-			public void onFacebookError(FacebookError e, Object state) {
-				Log.e(TAG_CLASS_PACKAGE,"logout: onFacebookError");
-				
-				
-			}
-			
-		});
-		
-	}// end logout
 		
 	public void login(Activity parentActivity ,final boolean getUserInfo , final boolean isInfoForApp){
 		
@@ -180,13 +138,17 @@ public class FacebookWebservice {
 		 *
 		 */
 		class LoginListener extends AppDialogListener{
+					
 			@Override
 			public void onComplete(Bundle values) {
 				Log.e(TAG_CLASS_PACKAGE,"login2: onComplete: Login successful" );
 				if (getUserInfo){
-					getUserInformation(isInfoForApp);
+					Log.e("passant: ", "getUserInformation");
+					getUserInformation(isInfoForApp);					
 				}// end if : 1st time to log in -> get user data
-			}// end onComplete			
+				
+			}// end onComplete	
+		
 		}// end class
 		
 		if (!facebook.isSessionValid()){
@@ -194,9 +156,8 @@ public class FacebookWebservice {
 			Log.e(TAG_CLASS_PACKAGE,"Login2: session expired");
 			
 			String[] permissions = new String[]{"email"};
-			
 			facebook.authorize(parentActivity, permissions, new LoginListener());
-			
+		
 		}// end if : session is ended -> non access token -> request new one
 	
 	}// end login
@@ -208,12 +169,25 @@ public class FacebookWebservice {
 	public void getUserInformation(boolean isForApp){
 		
 		class BasicInfoListener extends AppRequestListener{
+			
+			/**
+			 * Semaphore to make sure data is retrieved before
+			 * allowing any code afterwards to run
+			 */
+			Semaphore dataIsReceived = new Semaphore(0);
+			
 			@Override
 			public void onComplete(String response, Object state) {
 				Log.e(TAG_CLASS_PACKAGE,"getUserInformation: onComplete: LoggedIn user response=" + response);
 				fbUser = new FacebookUser(response);
 				Log.e(TAG_CLASS_PACKAGE,"getUserInformation: onComplete: LoggedIn user=" + fbUser);
+				Log.e("Passant", "Semaphore will be released now");
+				dataIsReceived.release();
 			}// end onComplete
+			
+			public Semaphore getSemaphore(){
+				return this.dataIsReceived;
+			}// end getSemaphore
 		}// end class
 		
 		if (facebook.isSessionValid()){
@@ -223,8 +197,11 @@ public class FacebookWebservice {
 				fields="?fields=id,first_name,middle_name,last_name,gender,verified,email&";
 			}// end if: get only needed parameters for the app
 			
-			asyncFacebookRunner.request("me"+fields, new BasicInfoListener());
-			
+			BasicInfoListener listener = new BasicInfoListener();
+			asyncFacebookRunner.request("me"+fields, listener);
+			Log.e("Passant", "Method will wait now");
+			blockThreadUntilAllOffersAreProcessed(listener.getSemaphore());
+			Log.e("Passant", "Method is done now");
 		}// end if : get information if session is valid
 	}// end getUserInformationForApp
 		
