@@ -17,26 +17,26 @@ public class Flight
 		
 	    public String destination;
 
-	    public String departureDateTime;  //Date only
+	    public String departureDate;  //Date only
 	    									 
 	//    @Filter("flight")
 	//    public Query <Offer> offers;
 	    
-	    public Flight(String flightNumber, String source, String destination, String departureDateTime) {
+	    public Flight(String flightNumber, String source, String destination, String departureDate) {
 	        this.flightNumber = flightNumber;
 	        this.source = source;
 	        this.destination = destination;
-	        this.departureDateTime = departureDateTime;
+	        this.departureDate = departureDate;
 	        
 	    }
 	    
 	    
-	    public String getDepartureDateTime() {
-	        return departureDateTime;
+	    public String getDepartureDate() {
+	        return departureDate;
 	    }
 
-	    public void setDepartureDateTime(String departureDateTime) {
-	        this.departureDateTime = departureDateTime;
+	    public void setDepartureDateTime(String departureDate) {
+	        this.departureDate = departureDate;
 	    }
 
 	    public String getDestination() {
@@ -79,7 +79,7 @@ public class Flight
 		public String toString() {
 			return "Flight {id=" + id + ", flightNumber=" + flightNumber
 					+ ", source=" + source + ", destination=" + destination
-					+ ", departureDateTime=" + departureDateTime + "}";
+					+ ", departureDateTime=" + departureDate + "}";
 		}
 
 	    
