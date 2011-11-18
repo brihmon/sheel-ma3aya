@@ -12,6 +12,13 @@
     <Button 
   	android:layout_height="wrap_content"
   	android:layout_width="wrap_content" 
+  	android:text="Go to Sheel ma3aya app"
+  	android:onClick="onClick_goToSheelMa3aya">
+    </Button>    
+    
+    <Button 
+  	android:layout_height="wrap_content"
+  	android:layout_width="wrap_content" 
   	android:text="Go Call!"
   	android:onClick="onClick_go">
     </Button>  
@@ -68,5 +75,6 @@
   	android:onClick="onClick_register">
     </Button> 
 
+     
 
 </LinearLayout>
