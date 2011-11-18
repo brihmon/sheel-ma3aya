@@ -48,7 +48,7 @@ public class ViewSearchResultsActivity extends Activity {
         setIconsForDetailsItems();
         initListView();
         
-        fbService.login(this,true,true);
+       fbService.login(this,true,true);
       
         
     }// end onCreate
@@ -140,9 +140,9 @@ public class ViewSearchResultsActivity extends Activity {
     	    	//Button detailsBtn = (Button)findViewById(R.id.button_slidingDrawer);
     	    	    	    	
     	    	// TODO : update details pane with appropriate data
-    	    	//updateDetailsPane(position);
+    	    	updateDetailsPane(position);
     	    	
-    	    	test_searchUsingFacebook();
+    	    	//test_searchUsingFacebook();
     	    	
     	    }// end onItemClick
     	  });
