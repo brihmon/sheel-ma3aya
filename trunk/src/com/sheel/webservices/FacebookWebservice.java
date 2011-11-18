@@ -127,100 +127,8 @@ public class FacebookWebservice {
 	public FacebookUser getFacebookUser(){
 		return fbUser;
 	}// end getFacebookUser
-	
-	public void login (Activity parentActivity){
-		
-		/*
-		 * ########################################################## 
-		 * # If the user is already logged in -> use his credentials#
-		 * ##########################################################
-		 */
-		
-	/*	// Get the shared preferences of the user from the activity
-		sharedPreferences = parentActivity.getPreferences(Context.MODE_PRIVATE);
-
-		Log.e(TAG_CLASS_PACKAGE, "login: sharedPreferences: " + sharedPreferences);
-
-		// Search for user access token and its expiry duration
-		String accessToken = sharedPreferences.getString(SP_ACCESS_TOKEN, null);
-		long accessTokenExpiry = sharedPreferences.getLong(
-				SP_ACCESS_TOKEN_EXPIRY, -1);
-
-		Log.e(TAG_CLASS_PACKAGE, "login: accessToken( " + accessToken + ")  expiry("
-				+ accessTokenExpiry + ")");
-
-		if (accessToken != null && accessTokenExpiry >= 0) {
-			Log.e(TAG_CLASS_PACKAGE, "login: " + "FB session is working");
-			facebook.setAccessToken(accessToken);
-			facebook.setAccessExpires(accessTokenExpiry);
-			getUserInfoForApp();
-			Log.e(TAG_CLASS_PACKAGE, "login: " + "FB token setting is done");			
-		}// end if : user already logged in -> pass token + expiry
-		
-		
-		sharedPreferences = parentActivity.getPreferences(Context.MODE_PRIVATE); */
-		
-		/*
-		 * ##############################################################
-		 * # If the user is not logged in (session expired) -> request  #
-		 * # authorization 												#
-		 * ##############################################################
-		 */
-		if (!facebook.isSessionValid()) {
-			Log.e(TAG_CLASS_PACKAGE, "login: " + "FB session expired");
-
-			facebook.authorize(parentActivity, new DialogListener() {
-				// @Override
-				public void onComplete(Bundle values) {
-
-					/*
-					 * Called when the Log in for FB + APP is successful
-					 * -> basic data of user is there
-					 */
-					Log.e(TAG_CLASS_PACKAGE, "login : onComplete");
-					// Log.e(ERROR_TAG,"Welcome "+name);
-
-					/*
-					 * Edit the shared preferences and add to them the user
-					 * access token and its expiry date
-					 * 
-					 * It is used to avoid showing the user a transition
-					 * dialog between facebook and app during the same 
-					 * session
-					 */
-					
-				/*	SharedPreferences.Editor editor = sharedPreferences.edit();
-					editor.putString(SP_ACCESS_TOKEN, facebook.getAccessToken());
-					editor.putLong(SP_ACCESS_TOKEN_EXPIRY,
-							facebook.getAccessExpires());
-					editor.commit();*/
-					getUserInfoForApp();
-
-					methodTester();
-				}// end onComplete:
-
-				public void onFacebookError(FacebookError error) {
-					Log.e(TAG_CLASS_PACKAGE, "onFacebookError");
-				}// end onFacebookError
-
-				public void onError(DialogError e) {
-					Log.e(TAG_CLASS_PACKAGE, "onError " + e.getMessage());
-				}// end onError
-
-				public void onCancel() {
-					Log.e(TAG_CLASS_PACKAGE, "onCancel");
-				}// end onCancel
-			});
-
-		}// end if : facebook session expired -> login
-		else{
-			//tester_filterOffersFromOwnersWithMutualFriends();
-			methodTester();
-		}
-		
-	}// end login
-		
-	public void logout(Activity parentActivity){
+			
+	public void logout2(Activity parentActivity){
 		asyncFacebookRunner.logout(parentActivity.getApplicationContext(), new RequestListener(){
 
 			@Override
@@ -261,131 +169,8 @@ public class FacebookWebservice {
 		});
 		
 	}// end logout
-	
-	public void getUserInfoForApp(){
-		// Create list of required Information from user object
-		ArrayList<String> requiredInformation = new ArrayList<String>();
-					
-		requiredInformation.add(FacebookUserProperties.id.name());
-		requiredInformation.add(FacebookUserProperties.first_name.name());
-		requiredInformation.add(FacebookUserProperties.middle_name.name());
-		requiredInformation.add(FacebookUserProperties.last_name.name());
-		requiredInformation.add(FacebookUserProperties.gender.name());
-		requiredInformation.add(FacebookUserProperties.verified.name());
-		requiredInformation.add(FacebookUserProperties.email.name());		
 		
-		getUserInfoFor(requiredInformation);
-	}// end getUserInfoForApp
-	
-	public void getUserInfoFor(ArrayList<String> userPropertiesRequired){
-		
-		if (facebook.isSessionValid()){
-			
-			// TODO needs optimization (see how to pass bundle for the method)
-			
-			// TODO choosing using properties is not enabled yet IMPORTANT
-			/*String parameters = "?field=";
-			int size = userPropertiesRequired.size();
-			if ( size > 0){
-				for (int i=0 ; i<size ; i++){
-					parameters += userPropertiesRequired.get(i) + ",";
-				}// end for : concatinate different options
-			}// end if : check it has elements
-			parameters = parameters.substring(0,parameters.length()-1);
-			
-			System.out.println("Parameters: " + parameters);*/
-			
-			// Generate an asynchronous call to avoid freezing the GUI 
-			asyncFacebookRunner.request("me",new RequestListener(){
-
-				public void onComplete(String response, Object state) {
-					Log.e(TAG_CLASS_PACKAGE,"getUserInfoFor: onComplete : response : " + response);
-					
-					//analyze data and return an easy-to-handle object
-					fbUser = new FacebookUser(response);
-					System.out.println(fbUser);
-					
-					//getUserFriends();
-				
-									
-				}// end onComplete
-				
-				public void onIOException(IOException e, Object state) {
-					// TODO Auto-generated method stub
-					
-				}// end onIOException
-
-				public void onFileNotFoundException(FileNotFoundException e,Object state) {
-					// TODO Auto-generated method stub
-					
-				}// end onFileNotFoundException
-				
-				public void onMalformedURLException(MalformedURLException e,
-						Object state) {
-					// TODO Auto-generated method stub
-					
-				}// end onMalformedURLException
-
-				public void onFacebookError(FacebookError e, Object state) {
-					// TODO Auto-generated method stub
-					
-				}// end onFacebookError		
-			});	
-					
-			
-		}// end if : session is still valid
-		else{
-			Log.e(TAG_CLASS_PACKAGE,"getUserInfoFor: session has expired");
-		}
-	
-	}// end getUserInfoFor
-	
-	public void getUserFriends(){
-		asyncFacebookRunner.request("me/friends", new RequestListener(){
-
-			public void onComplete(String response, Object state) {
-				Log.e(TAG_CLASS_PACKAGE,"getUserFriends: onComplete : response : " + response);
-				
-				// Parse the JSON string to key-value map
-				try {
-					JSONObject parsedValues = new JSONObject(response);
-					
-					Iterator it = parsedValues.keys();
-					
-						//Map<String , String> dic = new Map<String, String>();
-						
-					
-				} catch (JSONException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}	
-								
-			}// end onComplete
-			
-			public void onIOException(IOException e, Object state) {
-				// TODO Auto-generated method stub
-				
-			}// end onIOException
-
-			public void onFileNotFoundException(FileNotFoundException e,Object state) {
-				// TODO Auto-generated method stub
-				
-			}// end onFileNotFoundException
-			
-			public void onMalformedURLException(MalformedURLException e,
-					Object state) {
-				// TODO Auto-generated method stub
-				
-			}// end onMalformedURLException
-
-			public void onFacebookError(FacebookError e, Object state) {
-				// TODO Auto-generated method stub
-				
-			}// end onFacebookError		
-		});
-	}// end getUserFriends
-	
-	public void login2(Activity parentActivity ,final boolean getUserInfo , final boolean isInfoForApp){
+	public void login(Activity parentActivity ,final boolean getUserInfo , final boolean isInfoForApp){
 		
 		/**
 		 * Inner class for listening to different 
@@ -416,11 +201,16 @@ public class FacebookWebservice {
 	
 	}// end login
 	
+	public void logout(Activity parentActivity){
+		asyncFacebookRunner.logout(parentActivity.getApplicationContext(),new AppRequestListener());
+	}// end logout
+	
 	public void getUserInformation(boolean isForApp){
 		
 		class BasicInfoListener extends AppRequestListener{
 			@Override
 			public void onComplete(String response, Object state) {
+				Log.e(TAG_CLASS_PACKAGE,"getUserInformation: onComplete: LoggedIn user response=" + response);
 				fbUser = new FacebookUser(response);
 				Log.e(TAG_CLASS_PACKAGE,"getUserInformation: onComplete: LoggedIn user=" + fbUser);
 			}// end onComplete
@@ -430,59 +220,13 @@ public class FacebookWebservice {
 			String fields="";
 			
 			if (isForApp){
-				fields="?fields=id,first_name,middle_name,last_name,gender,verified,email";
+				fields="?fields=id,first_name,middle_name,last_name,gender,verified,email&";
 			}// end if: get only needed parameters for the app
 			
 			asyncFacebookRunner.request("me"+fields, new BasicInfoListener());
 			
 		}// end if : get information if session is valid
 	}// end getUserInformationForApp
-	
-	/**
-	 * This method is filter offers coming from user's friends from a more
-	 * generic set of offers. This method assumes the list of user friends
-	 * is already retrieved.
-	 * 
-	 * @param userFriends
-	 * 		JSON string representing user friends. see @link {@link FacebookWebservice#getUserFriends()}
-	 * 
-	 * @param offersFromUsers 
-	 * 		Hash table where:
-	 * 			<ul>
-	 * 				<li>the <code>key</code> is Facebook ID of requested offer owner</li>
-	 * 				<li>the <code>value</code> is object representing offer</li>
-	 * 			</ul> 
-	 * @return
-	 * 		list containing Facebook IDs of offer owners who are friends with 
-	 * 		the user. In case all owners are NOT friends with the user, the list
-	 * 		is returned empty (size=0). This list can be used later to index the 
-	 * 		offers (in the input hash table for example) and retrieve them for
-	 * 		displaying.
-	 * 
-	 */
-	public ArrayList<String> filterOffersFromFriends(JSONObject userFriends,Hashtable<String,Object> offersFromUsers){
-		
-		// List of result of owners in friends of the user
-		ArrayList<String> ownersIdsFromFriends = new ArrayList<String>();
-		
-		// List of facebook IDs of offer owners without duplicates
-		Set<String> ownersIds= offersFromUsers.keySet();
-		
-		// Get an iterator to loop the set of owners IDs for checking
-		Iterator<String> ownersIdsIterator = ownersIds.iterator();
-		
-		while(ownersIdsIterator.hasNext()){
-			
-			// Owner ID to be checked in the iteration
-			String currentOwnerFacebookId = ownersIdsIterator.next();
-			if (userFriends.has(currentOwnerFacebookId)){
-				ownersIdsFromFriends.add(currentOwnerFacebookId);
-			}// end if : offer owner ID exists in friends of user -> add to output list
-			
-		}// end while : check IDs of all offer owners		
-		
-		return ownersIdsFromFriends;
-	}// end filterOffersFromFriends
 		
 	/**
 	 * This method is filter offers coming from user's friends from a more
@@ -824,6 +568,100 @@ public class FacebookWebservice {
 	}// end extractDataJsonObject
 	
 	
+	// _________________________________ will take code snippets from it____
+	
+	private void loginOld (Activity parentActivity){
+		
+		/*
+		 * ########################################################## 
+		 * # If the user is already logged in -> use his credentials#
+		 * ##########################################################
+		 */
+		
+	/*	// Get the shared preferences of the user from the activity
+		sharedPreferences = parentActivity.getPreferences(Context.MODE_PRIVATE);
+
+		Log.e(TAG_CLASS_PACKAGE, "login: sharedPreferences: " + sharedPreferences);
+
+		// Search for user access token and its expiry duration
+		String accessToken = sharedPreferences.getString(SP_ACCESS_TOKEN, null);
+		long accessTokenExpiry = sharedPreferences.getLong(
+				SP_ACCESS_TOKEN_EXPIRY, -1);
+
+		Log.e(TAG_CLASS_PACKAGE, "login: accessToken( " + accessToken + ")  expiry("
+				+ accessTokenExpiry + ")");
+
+		if (accessToken != null && accessTokenExpiry >= 0) {
+			Log.e(TAG_CLASS_PACKAGE, "login: " + "FB session is working");
+			facebook.setAccessToken(accessToken);
+			facebook.setAccessExpires(accessTokenExpiry);
+			getUserInfoForApp();
+			Log.e(TAG_CLASS_PACKAGE, "login: " + "FB token setting is done");			
+		}// end if : user already logged in -> pass token + expiry
+		
+		
+		sharedPreferences = parentActivity.getPreferences(Context.MODE_PRIVATE); */
+		
+		/*
+		 * ##############################################################
+		 * # If the user is not logged in (session expired) -> request  #
+		 * # authorization 												#
+		 * ##############################################################
+		 */
+		if (!facebook.isSessionValid()) {
+			Log.e(TAG_CLASS_PACKAGE, "login: " + "FB session expired");
+
+			facebook.authorize(parentActivity, new DialogListener() {
+				// @Override
+				public void onComplete(Bundle values) {
+
+					/*
+					 * Called when the Log in for FB + APP is successful
+					 * -> basic data of user is there
+					 */
+					Log.e(TAG_CLASS_PACKAGE, "login : onComplete");
+					// Log.e(ERROR_TAG,"Welcome "+name);
+
+					/*
+					 * Edit the shared preferences and add to them the user
+					 * access token and its expiry date
+					 * 
+					 * It is used to avoid showing the user a transition
+					 * dialog between facebook and app during the same 
+					 * session
+					 */
+					
+				/*	SharedPreferences.Editor editor = sharedPreferences.edit();
+					editor.putString(SP_ACCESS_TOKEN, facebook.getAccessToken());
+					editor.putLong(SP_ACCESS_TOKEN_EXPIRY,
+							facebook.getAccessExpires());
+					editor.commit();*/
+					//getUserInfoForApp();
+
+					methodTester();
+				}// end onComplete:
+
+				public void onFacebookError(FacebookError error) {
+					Log.e(TAG_CLASS_PACKAGE, "onFacebookError");
+				}// end onFacebookError
+
+				public void onError(DialogError e) {
+					Log.e(TAG_CLASS_PACKAGE, "onError " + e.getMessage());
+				}// end onError
+
+				public void onCancel() {
+					Log.e(TAG_CLASS_PACKAGE, "onCancel");
+				}// end onCancel
+			});
+
+		}// end if : facebook session expired -> login
+		else{
+			//tester_filterOffersFromOwnersWithMutualFriends();
+			methodTester();
+		}
+		
+	}// end login
+	
 	// ________________________________TESTING METHODS________________
 	
 	private void methodTester(){
@@ -926,6 +764,7 @@ public class FacebookWebservice {
 			System.out.println("Result: " + filter);
 		
 	}
+	
 	public void tester(){
 		
 		Hashtable<String, Object> x=null;
