@@ -7,6 +7,7 @@ import java.util.Hashtable;
 import android.app.Activity;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.text.InputFilter.LengthFilter;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -52,7 +53,9 @@ public class ViewSearchResultsActivity extends Activity {
         setIconsForDetailsItems();
         initListView();
         
-        fbService.login2(this,true,true);
+        fbService.login(this,true,true);
+      
+        
     }// end onCreate
     
     @Override 
@@ -141,6 +144,7 @@ public class ViewSearchResultsActivity extends Activity {
     	    	    	    	
     	    	// TODO : update details pane with appropriate data
     	    	updateDetailsPane(position);
+    	    	
     	    }// end onItemClick
     	  });
     
@@ -269,7 +273,7 @@ public class ViewSearchResultsActivity extends Activity {
     		
     		// Reduce offers searched by removing offers whose owners are friends with the app user
     		@SuppressWarnings("unchecked")
-			Hashtable<String,OfferDisplay> remainingOffers = (Hashtable<String, OfferDisplay>)offers.clone();
+			Hashtable<String,OfferDisplay> remainingOffers = (Hashtable<String, OfferDisplay>)offersFromUsers.clone();
     		FacebookWebservice.removeDuplicates(offersFromFriends, remainingOffers);
     		Log.e("passant","offers from NON friends are filtered");
     		
@@ -292,6 +296,7 @@ public class ViewSearchResultsActivity extends Activity {
     
     public void test_searchUsingFacebook(){
     	
+    	Log.e("Passant" , "test_searchUsingFacebook: begin");
     	// Create input
     	String usrId1 = "32529";		// naglaa
     	String usrId2 = "1446932354";	// olcay
@@ -305,12 +310,14 @@ public class ViewSearchResultsActivity extends Activity {
     	offersFromUsers.put(usrId3, new OfferDisplay(usrId1, "ofr3","ahmad_friendOfFriend"));
     	offersFromUsers.put(usrId4, new OfferDisplay(usrId1, "ofr4","stranger"));
     	offersFromUsers.put(usrId5, new OfferDisplay(usrId1, "ofr5","ahmed celil_stranger"));
+    	Log.e("Passant" , "test_searchUsingFacebook: input initialized");
     	
     	// Invoke test method
     	searchUsingFacebook(offersFromUsers, OwnerFacebookStatus.FRIEND_OF_FRIEND);
     	
+    	Log.e("Passant" , "test_searchUsingFacebook: search is done");
+        
     }// end test_searchUsingFacebook
-    
-    
+   
     
 }// end Activity
