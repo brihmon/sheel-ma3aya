@@ -359,6 +359,8 @@ public class NewUserActivity extends Activity {
 			params.add(new BasicNameValuePair("passportPhoto",passportImage));
 
 			sc2.runHttpRequest(params);
+			
+			startActivity(new Intent(this, ConnectorUserActionsActivity.class));
 
 		}
 	}
