@@ -72,7 +72,8 @@
      android:layout_marginTop="50px"
      android:onClick="onClick_back"></Button>
     <Button android:text="Submit"
-     android:layout_marginTop="50px"></Button>
+     android:layout_marginTop="50px"
+     android:onClick="onClick_submit"></Button>
     </TableRow>
    
 
