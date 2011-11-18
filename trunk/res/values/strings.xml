@@ -525,281 +525,74 @@
         <item>Eritrean</item>
         <item>Estonian</item>
         <item>Ethiopian</item>
-        <item>Faeroese
-                
-                <value></value>
-        </item>
-        <item>Falkland Islander
-            
-                <value></value>
-        </item>
-        <item>Fiji Islander
-              
-                <value></value>
-        </item>
-        <item>Filipino
-             
-                <value></value>
-        </item>
-        <item>Finn
-           
-                <value></value>
-        </item>
-        <item>French
-           
-                <value></value>
-        </item>
-        <item>French Southern Territories
-               
-                <value></value>
-        </item>
-        <item>Gabonese
-              
-                <value></value>
-        </item>
-        <item>Gambian
-              
-                <value></value>
-        </item>
-        <item>Georgian
-             
-                <value></value>
-        </item>
-        <item>
-               
-                <value>German</value>
-        </item>
-        <item>
-               
-                <value>Ghanaian</value>
-        </item>
-        <item>
-             
-                <value>Gibraltarian</value>
-        </item>
-        <item>
-          
-                <value>Greek</value>
-        </item>
-        <item>
-            
-                <value>Greenlander</value>
-        </item>
-        <item>
-          
-                <value>Grenadian</value>
-        </item>
-        <item>
-             
-                <value>Guadeloupean</value>
-        </item>
-        <item>
-               
-                <value>Guamanian</value>
-        </item>
-        <item>
-          
-                <value>Guatemalan</value>
-        </item>
-        <item>
-            
-                <value>Guianese</value>
-        </item>
-        <item>
-               
-                <value>Guinea-Bissau national</value>
-        </item>
-        <item>
-         
-                <value>Guinean</value>
-        </item>
-        <item>
-           
-                <value>Guyanese</value>
-        </item>
-        <item>
-             
-                <value>Haitian</value>
-        </item>
-        <item>
-             
-                <value>Heard Island and McDonald Islands</value>
-        </item>
-        <item>
-          
-                <value>Honduran</value>
-        </item>
-        <item>
-         
-                <value>Hong Kong Chinese</value>
-        </item>
-        <item>
-             
-                <value>Hungarian</value>
-        </item>
-        <item>
-           
-                <value>Icelander</value>
-        </item>
-        <item>
-           
-                <value>Indian</value>
-        </item>
-        <item>
-                <value>Indonesian</value>
-        </item>
-        <item>
-            
-                <value>Iranian</value>
-        </item>
-        <item>
-           
-                <value>Iraqi</value>
-        </item>
-        <item>
-               
-                <value>Irish</value>
-        </item>
-        <item>
-             
-                <value>Israeli</value>
-        </item>
-        <item>
-               
-                <value>Italian</value>
-        </item>
-        <item>
-            
-                <value>Ivorian</value>
-        </item>
-        <item>
-               
-                <value>Jamaican</value>
-        </item>
-        <item>
-                
-                <value>Japanese</value>
-        </item>
-        <item>
-              
-                <value>Jordanian</value>
-        </item>
-        <item>
-            
-                <value>Kazakh</value>
-        </item>
-        <item>
-             
-                <value>Kenyan</value>
-        </item>
-        <item>
-                
-                <value>Kiribatian</value>
-        </item>
-        <item>
-              
-                <value>Kuwaiti</value>
-        </item>
-        <item>
-             
-                <value>Kyrgyz</value>
-        </item>
-        <item>
-               
-                <value>Lao</value>
-        </item>
-        <item>
-              
-                 <value>Latvian</value>
-        </item>
-        <item>
-               
-                <value>Lebanese</value>
-        </item>
-        <item>
-             
-                <value>Liberian</value>
-        </item>
-        <item>
-            
-                <value>Libyan</value>
-        </item>
-        <item>
-             
-                <value>Liechtensteiner</value>
-        </item>
-        <item>
-              
-                <value>Lithuanian</value>
-        </item>
-        <item>
-                
-                <value>Luxembourger</value>
-        </item>
-        <item>
-            
-                <value>Macanese</value>
-        </item>
-        <item>
-              
-                <value>Macedonian</value>
-        </item>
-        <item>
-               
-                <value>Mahorais</value>
-        </item>
-        <item>
-               
-                <value>Malagasy</value>
-        </item>
-        <item>
-              
-                <value>Malawian</value>
-        </item>
-        <item>
-              
-                <value>Malaysian</value>
-        </item>
-        <item>
-             
-                <value>Maldivian</value>
-        </item>
-        <item>
-              
-                <value>Malian</value>
-        </item>
-        <item>
-                
-                <value>Maltese</value>
-        </item>
-        <item>
-           
-                <value>Marshallese</value>
-        </item>
-        <item>
-             
-                <value>Martinican</value>
-        </item>
-        <item>
-             
-                <value>Mauritanian</value>
-        </item>
-        <item>
-            
-                <value>Mauritian</value>
-        </item>
-        <item>
-                
-                <value>Mexican</value>
-        </item>
-        <item>
-               
-                <value>Micronesian</value>
-        </item>
-        <item>
-                
-                <value>Moldovan</value>
-        </item>
+        <item>Faeroese</item>
+        <item>Falkland Islander</item>
+        <item>Fiji Islander</item>
+        <item>Filipino</item>
+        <item>Finn</item>
+        <item>French</item>
+        <item>French Southern Territories</item>
+        <item>Gabonese</item>
+        <item>Gambian</item>
+        <item>Georgian</item>
+        <item>German</item>
+        <item>Ghanaian</item>
+        <item>Gibraltarian</item>
+        <item>Greek</item>
+        <item>Greenlander</item>
+        <item>Grenadian</item>
+        <item>Guadeloupean</item>
+        <item>Guamanian</item>
+        <item>Guatemalan</item>
+        <item>Guianese</item>
+        <item>Guinea-Bissau national</item>
+        <item>Guinean</item>
+        <item>Guyanese</item>
+        <item>Haitian</item>
+        <item>Heard Island and McDonald Islands</item>
+        <item>Honduran</item>
+        <item>Hong Kong Chinese</item>
+        <item>Hungarian</item>
+        <item>Icelander</item>
+        <item>Indian</item>
+        <item>Indonesian</item>
+        <item>Iranian</item>
+        <item>Iraqi</item>
+        <item>Irish</item>
+        <item>Israeli</item>
+        <item>Italian</item>
+        <item>Ivorian</item>
+        <item>Jamaican</item>
+        <item>Japanese</item>
+        <item>Kazakh</item>
+        <item>Kenyan</item>
+        <item>Kiribatian</item>
+        <item>Kuwaiti</item>
+        <item>Kyrgyz</item>
+        <item>Lao</item>
+        <item>Latvian</item>
+        <item>Lebanese</item>
+        <item>Liberian</item>
+        <item>Libyan</item>
+        <item>Liechtensteiner</item>
+        <item>Lithuanian</item>
+        <item>Luxembourger</item>
+        <item>Macanese</item>
+        <item>Macedonian</item>
+        <item>Mahorais</item>
+        <item>Malagasy</item>
+        <item>Malawian</item>
+        <item>Malaysian</item>
+        <item>Maldivian</item>
+        <item>Malian</item>
+        <item>Maltese</item>
+        <item>Marshallese</item>
+        <item>Martinican</item>
+        <item>Mauritanian</item>
+        <item>Mauritian</item>
+        <item>Mexican</item>
+        <item>Micronesian</item>
+        <item>Moldovan</item>
         <item>
              
                 <value>Monegasque</value>
