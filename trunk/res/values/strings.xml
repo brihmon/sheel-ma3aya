@@ -451,339 +451,119 @@
 		    
     </string-array>
     
-     
-
 	<string-array name="nationalities_array">
-        <item>
-                <value>Afghan</value>
-        </item>
-        <item>
-               
-                <value>Albanian</value>
-        </item>
-        <item>
-          
-                <value>Algerian</value>
-        </item>
-        <item>
-               
-                <value>American</value>
-        </item>
-        <item>
-             
-                <value>American Samoan</value>
-        </item>
-        <item>
-             
-                <value>Andorran</value>
-        </item>
-        <item>
+        <item>Afghan</item>
+        <item>Albanian</item>
+        <item>Algerian</item>
+        <item>American</item>
+        <item>American Samoan</item>
+        <item>Andorran</item>
+        <item>Angolan</item>
+        <item>Anguillan</item>
+        <item>Antarctican</item>
+        <item>Antigua and Barbuda national</item>
+        <item>Antillean</item>
+        <item>Argentinian</item>
+        <item>Armenian</item>
+        <item>Aruban</item>
+        <item>Australian</item>
+        <item>Austrian</item>
+        <item>Azerbaijani</item>
+        <item>Bahamian</item>
+        <item>Bahraini</item>
+        <item>Bangladeshi</item>
+        <item>Barbadian</item>
+        <item>Basotho</item>
+        <item>Belarusian</item>
+        <item>Belgian</item>
+        <item>Belizean</item>
+        <item>Beninese</item>
+        <item>Bermudian</item>
+        <item>Bhutanese</item>
+        <item>Bolivian</item>
+        <item>Bosnia and Herzegovina national</item>
+        <item>Botswanan</item>
+        <item>Bouvet Island</item>
+        <item>Brazilian</item>
+        <item>British Indian Ocean Territory</item>
+        <item>British Virgin Islander</item>
+        <item>Briton</item>
+        <item>Bruneian</item>
+        <item>Bulgarian</item>
+        <item>Burkinabe</item>
+        <item>Burmese</item>
+        <item>Burundian</item>
+        <item>Cambodian</item>
+        <item>Cameroonian</item>
+        <item>Canadian</item>
+        <item>Cape Verdean</item>
+        <item>Caymanian</item>
+        <item>Central African</item>
+        <item>Chadian</item>
+        <item>Chilean</item>
+        <item>Chinese</item>
+        <item>Christmas Islander</item>
+        <item>Cocos Islander</item>
+        <item>Colombian</item>
+        <item>Comorian</item>
+        <item>Congolese</item>
+        <item>Congolese</item>
+        <item>Cook Islander</item>
+        <item>Costa Rican</item>
+        <item>Croat</item>
+        <item>Cuban</item>
+        <item>Cypriot</item>
+        <item>Czech</item>
+        <item>Dane</item>
+        <item>Djiboutian</item>
+        <item>Dominican</item>
+        <item>East Timorese</item>
+        <item>Ecuadorian</item>
+        <item>Egyptian</item>
+        <item>Emirian</item>
+        <item>Equatorial Guinean</item>
+        <item>Eritrean</item>
+        <item>Estonian</item>
+        <item>Ethiopian</item>
+        <item>Faeroese
                 
-                <value>Angolan</value>
+                <value></value>
         </item>
-        <item>
-              
-                <value>Anguillan</value>
-        </item>
-        <item>
-                
-                <value>Antarctican</value>
-        </item>
-        <item>
-                
-                <value>Antigua and Barbuda national</value>
-        </item>
-        <item>
-              
-                <value>Antillean</value>
-        </item>
-        <item>
-                
-                <value>Argentinian</value>
-        </item>
-        <item>
-               
-                <value>Armenian</value>
-        </item>
-        <item>
-              
-                <value>Aruban</value>
-        </item>
-        <item>
-              
-                <value>Australian</value>
-        </item>
-        <item>
-               
-                <value>Austrian</value>
-        </item>
-        <item>
-             
-                <value>Azerbaijani</value>
-        </item>
-        <item>
-              
-                <value>Bahamian</value>
-        </item>
-        <item>
-               
-                <value>Bahraini</value>
-        </item>
-        <item>
-                
-                <value>Bangladeshi</value>
-        </item>
-        <item>
-             
-                <value>Barbadian</value>
-        </item>
-        <item>
-               
-                <value>Basotho</value>
-        </item>
-        <item>
-               
-                <value>Belarusian</value>
-        </item>
-        <item>
-              
-                <value>Belgian</value>
-        </item>
-        <item>
-             
-                <value>Belizean</value>
-        </item>
-        <item>
-              
-                <value>Beninese</value>
-        </item>
-        <item>
-               
-                <value>Bermudian</value>
-        </item>
-        <item>
-               
-                <value>Bhutanese</value>
-        </item>
-        <item>
-               
-                <value>Bolivian</value>
-        </item>
-        <item>
-                
-                <value>Bosnia and Herzegovina national</value>
-        </item>
-        <item>
-              
-                <value>Botswanan</value>
-        </item>
-        <item>
-              
-                <value>Bouvet Island</value>
-        </item>
-        <item>
-                
-                <value>Brazilian</value>
-        </item>
-        <item>
-                
-                <value>British Indian Ocean Territory</value>
-        </item>
-        <item>
-                
-                <value>British Virgin Islander</value>
-        </item>
-        <item>
-               
-                <value>Briton</value>
-        </item>
-        <item>
-               
-                <value>Bruneian</value>
-        </item>
-        <item>
-               
-                <value>Bulgarian</value>
-        </item>
-        <item>
-               
-                <value>Burkinabe</value>
-        </item>
-        <item>
-                
-                <value>Burmese</value>
-        </item>
-        <item>
-                
-                <value>Burundian</value>
-        </item>
-        <item>
-               
-                <value>Cambodian</value>
-        </item>
-        <item>
-                
-                <value>Cameroonian</value>
-        </item>
-        <item>
-              
-                <value>Canadian</value>
-        </item>
-        <item>
-                
-                <value>Cape Verdean</value>
-        </item>
-        <item>
-              
-                <value>Caymanian</value>
-        </item>
-        <item>
-                
-                <value>Central African</value>
-        </item>
-        <item>
-                
-                <value>Chadian</value>
-        </item>
-        <item>
-               
-                <value>Chilean</value>
-        </item>
-        <item>
-               
-                <value>Chinese</value>
-        </item>
-        <item>
-                
-                <value>Christmas Islander</value>
-        </item>
-        <item>
+        <item>Falkland Islander
             
-                <value>Cocos Islander</value>
+                <value></value>
         </item>
-        <item>
+        <item>Fiji Islander
               
-                <value>Colombian</value>
+                <value></value>
         </item>
-        <item>
-               
-                <value>Comorian</value>
+        <item>Filipino
+             
+                <value></value>
         </item>
-        <item>
-               
-                <value>Congolese</value>
-        </item>
-        <item>
+        <item>Finn
            
-                <value>Congolese</value>
+                <value></value>
         </item>
-        <item>
-            
-                <value>Cook Islander</value>
-        </item>
-        <item>
-               
-                <value>Costa Rican</value>
-        </item>
-        <item>
-                
-                <value>Croat</value>
-        </item>
-        <item>
-      
-                <value>Cuban</value>
-        </item>
-        <item>
-            
-                <value>Cypriot</value>
-        </item>
-        <item>
-               
-                <value>Czech</value>
-        </item>
-        <item>
-      
-                <value>Dane</value>
-        </item>
-        <item>
-              
-                <value>Djiboutian</value>
-        </item>
-        <item>
-              
-                <value>Dominican</value>
-        </item>
-        <item>
-            
-                <value>East Timorese</value>
-        </item>
-        <item>
-             
-                <value>Ecuadorian</value>
-        </item>
-        <item>
-             
-                <value>Egyptian</value>
-        </item>
-        <item>
-             
-                <value>Emirian</value>
-        </item>
-        <item>
-              
-                <value>Equatorial Guinean</value>
-        </item>
-        <item>
-
-                <value>Eritrean</value>
-        </item>
-        <item>
-              
-                <value>Estonian</value>
-        </item>
-        <item>
-               
-                <value>Ethiopian</value>
-        </item>
-        <item>
-                
-                <value>Faeroese</value>
-        </item>
-        <item>
-            
-                <value>Falkland Islander</value>
-        </item>
-        <item>
-              
-                <value>Fiji Islander</value>
-        </item>
-        <item>
-             
-                <value>Filipino</value>
-        </item>
-        <item>
+        <item>French
            
-                <value>Finn</value>
+                <value></value>
         </item>
-        <item>
-           
-                <value>French</value>
-        </item>
-        <item>
+        <item>French Southern Territories
                
-                <value>French Southern Territories</value>
+                <value></value>
         </item>
-        <item>
+        <item>Gabonese
               
-                <value>Gabonese</value>
+                <value></value>
         </item>
-        <item>
+        <item>Gambian
               
-                <value>Gambian</value>
+                <value></value>
         </item>
-        <item>
+        <item>Georgian
              
-                <value>Georgian</value>
+                <value></value>
         </item>
         <item>
                
@@ -1404,39 +1184,6 @@
         <item>
                 <value>Åland Islander</value>
         </item>
-	</string-array>
-	
-	<string-array name="numbers_array">
-	    <item>1</item>
-	    <item>2</item>
-	    <item>3</item>
-	    <item>4</item>
-	    <item>5</item>
-	    <item>6</item>
-	    <item>7</item>
-	    <item>8</item>
-	    <item>9</item>
-	    <item>10</item>
-	    <item>11</item>
-	    <item>12</item>
-	    <item>13</item>
-	    <item>14</item>
-	    <item>15</item>
-	    <item>16</item>
-	    <item>17</item>
-	    <item>18</item>
-	    <item>19</item>
-	    <item>20</item>
-	    <item>21</item>
-	    <item>22</item>
-	    <item>23</item>
-	    <item>24</item>
-	    <item>25</item>
-	    <item>26</item>
-	    <item>27</item>
-	    <item>28</item>
-	    <item>29</item>
-	    <item>30</item>
 	</string-array>
 
 </resources>
