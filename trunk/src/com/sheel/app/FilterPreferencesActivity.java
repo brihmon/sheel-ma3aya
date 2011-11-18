@@ -1,5 +1,9 @@
 package com.sheel.app;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
@@ -153,23 +157,59 @@ public class FilterPreferencesActivity extends Activity {
 	
 	public void filterOffers(){
 		
-		SheelMaaayaClient sc = new SheelMaaayaClient() {
+		HTTPClient sc = new HTTPClient() {
 	           
-				@Override
-				public void doSomething() {
-					final String str = this.rspStr;
-					 
-								 runOnUiThread(new Runnable()
-	                             {
-	                                 @Override
-	                                 public void run()
-	                                 {
-	                                     Toast.makeText(FilterPreferencesActivity.this, str, Toast.LENGTH_LONG).show();
-	                                   //  startActivity(new Intent(SearchByFlightNoActivity.this, PhoneCommunication.class));
-	                                 }
-	                             });
+			@Override
+			public void doSomething() {
+				final String str = this.rspStr;
+				 
+							 runOnUiThread(new Runnable()
+                             {
+                                 @Override
+                                 public void run()
+                                 {
+                                     Toast.makeText(FilterPreferencesActivity.this, str, Toast.LENGTH_LONG).show();
+                                   //  startActivity(new Intent(SearchByFlightNoActivity.this, PhoneCommunication.class));
+                                     
+                                     try {
+                                    	 
+                                    	JSONArray jsonArray = new JSONArray(builder.toString());
+                                    	
+                                    	JSONObject offer;
+                                    	JSONObject user;
+                                    	JSONObject flight;
+                                    	
+                                    	int kgs; 
+                                    	String username = "";
+                                    	
+                                    	String source = "";
+                                    	
+                                    	 for (int i = 0; i < jsonArray.length(); i++) {
+                                    		 
+                                    		 offer = jsonArray.getJSONObject(i);
 
+                                    		 kgs = offer.getInt("noOfKilograms");
+                                    		 
+                                    		 user = offer.getJSONObject("user");
+                                    		 username = user.getString("username");
+                                    		 
+                                    		 flight = offer.getJSONObject("flight");
+                                    		 source = flight.getString("source");
+										
+                                    		 Log.e("mmm", username + "");
+                                    		 Log.e("mmm", source + "");
+                                    		 Log.e("mmm", kgs + "");
+                                    		 
+                                    	 }
+										
+									} catch (JSONException e) {
+										
+										e.printStackTrace();
+									}
+                                 }
+                             });
 				}
+        
 			};
 	        
 			if(searchMethod == 0)
