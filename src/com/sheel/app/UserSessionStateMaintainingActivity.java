@@ -1,11 +1,12 @@
 package com.sheel.app;
 
-import com.sheel.datastructures.enums.SharedValuesBetweenActivities;
-import com.sheel.webservices.FacebookWebservice;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+
+import com.sheel.datastructures.enums.SharedValuesBetweenActivities;
+import com.sheel.webservices.FacebookWebservice;
 
 /**
  * Base class for all activities inside the app to maintain critical
@@ -17,6 +18,12 @@ import android.os.Bundle;
  */
 public class UserSessionStateMaintainingActivity extends Activity {
 
+	/**
+	 * Constant used for tracing purposes "class name (package name)"
+	 */
+	private final String TAG_CLASS_PACKAGE = "UserSessionStateMaintainingActivity (com.sheel.app): ";
+	
+	
 	/**
 	 * It handles all requests to facebook API. Moreover, it has
 	 * all related info to logged in user and session
@@ -90,6 +97,8 @@ public class UserSessionStateMaintainingActivity extends Activity {
 		System.out.println("integration: getSessionInformationBetweenActivities: activity: " + this);
 		Intent actvIntent = this.getIntent();
 		Bundle extras = actvIntent.getExtras();
+		//Log.e(TAG_CLASS_PACKAGE, "getSessionInformationBetweenActivities: extras bundle of intent: " + extras.size() );
+		System.out.println(TAG_CLASS_PACKAGE + "getSessionInformationBetweenActivities: extras content:  " + extras);
 		
 		if (extras != null){
 			String key_id = SharedValuesBetweenActivities.userFacebookId.name();
