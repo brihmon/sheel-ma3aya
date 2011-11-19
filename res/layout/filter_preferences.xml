@@ -75,14 +75,15 @@
         android:layout_below="@+id/autoCompleteTextView2"
         android:layout_marginTop="18dp"
         android:text="--------------------------------------------------------------------" />
-
+    
     <Button
         android:id="@+id/button1"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
+        android:layout_alignLeft="@+id/female"
         android:layout_below="@+id/textView5"
-        android:text="Search using Facebook" />
+        android:text="Search using Facebook"
+        android:visibility="invisible" />
 
     <TextView
         android:id="@+id/textView6"
@@ -167,5 +168,39 @@
         android:layout_toLeftOf="@+id/male"
         android:text="(1 → 30)"
         android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <ToggleButton
+        android:id="@+id/toggleButton1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/button1"
+        android:layout_alignBottom="@+id/button1"
+        android:layout_alignParentLeft="true"
+        android:layout_toLeftOf="@+id/autoCompleteTextView2"
+        android:textOff="Facebook Friends"
+        android:textOn="Facebook Friends" 
+        android:onClick="onClick_friends"
+        android:textSize="10dp"/>
+
+    <ToggleButton
+        android:id="@+id/toggleButton2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/button1"
+        android:layout_alignBottom="@+id/button1"
+        android:layout_alignLeft="@+id/button1"
+        android:layout_alignRight="@+id/textView6"
+        android:textOff="Facebook Friends of Friends"
+        android:textOn="Facebook Friends of Friends"
+        android:onClick="onClick_friends_of_friends"
+        android:textSize="10dp" />
+
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/toggleButton1"
+        android:layout_alignParentLeft="true"
+        android:text="Search offers owners from" />
 
 </RelativeLayout>
