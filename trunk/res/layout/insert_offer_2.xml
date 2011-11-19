@@ -80,10 +80,14 @@
   
      
     
- 
+ <TextView android:text="Go to main page ..."
+     		android:clickable="true"
+     		android:onClick="onClick_goMainPage"
+     		android:textColor="@android:color/background_light"
+     		/>
    
     <Button android:text="Submit"
-     android:layout_marginTop="50px"
+     android:layout_marginTop="40px"
      android:onClick="onClick_submit"></Button>
   
 </TableLayout>
