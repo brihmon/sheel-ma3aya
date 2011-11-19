@@ -81,11 +81,15 @@ public class UserSessionStateMaintainingActivity extends Activity {
 	public Intent setSessionInformationBetweenActivities (Class<?> typeOfNextActivity){
 
 		   Intent mIntent = new Intent(this, typeOfNextActivity);
+		   
+		   if (fbService != null){
 			// Pass variable to detailed view activity using the intent
+			   if (fbService.getFacebookUser() != null)
 			mIntent.putExtra(SharedValuesBetweenActivities.userFacebookId.name(), fbService.getFacebookUser().getUserId());
 			mIntent.putExtra(SharedValuesBetweenActivities.userAccessToken.name(), fbService.getUserAccessToken());
 			mIntent.putExtra(SharedValuesBetweenActivities.accessTokenExpiry.name(), fbService.getUserAccessTokenExpiryTime());
-			
+		   }
+		   
 			return mIntent;
 	}// end SetSessionInformationBetweenActivities
 	

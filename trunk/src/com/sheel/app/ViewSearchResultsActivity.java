@@ -43,7 +43,7 @@ public class ViewSearchResultsActivity extends UserSessionStateMaintainingActivi
 	SearchResultsListAdapter adapter;
 	
 	String request;
-	OwnerFacebookStatus facebook;
+	OwnerFacebookStatus facebook=OwnerFacebookStatus.UNRELATED;
 	String facebookStatus;
 		
 	ArrayList<OfferDisplay> searchResults=new ArrayList<OfferDisplay>();
@@ -67,9 +67,6 @@ public class ViewSearchResultsActivity extends UserSessionStateMaintainingActivi
     		
     		else if (facebookStatus.equals(OwnerFacebookStatus.FRIEND_OF_FRIEND.name()))
     			facebook = OwnerFacebookStatus.FRIEND_OF_FRIEND;
-    		
-    		else if (facebookStatus.equals(OwnerFacebookStatus.UNRELATED.name()))
-    			facebook = OwnerFacebookStatus.UNRELATED;
     		
     		Log.e("mm", facebookStatus);
     		}
