@@ -3,16 +3,19 @@ package com.sheel.app;
 import java.util.Calendar;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.inputmethodservice.Keyboard.Key;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.Button;
+//import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -35,7 +38,7 @@ public class InsertFlightActivity extends Activity {
 	private int mHour;
     private int mMinute;
 	private TextView mTimeDisplay;
-	private Button mPickTime;
+	//private Button mPickTime;
 	
 	static final int TIME_DIALOG_ID = 0;
 	static final int DATE_DIALOG_ID = 1;
@@ -44,12 +47,13 @@ public class InsertFlightActivity extends Activity {
 	 AutoCompleteTextView sAirportET ;
 	 AutoCompleteTextView dAirportET  ;
 	
-	
+	 static Calendar datePicked = Calendar.getInstance();
 	private DatePickerDialog.OnDateSetListener mDateSetListener =
 	            new DatePickerDialog.OnDateSetListener() {
 
 	                public void onDateSet(DatePicker view, int year, 
 	                                      int monthOfYear, int dayOfMonth) {
+	                	InsertFlightActivity.datePicked.set(year, monthOfYear, dayOfMonth, 23 , 59 , 59);
 	                    mYear = year;
 	                    mMonth = monthOfYear;
 	                    mDay = dayOfMonth;
@@ -96,7 +100,7 @@ public class InsertFlightActivity extends Activity {
 	         dAirportET.setText(flight.getDestination());
 	        
 	        
-	        String[] airports = getResources().getStringArray(R.array.intl_airports_array);
+	          String[] airports = getResources().getStringArray(R.array.airports_array);
 			
 			  AutoCompleteTextView textView = 
 					  (AutoCompleteTextView) findViewById(R.id.sAirport);
@@ -141,11 +145,11 @@ public class InsertFlightActivity extends Activity {
 
 		        // display the current date
 		        
-		        if(flight.getDepartureDateTime().equals("")){
+		        if(flight.getDepartureDate().equals("")){
 		        updateDisplay();
 		        }
 		        else{
-		        	mDateDisplay.setText(flight.departureDateTime);
+		        	mDateDisplay.setText(flight.departureDate);
 		        }
 		        
 				
@@ -180,31 +184,36 @@ public class InsertFlightActivity extends Activity {
 	    }
 	 
 	 
-	 public void onClick_back(View v){
-		 
-
-	flight = new Flight(flightNumberET.getText().toString(),
-				 sAirportET.getText().toString(),
-				 dAirportET.getText().toString(),
-				 mDateDisplay.getText().toString());
 	 
-		 
-		 startActivity(new Intent(this, InsertOfferActivity.class));
-		  
-	 }
 	 
 	 
 	 public void onClick_submit(View v){
 		 
-
+		    String errors = "";
+		    
+		    if(flightNumberET.getText().length()<3){
+		    	errors+="Please insert a valid flight number";
+		    	showErrors(errors);
+		    	return;
+		    }
+		    if(sAirportET.getText().toString().length()<4||dAirportET.getText().toString().length()<4){
+		    	errors+="Please insert the complete flight info";
+		    	showErrors(errors);
+		    	return;
+		    }
+		    if(datePicked.before(Calendar.getInstance())){
+		    	errors+="Please insert a valid date";
+		    	showErrors(errors);
+		    	return;
+		    }
+		    
+		    
+		    
 			flight = new Flight(flightNumberET.getText().toString(),
 						 sAirportET.getText().toString(),
 						 dAirportET.getText().toString(),
 						 mDateDisplay.getText().toString());
 			 
-				 
-				 //startActivity(new Intent(this, InsertOfferActivity.class));
-				  
 			SheelMaaayaClient sc = new SheelMaaayaClient() {
 				
 				@Override
@@ -216,6 +225,7 @@ public class InsertFlightActivity extends Activity {
 	                                 @Override
 	                                 public void run()
 	                                 {
+	                                	 ///////////// SHOULD GO HERE TO ANOTHER ACTIVITY
 	                                     Toast.makeText(InsertFlightActivity.this, str, Toast.LENGTH_LONG).show();
 	                                 }
 	                             });
@@ -228,8 +238,36 @@ public class InsertFlightActivity extends Activity {
 			input+= "<>"+gson.toJson(InsertOfferActivity.offer);
 			sc.runHttpPost("/insertnewoffer", input);
 			
-			
-			 }
+		}
+	 
+	 
+	 
+	 
+	 public void showErrors(String message){
+		 AlertDialog alertDialog;
+		 alertDialog = new AlertDialog.Builder(this).create();
+		 alertDialog.setTitle("Invalid input");
+		 alertDialog.setMessage(message);
+		 alertDialog.show();
+	 }
+
+
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		switch(keyCode){
+		case KeyEvent.KEYCODE_BACK:
+			flight = new Flight(flightNumberET.getText().toString(),
+					 sAirportET.getText().toString(),
+					 dAirportET.getText().toString(),
+					 mDateDisplay.getText().toString());
+		 
+			 
+			 startActivity(new Intent(this, InsertOfferActivity.class));	
+			break;
+		}
+		return true;
+		
+	}
 	 
 	 
  
