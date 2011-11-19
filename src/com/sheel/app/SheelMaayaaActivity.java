@@ -18,7 +18,9 @@ public class SheelMaayaaActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
+//        setContentView(R.layout.main);
+        
+        setContentView(R.layout.connector_welcome_page);
     }
     
     public void onClick_goToSheelMa3aya(View v){
@@ -71,7 +73,7 @@ public class SheelMaayaaActivity extends Activity {
 					 
 								 runOnUiThread(new Runnable()
 	                             {
-	                                 @Override
+	                 //                @Override
 	                                 public void run()
 	                                 {
 	                                     Toast.makeText(SheelMaayaaActivity.this, str, Toast.LENGTH_LONG).show();
