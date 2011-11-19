@@ -65,12 +65,8 @@ public class ConnectorUserActionsActivity extends UserSessionStateMaintainingAct
 	 */
 
 	public void onClick_DeclareOffer(View v) {
-		Toast.makeText(getApplicationContext(), "Ahmed: Declare Offers",
-				Toast.LENGTH_SHORT).show();
-		
-		Intent intent = new Intent(getBaseContext(), InsertOfferActivity.class);
-		// TODO Mohsen uncomment the method and pass ur class
-		//Intent intent =setSessionInformationBetweenActivities(typeOfNextActivity)
+	
+		Intent intent =setSessionInformationBetweenActivities(InsertOfferActivity.class);
 		startActivity(intent);
 		
 		onClick_test(v);
