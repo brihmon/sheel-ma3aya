@@ -222,7 +222,8 @@ public class FacebookWebservice {
 					
 			@Override
 			public void onComplete(Bundle values) {
-				Log.e(TAG_CLASS_PACKAGE,"login2: onComplete: Login successful" );
+				Log.e(TAG_CLASS_PACKAGE,"login2: onComplete: Login successful " );
+				
 				if (getUserInfo){
 					Log.e("passant: ", "getUserInformation");
 					getUserInformation(isInfoForApp);					
@@ -327,7 +328,7 @@ public class FacebookWebservice {
 	 * @return
 	 * 		Hashtable of search results having owners who are friends with app
 	 * 		user. If no owners who are friends were found, list is returned
-	 * 		empty.
+	 * 		empty. In case of any exceptions (usually about connection), null is returned.
 	 *		Hash table where:
 	 * 			<ul>
 	 * 				<li>the <code>key</code> is Facebook ID of offer owner</li>
@@ -392,18 +393,24 @@ public class FacebookWebservice {
 		// Used for tracing purposes
 		String methodName = "filterOffersFromFriends (Hashtable<String,OfferDisplay> offersFromUsers)";
 		
-		// Create new listener for friends of friends status
-		FriendShipStatusCheckListener friendshipStatusCheckListener = new FriendShipStatusCheckListener(offersFromUsers,TAG_CLASS_PACKAGE,methodName);
+		if (this.facebook.isSessionValid()){
+			// Create new listener for friends of friends status
+			FriendShipStatusCheckListener friendshipStatusCheckListener = new FriendShipStatusCheckListener(offersFromUsers,TAG_CLASS_PACKAGE,methodName);
+				
+			/* Send HTTP request. Graph API path: me/friends/friendId.  
+			 * The only permissions needed for operation to be performed is <access_token>
+			 * to be granted 
+			 */
+			requestOfferFilteringByRelationBetweenAppUserAnd(offersFromUsers, "friends", friendshipStatusCheckListener, false);
 			
-		/* Send HTTP request. Graph API path: me/friends/friendId.  
-		 * The only permissions needed for operation to be performed is <access_token>
-		 * to be granted 
-		 */
-		requestOfferFilteringByRelationBetweenAppUserAnd(offersFromUsers, "friends", friendshipStatusCheckListener, false);
+			blockThreadUntilAllOffersAreProcessed(friendshipStatusCheckListener.getSemaphore());
+			
+			return friendshipStatusCheckListener.getFilteredOffers();
+		}else{
+			Log.e(TAG_CLASS_PACKAGE,methodName + " : session expired -> no search");
+			return new Hashtable<String, OfferDisplay>();
+		}
 		
-		blockThreadUntilAllOffersAreProcessed(friendshipStatusCheckListener.getSemaphore());
-		
-		return friendshipStatusCheckListener.getFilteredOffers();
 	}// end filterOffersFromOwnersWithMutualFriends
 		
 	/**
@@ -422,7 +429,7 @@ public class FacebookWebservice {
 	 * @return
 	 * 		Hashtable of search results having owners with common friends with app
 	 * 		user. If no owners with mutual friends were found, list is returned
-	 * 		empty.
+	 * 		empty. In case of any exceptions (usually about connection), null is returned.
 	 *		Hash table where:
 	 * 			<ul>
 	 * 				<li>the <code>key</code> is Facebook ID of offer owner</li>
@@ -483,18 +490,26 @@ public class FacebookWebservice {
 		// Used for tracing purposes
 		String methodName = "filterOffersFromOwnersWithMutualFriends (Hashtable<String,OfferDisplay> offersFromUsers)";
 		
-		// Create new listener for friends of friends status
-		MutualFriendsCheckListener mutualFriendsCheckListener = new MutualFriendsCheckListener(offersFromUsers,TAG_CLASS_PACKAGE,methodName);
+		if (this.isSessionValid()){
 			
-		/* Send HTTP request. Graph API path: me/mutualfriends/friendId.  
-		 * The only permissions needed for operation to be performed is <access_token>
-		 * to be granted 
-		 */
-		requestOfferFilteringByRelationBetweenAppUserAnd(offersFromUsers, "mutualfriends", mutualFriendsCheckListener, true);
-		
-		blockThreadUntilAllOffersAreProcessed(mutualFriendsCheckListener.getSemaphore());
-		
-		return mutualFriendsCheckListener.getFilteredOffers();
+			// Create new listener for friends of friends status
+			MutualFriendsCheckListener mutualFriendsCheckListener = new MutualFriendsCheckListener(offersFromUsers,TAG_CLASS_PACKAGE,methodName);
+				
+			/* Send HTTP request. Graph API path: me/mutualfriends/friendId.  
+			 * The only permissions needed for operation to be performed is <access_token>
+			 * to be granted 
+			 */
+			requestOfferFilteringByRelationBetweenAppUserAnd(offersFromUsers, "mutualfriends", mutualFriendsCheckListener, true);
+			
+			blockThreadUntilAllOffersAreProcessed(mutualFriendsCheckListener.getSemaphore());
+			
+			return mutualFriendsCheckListener.getFilteredOffers();
+			
+		}else{
+			Log.e(TAG_CLASS_PACKAGE,methodName + " : session expired -> no search");
+			return new Hashtable<String, OfferDisplay>();
+		}
+	
 	}// end filterOffersFromOwnersWithMutualFriends2
 	
 	/**
@@ -659,6 +674,10 @@ public class FacebookWebservice {
 	 * 		in case of exceptions, it will return null
 	 */
 	private JSONObject extractDataJsonObject(JSONObject receviedResponse){
+		
+		if (receviedResponse.has("error")){
+			return null;
+		}// end if: returned response is an error -> process was not valid
 		
 		// Get friend data	
 		JSONArray responseData;
