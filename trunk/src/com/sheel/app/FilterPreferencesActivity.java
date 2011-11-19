@@ -4,6 +4,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.sheel.datastructures.enums.OwnerFacebookStatus;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -26,6 +28,8 @@ public class FilterPreferencesActivity extends Activity {
 	
 	ToggleButton male; 
 	ToggleButton female;
+	ToggleButton friends;
+	ToggleButton friends_of_friends;
 
 	EditText numOfKgsText;
 	EditText priceText;
@@ -38,6 +42,8 @@ public class FilterPreferencesActivity extends Activity {
 	
 	int kgs, price;
 	boolean allValid;
+	
+	OwnerFacebookStatus facebook;
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -74,6 +80,8 @@ public class FilterPreferencesActivity extends Activity {
        	priceText = (EditText) findViewById(R.id.autoCompleteTextView2);
         male = (ToggleButton) findViewById(R.id.male);
         female = (ToggleButton) findViewById(R.id.female);
+        friends = (ToggleButton) findViewById(R.id.toggleButton1);
+        friends_of_friends = (ToggleButton) findViewById(R.id.toggleButton2);
         	
         setNationalityAdaptor();
      }
@@ -112,11 +120,26 @@ public class FilterPreferencesActivity extends Activity {
 		gender = "female";
 	}
 	
+	public void onClick_friends_of_friends(View v) 
+	{
+		friends.setChecked(false);
+		facebook = OwnerFacebookStatus.FRIEND_OF_FRIEND;
+	}
+	
+	public void onClick_friends(View v) 
+	{
+		friends_of_friends.setChecked(false);
+		facebook = OwnerFacebookStatus.FRIEND;
+	}
+	
 	public void onClick_search_offers(View v) 
 	{
 		
 		if(!male.isChecked() && !female.isChecked())
 			gender = "both";
+		
+		if(!friends.isChecked() && !friends_of_friends.isChecked())
+			facebook = OwnerFacebookStatus.UNRELATED;
 		
 		availableKgs = numOfKgsText.getText().toString();
 		pricePerKg = priceText.getText().toString();
@@ -170,6 +193,7 @@ public class FilterPreferencesActivity extends Activity {
 		
 		Intent intent = new Intent(getBaseContext(), ViewSearchResultsActivity.class);
 		intent.putExtra("request", request);
+		intent.putExtra("facebook", facebook.name());
 		startActivity(intent);
 		
 		
