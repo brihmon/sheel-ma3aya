@@ -1,6 +1,7 @@
 package com.sheel.app;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
@@ -19,11 +20,16 @@ import android.widget.Toast;
 
 public class PhoneCommunication extends Activity {
 	
+	
+	ProgressDialog dialog;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.communicate);
 	}
+	
+	
 	
 	/*
 	 * Used for calling a given user.
@@ -131,8 +137,8 @@ public class PhoneCommunication extends Activity {
 		 * Have a nice flight,
 		 * Sheel M3aya team
 		 */
-//		String path = "/insertconfirmation/8/13/0";
 		
+		dialog = ProgressDialog.show(PhoneCommunication.this, "", "Doing your request, Please wait..", true, false);
 		Toast.makeText(PhoneCommunication.this, "Doing your request..", Toast.LENGTH_LONG).show();
 		String path = "/insertconfirmation/15/13/1";
         SheelMaaayaClient sc = new SheelMaaayaClient() {
@@ -149,9 +155,9 @@ public class PhoneCommunication extends Activity {
                                      Toast.makeText(PhoneCommunication.this, str, Toast.LENGTH_LONG).show();
                                      if(str.contains("12") || str.contains("13"))
                                      {
-//                                    	 sendSMS("be5", "5556");
-//                                    	 sendSMS("be52", "5554");
-                                    	 
+                                    	 if(dialog != null)
+                                    		dialog.dismiss();
+                                    	
                                     	 Toast.makeText(PhoneCommunication.this, "Offer has been confirmed!", Toast.LENGTH_LONG).show(); 
                                      }
                                      // Check the response string if success and ready
@@ -173,6 +179,15 @@ public class PhoneCommunication extends Activity {
 		Intent sendIntent = new Intent(Intent.ACTION_VIEW, Uri.fromParts("sms", number, null));
 		sendIntent.putExtra("sms_body", sms_content);
 		startActivity(sendIntent);
+	}
+
+
+
+	@Override
+	protected void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		dialog = null;
 	}
 	
 	
