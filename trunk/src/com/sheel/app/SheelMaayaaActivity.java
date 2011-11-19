@@ -25,6 +25,11 @@ public class SheelMaayaaActivity extends Activity {
     	startActivity(new Intent(this, ConnectorWelcomePageActivity.class));
     }
     
+    
+    public void onClick_insertoffer(View v){
+		 startActivity(new Intent(this, InsertOfferActivity.class));
+	 }
+    
 	 public void onClick_go (View v) 
 	 {
 		 Toast.makeText(getApplicationContext(), "Displaying contact info", Toast.LENGTH_SHORT).show();
