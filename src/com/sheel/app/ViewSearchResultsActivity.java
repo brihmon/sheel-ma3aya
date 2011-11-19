@@ -47,7 +47,6 @@ public class ViewSearchResultsActivity extends UserSessionStateMaintainingActivi
 	String facebookStatus;
 		
 	ArrayList<OfferDisplay> searchResults=new ArrayList<OfferDisplay>();
-	FacebookWebservice fbService = new FacebookWebservice();
 
 	/** Called when the activity is first created. */
     @Override
@@ -76,7 +75,7 @@ public class ViewSearchResultsActivity extends UserSessionStateMaintainingActivi
 
         
         // TODO CHECK MIGHT CAUSE BUG
-        fbService.getUserInformation(true);
+        getFacebookService().getUserInformation(true);
         
 
         setIconsForDetailsItems();
@@ -317,25 +316,25 @@ public class ViewSearchResultsActivity extends UserSessionStateMaintainingActivi
     	
     	if (maximumOwnerFacebookStatus != OwnerFacebookStatus.UNRELATED){
     		
-    		Log.e("passant","social network filtering enabled");
+    		Log.e("passant","searchUsingFacebook: social network filtering enabled");
     		
     		Hashtable<String,OfferDisplay> offersFromFriends=null;
     		Hashtable<String,OfferDisplay> offersFromFriendsOfFriends=null;
     		Hashtable<String,OfferDisplay> offersFromCommonNetworks=null;
     		
     		// Search for offers with owners friends with the app user 
-    		offersFromFriends = fbService.filterOffersFromFriends(offersFromUsers);
-    		Log.e("passant","offers from friends are filtered");
+    		offersFromFriends = getFacebookService().filterOffersFromFriends(offersFromUsers);
+    		Log.e("passant","searchUsingFacebook : offers from friends are filtered");
     		
     		// Reduce offers searched by removing offers whose owners are friends with the app user
     		@SuppressWarnings("unchecked")
 			Hashtable<String,OfferDisplay> remainingOffers = (Hashtable<String, OfferDisplay>)offersFromUsers.clone();
     		FacebookWebservice.removeDuplicates(offersFromFriends, remainingOffers);
-    		Log.e("passant","offers from NON friends are filtered");
+    		Log.e("passant","searchUsingFacebook: offers from NON friends are filtered");
     		
     		// Search for offers with owners friends of user friends but not the user's friends
     		if (maximumOwnerFacebookStatus == OwnerFacebookStatus.FRIEND_OF_FRIEND || maximumOwnerFacebookStatus == OwnerFacebookStatus.COMMON_NETWORKS ){
-    			offersFromFriendsOfFriends = fbService.filterOffersFromOwnersWithMutualFriends(remainingOffers);
+    			offersFromFriendsOfFriends = getFacebookService().filterOffersFromOwnersWithMutualFriends(remainingOffers);
     			Log.e("passant","offers from  friends of friends are filtered");    	    	
     			FacebookWebservice.removeDuplicates(offersFromFriendsOfFriends, remainingOffers);
     			Log.e("passant","unrelated offers are filtered");    	    	
