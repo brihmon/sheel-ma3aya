@@ -102,7 +102,7 @@ public class SearchResultsListAdapter extends BaseAdapter {
 				
 			}// end if : offer owner has less weight, i.e. wants to carry luggage
 			else if (offerDisplay.getWeightStatus() == OfferWeightStatus.MORE){
-				summary_kilos.setText("gives " + offerDisplay.getNumberOfKgs()+ " kilos");
+				summary_kilos.setText("gives " + offerDisplay.getNumberOfKgs()+ " Kgs");
 				
 			}// end if : offer owner has more weight, i.e. wants to give luggage
 			else{
