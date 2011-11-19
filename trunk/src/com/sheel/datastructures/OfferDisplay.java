@@ -69,6 +69,12 @@ public class OfferDisplay {
 	/**
 	 * Relation between App user and offer owner
 	 */
+	
+	private String flightNumber = "";
+	private String source = "";
+	private String destination = "";
+	private String nationality = "";
+	
 	private OwnerFacebookStatus ownerFbStatus = OwnerFacebookStatus.UNRELATED;
 		
 	/**
@@ -117,9 +123,11 @@ public class OfferDisplay {
 	public OfferDisplay(
 			String ownerId, String offerId , String displayName , 
 			String email, String mobile, OfferWeightStatus weightS,
-			int numKg , int price , OwnerFacebookStatus facebookS, boolean isFemale ){
+			int numKg , int price , OwnerFacebookStatus facebookS, boolean isFemale, String nationality, String flightNumber, String source,
+			String destination){
 		
-		initParameters(ownerId, offerId, displayName, email, mobile, weightS, numKg, price, facebookS, isFemale);
+		initParameters(ownerId, offerId, displayName, email, mobile, weightS, numKg, price, facebookS, isFemale, nationality, 
+				flightNumber, source, destination);
 		
 	}// end constructor
 	
@@ -133,7 +141,8 @@ public class OfferDisplay {
 	 * 		Relation between App user and offer owner
 	 */
 	public OfferDisplay(String ownerId , String offerId, OwnerFacebookStatus facebookS){
-		initParameters(ownerId, offerId, "", "", "", OfferWeightStatus.LESS, -1, -1, facebookS,false);
+		initParameters(ownerId, offerId, "", "", "", OfferWeightStatus.LESS, -1, -1, facebookS,false, "",
+				"", "", "");
 	}// end constructor
 	
 	/**
@@ -146,7 +155,8 @@ public class OfferDisplay {
 	 * 		name of offer owner
 	 */
 	public OfferDisplay(String ownerId , String offerId , String displayName){
-		initParameters(ownerId, offerId, displayName, "", "", OfferWeightStatus.UNDEFINED, -1, -1, OwnerFacebookStatus.UNRELATED,false);
+		initParameters(ownerId, offerId, displayName, "", "", OfferWeightStatus.UNDEFINED, -1, -1, OwnerFacebookStatus.UNRELATED,false,
+				"", "", "", "");
 	}// end constructor
 	
 	/**
@@ -162,24 +172,6 @@ public class OfferDisplay {
 		// No need to initialize -> already initialized
 	}// end constructor
 	
-	/**
-	 * Constructor used to parse data received from the app database
-	 * 
-	 * @param databaseResponse
-	 * 		Database response string. The string must be in JSON format
-	 */
-	public OfferDisplay(String databaseResponse){
-		
-		try {
-			JSONObject parsedData = new JSONObject(databaseResponse);
-			// TODO maged : get each element by id and insert in parameters
-			//initParameters(ownerId, databaseResponse, databaseResponse, databaseResponse, databaseResponse, weightS, numKg, price, facebookS);
-		} catch (JSONException e) {
-			Log.e(TAG_PACKAGE_CLASS,"OfferDisplay(String databaseResponse): could not parse DB respose to JSON object");
-			e.printStackTrace();
-		}// end catch: in case it could not be parsed
-		
-	}// end constructor
 	
 	/** 
 	 * Gets the facebook ID of offer owner
@@ -243,6 +235,22 @@ public class OfferDisplay {
 	public String getMobile() {
 		return mobile;
 	}// end getMobile
+	
+	public String getFlightNumber() {
+		return flightNumber;
+	}// end getMobile
+	
+	public String getSource() {
+		return source;
+	}
+	
+	public String getDestination() {
+		return destination;
+	}
+	
+	public String getNationality() {
+		return nationality;
+		}
 
 	/**
 	 * Gets the number of Kgs offered by the owner 
@@ -413,8 +421,9 @@ public class OfferDisplay {
 	private void initParameters(
 			String ownerId, String offerId , String displayName , 
 			String email, String mobile, OfferWeightStatus weightS,
-			int numKg , int price , OwnerFacebookStatus facebookS, boolean isFemale){
-		
+			int numKg , int price , OwnerFacebookStatus facebookS, boolean isFemale, String nationality,
+			String flightNumber, String source, String destination){
+
 		this.ownerFacebookId = ownerId;
 		this.offerId = offerId;
 		this.displayName = displayName;
@@ -425,6 +434,10 @@ public class OfferDisplay {
 		this.weightStatus = weightS;
 		this.ownerFbStatus = facebookS;	
 		this.isFemale = isFemale;
+		this.flightNumber = flightNumber;
+		this.source = source;
+		this.destination = destination;
+		this.nationality = nationality;
 	}// end initParameters
 	
 	
