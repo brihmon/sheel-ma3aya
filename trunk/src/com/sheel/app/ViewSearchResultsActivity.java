@@ -38,7 +38,7 @@ import com.sheel.webservices.FacebookWebservice;
  * @author passant
  *
  */
-public class ViewSearchResultsActivity extends Activity {
+public class ViewSearchResultsActivity extends UserSessionStateMaintainingActivity {
 	
 	SearchResultsListAdapter adapter;
 	
