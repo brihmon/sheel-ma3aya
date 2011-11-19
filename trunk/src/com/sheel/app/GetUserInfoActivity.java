@@ -14,7 +14,7 @@ import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
-public class GetUserInfoActivity extends Activity {
+public class GetUserInfoActivity extends UserSessionStateMaintainingActivity {
     /** Called when the activity is first created. */
 	
 	int searchStatus;
@@ -136,7 +136,8 @@ public class GetUserInfoActivity extends Activity {
 			
 			searchMethod = 0;
 			
-			Intent intent = new Intent(getBaseContext(), SearchByFlightNoActivity.class);
+			//Intent intent = new Intent(getBaseContext(), SearchByFlightNoActivity.class);
+			Intent intent = setSessionInformationBetweenActivities(SearchByFlightNoActivity.class);
 			intent.putExtra("searchStatus", searchStatus);
 			intent.putExtra("selectedDate", selectedDate);
 			intent.putExtra("searchMethod", searchMethod);
@@ -147,7 +148,8 @@ public class GetUserInfoActivity extends Activity {
 			
 			searchMethod = 1;
 			
-			Intent intent = new Intent(getBaseContext(), SearchBySrcDesActivity.class);
+			//Intent intent = new Intent(getBaseContext(), SearchBySrcDesActivity.class);
+			Intent intent = setSessionInformationBetweenActivities(SearchBySrcDesActivity.class);
 			intent.putExtra("searchStatus", searchStatus);
 			intent.putExtra("selectedDate", selectedDate);
 			intent.putExtra("searchMethod", searchMethod);
