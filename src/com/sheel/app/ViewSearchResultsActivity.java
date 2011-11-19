@@ -43,6 +43,8 @@ public class ViewSearchResultsActivity extends Activity {
 	SearchResultsListAdapter adapter;
 	
 	String request;
+	OwnerFacebookStatus facebook;
+	String facebookStatus;
 		
 	ArrayList<OfferDisplay> searchResults=new ArrayList<OfferDisplay>();
 	FacebookWebservice fbService = new FacebookWebservice();
@@ -56,8 +58,21 @@ public class ViewSearchResultsActivity extends Activity {
         
         Bundle extras = getIntent().getExtras();
         
-    	if(extras !=null)
+    	if(extras !=null){
     		request = extras.getString("request");
+    		facebookStatus = extras.getString("facebook");
+    		
+    		if (facebookStatus.equals(OwnerFacebookStatus.FRIEND.name()))
+    			facebook = OwnerFacebookStatus.FRIEND;
+    		
+    		else if (facebookStatus.equals(OwnerFacebookStatus.FRIEND_OF_FRIEND.name()))
+    			facebook = OwnerFacebookStatus.FRIEND_OF_FRIEND;
+    		
+    		else if (facebookStatus.equals(OwnerFacebookStatus.UNRELATED.name()))
+    			facebook = OwnerFacebookStatus.UNRELATED;
+    		
+    		Log.e("mm", facebookStatus);
+    		}
     	
     	filterOffers();
         
@@ -403,7 +418,7 @@ public class ViewSearchResultsActivity extends Activity {
                    
                                     	 }// end for
                                     	 
-                                    searchUsingFacebook(offersFromUsers,OwnerFacebookStatus.FRIEND_OF_FRIEND);
+                                    searchUsingFacebook(offersFromUsers, facebook);
 										
                                     	 
 									} catch (JSONException e) {
