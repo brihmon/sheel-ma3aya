@@ -87,7 +87,7 @@ public class ViewSearchResultsActivity extends UserSessionStateMaintainingActivi
         setIconsForDetailsItems();
         initListView();
         
-        test_searchUsingFacebook();
+       // test_searchUsingFacebook();
         
 //      / fbService.login(this,true,true);
       
