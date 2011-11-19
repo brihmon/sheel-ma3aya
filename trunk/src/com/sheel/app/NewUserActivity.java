@@ -10,6 +10,9 @@ import java.util.List;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
+import com.sheel.listeners.AppDialogListener;
+import com.sheel.webservices.FacebookWebservice;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -28,7 +31,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
-public class NewUserActivity extends Activity {
+public class NewUserActivity extends UserSessionStateMaintainingActivity {
 
 	public static final String FIRST_NAME_KEY = "firstName";
 	public static final String MIDDLE_NAME_KEY = "middleName";
@@ -105,10 +108,14 @@ public class NewUserActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.register);
 
+		setFacebookService(new FacebookWebservice());
+		getFacebookService().login(this, false, false);
+				
 		setVariables();
-		//NewUser();
-
+		
 	}
+	
+	 
 
 	public void setVariables() {
 
@@ -213,6 +220,7 @@ public class NewUserActivity extends Activity {
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
 		if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
 			System.out.println(path);
 			Toast.makeText(this, "Fine", Toast.LENGTH_LONG).show();
@@ -363,7 +371,9 @@ public class NewUserActivity extends Activity {
 
 			sc2.runHttpRequest(params);
 			
-			startActivity(new Intent(this, ConnectorUserActionsActivity.class));
+			Intent statedIntent = setSessionInformationBetweenActivities(ConnectorUserActionsActivity.class);
+			//startActivity(new Intent(this, ConnectorUserActionsActivity.class));
+			startActivity(statedIntent);
 
 		}
 	}
