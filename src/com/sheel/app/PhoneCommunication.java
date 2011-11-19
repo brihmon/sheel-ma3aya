@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 // Sending mail: http://mobile.tutsplus.com/tutorials/android/android-email-intent/
@@ -17,16 +18,53 @@ import android.widget.Toast;
  *
  */
 
-
 public class PhoneCommunication extends Activity {
 	
 	
+	String mobile;
+	int kgs;    	
+	long offerId;
+	String email;
+	String fullName;
+	String fb_account;
+	String fbId;
+	long userId;
+	int user_status;
+
 	ProgressDialog dialog;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.communicate);
+		
+		Bundle extras = getIntent().getExtras();
+		
+		if(extras !=null)
+		{
+			mobile = extras.getString("mobile");
+			kgs  = extras.getInt("kgs");
+			offerId = extras.getLong("offerId");
+			email = extras.getString("email");
+			fullName = extras.getString("fullName");
+			fb_account = extras.getString("fb_account");
+			fbId = extras.getString("fbId");
+			userId = extras.getLong("userId");
+			user_status = extras.getInt("user_status");
+		}
+
+		TextView x = (TextView) findViewById(R.id.username);
+		x.setText(fullName);
+		
+		x = (TextView) findViewById(R.id.mobile_number);
+		x.setText(mobile);
+		
+		x = (TextView) findViewById(R.id.email);
+		x.setText(email);
+		
+		x = (TextView) findViewById(R.id.fb_account);
+		x.setText(fb_account);
+		
 	}
 	
 	
@@ -40,15 +78,7 @@ public class PhoneCommunication extends Activity {
 		try {
 	 
 			Intent callIntent = new Intent(Intent.ACTION_DIAL);
-			/*
-			 * User x = new User()
-			 * x.getInfo();
-			 * String x = x.getinfo()
-			 * tel: x;
-			 */
-			
-			String mobile_number = "0101577990";
-			callIntent.setData(Uri.parse("tel: " + mobile_number));
+			callIntent.setData(Uri.parse("tel: " + mobile));
 			startActivity(callIntent);
 		} catch (ActivityNotFoundException e) {
 			
@@ -72,7 +102,6 @@ public class PhoneCommunication extends Activity {
 			 * String x = x.getinfo()
 			 * tel: x;
 			 */
-			boolean user_type = false;
 			String sms_content = "";
 			String sms_content1 = "";
 			String sms_content2 = "";
@@ -82,7 +111,7 @@ public class PhoneCommunication extends Activity {
 			String sms_content6 = "";
 			String number = "5556";
 			
-		if(user_type)
+		if(user_status == 0)
 		{
 			sms_content1 = "Hello User2,";
 			sms_content2 = "I have seen your offer on Sheel M3aaya app that you " +
@@ -140,7 +169,7 @@ public class PhoneCommunication extends Activity {
 		
 		dialog = ProgressDialog.show(PhoneCommunication.this, "", "Doing your request, Please wait..", true, false);
 		Toast.makeText(PhoneCommunication.this, "Doing your request..", Toast.LENGTH_LONG).show();
-		String path = "/insertconfirmation/15/13/1";
+		String path = "/insertconfirmation/" + userId+"/"+offerId+"/"+user_status;
         SheelMaaayaClient sc = new SheelMaaayaClient() {
 			
 			@Override
@@ -152,14 +181,18 @@ public class PhoneCommunication extends Activity {
   //                               @Override
                                  public void run()
                                  {
-                                     Toast.makeText(PhoneCommunication.this, str, Toast.LENGTH_LONG).show();
+                                	 if(dialog != null)
+                                 		dialog.dismiss();
+                                	  
                                      if(str.contains("12") || str.contains("13"))
                                      {
-                                    	 if(dialog != null)
-                                    		dialog.dismiss();
-                                    	
                                     	 Toast.makeText(PhoneCommunication.this, "Offer has been confirmed!", Toast.LENGTH_LONG).show(); 
                                      }
+                                     else if(str.contains("Success"))
+                                    	 Toast.makeText(PhoneCommunication.this, "You have confirmed the offer!", Toast.LENGTH_LONG).show();
+                                     else if(str.contains("Failure"))
+                                         Toast.makeText(PhoneCommunication.this, "You could not confirm this offer anymore!", Toast.LENGTH_LONG).show();
+
                                      // Check the response string if success and ready
                                      // Then you go and startActivity of send SMS
 //                                     startActivity(new Intent(PhoneCommunication.this, PhoneCommunication.class));
