@@ -1,19 +1,18 @@
 package com.sheel.app;
 
 import java.io.ByteArrayOutputStream;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
-import com.sheel.listeners.AppDialogListener;
-import com.sheel.webservices.FacebookWebservice;
-
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -31,6 +30,15 @@ import android.widget.ImageView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import com.sheel.webservices.FacebookWebservice;
+
+/**
+ * This activity is used to display to the new user the registration form and to
+ * send his data to the database
+ * 
+ * @author Nada Emad
+ * 
+ */
 public class NewUserActivity extends UserSessionStateMaintainingActivity {
 
 	public static final String FIRST_NAME_KEY = "firstName";
@@ -44,91 +52,142 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 	private Uri fileUri;
 	private static final String TAG = "MyActivity";
 
+	/** Path string where the taken passport photo is saved */
 	String path;
-
-	ToggleButton toggleMale; // male
+	/** Male Toggle Button. Not required to register */
+	ToggleButton toggleMale;
+	/** Female Toggle Button. Not required to register */
 	ToggleButton toggleFemale; // female
-
+	/** AutoComplete field for mobile country codes. Required to register */
 	AutoCompleteTextView countryCodes;
+	/** AutoComplete field for nationality. Not required to register */
+	AutoCompleteTextView nationalityField;
+	/** Mobile number text field. Required to register */
 	EditText mobileNumberField;
+	/** First name field. Required to register */
 	EditText firstNameField;
+	/** Middle name field. Not required to register */
 	EditText middleNameField;
+	/** Last name field. Required to register */
 	EditText lastNameField;
+	/** Email field. Required to register */
 	EditText emailField;
+	/** Passport number field. Required to register */
 	EditText passportNumberField;
-	EditText nationalityField;
 
-	String gender;
-	String firstName;
-	String middleName;
-	String lastName;
+	String gender; /* Declaration of gender string */
+	String firstName; /* Declaration of first name string */
+	String middleName; /* Declaration of middle name string */
+	String lastName; /* Declaration of last name string */
+	/** String containing the passport image encoded data string */
 	String passportImage;
-	String passportNumber;
-	String email;
-	String mobileNumber;
-	String nationality;
+	String passportNumber; /* Declaration of passport string */
+	String email; /* Declaration of email string */
+	String mobileNumber; /* Declaration of mobile number string */
+	String nationality; /* Declaration of nationality string */
 
+	/**
+	 * Boolean variable to check that all the required fields are filled and in
+	 * the right format. True if everything is valid. False otherwise
+	 */
 	boolean allValid = false;
 
-	/* public void NewUser() {
-		String gender = "";
-		String firstName = "";
-		String middleName = "";
-		String lastName = "";
-		String email = "";
-
-		Bundle extras = getIntent().getExtras();
-		if (extras != null) {
-			firstName = extras.getString(FIRST_NAME_KEY);
-			middleName = extras.getString(MIDDLE_NAME_KEY);
-			lastName = extras.getString(LAST_NAME_KEY);
-			email = extras.getString(EMAIL_KEY);
-			gender = extras.getString(GENDER_KEY);
-
-		}// end if: extract info sent by the intent
-
-
-		firstNameField.setText(firstName);
-		middleNameField.setText(middleName);
-		lastNameField.setText(lastName);
-		emailField.setText(email);
-		this.gender = gender;
-
-		if (gender.equalsIgnoreCase("male"))
-			toggleMale.setChecked(true);
-		else if (gender.equalsIgnoreCase("female"))
-			toggleFemale.setChecked(true);
-			
-	}
-	*/
+	/*
+	 * public void NewUser() { String gender = ""; String firstName = ""; String
+	 * middleName = ""; String lastName = ""; String email = "";
+	 * 
+	 * Bundle extras = getIntent().getExtras(); if (extras != null) { firstName
+	 * = extras.getString(FIRST_NAME_KEY); middleName =
+	 * extras.getString(MIDDLE_NAME_KEY); lastName =
+	 * extras.getString(LAST_NAME_KEY); email = extras.getString(EMAIL_KEY);
+	 * gender = extras.getString(GENDER_KEY);
+	 * 
+	 * }// end if: extract info sent by the intent
+	 * 
+	 * 
+	 * firstNameField.setText(firstName); middleNameField.setText(middleName);
+	 * lastNameField.setText(lastName); emailField.setText(email); this.gender =
+	 * gender;
+	 * 
+	 * if (gender.equalsIgnoreCase("male")) toggleMale.setChecked(true); else if
+	 * (gender.equalsIgnoreCase("female")) toggleFemale.setChecked(true);
+	 * 
+	 * }
+	 */
 
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		// Set the contentView of this activity to the the register
 		setContentView(R.layout.register);
 
 		setFacebookService(new FacebookWebservice());
 		getFacebookService().login(this, false, false);
-				
+		// call the setVariables
 		setVariables();
-		
+
 	}
-	
-	 
 
+	/**
+	 * This method is called to create all the UI components and create and set
+	 * the adaptors to the AutoComplete fields
+	 */
 	public void setVariables() {
-
+		/* Gender Toggle Buttons */
 		toggleMale = (ToggleButton) findViewById(R.id.toggleMale);
 		toggleFemale = (ToggleButton) findViewById(R.id.toggleFemale);
 
+		/* Nationality field, its adaptor, its validator */
+		nationalityField = (AutoCompleteTextView) findViewById(R.id.autoNationality);
+		final String[] nationalityStrings = getResources().getStringArray(
+				R.array.nationalities_array);
+		ArrayAdapter<String> nationalityAdapter = new ArrayAdapter<String>(
+				this, R.layout.list_item, nationalityStrings);
+		nationalityField.setAdapter(nationalityAdapter);
+		Validator NationalityValidator = new Validator() {
+
+			@Override
+			public boolean isValid(CharSequence text) {
+
+				Log.v("Test", "Checking if valid: " + text);
+				String stringText = text.toString();
+
+				stringText = stringText.trim();
+
+				stringText = stringText.replaceAll(" ", "%20");
+
+				Arrays.sort(nationalityStrings);
+				if ((Arrays.binarySearch(nationalityStrings, stringText) > 0)
+						|| (stringText.equals(""))) {
+					allValid = true;
+
+					return true;
+				}
+				allValid = false;
+				Toast toast = Toast.makeText(NewUserActivity.this,
+						"Please insert a valid nationality", 0);
+				toast.show();
+				return false;
+			}
+
+			@Override
+			public CharSequence fixText(CharSequence invalidText) {
+				// TODO Auto-generated method stub
+				return invalidText;
+			}
+
+		};
+		nationalityField.setValidator(NationalityValidator);
+
+		/* Mobile country code field, its adaptor, its validator */
 		countryCodes = (AutoCompleteTextView) findViewById(R.id.auto);
 		final String[] codeStrings = getResources().getStringArray(
 				R.array.codes);
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
 				R.layout.list_item, codeStrings);
 		countryCodes.setAdapter(adapter);
-		Validator validator = new Validator() {
+		Validator MobileValidator = new Validator() {
 
 			@Override
 			public boolean isValid(CharSequence text) {
@@ -151,38 +210,45 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 
 			@Override
 			public CharSequence fixText(CharSequence invalidText) {
-				// Log.v("Test", "Returning fixed text");
-				// Toast toast = Toast.makeText(NewUserActivity.this, "Fixing",
-				// 0);
-				// toast.show();
+
 				return invalidText;
 			}
 		};
+		countryCodes.setValidator(MobileValidator);
 
-		countryCodes.setValidator(validator);
-
+		/* Mobile number field */
 		mobileNumberField = (EditText) findViewById(R.id.mobileNumber);
 
+		/* First, middle and last names fields */
 		firstNameField = (EditText) findViewById(R.id.FirstName);
 		middleNameField = (EditText) findViewById(R.id.MiddleName);
 		lastNameField = (EditText) findViewById(R.id.LastName);
 
+		/* Email field */
 		emailField = (EditText) findViewById(R.id.email);
 
+		/* Passport number field */
 		passportNumberField = (EditText) findViewById(R.id.passNum);
 
-	}
+	} // end setVariables
 
+	/** Method called when male toggle button is clicked */
 	public void onClick_male(View v) {
+		// Uncheck the female toggle button
 		toggleFemale.setChecked(false);
+		// Set the gender to male
 		gender = "male";
-	}
+	} // end onClick_male
 
+	/** Method called when female toggle button is clicked */
 	public void onClick_female(View v) {
+		// Uncheck the male toggle button
 		toggleMale.setChecked(false);
+		// Set the gender to male
 		gender = "female";
-	}
+	} // end onClick_female
 
+	/** Method called when the take photo button is clicked to open the camera */
 	public void onClick_takePhoto(View v) {
 		/*
 		 * Intent photoIntent = new Intent(this, TakePhotoActivity.class);
@@ -190,11 +256,17 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 		 * photoIntent.getExtras().getString(PASSPORT_IMAGE_KEY);
 		 * System.out.println(passportImage);
 		 */
+		
+		// Set the path where the taken photo will be saved
 		path = Environment.getExternalStorageDirectory().getName()
 				+ File.separatorChar + "Android/data/"
 				+ NewUserActivity.this.getPackageName() + "/PassportPhoto.jpg";
+		
+		/** The file containing the taken passport photo */
 		File file = new File(path);
+		
 		try {
+			// Create a file at the location specified in the path
 			if (file.exists() == false) {
 				file.getParentFile().mkdirs();
 				file.createNewFile();
@@ -210,13 +282,11 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 		// create Intent to take a picture and return control to the calling
 		// application
 		Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-
-		intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri); // set the image file
-															// name
-
+		// set the image file name
+		intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
 		// start the image capture Intent
 		startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
-	}
+	} // end onClick_takePhoto
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -267,14 +337,30 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 		Toast.makeText(this, "Great222", Toast.LENGTH_LONG).show();
 	}
 
+	public void emailValidation(String emailstring) {
+		Pattern emailPattern = Pattern.compile(".+@.+\\.[a-z]+");
+		Matcher emailMatcher = emailPattern.matcher(emailstring);
+		if (emailMatcher.matches()) {
+			allValid = true;
+		} else {
+			allValid = false;
+			Toast.makeText(this, "Please enter a valid email address",
+					Toast.LENGTH_LONG).show();
+		}
+	}
+
 	public void validate() {
 		String countryCode = countryCodes.getText().toString();
 		countryCodes.getValidator().isValid(countryCode);
 
+		nationality = nationalityField.getText().toString();
+		nationalityField.getValidator().isValid(nationality);
+
+		emailValidation(email);
+
 		if (allValid && mobileNumber.length() > 5 && firstName.length() > 0
-				&& middleName.length() > 0 && lastName.length() > 0
-				&& email.length() > 0 && passportNumber.length() > 0
-				&& gender != null)
+				&& lastName.length() > 0 && email.length() > 0
+				&& passportNumber.length() > 0 && gender != null)
 			allValid = true;
 		else
 			allValid = false;
@@ -306,36 +392,32 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 			toast.show();
 
 			// /////////////////
-			/*SheelMaaayaClient sc = new SheelMaaayaClient() {
-
-				@Override
-				public void doSomething() {
-					// final String str = this.rspStr;
-
-					runOnUiThread(new Runnable() {
-						@Override
-						public void run() {
-							// Toast.makeText(this, "Done in DataBase",
-							// Toast.LENGTH_LONG).show();
-							System.out.println("Done in DataBase");
-							System.out.println(passportImage.length());
-
-							
-						}
-					});
-
-				}
-			};
-
-			// passportImage = "PassPortImage";
-
-			sc.runHttpRequest("/insertuser/" + email + "/" + firstName + "/"
-					+ middleName + "/" + lastName + "/" + mobileNumber + "/"
-					+ nationality + "/" + passportNumber + "/" + gender + "/"
-					+ passportImage);
-			Toast.makeText(getApplicationContext(), "Done with Database",
-					Toast.LENGTH_SHORT).show();
-			*/
+			/*
+			 * SheelMaaayaClient sc = new SheelMaaayaClient() {
+			 * 
+			 * @Override public void doSomething() { // final String str =
+			 * this.rspStr;
+			 * 
+			 * runOnUiThread(new Runnable() {
+			 * 
+			 * @Override public void run() { // Toast.makeText(this,
+			 * "Done in DataBase", // Toast.LENGTH_LONG).show();
+			 * System.out.println("Done in DataBase");
+			 * System.out.println(passportImage.length());
+			 * 
+			 * 
+			 * } });
+			 * 
+			 * } };
+			 * 
+			 * // passportImage = "PassPortImage";
+			 * 
+			 * sc.runHttpRequest("/insertuser/" + email + "/" + firstName + "/"
+			 * + middleName + "/" + lastName + "/" + mobileNumber + "/" +
+			 * nationality + "/" + passportNumber + "/" + gender + "/" +
+			 * passportImage); Toast.makeText(getApplicationContext(),
+			 * "Done with Database", Toast.LENGTH_SHORT).show();
+			 */
 
 			SheelMaayaRegisterClient sc2 = new SheelMaayaRegisterClient() {
 
@@ -347,16 +429,14 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 							// Toast.makeText(this, "Done in DataBase",
 							// Toast.LENGTH_LONG).show();
 							System.out.println("Done in DataBase222");
-							//System.out.println(passportImage.length());
+							// System.out.println(passportImage.length());
 
-							
 						}
 					});
 
 				}
 
 			};
-			
 
 			List<NameValuePair> params = new LinkedList<NameValuePair>();
 			params.add(new BasicNameValuePair("email", email));
@@ -367,10 +447,10 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 			params.add(new BasicNameValuePair("nationality", nationality));
 			params.add(new BasicNameValuePair("passportNumber", passportNumber));
 			params.add(new BasicNameValuePair("gender", gender));
-			params.add(new BasicNameValuePair("passportPhoto",passportImage));
+			params.add(new BasicNameValuePair("passportPhoto", passportImage));
 
 			sc2.runHttpRequest(params);
-			
+
 			Intent statedIntent = setSessionInformationBetweenActivities(ConnectorUserActionsActivity.class);
 			startActivity(statedIntent);
 
