@@ -10,6 +10,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.InputFilter.LengthFilter;
@@ -87,7 +88,7 @@ public class ViewSearchResultsActivity extends UserSessionStateMaintainingActivi
     
     @Override 
     protected void onActivityResult(int requestCode, int resultCode, android.content.Intent data) {
-    //	fbService.authorizeCallback(requestCode, resultCode, data);
+    	getFacebookService().authorizeCallback(requestCode, resultCode, data);
     }// end onActivityResult
         
     /**
@@ -460,6 +461,30 @@ public class ViewSearchResultsActivity extends UserSessionStateMaintainingActivi
 		}  	
     }
    
+    public void onClick_communicate(View v){
+    	// TODO Hossam link ur view .. phone comm is where u want to go
+    	
+    	/* Whatever you need either get it from user or preferable query the db
+    	 * using the facebook ID
+    	 * 
+    	 * Before navigating back to my activity again you must call
+    	 * Intent intent = setSessionInformationBetweenActivities(PhoneCommunication.class);
+    	 * 
+    	 * make your class extend UserSessionStateMaintainingActivity not just activity
+    	 */
+    	
+    	// Parameters sent in intent
+    	Intent intent = setSessionInformationBetweenActivities(PhoneCommunication.class);
+    	intent.putExtra("email", getFacebookService().getFacebookUser().getEmail());
+    	intent.putExtra("fbId", getFacebookService().getFacebookUser().getUserId());
+    	
+    	// Query mobile from app DB
+    	intent.putExtra("mobile", "0984576845");
+    	
+    	// navigate to new activity
+    	startActivity(intent);
+    	
+    }// end onClick_communicate
     
 }// end Activity
 
