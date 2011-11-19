@@ -247,6 +247,27 @@ public class ViewSearchResultsActivity extends UserSessionStateMaintainingActivi
     	email.setText("   "+searchResult.getEmail());
     }// end updateDetailsPane
     
+    private void getMutualFriends(OfferDisplay current){
+    	String mutualFriends="";
+    	
+    	JSONArray data = current.getFacebookExtraInfo();
+    	String mutualFriendName = "";
+    	
+    	for (int i=0 ; i < data.length() ; i++){
+    		try {
+				mutualFriendName = " , " + (data.getJSONObject(i)).getString("name");
+			} catch (JSONException e) {
+				mutualFriendName = "";
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    		
+    		mutualFriends += " , " + mutualFriendName;
+    		
+    	}
+    	
+    }// end getMutualFriends
+    
     private void updateSearchResultsList(Hashtable<String,OfferDisplay> offersFromFriends, 
     		Hashtable<String,OfferDisplay> offersFromFriendsOfFriends, 
     		Hashtable<String,OfferDisplay> offersFromCommonNetworks,
