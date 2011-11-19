@@ -13,7 +13,7 @@ import com.sheel.datastructures.Offer;
 /**
  * @author Mohsen
  */
-public class InsertOfferActivity extends Activity {
+public class InsertOfferActivity extends UserSessionStateMaintainingActivity {
 	static Offer offer ;// = new Offer(0,0,-1,"INVALID");
     private EditText noKGsET;
 	private EditText pricePerKGET;
@@ -71,8 +71,9 @@ public class InsertOfferActivity extends Activity {
 				 type.getCheckedRadioButtonId()==R.id.exWeight?1:0,
 				 "new");
 		 
-		 startActivity(new Intent(this, InsertFlightActivity.class));
-		 
+		 //startActivity(new Intent(this, InsertFlightActivity.class));
+		 Intent intent =setSessionInformationBetweenActivities(InsertFlightActivity.class);
+		 startActivity(intent);
 	 }
 	 
 	 public void showErrors(String message){
