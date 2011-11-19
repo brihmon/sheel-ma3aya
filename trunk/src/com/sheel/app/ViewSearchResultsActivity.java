@@ -10,6 +10,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -42,7 +43,7 @@ import com.sheel.webservices.FacebookWebservice;
 public class ViewSearchResultsActivity extends UserSessionStateMaintainingActivity {
 	
 	SearchResultsListAdapter adapter;
-	
+	ProgressDialog dialog;
 	String request;
 	OwnerFacebookStatus facebook=OwnerFacebookStatus.UNRELATED;
 	String facebookStatus;
@@ -382,7 +383,8 @@ public class ViewSearchResultsActivity extends UserSessionStateMaintainingActivi
     
    
     public void filterOffers(){
-		
+    	
+    	dialog = ProgressDialog.show(ViewSearchResultsActivity.this, "", "Seaching for Offers..", true, false);
 		HTTPClient sc = new HTTPClient() {
 	           
 			@Override
@@ -394,9 +396,12 @@ public class ViewSearchResultsActivity extends UserSessionStateMaintainingActivi
                                  @Override
                                  public void run()
                                  {
-                                     Toast.makeText(ViewSearchResultsActivity.this, str, Toast.LENGTH_LONG).show();
+                                    // Toast.makeText(ViewSearchResultsActivity.this, str, Toast.LENGTH_LONG).show();
                                      
                                      try {
+                                    	 
+                                    	 if(dialog != null)
+                                     		dialog.dismiss();
                                     	 
                                     	JSONArray jsonArray = new JSONArray(builder.toString());
                                     	
@@ -494,6 +499,13 @@ public class ViewSearchResultsActivity extends UserSessionStateMaintainingActivi
 			return null;
 		}  	
     }
+    
+    @Override
+	protected void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		dialog = null;
+	}
    
     public void onClick_communicate(View v){
     	// TODO Hossam link ur view .. phone comm is where u want to go
