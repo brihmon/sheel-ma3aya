@@ -140,22 +140,7 @@ public class ViewSearchResultsActivity extends UserSessionStateMaintainingActivi
     
     	// Get list using its ID
     	ListView searchResultsList = (ListView)findViewById(R.id.listView_searchResults);
-    	
-    /*	new FacebookUser(-1, "firstName", "middleName", "lastName", true, "passant@gmail.com", true);
-    	users = new ArrayList<FacebookUser>();
-    	users.add(new FacebookUser(1,"Passant", "Akram", "El.Agroudy", true,"passant@gmail.com", true));
-    	users.add(new FacebookUser(2,"Hossam", "Mostafa", "Amer", false, "hossam@hotmail.com", true));
-    	users.add(new FacebookUser(3,"Nada", "", "Adly", true,"nada@yahoo.com", true));
-    	users.add(new FacebookUser(4,"Passant", "Akram", "El.Agroudy", true,"passant@gmail.com", false));
-    	users.add(new FacebookUser(5,"Hossam", "Mostafa", "Amer", false,"7as7as@gmail.com", true));
-    	users.add(new FacebookUser(6,"Nada", "", "Adly", true,"nido@msn.com", false));
-    	users.add(new FacebookUser(7,"Passant", "Akram", "El.Agroudy", true,"passant@gmail.com", true));
-    	//users.add(new FacebookUser(8,"Hossam", "Mostafa", "Amer", false));
-    	//users.add(new FacebookUser(9,"Nada", "", "Adly", true));
-    	 */
-    	
-    	searchResults.add(new OfferDisplay("ownr", "OFR", "Passant", "passant@gmail.com", "+20105005872", OfferWeightStatus.LESS, 5, 3, OwnerFacebookStatus.FRIEND, true, "", "", "",""));
-    	// Create adapter to control how list is displayed
+       	// Create adapter to control how list is displayed
     	adapter = new SearchResultsListAdapter(this, searchResults);
     	// Set adapter to the list view 	
     	searchResultsList.setAdapter(adapter);
@@ -167,12 +152,7 @@ public class ViewSearchResultsActivity extends UserSessionStateMaintainingActivi
     	    public void onItemClick(AdapterView<?> parent, View view,
     	        int position, long id) {
     	     
-    	    	//Toast.makeText(getApplicationContext(), "Hello "+position, Toast.LENGTH_SHORT).show();
-    	    	
-    	    	// TODO simulate clicking of details button
-    	    	//Button detailsBtn = (Button)findViewById(R.id.button_slidingDrawer);
-    	    	    	    	
-    	    	// TODO : update details pane with appropriate data
+    	    	// update details pane with appropriate data
     	    	updateDetailsPane(position);
     	    	
     	    	//test_searchUsingFacebook();
