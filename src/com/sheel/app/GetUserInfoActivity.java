@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 public class GetUserInfoActivity extends UserSessionStateMaintainingActivity {
@@ -141,6 +142,12 @@ public class GetUserInfoActivity extends UserSessionStateMaintainingActivity {
 			intent.putExtra("searchStatus", searchStatus);
 			intent.putExtra("selectedDate", selectedDate);
 			intent.putExtra("searchMethod", searchMethod);
+			
+			Bundle extras = getIntent().getExtras();
+			long userId = extras.getLong("userId");
+			intent.putExtra("userId", userId);
+//			Toast.makeText(getApplicationContext(),"" + userId, Toast.LENGTH_SHORT).show();
+			
 			startActivity(intent);
 		}
 				
@@ -153,6 +160,13 @@ public class GetUserInfoActivity extends UserSessionStateMaintainingActivity {
 			intent.putExtra("searchStatus", searchStatus);
 			intent.putExtra("selectedDate", selectedDate);
 			intent.putExtra("searchMethod", searchMethod);
+			
+			Bundle extras = getIntent().getExtras();
+			long userId = extras.getLong("userId");
+			intent.putExtra("userId", userId);
+//			Toast.makeText(getApplicationContext(),"" + userId, Toast.LENGTH_SHORT).show();
+		
+			
 			startActivity(intent);
 			
 		}
