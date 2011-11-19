@@ -6,21 +6,20 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
-import android.inputmethodservice.Keyboard.Key;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-//import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.Toast;
+//import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.sheel.datastructures.Flight;
@@ -35,19 +34,20 @@ public class InsertFlightActivity extends Activity {
 	private int mYear;    
 	private int mMonth;    
 	private int mDay;
-	private int mHour;
-    private int mMinute;
-	private TextView mTimeDisplay;
+//	private int mHour;
+//    private int mMinute;
+//	private TextView mTimeDisplay;
 	//private Button mPickTime;
 	
-	static final int TIME_DIALOG_ID = 0;
+//	static final int TIME_DIALOG_ID = 0;
 	static final int DATE_DIALOG_ID = 1;
 	
 	 EditText flightNumberET ;
 	 AutoCompleteTextView sAirportET ;
 	 AutoCompleteTextView dAirportET  ;
-	
+	 static ProgressDialog dialog;
 	 static Calendar datePicked = Calendar.getInstance();
+			 
 	private DatePickerDialog.OnDateSetListener mDateSetListener =
 	            new DatePickerDialog.OnDateSetListener() {
 
@@ -60,7 +60,7 @@ public class InsertFlightActivity extends Activity {
 	                    updateDisplay();
 	                }
 	            };
-	            
+/*   
     private TimePickerDialog.OnTimeSetListener mTimeSetListener =
         	    new TimePickerDialog.OnTimeSetListener() {
         	        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
@@ -69,17 +69,17 @@ public class InsertFlightActivity extends Activity {
         	            updateDisplay();
         	        }
         	    };
-	            
+*/	            
 	 protected Dialog onCreateDialog(int id) {
 	                switch (id) {
 	                case DATE_DIALOG_ID:
 	                    return new DatePickerDialog(this,
 	                                mDateSetListener,
 	                                mYear, mMonth, mDay);  
-	                case TIME_DIALOG_ID:
+/*	                case TIME_DIALOG_ID:
 	                    return new TimePickerDialog(this,
 	                            mTimeSetListener, mHour, mMinute, false);
-	                 
+*/	                 
 
 	                }
 	                return null;
@@ -115,33 +115,33 @@ public class InsertFlightActivity extends Activity {
 			  textView2.setAdapter(adapter2);
 			 
 			  TextView  date = (TextView )findViewById(R.id.editText1);      
-		      TextView  time = (TextView )findViewById(R.id.editText2);  
+//		      TextView  time = (TextView )findViewById(R.id.editText2);  
 		        
 		      mDateDisplay = date;
-		      mTimeDisplay = time;
+//		      mTimeDisplay = time;
 		        
 		        
-		      time.setOnClickListener(new View.OnClickListener() {
+/*		      time.setOnClickListener(new View.OnClickListener() {
 		            public void onClick(View v) {
 		                showDialog(TIME_DIALOG_ID);
 		            }
 		        });
-		      
-		       date.setOnClickListener(
+*/		      
+/*		       date.setOnClickListener(
 		        		(new OnClickListener() {
 							public void onClick(View arg0) {
 								showDialog(DATE_DIALOG_ID);
 							}
-						}));
+						}));*/
 		       
 		       final Calendar c = Calendar.getInstance();
 		        mYear = c.get(Calendar.YEAR);
 		        mMonth = c.get(Calendar.MONTH);
 		        mDay = c.get(Calendar.DAY_OF_MONTH);
 
-		        final Calendar c2 = Calendar.getInstance();
-		        mHour = c2.get(Calendar.HOUR_OF_DAY);
-		        mMinute = c2.get(Calendar.MINUTE);
+//		        final Calendar c2 = Calendar.getInstance();
+//		        mHour = c2.get(Calendar.HOUR_OF_DAY);
+//		        mMinute = c2.get(Calendar.MINUTE);
 
 		        // display the current date
 		        
@@ -152,6 +152,7 @@ public class InsertFlightActivity extends Activity {
 		        	mDateDisplay.setText(flight.departureDate);
 		        }
 		        
+		        datePicked.set(mYear, mMonth, mDay, 23 , 59 , 59);
 				
 		        
 
@@ -176,10 +177,10 @@ public class InsertFlightActivity extends Activity {
 	                    .append(mDay).append("-")
 	                    .append(mYear).append(" "));
 	        
-	        mTimeDisplay.setText(
+	/*        mTimeDisplay.setText(
 	                new StringBuilder()
 	                        .append(pad(mHour)).append(":")
-	                        .append(pad(mMinute)));
+	                        .append(pad(mMinute)));*/
 	        
 	    }
 	 
@@ -207,7 +208,9 @@ public class InsertFlightActivity extends Activity {
 		    	return;
 		    }
 		    
-		    
+		    dialog = new ProgressDialog(this);
+	        dialog.setMessage("Please wait");
+	        dialog.show();
 		    
 			flight = new Flight(flightNumberET.getText().toString(),
 						 sAirportET.getText().toString(),
@@ -225,8 +228,16 @@ public class InsertFlightActivity extends Activity {
 	                                 @Override
 	                                 public void run()
 	                                 {
+	                                	 if(dialog.isShowing()){
+	                                		 dialog.dismiss();
+	                                	 }
+	                                	 if(str.equals("OK")){
 	                                	 ///////////// SHOULD GO HERE TO ANOTHER ACTIVITY
-	                                     Toast.makeText(InsertFlightActivity.this, str, Toast.LENGTH_LONG).show();
+	                                     showMessageBox("Message","Your offer has been posted successfully!");
+	                                	 }
+	                                	 else{
+	                                	 showMessageBox("Server Error!","Unfortunatly, we currently cannot process your offer, please try again later.");
+	                                	 }
 	                                 }
 	                             });
 
@@ -242,15 +253,21 @@ public class InsertFlightActivity extends Activity {
 	 
 	 
 	 
-	 
-	 public void showErrors(String message){
+	 public void showMessageBox(String title,String message){
 		 AlertDialog alertDialog;
 		 alertDialog = new AlertDialog.Builder(this).create();
-		 alertDialog.setTitle("Invalid input");
+		 alertDialog.setTitle(title);
 		 alertDialog.setMessage(message);
 		 alertDialog.show();
 	 }
+	 
+	 public void showErrors(String message){
+		 showMessageBox("Invalid input",message);
+	 }
 
+	 public void onClick_change(View v){
+		 showDialog(DATE_DIALOG_ID);
+	 }
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
