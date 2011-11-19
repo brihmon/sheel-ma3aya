@@ -474,7 +474,7 @@ public class FacebookWebservice {
 			@Override
 			public void processRequest(JSONObject parsedResponse, Object state) {
 				// get data relevant to mutual friends
-				JSONObject receivedDataOfMutualFriends = extractDataJsonObject(parsedResponse);
+				JSONArray receivedDataOfMutualFriends = extractDataJsonArray(parsedResponse);
 				if (receivedDataOfMutualFriends != null){	
 					// Get owner ID currently checked for mutual friends
 					String ownerId = (String)state;
