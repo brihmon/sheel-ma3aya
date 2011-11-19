@@ -2,6 +2,9 @@
 package com.sheel.app;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Hashtable;
 import java.util.Iterator;
 
@@ -76,7 +79,7 @@ public class ViewSearchResultsActivity extends UserSessionStateMaintainingActivi
     		Log.e("mm", facebookStatus);
     		}
     	
-    	filterOffers();
+    	//filterOffers();
         
     	if (getFacebookService() != null)
         getFacebookService().getUserInformation(true);        
@@ -84,7 +87,7 @@ public class ViewSearchResultsActivity extends UserSessionStateMaintainingActivi
         setIconsForDetailsItems();
         initListView();
         
-       // test_searchUsingFacebook();
+        test_searchUsingFacebook();
         
      //  fbService.login(this,true,true);
       
@@ -249,14 +252,28 @@ public class ViewSearchResultsActivity extends UserSessionStateMaintainingActivi
     		Hashtable<String,OfferDisplay> offersFromCommonNetworks,
     		Hashtable<String, OfferDisplay> offersFromUnRelatedOwners){
     	
-    	// Sort list of friends of friends (ones with highest number of mutual friends on top)
+    	// Get list of Friends Of Friends and common networks
+    	ArrayList<OfferDisplay> list_offersFromFriendsOfFriends = null;
+    	ArrayList<OfferDisplay> list_offersFromCommonNetworks=null;
     	
-    	// Sort list of common networks (ones with highest number of common networks on top)
+    	if (offersFromFriendsOfFriends != null){
+    		list_offersFromFriendsOfFriends=new ArrayList<OfferDisplay>();
+        	list_offersFromFriendsOfFriends.addAll(offersFromFriendsOfFriends.values());	
+    	}// end if : check if not null -> transform to an array list
+
+    	if (offersFromCommonNetworks != null){
+    		list_offersFromCommonNetworks=new ArrayList<OfferDisplay>();
+    		list_offersFromCommonNetworks.addAll(offersFromCommonNetworks.values());
+    	}// end if : check if not null -> transform to an array list
+    	 	
+    	// Sort list of friends of friends (ones with highest number of mutual friends on top)
+      	// Sort list of common networks (ones with highest number of common networks on top)
+    	sortSearchResultsFromFacebook(list_offersFromFriendsOfFriends, list_offersFromCommonNetworks);
     	
     	// Display each list in order( friends, mutual sorted , network sorted , unrelated)
     	updateSearchResultsList(offersFromFriends,false);
-    	updateSearchResultsList(offersFromFriendsOfFriends, true);
-    	updateSearchResultsList(offersFromCommonNetworks, true);
+    	updateSearchResultsList(list_offersFromFriendsOfFriends, true);
+    	updateSearchResultsList(list_offersFromCommonNetworks, true);
     	updateSearchResultsList(offersFromUnRelatedOwners, true);
     }// end updateSearchResultsList
     
@@ -299,9 +316,7 @@ public class ViewSearchResultsActivity extends UserSessionStateMaintainingActivi
         	Log.e("Final list: " , searchResults.toString() + "  list size: " + searchResults.size());
         	
         	// Get list using its ID
-        	//adapter.setList(searchResults);
         	ListView searchResultsList = (ListView)findViewById(R.id.listView_searchResults);
-        	//searchResultsList.invalidateViews();
         	searchResultsList.setAdapter(new SearchResultsListAdapter(this, searchResults));
     	}// end if : list has something
     	else{
@@ -364,44 +379,46 @@ public class ViewSearchResultsActivity extends UserSessionStateMaintainingActivi
         	
     		// Display results
     		updateSearchResultsList(offersFromFriends, offersFromFriendsOfFriends, offersFromCommonNetworks, remainingOffers);
+    	    	
     	}// end if : if user does not care -> why waste internet data on searching
     	else{
     		updateSearchResultsList(offersFromUsers, false);
     	}// end else: display results as is
     }// end searchUsingSocialNetworks
     
-    public void test_searchUsingFacebook(){
+    private void sortSearchResultsFromFacebook( 
+    		ArrayList<OfferDisplay> offersFromFriendsOfFriends,
+    		ArrayList<OfferDisplay> offersFromCommonNetworks){
     	
-    	Log.e("Passant" , "test_searchUsingFacebook: begin");
-    	// Create input
-    	String usrId1 = "32529";		// naglaa
-    	String usrId2 = "1446932354";	// olcay
-    	String usrId3 = "592566654";	// ahmad
-    	String usrId4 = "1207059"; 		// total stranger 
-    	String usrId5 = "1041486620";	// total stranger: ahmed celil 
+    	class FacebookPriorityComparator implements Comparator<OfferDisplay>{
+
+			@Override
+			public int compare(OfferDisplay object1, OfferDisplay object2) {
+				JSONObject facebookExtraInfo1 = object1.getFacebookExtraInfo();
+				JSONObject facebookExtraInfo2 = object2.getFacebookExtraInfo();
+				
+				if (facebookExtraInfo1 != null && facebookExtraInfo2 != null){
+					if (facebookExtraInfo1.length() < facebookExtraInfo2.length())
+						return -1;
+					else if (facebookExtraInfo1.length() > facebookExtraInfo2.length())
+						return 1;
+				}// end if : double check to avoid exceptions				
+				return 0;
+			}// end compare    		
+    	}// end class
     	
-    	Hashtable<String, OfferDisplay> offersFromUsers = new Hashtable<String, OfferDisplay>();
-    	offersFromUsers.put(usrId1, new OfferDisplay(usrId1, "ofr1","naglaa_friend"));
-    	offersFromUsers.put(usrId2, new OfferDisplay(usrId2, "ofr2","olcay_friend"));
-    	offersFromUsers.put(usrId3, new OfferDisplay(usrId3, "ofr3","ahmad_friendOfFriend"));
-    	offersFromUsers.put(usrId4, new OfferDisplay(usrId4, "ofr4","stranger"));
-    	offersFromUsers.put(usrId5, new OfferDisplay(usrId5, "ofr5","ahmed celil_stranger"));
-    	offersFromUsers.put("t1", new OfferDisplay("t1", "ofr51","ahmed celil_stranger"));
-    	offersFromUsers.put("t2", new OfferDisplay("t2", "ofr52","ahmed celil_stranger"));
-    	offersFromUsers.put("t3", new OfferDisplay("t3", "ofr53","ahmed celil_stranger"));
-    	offersFromUsers.put("t4", new OfferDisplay("t4", "ofr54","ahmed celil_stranger"));
-    	offersFromUsers.put("t5", new OfferDisplay("t5", "ofr55","ahmed celil_stranger"));
-    	offersFromUsers.put("t6", new OfferDisplay("t6", "ofr56","ahmed celil_stranger"));
-    	Log.e("Passant" , "test_searchUsingFacebook: input initialized");
+    	// Create comparator
+    	FacebookPriorityComparator comparator = new FacebookPriorityComparator();
+    	if (offersFromFriendsOfFriends != null){
+    		Collections.sort(offersFromFriendsOfFriends,comparator );
+    	}
     	
-    	// Invoke test method
-    	searchUsingFacebook(offersFromUsers, OwnerFacebookStatus.FRIEND_OF_FRIEND);
-    	
-    	Log.e("Passant" , "test_searchUsingFacebook: search is done");
-        
-    }// end test_searchUsingFacebook
+    	if (offersFromCommonNetworks != null){
+    		Collections.sort(offersFromCommonNetworks,comparator);
+    	}
+    }// end sortSearchResultsFromFacebook
     
-   
+    
     public void filterOffers(){
     	
     	dialog = ProgressDialog.show(ViewSearchResultsActivity.this, "", "Seaching for Offers..", true, false);
@@ -571,6 +588,46 @@ public class ViewSearchResultsActivity extends UserSessionStateMaintainingActivi
     	startActivity(intent);
     	
     }// end onClick_communicate
+    
+public void test_searchUsingFacebook(){
+    	
+    	Log.e("Passant" , "test_searchUsingFacebook: begin");
+    	// Create input
+    	String usrId1 = "32529";		// naglaa -> friend
+    	String usrId2 = "1446932354";	// olcay -> friend
+    	String usrId3 = "592566654";	// ahmad -> friendOfFriend
+    	String usrId4 = "1207059"; 		// total stranger 
+    	String usrId5 = "1041486620";	// total stranger: ahmed celil 
+    	String usrId6 = "100000391115192"; // athar -> friend of friend
+    	String usrId7 = "100002079601994"; // akram -> friend of friend
+    	String usrId8 = "502129122"; // marina -> friend
+    	
+    	Hashtable<String, OfferDisplay> offersFromUsers = new Hashtable<String, OfferDisplay>();
+    	offersFromUsers.put(usrId1, new OfferDisplay(usrId1, "ofr1","naglaa_friend"));
+    	offersFromUsers.put("t2", new OfferDisplay("t2", "ofr7","ahmed celil_stranger2"));
+    	offersFromUsers.put("t3", new OfferDisplay("t3", "ofr8","ahmed celil_stranger3"));
+       	offersFromUsers.put(usrId3, new OfferDisplay(usrId3, "ofr3","ahmad_friendOfFriend"));
+    	offersFromUsers.put(usrId4, new OfferDisplay(usrId4, "ofr4","stranger"));
+    	offersFromUsers.put(usrId5, new OfferDisplay(usrId5, "ofr5","ahmed celil_stranger"));
+    	offersFromUsers.put("t1", new OfferDisplay("t1", "ofr6","ahmed celil_stranger1"));
+    	offersFromUsers.put(usrId2, new OfferDisplay(usrId2, "ofr2","olcay_friend"));
+    	offersFromUsers.put("t4", new OfferDisplay("t4", "ofr9","ahmed celil_stranger4"));
+    	offersFromUsers.put("t5", new OfferDisplay("t5", "ofr10","ahmed celil_stranger5"));
+    	offersFromUsers.put("t6", new OfferDisplay("t6", "ofr11","ahmed celil_stranger6"));
+    	offersFromUsers.put(usrId6, new OfferDisplay("t4", "ofr9","athar_friendOfFriend"));
+    	offersFromUsers.put(usrId8, new OfferDisplay("t5", "ofr10","marina_friend"));
+    	offersFromUsers.put(usrId7, new OfferDisplay("t6", "ofr11","akram_friendOfFriendfriendOfFriendfriendOfFriend"));
+    	
+    	Log.e("Passant" , "test_searchUsingFacebook: input initialized");
+    	
+    	// Invoke test method
+    	searchUsingFacebook(offersFromUsers, OwnerFacebookStatus.FRIEND_OF_FRIEND);
+    	
+    	Log.e("Passant" , "test_searchUsingFacebook: search is done");
+        
+    }// end test_searchUsingFacebook
+    
+   
     
 }// end Activity
 
