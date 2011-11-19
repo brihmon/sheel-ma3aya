@@ -17,7 +17,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class SearchByFlightNoActivity extends Activity{
+public class SearchByFlightNoActivity extends UserSessionStateMaintainingActivity{
 	
 	int searchStatus;
 	String selectedDate;
@@ -41,6 +41,8 @@ public class SearchByFlightNoActivity extends Activity{
         	selectedDate = extras.getString("selectedDate");
         	searchMethod = extras.getInt("searchMethod");
         }
+        
+        Log.e("passant integrate: " , "SearchByFlightNoActivity: " + searchStatus + "  " + selectedDate + "  " + searchMethod);
         
         textDisplay = (TextView) findViewById(R.id.flightTextView);
         
@@ -73,7 +75,8 @@ public class SearchByFlightNoActivity extends Activity{
 		if(flightNo.equals(""))
 			return;
 		
-		Intent intent = new Intent(getBaseContext(), FilterPreferencesActivity.class);
+		//Intent intent = new Intent(getBaseContext(), FilterPreferencesActivity.class);
+		Intent intent = setSessionInformationBetweenActivities(FilterPreferencesActivity.class);
 		intent.putExtra("searchStatus", searchStatus);
 		intent.putExtra("selectedDate", selectedDate);
 		intent.putExtra("searchMethod", searchMethod);
@@ -92,7 +95,8 @@ public class SearchByFlightNoActivity extends Activity{
 		 String request = "/filterflightnumberoffers/" + flightNo + "/" + selectedDate + "/" + searchStatus +
 				 															"/0/0/both/none";
 		 
-		Intent intent = new Intent(getBaseContext(), ViewSearchResultsActivity.class);
+		//Intent intent = new Intent(getBaseContext(), ViewSearchResultsActivity.class);
+		Intent intent = setSessionInformationBetweenActivities(ViewSearchResultsActivity.class);
 		intent.putExtra("request", request);
 		startActivity(intent);
 		 
