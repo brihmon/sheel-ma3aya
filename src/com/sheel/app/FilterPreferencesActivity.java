@@ -5,6 +5,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -152,9 +153,36 @@ public class FilterPreferencesActivity extends Activity {
 		Log.e("mm", nationality);
 		
 		if(allValid)
-			filterOffers();
+			startViewResultsActivity();
 	}
 	
+	public void startViewResultsActivity(){
+		
+		String request = "";
+		
+		if(searchMethod == 0)
+			request = "/filterflightnumberoffers/" + flightNumber + "/" + selectedDate + "/" + searchStatus +
+									"/" + kgs + "/" + price + "/" + gender + "/" + nationality; 
+		
+		else
+			request = "/filterairportsoffers/" + srcAirport + "/" + desAirport + "/" + selectedDate 
+					+ "/" + searchStatus + "/" + kgs + "/" + price + "/" + gender + "/" + nationality;
+		
+		Intent intent = new Intent(getBaseContext(), ViewSearchResultsActivity.class);
+		intent.putExtra("request", request);
+		startActivity(intent);
+		
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	/*
 	public void filterOffers(){
 		
 		HTTPClient sc = new HTTPClient() {
@@ -221,6 +249,6 @@ public class FilterPreferencesActivity extends Activity {
 						+ "/" + searchStatus + "/" + kgs + "/" + price + "/" + gender + "/" + nationality);
 				
 		 	
-	}
+	}*/
 	
 }
