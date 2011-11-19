@@ -2,6 +2,7 @@ package com.sheel.datastructures;
 
 import java.util.ArrayList;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -82,7 +83,8 @@ public class OfferDisplay {
 	 * Holds extra information about facebook relation depending on the 
 	 * relation itself (value of <code>ownerFbStatus</code>). It is the 
 	 * parsing of the facebook response to mutual friends request to a
-	 * JSON object indexed by different available keys
+	 * JSON object indexed by different available keys. 
+	 * TO get any of the mutual friends, call {@link JSONArray#get(int)}
 	 * <ul>
 	 * 		<li><code>{@link OwnerFacebookStatus#FRIEND}</code> : object is empty </li>
 	 * 		<li><code>{@link OwnerFacebookStatus#FRIEND_OF_FRIEND}</code> : object has names and IDs of mutual friends</li>
@@ -90,7 +92,7 @@ public class OfferDisplay {
 	 *   	<li><code>{@link OwnerFacebookStatus#UNRELATED}</code> : object is empty</li>
 	 * </ul>
 	 */
-	JSONObject facebookExtraInfo = null;
+	JSONArray facebookExtraInfo = null;
 	
 	
 	/**
@@ -305,12 +307,14 @@ public class OfferDisplay {
 	 * 		If relation is:
 	 * 		<ul>
 	 * 			<li><code>{@link OwnerFacebookStatus#FRIEND}</code> : object is empty </li>
-	 * 			<li><code>{@link OwnerFacebookStatus#FRIEND_OF_FRIEND}</code> : object has names and IDs of mutual friends</li>
-	 *  		<li><code>{@link OwnerFacebookStatus#COMMON_NETWORKS}</code> : object has names and IDs of common networks</li>
+	 * 			<li><code>{@link OwnerFacebookStatus#FRIEND_OF_FRIEND}</code> : object has names
+	 * 			and IDs of mutual friends where each (id-name) form an object with index from o-n</li>
+	 *  		<li><code>{@link OwnerFacebookStatus#COMMON_NETWORKS}</code> : object has names 
+	 *  		and IDs of common networks where each (id-name) form an object with index from o-n</li>
 	 *   		<li><code>{@link OwnerFacebookStatus#UNRELATED}</code> : object is empty</li>
 	 * 		</ul>
 	 */
-	public JSONObject getFacebookExtraInfo() {
+	public JSONArray getFacebookExtraInfo() {
 		return facebookExtraInfo;
 	}// end getFacebookExtraInfo	
 	
@@ -338,9 +342,10 @@ public class OfferDisplay {
 	 * See @link {@link OfferDisplay#getFacebookExtraInfo()}
 	 * 
 	 * @param response
-	 * 		response received from the facebook database on a certain request.
+	 * 		response received from the facebook database on a certain request
+	 * 		after extracting its data field.
 	 */
-	public void setFacebookExtraInfo(JSONObject response){
+	public void setFacebookExtraInfo(JSONArray response){
 		this.facebookExtraInfo =response;
 	}// end setFacebookExtraInfo
 	
