@@ -1,7 +1,11 @@
 package com.sheel.app;
 
+import com.sheel.webservices.FacebookWebservice;
+
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -12,15 +16,21 @@ import android.widget.Toast;
  * @author Nada Emad
  * 
  */
-public class ConnectorUserActionsActivity extends Activity {
+public class ConnectorUserActionsActivity extends UserSessionStateMaintainingActivity {
 
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.connector_user_action);
+		System.out.println("Register intergrate: " + "facebookservice: "+ getFacebookService() );
+		
+		if (getFacebookService() == null){
+			setFacebookService(new FacebookWebservice());
+			getFacebookService().login(this, false, false);
+		}// end if : previous activity was welcome(login)
 
-	}
+	}// end onCreate
 
 	/**
 	 * This is called when the declare button is clicked
@@ -31,8 +41,10 @@ public class ConnectorUserActionsActivity extends Activity {
 	public void onClick_DeclareOffer(View v) {
 		Toast.makeText(getApplicationContext(), "Ahmed: Declare Offers",
 				Toast.LENGTH_SHORT).show();
-
-	}
+		// TODO Mohsen uncomment the method and pass ur class
+		//Intent intent =setSessionInformationBetweenActivities(typeOfNextActivity)
+		//startActivity(intent);
+	}// end onClick_DeclareOffer
 
 	/**
 	 * This is called when the search button is clicked
@@ -40,10 +52,17 @@ public class ConnectorUserActionsActivity extends Activity {
 	 * @param v
 	 */
 
-	public void onClick_SearchOffers(View v) {
-		Toast.makeText(getApplicationContext(), "Magued: Search for Offers",
-				Toast.LENGTH_SHORT).show();
-
+	public void onClick_SearchOffers(View v) {		
+		Intent intent =setSessionInformationBetweenActivities(FilterPreferencesActivity.class);
+		startActivity(intent);
+	}// end onClick_SearchOffers
+	
+	public void onClick_test(View v){
+		
+		FacebookWebservice fbServ = getFacebookService();
+		System.out.println("Register intergrate: " + "facebookservice after login: "+ fbServ );
+		fbServ.getUserInformation(true);
+		
 	}
 
 }
