@@ -92,7 +92,42 @@ public class SearchBySrcDesActivity extends Activity{
 		startActivity(intent);
 	 }	
 	 
-	 public void onClick_searchOffersByAirports (View v) 
+	 
+	 public void onClick_searchOffersByAirports (View v) {
+		 
+		 srcAirport = source.getText().toString();
+		desAirport = destination.getText().toString();
+			
+		srcAirport = removeSpaces(srcAirport);
+		desAirport = removeSpaces(desAirport);
+	
+		if(srcAirport.equals("") || desAirport.equals(""))
+			return;
+			
+		String request =  "/filterairportsoffers/" + srcAirport + "/" + desAirport + "/" + selectedDate 
+						+ "/" + searchStatus + "/0/0/both/none";
+				
+		Intent intent = new Intent(getBaseContext(), ViewSearchResultsActivity.class);
+		intent.putExtra("request", request);
+		startActivity(intent);
+			 
+		 }
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 public void onClick_searchOffersByAirports1 (View v) 
 	 {
 		srcAirport = source.getText().toString();
 		desAirport = destination.getText().toString();
