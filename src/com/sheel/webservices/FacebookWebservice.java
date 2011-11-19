@@ -478,11 +478,12 @@ public class FacebookWebservice {
 				if (receivedDataOfMutualFriends != null){	
 					// Get owner ID currently checked for mutual friends
 					String ownerId = (String)state;
-					generateLogMessage(": onComplete: has mutual friends ownerId: " + ownerId);
+					generateLogMessage(": onComplete(processRequest): has mutual friends ownerId: " + ownerId);
 					// Get the OfferDisplay of that owner and save mutual friends
 					getOfferDisplayBy(ownerId).setFacebookExtraInfo(receivedDataOfMutualFriends);
+					generateLogMessage(" : onComplete(processRequest): Mutual Friends for " + ownerId + " are: " + receivedDataOfMutualFriends);
 					addFilteredOfferDisplay(ownerId,OwnerFacebookStatus.FRIEND_OF_FRIEND);
-					generateLogMessage(": onComplete: Extra info set for ownerId " + ownerId);		
+					generateLogMessage(": onComplete(processRequest): Extra info set for ownerId " + ownerId);		
 				}// end if : if owner and user have common friends => FB returns mutual friends between both
 			}// end processRequest			
 		}// end class
@@ -687,6 +688,32 @@ public class FacebookWebservice {
 		
 			if (responseData.length() > 0){
 				return responseData.getJSONObject(0);				
+			}// end if: array has any data -> make it an object
+			else{
+				return null;
+			}// end else: no data was sent
+		} catch (JSONException e) {
+			Log.e(TAG_CLASS_PACKAGE,"extractDataJsonObject(JSONObject receviedResponse): error in JSON parsing");
+			e.printStackTrace();
+			return null;
+		}// end catch
+				
+	}// end extractDataJsonObject
+	
+private JSONArray extractDataJsonArray(JSONObject receviedResponse){
+		
+		if (receviedResponse.has("error")){
+			return null;
+		}// end if: returned response is an error -> process was not valid
+		
+		// Get friend data	
+		JSONArray responseData;
+		try {
+			Log.e("passant", "extractDataJsonObject receivedResponse: " + receviedResponse);
+			responseData = receviedResponse.getJSONArray("data");
+		
+			if (responseData.length() > 0){
+				return responseData;				
 			}// end if: array has any data -> make it an object
 			else{
 				return null;
