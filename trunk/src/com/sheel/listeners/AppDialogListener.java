@@ -1,6 +1,7 @@
 package com.sheel.listeners;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import com.facebook.android.DialogError;
 import com.facebook.android.Facebook.DialogListener;
@@ -21,11 +22,14 @@ public class AppDialogListener implements DialogListener {
 	}// end onComplete
 
 	public void onFacebookError(FacebookError e) {
-		
+		Log.e("AppDialogListener: " , "onFacebookError: "  );
+		e.printStackTrace();
 	}// end onFacebookError
 
 	@Override
-	public void onError(DialogError e) {				
+	public void onError(DialogError e) {	
+		Log.e("AppDialogListener: " , "onError: "  );
+		e.printStackTrace();
 	}// end onError
 
 	@Override
