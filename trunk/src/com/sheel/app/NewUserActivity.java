@@ -75,7 +75,7 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 	/** Passport number field. Required to register */
 	EditText passportNumberField;
 
-	String gender; /* Declaration of gender string */
+	String gender = ""; /* Declaration of gender string */
 	String firstName; /* Declaration of first name string */
 	String middleName; /* Declaration of middle name string */
 	String lastName; /* Declaration of last name string */
@@ -85,12 +85,17 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 	String email; /* Declaration of email string */
 	String mobileNumber; /* Declaration of mobile number string */
 	String nationality; /* Declaration of nationality string */
+	/** String containing the user facebook ID */
+	String faceBookID;
 
 	/**
 	 * Boolean variable to check that all the required fields are filled and in
 	 * the right format. True if everything is valid. False otherwise
 	 */
 	boolean allValid = false;
+	
+	boolean codeValid = false;
+	boolean nationalityValid = false;
 
 	/*
 	 * public void NewUser() { String gender = ""; String firstName = ""; String
@@ -152,19 +157,18 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 
 				Log.v("Test", "Checking if valid: " + text);
 				String stringText = text.toString();
-
 				stringText = stringText.trim();
-
-				stringText = stringText.replaceAll(" ", "%20");
+				
 
 				Arrays.sort(nationalityStrings);
-				if ((Arrays.binarySearch(nationalityStrings, stringText) > 0)
-						|| (stringText.equals(""))) {
-					allValid = true;
+				if ((Arrays.binarySearch(nationalityStrings, stringText) > 0)) {
+					nationalityValid = true;
+					nationality = stringText.replaceAll(" ", "%20");
+					
 
 					return true;
 				}
-				allValid = false;
+				nationalityValid = false;
 				Toast toast = Toast.makeText(NewUserActivity.this,
 						"Please insert a valid nationality", 0);
 				toast.show();
@@ -173,7 +177,7 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 
 			@Override
 			public CharSequence fixText(CharSequence invalidText) {
-				// TODO Auto-generated method stub
+
 				return invalidText;
 			}
 
@@ -194,14 +198,14 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 				Log.v("Test", "Checking if valid: " + text);
 				Arrays.sort(codeStrings);
 				if (Arrays.binarySearch(codeStrings, text.toString()) > 0) {
-					allValid = true;
+					codeValid = true;
 
 					// Toast toast = Toast.makeText(NewUserActivity.this,
 					// "Valid", 0);
 					// toast.show();
 					return true;
 				}
-				allValid = false;
+				codeValid = false;
 				Toast toast = Toast.makeText(NewUserActivity.this,
 						"Please insert a valid country", 0);
 				toast.show();
@@ -256,15 +260,15 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 		 * photoIntent.getExtras().getString(PASSPORT_IMAGE_KEY);
 		 * System.out.println(passportImage);
 		 */
-		
+
 		// Set the path where the taken photo will be saved
 		path = Environment.getExternalStorageDirectory().getName()
 				+ File.separatorChar + "Android/data/"
 				+ NewUserActivity.this.getPackageName() + "/PassportPhoto.jpg";
-		
+
 		/** The file containing the taken passport photo */
 		File file = new File(path);
-		
+
 		try {
 			// Create a file at the location specified in the path
 			if (file.exists() == false) {
@@ -295,6 +299,7 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 			System.out.println(path);
 			Toast.makeText(this, "Fine", Toast.LENGTH_LONG).show();
 			System.out.println("First IF");
+			// User done with capturing image
 			if (resultCode == -1) {
 				// Image captured and saved to fileUri specified in the Intent
 				onPhotoTaken();
@@ -353,31 +358,67 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 		String countryCode = countryCodes.getText().toString();
 		countryCodes.getValidator().isValid(countryCode);
 
-		nationality = nationalityField.getText().toString();
-		nationalityField.getValidator().isValid(nationality);
-
+		//nationality = nationalityField.getText().toString();
+		if(!nationality.equals("%20")){
+			nationalityField.getValidator().isValid(nationality);
+			System.out.println("Went to validator");
+		}
+		else{
+			nationalityValid = true;
+		}
 		emailValidation(email);
 
-		if (allValid && mobileNumber.length() > 5 && firstName.length() > 0
+		if (nationalityValid && codeValid && mobileNumber.length() > 5 && firstName.length() > 0
 				&& lastName.length() > 0 && email.length() > 0
-				&& passportNumber.length() > 0 && gender != null)
+				&& passportNumber.length() > 0)
 			allValid = true;
 		else
 			allValid = false;
 	}
 
+	public String GetUserFacebookID() {
+		String tempID = "";
+		getFacebookService().getUserInformation(true);
+		if (getFacebookService() != null) {
+
+			if (!getFacebookService().getFacebookUser()
+					.isRequestedBeforeSuccessfully()) {
+				getFacebookService().getUserInformation(true);
+			} else {
+				tempID = getFacebookService().getFacebookUser().getUserId();
+			}
+
+		}
+
+		System.out.println("FB ID: " + tempID);
+		return tempID;
+	}
+
 	public void OnClick_register(View v) {
+		faceBookID = GetUserFacebookID();
+
 		String countryCode = countryCodes.getText().toString();
 
 		mobileNumber = (mobileNumberField.getText().toString());
 		firstName = firstNameField.getText().toString();
 		middleName = middleNameField.getText().toString();
+		
+		if(middleName.length() == 0){ 
+			middleName = "%20";
+			System.out.println("Middle: " + middleName);}
 		lastName = lastNameField.getText().toString();
 		email = emailField.getText().toString();
 		passportNumber = passportNumberField.getText().toString();
-		nationality = "Egyptian";
+		nationality = nationalityField.getText().toString();
+		nationality = nationality.trim();
+		if(nationality.length() == 0) {nationality = "%20";}
+		System.out.println("Before check gender length");
+		if(gender.length() == 0) gender = "%20";
+		
+		System.out.println("Before Validate");
 
 		validate();
+		System.out.println("After Validate");
 		if (allValid == false)
 			Toast.makeText(this, "Please fill all the data", 0).show();
 		else {
@@ -392,64 +433,73 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 			toast.show();
 
 			// /////////////////
-			/*
-			 * SheelMaaayaClient sc = new SheelMaaayaClient() {
-			 * 
-			 * @Override public void doSomething() { // final String str =
-			 * this.rspStr;
-			 * 
-			 * runOnUiThread(new Runnable() {
-			 * 
-			 * @Override public void run() { // Toast.makeText(this,
-			 * "Done in DataBase", // Toast.LENGTH_LONG).show();
-			 * System.out.println("Done in DataBase");
-			 * System.out.println(passportImage.length());
-			 * 
-			 * 
-			 * } });
-			 * 
-			 * } };
-			 * 
-			 * // passportImage = "PassPortImage";
-			 * 
-			 * sc.runHttpRequest("/insertuser/" + email + "/" + firstName + "/"
-			 * + middleName + "/" + lastName + "/" + mobileNumber + "/" +
-			 * nationality + "/" + passportNumber + "/" + gender + "/" +
-			 * passportImage); Toast.makeText(getApplicationContext(),
-			 * "Done with Database", Toast.LENGTH_SHORT).show();
-			 */
 
-			SheelMaayaRegisterClient sc2 = new SheelMaayaRegisterClient() {
+			SheelMaaayaClient sc = new SheelMaaayaClient() {
 
 				@Override
 				public void doSomething() {
+					final String str = this.rspStr;
+
 					runOnUiThread(new Runnable() {
+
 						@Override
 						public void run() {
-							// Toast.makeText(this, "Done in DataBase",
+							// Toast.makeText(this, "Done in DataBase", //
 							// Toast.LENGTH_LONG).show();
-							System.out.println("Done in DataBase222");
-							// System.out.println(passportImage.length());
+							System.out.println("Done in DataBase");
+							System.out.println(passportImage.length());
 
 						}
 					});
 
 				}
-
 			};
 
-			List<NameValuePair> params = new LinkedList<NameValuePair>();
-			params.add(new BasicNameValuePair("email", email));
-			params.add(new BasicNameValuePair("firstName", firstName));
-			params.add(new BasicNameValuePair("middleName", middleName));
-			params.add(new BasicNameValuePair("lastName", lastName));
-			params.add(new BasicNameValuePair("mobileNumber", mobileNumber));
-			params.add(new BasicNameValuePair("nationality", nationality));
-			params.add(new BasicNameValuePair("passportNumber", passportNumber));
-			params.add(new BasicNameValuePair("gender", gender));
-			params.add(new BasicNameValuePair("passportPhoto", passportImage));
+			passportImage = "PassPortImage";
+			System.out.println("Nat: " + nationality);
 
-			sc2.runHttpRequest(params);
+			System.out.println("/insertuser/" + faceBookID + "/" + email + "/"
+					+ firstName + "/" + middleName + "/" + lastName + "/"
+					+ mobileNumber + "/" + nationality + "/" + passportNumber
+					+ "/" + gender + "/" + passportImage);
+			sc.runHttpRequest("/insertuser/" + faceBookID + "/" + email + "/"
+					+ firstName + "/" + middleName + "/" + lastName + "/"
+					+ mobileNumber + "/" + nationality + "/" + passportNumber
+					+ "/" + gender + "/" + passportImage);
+			Toast.makeText(getApplicationContext(), "Done with Database",
+					Toast.LENGTH_SHORT).show();
+
+			/*
+			 * SheelMaayaRegisterClient sc2 = new SheelMaayaRegisterClient() {
+			 * 
+			 * @Override public void doSomething() { runOnUiThread(new
+			 * Runnable() {
+			 * 
+			 * @Override public void run() { // Toast.makeText(this,
+			 * "Done in DataBase", // Toast.LENGTH_LONG).show();
+			 * System.out.println("Done in DataBase222"); //
+			 * System.out.println(passportImage.length());
+			 * 
+			 * } });
+			 * 
+			 * }
+			 * 
+			 * };
+			 * 
+			 * List<NameValuePair> params = new LinkedList<NameValuePair>();
+			 * params.add(new BasicNameValuePair("email", email));
+			 * params.add(new BasicNameValuePair("firstName", firstName));
+			 * params.add(new BasicNameValuePair("middleName", middleName));
+			 * params.add(new BasicNameValuePair("lastName", lastName));
+			 * params.add(new BasicNameValuePair("mobileNumber", mobileNumber));
+			 * params.add(new BasicNameValuePair("nationality", nationality));
+			 * params.add(new BasicNameValuePair("passportNumber",
+			 * passportNumber)); params.add(new BasicNameValuePair("gender",
+			 * gender)); params.add(new BasicNameValuePair("passportPhoto",
+			 * passportImage));
+			 * 
+			 * sc2.runHttpRequest(params);
+			 */
 
 			Intent statedIntent = setSessionInformationBetweenActivities(ConnectorUserActionsActivity.class);
 			startActivity(statedIntent);
