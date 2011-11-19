@@ -238,18 +238,30 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 
 	/** Method called when male toggle button is clicked */
 	public void onClick_male(View v) {
+		if(toggleMale.isChecked()){
+			gender = "";
+			System.out.println("1");
+		}
+		else{
 		// Uncheck the female toggle button
 		toggleFemale.setChecked(false);
 		// Set the gender to male
 		gender = "male";
+		}
 	} // end onClick_male
 
 	/** Method called when female toggle button is clicked */
 	public void onClick_female(View v) {
+		if(!toggleFemale.isChecked()){
+			System.out.println("2");
+			gender = "";
+		}
+		else{
 		// Uncheck the male toggle button
 		toggleMale.setChecked(false);
 		// Set the gender to male
 		gender = "female";
+		}
 	} // end onClick_female
 
 	/** Method called when the take photo button is clicked to open the camera */
