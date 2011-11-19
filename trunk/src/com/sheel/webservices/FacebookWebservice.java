@@ -20,6 +20,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.FaceDetector.Face;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -29,10 +30,12 @@ import com.facebook.android.DialogError;
 import com.facebook.android.Facebook;
 import com.facebook.android.Facebook.DialogListener;
 import com.facebook.android.FacebookError;
+import com.sheel.app.NewUserActivity;
 import com.sheel.app.SheelMaaayaClient;
 import com.sheel.datastructures.FacebookUser;
 import com.sheel.datastructures.OfferDisplay;
 import com.sheel.datastructures.enums.OwnerFacebookStatus;
+import com.sheel.datastructures.enums.SharedValuesBetweenActivities;
 import com.sheel.listeners.AppDialogListener;
 import com.sheel.listeners.AppRequestListener;
 import com.sheel.listeners.OffersFilterListener;
@@ -112,11 +115,31 @@ public class FacebookWebservice {
 	/**
 	 * Data structure for holding information about the facebook user
 	 */	
-	FacebookUser fbUser = null;
+	FacebookUser fbUser = new FacebookUser();
 
 	
 	/*
 	 * --------------------------------------- Constructors ------------------------------------------
+	 * 
+	 */
+	
+	/**
+	 * Default constructor
+	 */
+	public FacebookWebservice(){
+		
+	}// end constructor
+	
+	public FacebookWebservice (String facebookId, String accessToken , long expiryTime){
+		// Set access token and expiry time
+		this.facebook.setAccessToken(accessToken);
+		this.facebook.setAccessExpires(expiryTime);
+		
+		// Set user ID
+		this.fbUser = new FacebookUser(facebookId);
+	}// end constructor
+	/*
+	 * --------------------------------------- Logic ------------------------------------------
 	 * 
 	 */
 	
@@ -144,6 +167,22 @@ public class FacebookWebservice {
 	public boolean isSessionValid(){
 		return facebook.isSessionValid();
 	}// end isSessionValid
+	
+	/**
+	 * Returns facebook access token for generating issues on HTTP
+	 * @return
+	 */
+	public String getUserAccessToken(){
+		return facebook.getAccessToken();
+	}// end getUserAccessToken
+	
+	/**
+	 * Returns after how many milliseconds will the session expire
+	 * @return
+	 */
+	public long getUserAccessTokenExpiryTime(){
+		return facebook.getAccessExpires();
+	}// end getUserAccessTokenExpiryTime
 	
 	/**
 	 * Open login window in browser for signing-in facebook and app and optionally
@@ -197,9 +236,10 @@ public class FacebookWebservice {
 			
 			Log.e(TAG_CLASS_PACKAGE,"Login2: session expired");
 			
+			//String[] permissions = new String[]{"email","user_about_me"};
 			String[] permissions = new String[]{"email"};
 			facebook.authorize(parentActivity, permissions, new LoginListener());
-		
+			
 		}// end if : session is ended -> non access token -> request new one
 	
 	}// end login
@@ -242,13 +282,20 @@ public class FacebookWebservice {
 	public void getUserInformation(boolean isForApp){
 		
 		class BasicInfoListener extends AppRequestListener{
-				
+			
+			Semaphore dataIsReceived = new Semaphore(0);
+			
 			@Override
 			public void onComplete(String response, Object state) {
 				Log.e(TAG_CLASS_PACKAGE,"getUserInformation: onComplete: LoggedIn user response=" + response);
-				fbUser = new FacebookUser(response);
-				Log.e(TAG_CLASS_PACKAGE,"getUserInformation: onComplete: LoggedIn user=" + fbUser);				
-			}// end onComplete		
+				fbUser = new FacebookUser(response,true);
+				Log.e(TAG_CLASS_PACKAGE,"getUserInformation: onComplete: LoggedIn user=" + fbUser);
+				dataIsReceived.release();
+			}// end onComplete
+			
+			public Semaphore getSemaphore(){
+				return this.dataIsReceived;
+			}
 		}// end class
 		
 		if (facebook.isSessionValid()){
@@ -258,7 +305,9 @@ public class FacebookWebservice {
 				fields="?fields=id,first_name,middle_name,last_name,gender,verified,email&";
 			}// end if: get only needed parameters for the app
 			
-			asyncFacebookRunner.request("me"+fields, new BasicInfoListener());		
+			BasicInfoListener listener = new BasicInfoListener();
+			asyncFacebookRunner.request("me"+fields, listener);
+			blockThreadUntilAllOffersAreProcessed(listener.getSemaphore());
 		}// end if : get information if session is valid
 		
 	}// end getUserInformationForApp
@@ -484,7 +533,36 @@ public class FacebookWebservice {
 		}// end while: remove all elements in main from needsFiltering
 		
 	}// end removeDuplicates
-		
+	
+	
+	
+	/**
+	 * IMPORTANT: Before leaving any activity, you must call this  method to pass
+	 * the important details about session and user 
+	 * 
+	 * @param currentActivity
+	 * 		Activity that is about to be left
+	 * @param typeOfNextActivity
+	 * 		Class type of new activity you intend to navigate to. Write activity name
+	 * 		then call .getClass() method
+	 * @param currentWebService
+	 * 		Webservice in the current activity that data will be taken from 
+	 * 
+	 * @return
+	 * 		Intent containing data needed for the next activity. Use 
+	 * 		{@link Activity#startActivity(Intent)} to start the new activity
+	 */
+	public static Intent SetSessionInformationBetweenActivities (Activity currentActivity , Class<?> typeOfNextActivity, FacebookWebservice currentWebService){
+
+		   Intent mIntent = new Intent(currentActivity, typeOfNextActivity);
+			// Pass variable to detailed view activity using the intent
+			mIntent.putExtra(SharedValuesBetweenActivities.userFacebookId.name(), currentWebService.fbUser.getUserId());
+			mIntent.putExtra(SharedValuesBetweenActivities.userAccessToken.name(), currentWebService.getUserAccessToken());
+			mIntent.putExtra(SharedValuesBetweenActivities.accessTokenExpiry.name(), currentWebService.getUserAccessTokenExpiryTime());
+			
+			return mIntent;
+	}// end SetSessionInformationBetweenActivities
+	
 	/**
 	 * Helper method for acquiring a semaphore with the try and 
 	 * catch needed for handling exceptions
