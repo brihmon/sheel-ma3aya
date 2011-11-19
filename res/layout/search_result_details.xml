@@ -41,28 +41,28 @@
                     android:id="@+id/details_textView_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Wants 5 dollar/Kg"
+                    android:text="N/A"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
                 
                 <TextView
                     android:id="@+id/details_textView_facebookStatus"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Facebook friend"
+                    android:text="N/A"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
 
                 <TextView
                     android:id="@+id/details_textView_mobileNumber"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text=" +20105005872"
+                    android:text=" N/A"
                  />
 
                 <TextView
                     android:id="@+id/details_textView_email"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text=" passant.elagroudy@gmail.com"
+                    android:text=" N/A"
                   />
                 
                 <LinearLayout
@@ -76,19 +76,22 @@
 	                android:id="@+id/details_button_call"
 	                android:layout_width="wrap_content"
 	                android:layout_height="wrap_content"
-	                android:text="Call" />
+	                android:text="Call" 
+	                android:enabled="false"/>
 	                
 	                <Button
 	                android:id="@+id/details_button_sendSms"
 	                android:layout_width="wrap_content"
 	                android:layout_height="wrap_content"
-	                android:text="SMS" />
+	                android:text="SMS"
+	                android:enabled="false" />
 	                 
 	                <Button
 	                android:id="@+id/details_button_confirm"
 	                android:layout_width="wrap_content"
 	                android:layout_height="wrap_content"
-	                android:text="Confirm" />
+	                android:text="Confirm" 
+	                android:enabled="false"/>
 	                
 	                <Button
 	                android:id="@+id/details_button_communicate"
