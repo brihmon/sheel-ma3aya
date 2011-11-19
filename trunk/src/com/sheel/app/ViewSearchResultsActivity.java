@@ -5,6 +5,10 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Iterator;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.app.Activity;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -21,6 +25,7 @@ import android.widget.Toast;
 import com.facebook.android.FbDialog;
 import com.sheel.adapters.SearchResultsListAdapter;
 import com.sheel.datastructures.FacebookUser;
+import com.sheel.datastructures.Offer;
 import com.sheel.datastructures.OfferDisplay;
 import com.sheel.datastructures.enums.OfferWeightStatus;
 import com.sheel.datastructures.enums.OwnerFacebookStatus;
@@ -36,6 +41,8 @@ import com.sheel.webservices.FacebookWebservice;
 public class ViewSearchResultsActivity extends Activity {
 	
 	SearchResultsListAdapter adapter;
+	
+	String request;
 		
 	ArrayList<OfferDisplay> searchResults=new ArrayList<OfferDisplay>();
 	FacebookWebservice fbService = new FacebookWebservice();
@@ -45,21 +52,32 @@ public class ViewSearchResultsActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);        
         setContentView(R.layout.search_result_details);
+
+        
+        Bundle extras = getIntent().getExtras();
+        
+    	if(extras !=null)
+    		request = extras.getString("request");
+    	
+    	filterOffers();
+        
+
         
         // TODO CHECK MIGHT CAUSE BUG
         fbService.getUserInformation(true);
         
+
         setIconsForDetailsItems();
         initListView();
         
-       fbService.login(this,true,true);
+     //  fbService.login(this,true,true);
       
         
     }// end onCreate
     
     @Override 
     protected void onActivityResult(int requestCode, int resultCode, android.content.Intent data) {
-    	fbService.authorizeCallback(requestCode, resultCode, data);
+    //	fbService.authorizeCallback(requestCode, resultCode, data);
     }// end onActivityResult
         
     /**
@@ -125,7 +143,7 @@ public class ViewSearchResultsActivity extends Activity {
     	//users.add(new FacebookUser(9,"Nada", "", "Adly", true));
     	 */
     	
-    	searchResults.add(new OfferDisplay("ownr", "OFR", "Passant", "passant@gmail.com", "+20105005872", OfferWeightStatus.LESS, 5, 3, OwnerFacebookStatus.FRIEND, true));
+    	searchResults.add(new OfferDisplay("ownr", "OFR", "Passant", "passant@gmail.com", "+20105005872", OfferWeightStatus.LESS, 5, 3, OwnerFacebookStatus.FRIEND, true, "", "", "",""));
     	// Create adapter to control how list is displayed
     	adapter = new SearchResultsListAdapter(this, searchResults);
     	// Set adapter to the list view 	
@@ -293,20 +311,20 @@ public class ViewSearchResultsActivity extends Activity {
     		Hashtable<String,OfferDisplay> offersFromCommonNetworks=null;
     		
     		// Search for offers with owners friends with the app user 
-    		offersFromFriends = fbService.filterOffersFromFriends(offersFromUsers);
+    		//offersFromFriends = fbService.filterOffersFromFriends(offersFromUsers);
     		Log.e("passant","offers from friends are filtered");
     		
     		// Reduce offers searched by removing offers whose owners are friends with the app user
     		@SuppressWarnings("unchecked")
 			Hashtable<String,OfferDisplay> remainingOffers = (Hashtable<String, OfferDisplay>)offersFromUsers.clone();
-    		FacebookWebservice.removeDuplicates(offersFromFriends, remainingOffers);
+    		//FacebookWebservice.removeDuplicates(offersFromFriends, remainingOffers);
     		Log.e("passant","offers from NON friends are filtered");
     		
     		// Search for offers with owners friends of user friends but not the user's friends
     		if (maximumOwnerFacebookStatus == OwnerFacebookStatus.FRIEND_OF_FRIEND || maximumOwnerFacebookStatus == OwnerFacebookStatus.COMMON_NETWORKS ){
-    			offersFromFriendsOfFriends = fbService.filterOffersFromOwnersWithMutualFriends(remainingOffers);
+    	//		offersFromFriendsOfFriends = fbService.filterOffersFromOwnersWithMutualFriends(remainingOffers);
     			Log.e("passant","offers from  friends of friends are filtered");    	    	
-    			FacebookWebservice.removeDuplicates(offersFromFriendsOfFriends, remainingOffers);
+    		//	FacebookWebservice.removeDuplicates(offersFromFriendsOfFriends, remainingOffers);
     			Log.e("passant","unrelated offers are filtered");    	    	
     		}// end if : user wants to see offers from indirect acquaintances
     		
@@ -343,6 +361,116 @@ public class ViewSearchResultsActivity extends Activity {
     	Log.e("Passant" , "test_searchUsingFacebook: search is done");
         
     }// end test_searchUsingFacebook
+    
+   
+    public void filterOffers(){
+		
+		HTTPClient sc = new HTTPClient() {
+	           
+			@Override
+			public void doSomething() {
+				final String str = this.rspStr;
+				 
+							 runOnUiThread(new Runnable()
+                             {
+                                 @Override
+                                 public void run()
+                                 {
+                                     Toast.makeText(ViewSearchResultsActivity.this, str, Toast.LENGTH_LONG).show();
+                                     
+                                     try {
+                                    	 
+                                    	JSONArray jsonArray = new JSONArray(builder.toString());
+                                    	
+                                    	ArrayList<OfferDisplay> list = new ArrayList<OfferDisplay>();
+                                    	OfferDisplay offerDisplay;
+                                    	
+                                    	JSONObject offer;
+                                    	
+                                    	 for (int i = 0; i < jsonArray.length(); i++) {
+                                    		 
+                                    		 offer = jsonArray.getJSONObject(i);
+                        
+                                    		 offerDisplay = mapOffer(offer);
+                                    		 
+                                    		 list.add(offerDisplay);
+                                    		 
+                                    		 Log.e("mm", offerDisplay.getFlightNumber());
+                                    		 Log.e("mm", offerDisplay.getDestination());
+                                    		 Log.e("mm", offerDisplay.getDisplayName());
+                                    		 Log.e("mm", offerDisplay.getMobile());
+                                    		 Log.e("mm", offerDisplay.getOwnerFacebookId());
+                                    		 Log.e("mm", offerDisplay.getEmail());
+                                    		 Log.e("mm", offerDisplay.getNumberOfKgs()+"");
+                                    		 Log.e("mm", offerDisplay.isFemale() +"");
+                                    		 Log.e("mm", offerDisplay.getNationality());
+                   
+                                    	 }
+										
+									} catch (JSONException e) {
+										
+										e.printStackTrace();
+									}
+                                 }
+                             });
+				}
+        
+			};
+	        
+			sc.runHttpRequest(request); 	
+	}
+    
+    public OfferDisplay mapOffer(JSONObject offer){
+    	
+    	try {
+			JSONObject user = offer.getJSONObject("user");
+			JSONObject flight = offer.getJSONObject("flight");
+			
+			String ownerId = user.getString("facebookAccount");
+			String offerId = offer.getLong("id") + "";
+			String displayName = user.getString("firstName") + " " + user.getString("middleName") 
+														+ " " + user.getString("lastName");
+			String email = user.getString("email");
+			String mobile = user.getString("mobileNumber");
+			
+			int status = offer.getInt("userStatus");
+			
+			OfferWeightStatus weightStatus;
+			
+			if(status == 0)
+				weightStatus = OfferWeightStatus.LESS;
+			else
+				weightStatus = OfferWeightStatus.MORE;
+			
+			int kgs = offer.getInt("noOfKilograms");
+			int price = offer.getInt("pricePerKilogram");
+			
+			OwnerFacebookStatus ownerFbStatus = OwnerFacebookStatus.UNRELATED;
+			
+			String gender = user.getString("gender");
+			boolean isFemale = true;
+			
+			if(!gender.equals("female"))
+				isFemale = false;
+			
+			String nationality = user.getString("nationality");
+			
+			String flightNumber = flight.getString("flightNumber");
+			String source = flight.getString("source");
+			String destination = flight.getString("destination");
+			
+			return new OfferDisplay(
+				ownerId, offerId , displayName, email, mobile, weightStatus, kgs , price , ownerFbStatus, 
+				isFemale, nationality, flightNumber, source, destination);
+			
+			
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}  	
+    }
    
     
 }// end Activity
+
