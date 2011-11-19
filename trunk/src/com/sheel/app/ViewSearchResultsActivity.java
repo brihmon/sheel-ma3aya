@@ -72,11 +72,10 @@ public class ViewSearchResultsActivity extends UserSessionStateMaintainingActivi
     	
     	filterOffers();
         
-
         
         // TODO CHECK MIGHT CAUSE BUG
-        getFacebookService().getUserInformation(true);
-        
+    	if (getFacebookService() != null)
+        getFacebookService().getUserInformation(true);        
 
         setIconsForDetailsItems();
         initListView();
