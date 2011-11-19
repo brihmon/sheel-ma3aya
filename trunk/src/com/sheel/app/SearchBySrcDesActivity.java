@@ -30,7 +30,7 @@ public class SearchBySrcDesActivity extends UserSessionStateMaintainingActivity{
 	String srcAirport;
 	String desAirport;
 	
-	@Override
+//	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.search_by_src_des);
@@ -92,6 +92,12 @@ public class SearchBySrcDesActivity extends UserSessionStateMaintainingActivity{
 		intent.putExtra("searchMethod", searchMethod);
 		intent.putExtra("srcAirport", srcAirport);
 		intent.putExtra("desAirport", desAirport);
+		
+		Bundle extras = getIntent().getExtras();
+		long userId = extras.getLong("userId");
+		intent.putExtra("userId", userId);
+//		Toast.makeText(getApplicationContext(),"" + userId, Toast.LENGTH_SHORT).show();
+		
 		startActivity(intent);
 	 }	
 	 
@@ -114,6 +120,12 @@ public class SearchBySrcDesActivity extends UserSessionStateMaintainingActivity{
 		Intent intent = setSessionInformationBetweenActivities(ViewSearchResultsActivity.class);
 		intent.putExtra("request", request);
 		intent.putExtra("facebook", OwnerFacebookStatus.UNRELATED.name());
+
+		Bundle extras = getIntent().getExtras();
+		long userId = extras.getLong("userId");
+		intent.putExtra("userId", userId);
+//		Toast.makeText(getApplicationContext(),"" + userId, Toast.LENGTH_SHORT).show();
+		
 		startActivity(intent);
 			 
 		 }
@@ -151,7 +163,7 @@ public class SearchBySrcDesActivity extends UserSessionStateMaintainingActivity{
 				 
 							 runOnUiThread(new Runnable()
                              {
-                                 @Override
+           //                      @Override
                                  public void run()
                                  {
                                      Toast.makeText(SearchBySrcDesActivity.this, str, Toast.LENGTH_LONG).show();
