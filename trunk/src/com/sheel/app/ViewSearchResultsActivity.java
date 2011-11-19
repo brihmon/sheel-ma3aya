@@ -45,6 +45,10 @@ public class ViewSearchResultsActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);        
         setContentView(R.layout.search_result_details);
+        
+        // TODO CHECK MIGHT CAUSE BUG
+        fbService.getUserInformation(true);
+        
         setIconsForDetailsItems();
         initListView();
         
