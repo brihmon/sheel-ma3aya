@@ -67,9 +67,15 @@ public class ConnectorUserActionsActivity extends UserSessionStateMaintainingAct
 	public void onClick_DeclareOffer(View v) {
 	
 		Intent intent =setSessionInformationBetweenActivities(InsertOfferActivity.class);
+		 
+		try{
+			long userId = Long.parseLong(LoggedID);
+			intent.putExtra("userId", userId);
+		}catch(Exception e){
+			
+		}
 		startActivity(intent);
-		
-		onClick_test(v);
+		 
 	}// end onClick_DeclareOffer
 
 	/**
