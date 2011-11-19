@@ -83,6 +83,13 @@ public class SearchByFlightNoActivity extends UserSessionStateMaintainingActivit
 		intent.putExtra("selectedDate", selectedDate);
 		intent.putExtra("searchMethod", searchMethod);
 		intent.putExtra("flightNo", flightNo);
+		
+		Bundle extras = getIntent().getExtras();
+		long userId = extras.getLong("userId");
+		intent.putExtra("userId", userId);
+//		Toast.makeText(getApplicationContext(),"" + userId, Toast.LENGTH_SHORT).show();
+		
+		
 		startActivity(intent);
 	 }
 	 
@@ -101,6 +108,12 @@ public class SearchByFlightNoActivity extends UserSessionStateMaintainingActivit
 		Intent intent = setSessionInformationBetweenActivities(ViewSearchResultsActivity.class);
 		intent.putExtra("request", request);
 		intent.putExtra("facebook", OwnerFacebookStatus.UNRELATED.name());
+		
+		Bundle extras = getIntent().getExtras();
+		long userId = extras.getLong("userId");
+		intent.putExtra("userId", userId);
+//		Toast.makeText(getApplicationContext(),"" + userId, Toast.LENGTH_SHORT).show();
+		
 		startActivity(intent);
 		 
 	 }
