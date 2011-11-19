@@ -7,30 +7,33 @@
     android:layout_height="fill_parent"
     android:layout_marginTop="20px"
     android:stretchColumns="1"
+    android:orientation="vertical" 
+    android:background="#004D79"
     >
-    <TableRow>
+    <TableRow    android:layout_marginBottom="30px">
 	<TextView android:text="Flight Details"
      android:textColorHighlight="@android:color/primary_text_light"
-     android:layout_marginBottom="20px"
+     android:layout_marginBottom="30px"
 	 />
 </TableRow>
 
   
     
     
-    <TableRow>
+    <TableRow    android:layout_marginBottom="30px">
     <TextView android:text="Flight Number :"/>
     <EditText android:id="@+id/fNum"/>
     </TableRow>
     
-    <TableRow>
+    <TableRow > 
     <TextView android:text="Source Airport :"/>
      
     </TableRow>
      
   
            <AutoCompleteTextView         
-    android:id="@+id/sAirport"        
+    android:id="@+id/sAirport"      
+       android:layout_marginBottom="30px"  
     android:layout_width="fill_parent"        
     android:layout_height="wrap_content"     />   
   
@@ -40,33 +43,39 @@
     <TextView android:text="Destination Airport :"/>
     
     </TableRow>
-       <AutoCompleteTextView         
+       <AutoCompleteTextView      
+              android:layout_marginBottom="30px"   
     android:id="@+id/dAirport"        
     android:layout_width="fill_parent"        
     android:layout_height="wrap_content"   />     
     
-     <TableRow>
+     <TableRow    android:layout_marginBottom="30px">
     <TextView android:text="Departure date :"/>
     <TextView  android:id="@+id/editText1" 
     android:layout_height="wrap_content" 
     android:layout_width="wrap_content"
     android:clickable="true">
+ 
         <requestFocus></requestFocus>
     </TextView >
-     
+       <Button android:text="Change"
+     android:layout_marginTop="2px"
+     android:onClick="onClick_change"></Button>
+           
     
     </TableRow>
-    <TableRow>
+
+        <!-- 
     <TextView android:text="Departure time :"/>
     <TextView android:id="@+id/editText2" 
     android:layout_height="wrap_content" 
     android:layout_width="wrap_content" 
     android:clickable="true">
-    </TextView>
+    </TextView>-->
   
      
     
-    </TableRow>
+ 
    
     <Button android:text="Submit"
      android:layout_marginTop="50px"
