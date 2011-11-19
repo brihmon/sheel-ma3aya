@@ -9,4 +9,15 @@
     <Button android:id="@+id/userAction_button_declare" android:layout_height="wrap_content" android:onClick="onClick_DeclareOffer" android:layout_width="fill_parent" android:text="Declare Offer" android:layout_below="@+id/imageButton1" android:layout_alignParentLeft="true" android:layout_marginTop="146dp"></Button>
     <Button android:id="@+id/imageButton1" android:layout_height="wrap_content" android:onClick="onClick_SearchOffers" android:layout_width="wrap_content" android:text="Search for Offers" android:layout_alignParentTop="true" android:layout_marginTop="104dp" android:layout_alignParentLeft="true" android:layout_alignParentRight="true"></Button>
 
+    <Button
+        android:id="@+id/userAction_button_logout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="28dp"
+        android:text="Logout !" 
+        android:onClick="onClick_logOut"/>
+
 </RelativeLayout>
