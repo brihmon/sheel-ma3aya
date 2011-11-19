@@ -15,7 +15,7 @@ import android.widget.Toast;
 import android.widget.AutoCompleteTextView.Validator;
 import android.widget.TextView;
 
-public class SearchBySrcDesActivity extends Activity{
+public class SearchBySrcDesActivity extends UserSessionStateMaintainingActivity{
 	
 	int searchStatus;
 	String selectedDate;
@@ -83,7 +83,8 @@ public class SearchBySrcDesActivity extends Activity{
 		if(srcAirport.equals("") || desAirport.equals(""))
 			return;
 		
-		Intent intent = new Intent(getBaseContext(), FilterPreferencesActivity.class);
+		//Intent intent = new Intent(getBaseContext(), FilterPreferencesActivity.class);
+		Intent intent = setSessionInformationBetweenActivities(FilterPreferencesActivity.class);
 		intent.putExtra("searchStatus", searchStatus);
 		intent.putExtra("selectedDate", selectedDate);
 		intent.putExtra("searchMethod", searchMethod);
@@ -107,7 +108,8 @@ public class SearchBySrcDesActivity extends Activity{
 		String request =  "/filterairportsoffers/" + srcAirport + "/" + desAirport + "/" + selectedDate 
 						+ "/" + searchStatus + "/0/0/both/none";
 				
-		Intent intent = new Intent(getBaseContext(), ViewSearchResultsActivity.class);
+		//Intent intent = new Intent(getBaseContext(), ViewSearchResultsActivity.class);
+		Intent intent = setSessionInformationBetweenActivities(ViewSearchResultsActivity.class);
 		intent.putExtra("request", request);
 		startActivity(intent);
 			 
