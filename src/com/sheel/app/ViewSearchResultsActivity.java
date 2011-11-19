@@ -74,13 +74,13 @@ public class ViewSearchResultsActivity extends UserSessionStateMaintainingActivi
     	
     	filterOffers();
         
-        
-        // TODO CHECK MIGHT CAUSE BUG
     	if (getFacebookService() != null)
         getFacebookService().getUserInformation(true);        
 
         setIconsForDetailsItems();
         initListView();
+        
+       // test_searchUsingFacebook();
         
      //  fbService.login(this,true,true);
       
@@ -138,7 +138,7 @@ public class ViewSearchResultsActivity extends UserSessionStateMaintainingActivi
      * used to initialize the values of the list view
      */
     private void initListView(){    	
-    
+        	
     	// Get list using its ID
     	ListView searchResultsList = (ListView)findViewById(R.id.listView_searchResults);
        	// Create adapter to control how list is displayed
@@ -196,8 +196,15 @@ public class ViewSearchResultsActivity extends UserSessionStateMaintainingActivi
     		prefix = " Requests";
     	}// end if : offer for carrying luggage -> prefix: wants
     	
-    	// get price
-    	prefix += " "+searchResult.getPrice()+" " + "euro per Kg";
+    	int priceValue = searchResult.getPrice();
+    	if (priceValue < 0){
+    		prefix += " N/A per Kg";
+    	}else if (priceValue == 0){
+    		prefix += " no money per Kg";
+    	}else{
+	    	// get price
+	    	prefix += " "+priceValue+" " + "euro per Kg";
+    	}
     	
     	// Set price
     	price.setText(prefix);
@@ -368,10 +375,16 @@ public class ViewSearchResultsActivity extends UserSessionStateMaintainingActivi
     	
     	Hashtable<String, OfferDisplay> offersFromUsers = new Hashtable<String, OfferDisplay>();
     	offersFromUsers.put(usrId1, new OfferDisplay(usrId1, "ofr1","naglaa_friend"));
-    	offersFromUsers.put(usrId2, new OfferDisplay(usrId1, "ofr2","olcay_friend"));
-    	offersFromUsers.put(usrId3, new OfferDisplay(usrId1, "ofr3","ahmad_friendOfFriend"));
-    	offersFromUsers.put(usrId4, new OfferDisplay(usrId1, "ofr4","stranger"));
-    	offersFromUsers.put(usrId5, new OfferDisplay(usrId1, "ofr5","ahmed celil_stranger"));
+    	offersFromUsers.put(usrId2, new OfferDisplay(usrId2, "ofr2","olcay_friend"));
+    	offersFromUsers.put(usrId3, new OfferDisplay(usrId3, "ofr3","ahmad_friendOfFriend"));
+    	offersFromUsers.put(usrId4, new OfferDisplay(usrId4, "ofr4","stranger"));
+    	offersFromUsers.put(usrId5, new OfferDisplay(usrId5, "ofr5","ahmed celil_stranger"));
+    	offersFromUsers.put("t1", new OfferDisplay("t1", "ofr51","ahmed celil_stranger"));
+    	offersFromUsers.put("t2", new OfferDisplay("t2", "ofr52","ahmed celil_stranger"));
+    	offersFromUsers.put("t3", new OfferDisplay("t3", "ofr53","ahmed celil_stranger"));
+    	offersFromUsers.put("t4", new OfferDisplay("t4", "ofr54","ahmed celil_stranger"));
+    	offersFromUsers.put("t5", new OfferDisplay("t5", "ofr55","ahmed celil_stranger"));
+    	offersFromUsers.put("t6", new OfferDisplay("t6", "ofr56","ahmed celil_stranger"));
     	Log.e("Passant" , "test_searchUsingFacebook: input initialized");
     	
     	// Invoke test method
