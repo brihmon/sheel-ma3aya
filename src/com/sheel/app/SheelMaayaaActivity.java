@@ -18,9 +18,8 @@ public class SheelMaayaaActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
-        
-//        setContentView(R.layout.connector_welcome_page);
+//        setContentView(R.layout.main);
+    	startActivity(new Intent(this, ConnectorWelcomePageActivity.class));
     }
     
     public void onClick_goToSheelMa3aya(View v){
