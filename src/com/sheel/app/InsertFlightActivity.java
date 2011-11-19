@@ -27,7 +27,7 @@ import com.sheel.datastructures.Flight;
 /**
  * @author Mohsen
  */
-public class InsertFlightActivity extends Activity {
+public class InsertFlightActivity extends UserSessionStateMaintainingActivity {
 	static Flight flight = new Flight("","","","");
 	
 	private TextView mDateDisplay;       
@@ -228,7 +228,7 @@ public class InsertFlightActivity extends Activity {
 	                                 @Override
 	                                 public void run()
 	                                 {
-	                                	 if(dialog.isShowing()){
+	                                	 if((!(dialog==null))&&dialog.isShowing()){
 	                                		 dialog.dismiss();
 	                                	 }
 	                                	 if(str.equals("OK")){
@@ -251,7 +251,11 @@ public class InsertFlightActivity extends Activity {
 			
 		}
 	 
-	 
+	 protected void onPause() {
+			// TODO Auto-generated method stub
+			super.onPause();
+			dialog = null;
+		}
 	 
 	 public void showMessageBox(String title,String message){
 		 AlertDialog alertDialog;
@@ -279,11 +283,19 @@ public class InsertFlightActivity extends Activity {
 					 mDateDisplay.getText().toString());
 		 
 			 
-			 startActivity(new Intent(this, InsertOfferActivity.class));	
+			 //startActivity(new Intent(this, InsertOfferActivity.class));	
+			Intent intent =setSessionInformationBetweenActivities(InsertOfferActivity.class);
+			startActivity(intent);
 			break;
 		}
 		return true;
 		
+	}
+	
+	
+	public void onClick_goMainPage(View v){
+		Intent intent =setSessionInformationBetweenActivities(ConnectorUserActionsActivity.class);
+		startActivity(intent);
 	}
 	 
 	 
