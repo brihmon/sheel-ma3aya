@@ -372,7 +372,6 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 			sc2.runHttpRequest(params);
 			
 			Intent statedIntent = setSessionInformationBetweenActivities(ConnectorUserActionsActivity.class);
-			//startActivity(new Intent(this, ConnectorUserActionsActivity.class));
 			startActivity(statedIntent);
 
 		}
