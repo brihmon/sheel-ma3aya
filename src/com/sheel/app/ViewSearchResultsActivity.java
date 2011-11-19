@@ -79,7 +79,7 @@ public class ViewSearchResultsActivity extends UserSessionStateMaintainingActivi
     		Log.e("mm", facebookStatus);
     		}
     	
-    	//filterOffers();
+    	filterOffers();
         
     	if (getFacebookService() != null)
         getFacebookService().getUserInformation(true);        
@@ -89,7 +89,7 @@ public class ViewSearchResultsActivity extends UserSessionStateMaintainingActivi
         
         test_searchUsingFacebook();
         
-     //  fbService.login(this,true,true);
+//      / fbService.login(this,true,true);
       
         
     }// end onCreate
@@ -390,22 +390,34 @@ public class ViewSearchResultsActivity extends UserSessionStateMaintainingActivi
     		ArrayList<OfferDisplay> offersFromFriendsOfFriends,
     		ArrayList<OfferDisplay> offersFromCommonNetworks){
     	
+    	/**
+    	 * Inner class used for sorting the contents of an array list
+    	 * of (OfferDisplay) object DESCENDINGLY 
+    	 * @author passant
+    	 *
+    	 */
     	class FacebookPriorityComparator implements Comparator<OfferDisplay>{
 
 			@Override
 			public int compare(OfferDisplay object1, OfferDisplay object2) {
-				JSONObject facebookExtraInfo1 = object1.getFacebookExtraInfo();
-				JSONObject facebookExtraInfo2 = object2.getFacebookExtraInfo();
+				JSONArray facebookExtraInfo1 = object1.getFacebookExtraInfo();
+				JSONArray facebookExtraInfo2 = object2.getFacebookExtraInfo();
 				
+				/**
+				 * NOTE: normally, the returned results should be swapped.
+				 * However it leads to ascending sorting. Thus, such swap is
+				 * for descending order
+				 */
 				if (facebookExtraInfo1 != null && facebookExtraInfo2 != null){
 					if (facebookExtraInfo1.length() < facebookExtraInfo2.length())
-						return -1;
-					else if (facebookExtraInfo1.length() > facebookExtraInfo2.length())
 						return 1;
+					else if (facebookExtraInfo1.length() > facebookExtraInfo2.length())
+						return -1;
 				}// end if : double check to avoid exceptions				
 				return 0;
 			}// end compare    		
     	}// end class
+    	
     	
     	// Create comparator
     	FacebookPriorityComparator comparator = new FacebookPriorityComparator();
