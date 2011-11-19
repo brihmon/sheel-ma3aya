@@ -198,14 +198,14 @@ public class ViewSearchResultsActivity extends Activity {
     	
     	// according to offer status -> specify prefix
     	if (searchResult.getWeightStatus() == OfferWeightStatus.MORE){
-    		prefix = " Pays";
+    		prefix = " Offers";
     	}// end if : offer for giving luggage -> prefix: pay
     	else{
-    		prefix = " Wants";
+    		prefix = " Requests";
     	}// end if : offer for carrying luggage -> prefix: wants
     	
     	// get price
-    	prefix += " "+searchResult.getPrice()+" " + "dollar/Kg";
+    	prefix += " "+searchResult.getPrice()+" " + "euro per Kg";
     	
     	// Set price
     	price.setText(prefix);
@@ -262,6 +262,7 @@ public class ViewSearchResultsActivity extends Activity {
         		searchResults.clear();
         	}// end if : list not initialized or want to display new search result list
         	
+    		System.out.println("updateSearchResultsList: content searchResults before adding: " + searchResults);
         	searchResults.addAll(offersFromUsers.values());  
         	Log.e("passant", "list size: " + offersFromUsers.size() + " list content: " + offersFromUsers);
         	Log.e("Final list: " , searchResults.toString() + "  list size: " + searchResults.size());
@@ -311,20 +312,20 @@ public class ViewSearchResultsActivity extends Activity {
     		Hashtable<String,OfferDisplay> offersFromCommonNetworks=null;
     		
     		// Search for offers with owners friends with the app user 
-    		//offersFromFriends = fbService.filterOffersFromFriends(offersFromUsers);
+    		offersFromFriends = fbService.filterOffersFromFriends(offersFromUsers);
     		Log.e("passant","offers from friends are filtered");
     		
     		// Reduce offers searched by removing offers whose owners are friends with the app user
     		@SuppressWarnings("unchecked")
 			Hashtable<String,OfferDisplay> remainingOffers = (Hashtable<String, OfferDisplay>)offersFromUsers.clone();
-    		//FacebookWebservice.removeDuplicates(offersFromFriends, remainingOffers);
+    		FacebookWebservice.removeDuplicates(offersFromFriends, remainingOffers);
     		Log.e("passant","offers from NON friends are filtered");
     		
     		// Search for offers with owners friends of user friends but not the user's friends
     		if (maximumOwnerFacebookStatus == OwnerFacebookStatus.FRIEND_OF_FRIEND || maximumOwnerFacebookStatus == OwnerFacebookStatus.COMMON_NETWORKS ){
-    	//		offersFromFriendsOfFriends = fbService.filterOffersFromOwnersWithMutualFriends(remainingOffers);
+    			offersFromFriendsOfFriends = fbService.filterOffersFromOwnersWithMutualFriends(remainingOffers);
     			Log.e("passant","offers from  friends of friends are filtered");    	    	
-    		//	FacebookWebservice.removeDuplicates(offersFromFriendsOfFriends, remainingOffers);
+    			FacebookWebservice.removeDuplicates(offersFromFriendsOfFriends, remainingOffers);
     			Log.e("passant","unrelated offers are filtered");    	    	
     		}// end if : user wants to see offers from indirect acquaintances
     		
@@ -334,7 +335,9 @@ public class ViewSearchResultsActivity extends Activity {
     		// Display results
     		updateSearchResultsList(offersFromFriends, offersFromFriendsOfFriends, offersFromCommonNetworks, remainingOffers);
     	}// end if : if user does not care -> why waste internet data on searching
-    	
+    	else{
+    		updateSearchResultsList(offersFromUsers, false);
+    	}// end else: display results as is
     }// end searchUsingSocialNetworks
     
     public void test_searchUsingFacebook(){
@@ -382,7 +385,7 @@ public class ViewSearchResultsActivity extends Activity {
                                     	 
                                     	JSONArray jsonArray = new JSONArray(builder.toString());
                                     	
-                                    	ArrayList<OfferDisplay> list = new ArrayList<OfferDisplay>();
+                                    	Hashtable<String,OfferDisplay> offersFromUsers = new Hashtable<String,OfferDisplay>();
                                     	OfferDisplay offerDisplay;
                                     	
                                     	JSONObject offer;
@@ -393,20 +396,16 @@ public class ViewSearchResultsActivity extends Activity {
                         
                                     		 offerDisplay = mapOffer(offer);
                                     		 
-                                    		 list.add(offerDisplay);
-                                    		 
-                                    		 Log.e("mm", offerDisplay.getFlightNumber());
-                                    		 Log.e("mm", offerDisplay.getDestination());
-                                    		 Log.e("mm", offerDisplay.getDisplayName());
-                                    		 Log.e("mm", offerDisplay.getMobile());
-                                    		 Log.e("mm", offerDisplay.getOwnerFacebookId());
-                                    		 Log.e("mm", offerDisplay.getEmail());
-                                    		 Log.e("mm", offerDisplay.getNumberOfKgs()+"");
-                                    		 Log.e("mm", offerDisplay.isFemale() +"");
-                                    		 Log.e("mm", offerDisplay.getNationality());
+                                    		 String ownerId = offerDisplay.getOwnerFacebookId();
+                                    		 offersFromUsers.put(ownerId, offerDisplay);
+                                    		                                     	
+                                    		 System.out.println("Testing : size=" + searchResults.size()+" hashtable values: " + searchResults);
                    
-                                    	 }
+                                    	 }// end for
+                                    	 
+                                    searchUsingFacebook(offersFromUsers,OwnerFacebookStatus.FRIEND_OF_FRIEND);
 										
+                                    	 
 									} catch (JSONException e) {
 										
 										e.printStackTrace();
