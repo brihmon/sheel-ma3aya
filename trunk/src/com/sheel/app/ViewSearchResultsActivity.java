@@ -270,6 +270,30 @@ public class ViewSearchResultsActivity extends UserSessionStateMaintainingActivi
    
     }// end updateSearchResultsList
     
+    private void updateSearchResultsList(ArrayList<OfferDisplay> offersFromUsers,
+    		boolean isAppend){
+    	
+    	if (offersFromUsers != null){
+    		if (!isAppend){
+        		searchResults.clear();
+        	}// end if : list not initialized or want to display new search result list
+        	
+    		System.out.println("updateSearchResultsList: content searchResults before adding: " + searchResults);
+        	searchResults.addAll(offersFromUsers);  
+        	Log.e("passant", "list size: " + offersFromUsers.size() + " list content: " + offersFromUsers);
+        	Log.e("Final list: " , searchResults.toString() + "  list size: " + searchResults.size());
+        	
+        	// Get list using its ID
+        	//adapter.setList(searchResults);
+        	ListView searchResultsList = (ListView)findViewById(R.id.listView_searchResults);
+        	//searchResultsList.invalidateViews();
+        	searchResultsList.setAdapter(new SearchResultsListAdapter(this, searchResults));
+    	}// end if : list has something
+    	else{
+    		Log.e("passant","list is empty");
+    	}    	
+   
+    }// end updateSearchResultsList
     
     /**
      * Used to filter results using information from facebook account of user
@@ -376,6 +400,7 @@ public class ViewSearchResultsActivity extends UserSessionStateMaintainingActivi
                                     	 
                                     	JSONArray jsonArray = new JSONArray(builder.toString());
                                     	
+                                    	ArrayList<OfferDisplay> list = new ArrayList<OfferDisplay>();
                                     	Hashtable<String,OfferDisplay> offersFromUsers = new Hashtable<String,OfferDisplay>();
                                     	OfferDisplay offerDisplay;
                                     	
@@ -386,15 +411,24 @@ public class ViewSearchResultsActivity extends UserSessionStateMaintainingActivi
                                     		 offer = jsonArray.getJSONObject(i);
                         
                                     		 offerDisplay = mapOffer(offer);
+                                    		
+                                    		 if(facebookStatus.equals(OwnerFacebookStatus.UNRELATED.name()))
+                                    			 list.add(offerDisplay);
                                     		 
-                                    		 String ownerId = offerDisplay.getOwnerFacebookId();
-                                    		 offersFromUsers.put(ownerId, offerDisplay);
-                                    		                                     	
+                                    		 else{
+                                    			 String ownerId = offerDisplay.getOwnerFacebookId();
+                                    			 offersFromUsers.put(ownerId, offerDisplay);
+                                    		 }
+                                    		 
                                     		 System.out.println("Testing : size=" + searchResults.size()+" hashtable values: " + searchResults);
                    
                                     	 }// end for
-                                    	 
-                                    searchUsingFacebook(offersFromUsers, facebook);
+                                    
+                                    if(facebookStatus.equals(OwnerFacebookStatus.UNRELATED.name()))
+                                    	updateSearchResultsList(list, false);
+                                    	
+                                    else	
+                                    	searchUsingFacebook(offersFromUsers, facebook);
 										
                                     	 
 									} catch (JSONException e) {
