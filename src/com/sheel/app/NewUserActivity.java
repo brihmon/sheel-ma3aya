@@ -10,6 +10,9 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.google.gson.Gson;
+import com.sheel.datastructures.User;
+
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
@@ -27,6 +30,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.AutoCompleteTextView.Validator;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
@@ -56,9 +60,9 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 	/** Path string where the taken passport photo is saved */
 	String path;
 	/** Male Toggle Button. Not required to register */
-	ToggleButton toggleMale;
+	RadioButton toggleMale;
 	/** Female Toggle Button. Not required to register */
-	ToggleButton toggleFemale; // female
+	RadioButton toggleFemale; // female
 	/** AutoComplete field for mobile country codes. Required to register */
 	AutoCompleteTextView countryCodes;
 	/** AutoComplete field for nationality. Not required to register */
@@ -81,7 +85,7 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 	String middleName; /* Declaration of middle name string */
 	String lastName; /* Declaration of last name string */
 	/** String containing the passport image encoded data string */
-	String passportImage;
+	String passportImage = "";
 	String passportNumber; /* Declaration of passport string */
 	String email; /* Declaration of email string */
 	String mobileNumber; /* Declaration of mobile number string */
@@ -100,6 +104,7 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 	boolean codeValid = false;
 	boolean nationalityValid = false;
 	boolean gotResponse = false;
+	boolean photoTaken = false;
 
 	/*
 	 * public void NewUser() { String gender = ""; String firstName = ""; String
@@ -144,8 +149,8 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 	 */
 	public void setVariables() {
 		/* Gender Toggle Buttons */
-		toggleMale = (ToggleButton) findViewById(R.id.toggleMale);
-		toggleFemale = (ToggleButton) findViewById(R.id.toggleFemale);
+		toggleMale = (RadioButton) findViewById(R.id.toggleMale);
+		toggleFemale = (RadioButton) findViewById(R.id.toggleFemale);
 
 		/* Nationality field, its adaptor, its validator */
 		nationalityField = (AutoCompleteTextView) findViewById(R.id.autoNationality);
@@ -242,30 +247,22 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 
 	/** Method called when male toggle button is clicked */
 	public void onClick_male(View v) {
-		if(toggleMale.isChecked()){
-			gender = "";
-			System.out.println("1");
-		}
-		else{
-		// Uncheck the female toggle button
+		
+		// Uncheck the female radio button
 		toggleFemale.setChecked(false);
 		// Set the gender to male
 		gender = "male";
-		}
+		
 	} // end onClick_male
 
 	/** Method called when female toggle button is clicked */
 	public void onClick_female(View v) {
-		if(!toggleFemale.isChecked()){
-			System.out.println("2");
-			gender = "";
-		}
-		else{
-		// Uncheck the male toggle button
+		
+		// Uncheck the male radio button
 		toggleMale.setChecked(false);
 		// Set the gender to male
 		gender = "female";
-		}
+		
 	} // end onClick_female
 
 	/** Method called when the take photo button is clicked to open the camera */
@@ -313,14 +310,14 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 		super.onActivityResult(requestCode, resultCode, data);
 		if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
 			System.out.println(path);
-			Toast.makeText(this, "Fine", Toast.LENGTH_LONG).show();
+			
 			System.out.println("First IF");
 			// User done with capturing image
 			if (resultCode == -1) {
 				// Image captured and saved to fileUri specified in the Intent
 				onPhotoTaken();
 				System.out.println("Greaaaaaaaat1111");
-				Toast.makeText(this, "Great111", Toast.LENGTH_LONG).show();
+				
 				// System.out.println(data.getData().toString());
 
 				// Toast.makeText(this, "Image saved to:\n" +
@@ -355,7 +352,7 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 		// putExtra(NewUserActivity.PASSPORT_IMAGE_KEY, encodedImage);
 		// getIntent().putExtra(NewUserActivity.PASSPORT_IMAGE_KEY, );
 		System.out.println("Greaaaaaaaat222");
-		Toast.makeText(this, "Great222", Toast.LENGTH_LONG).show();
+		
 	}
 
 	public void emailValidation(String emailstring) {
@@ -367,6 +364,17 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 			allValid = false;
 			Toast.makeText(this, "Please enter a valid email address",
 					Toast.LENGTH_LONG).show();
+		}
+	}
+	
+	public void photoValidation( String passporttemp){
+		if(passporttemp.length()>0){
+			photoTaken = true;
+			
+		}
+		else{
+			photoTaken = false;
+			Toast.makeText(this, "Please take the passport photo", Toast.LENGTH_LONG).show();
 		}
 	}
 
@@ -383,8 +391,10 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 			nationalityValid = true;
 		}
 		emailValidation(email);
+		
+		photoValidation(passportImage);
 
-		if (nationalityValid && codeValid && mobileNumber.length() > 5 && firstName.length() > 0
+		if (nationalityValid && codeValid && photoTaken && mobileNumber.length() > 2 && firstName.length() > 0
 				&& lastName.length() > 0 && email.length() > 0
 				&& passportNumber.length() > 0)
 			allValid = true;
@@ -416,39 +426,49 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 		String countryCode = countryCodes.getText().toString();
 
 		mobileNumber = (mobileNumberField.getText().toString());
+		mobileNumber = mobileNumber.trim();
+		
 		firstName = firstNameField.getText().toString();
+		firstName = firstName.trim();
+		
 		middleName = middleNameField.getText().toString();
+		middleName = middleName.trim();
 		
 		if(middleName.length() == 0){ 
 			middleName = "%20";
 			System.out.println("Middle: " + middleName);}
+		
 		lastName = lastNameField.getText().toString();
+		lastName = lastName.trim();
+		
 		email = emailField.getText().toString();
+		email = email.trim();
+		
 		passportNumber = passportNumberField.getText().toString();
+		passportNumber = passportNumber.trim();
+		
 		nationality = nationalityField.getText().toString();
 		nationality = nationality.trim();
 		if(nationality.length() == 0) {nationality = "%20";}
 		System.out.println("Before check gender length");
 		if(gender.length() == 0) gender = "%20";
 		
+		
+		
 		System.out.println("Before Validate");
 
 		validate();
 		System.out.println("After Validate");
+		
 		if (allValid == false)
 			Toast.makeText(this, "Please fill all the data", 0).show();
 		else {
 
 			String phoneCode = countryCode.toString().split(" ")[1];
-			mobileNumber = phoneCode + mobileNumber;
-			String toToast = mobileNumber + " " + firstName + " " + middleName
-					+ " " + lastName + " " + email + " " + passportNumber + " "
-					+ gender;
+			mobileNumber =  phoneCode + mobileNumber;
 
-			Toast toast = Toast.makeText(this, toToast, 0);
-			toast.show();
+			System.out.println("After mobile");
 
-			// /////////////////
 			
 			SheelMaaayaClient sc = new SheelMaaayaClient() {
 
@@ -478,8 +498,8 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 			
 			
 
-			passportImage = "PassPortImage";
 			
+			passportImage = "PassPortImage";
 
 			System.out.println("/insertuser/" + faceBookID + "/" + email + "/"
 					+ firstName + "/" + middleName + "/" + lastName + "/"
@@ -489,8 +509,15 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 					+ firstName + "/" + middleName + "/" + lastName + "/"
 					+ mobileNumber + "/" + nationality + "/" + passportNumber
 					+ "/" + gender + "/" + passportImage);
-			Toast.makeText(getApplicationContext(), "Done with Database",
-					Toast.LENGTH_SHORT).show();
+			
+			//User user = new User("", firstName, middleName, lastName, passportImage, passportNumber, 
+			//		email, mobileNumber, faceBookID, gender, nationality);
+			
+			//Gson gson = new Gson();
+			//String input = gson.toJson(user);
+			//System.out.println("GSONSTRING: " + input);
+			//sc.runHttpPost("/registeruser", input);
+			
 
 			/*
 			 * SheelMaayaRegisterClient sc2 = new SheelMaayaRegisterClient() {
