@@ -19,6 +19,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 //import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -247,7 +248,7 @@ public class InsertFlightActivity extends UserSessionStateMaintainingActivity {
 			Gson gson = new Gson();
 			String input = gson.toJson(flight);
 			input+= "<>"+gson.toJson(InsertOfferActivity.offer);
-			sc.runHttpPost("/insertnewoffer", input);
+			sc.runHttpPost("/insertnewoffer/"+getIntent().getExtras().getLong("userId"), input);
 			
 		}
 	 
@@ -289,6 +290,7 @@ public class InsertFlightActivity extends UserSessionStateMaintainingActivity {
 			Bundle extras = getIntent().getExtras();
 			long userId = extras.getLong("userId");
 			intent.putExtra("userId", userId);
+			Toast.makeText(getApplicationContext(),"" + userId, Toast.LENGTH_SHORT).show();
 			}
 			catch(Exception e){
 				
