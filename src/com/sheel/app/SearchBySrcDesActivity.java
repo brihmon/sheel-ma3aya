@@ -4,6 +4,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.sheel.datastructures.enums.OwnerFacebookStatus;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -111,6 +113,7 @@ public class SearchBySrcDesActivity extends UserSessionStateMaintainingActivity{
 		//Intent intent = new Intent(getBaseContext(), ViewSearchResultsActivity.class);
 		Intent intent = setSessionInformationBetweenActivities(ViewSearchResultsActivity.class);
 		intent.putExtra("request", request);
+		intent.putExtra("facebook", OwnerFacebookStatus.UNRELATED.name());
 		startActivity(intent);
 			 
 		 }

@@ -17,7 +17,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
-public class FilterPreferencesActivity extends Activity {
+public class FilterPreferencesActivity extends UserSessionStateMaintainingActivity {
 	
 	int searchStatus;
 	String selectedDate;
@@ -191,7 +191,8 @@ public class FilterPreferencesActivity extends Activity {
 			request = "/filterairportsoffers/" + srcAirport + "/" + desAirport + "/" + selectedDate 
 					+ "/" + searchStatus + "/" + kgs + "/" + price + "/" + gender + "/" + nationality;
 		
-		Intent intent = new Intent(getBaseContext(), ViewSearchResultsActivity.class);
+		//Intent intent = new Intent(getBaseContext(), ViewSearchResultsActivity.class);
+		Intent intent = setSessionInformationBetweenActivities(ViewSearchResultsActivity.class);
 		intent.putExtra("request", request);
 		intent.putExtra("facebook", facebook.name());
 		startActivity(intent);
