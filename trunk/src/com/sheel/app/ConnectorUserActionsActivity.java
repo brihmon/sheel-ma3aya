@@ -86,6 +86,7 @@ public class ConnectorUserActionsActivity extends UserSessionStateMaintainingAct
 	public void onClick_logOut(View v){
 		if (getFacebookService() != null)
 		getFacebookService().logout(this);
+		startActivity(new Intent(this, ConnectorWelcomePageActivity.class));
 	}// end onClick_logOut
 	
 	public void onClick_test(View v){
