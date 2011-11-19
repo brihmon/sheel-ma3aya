@@ -26,10 +26,10 @@ public class FacebookUser {
 	private final String TAG_PACKAGE_CLASS = "FacebookUser (com.sheel.datastructures): ";
 	
 	/**
-	 * Numeric user ID in facebook to identify home page and other user-relevant
+	 * user ID in facebook to identify home page and other user-relevant
 	 * stuff
 	 */
-	private int userId=-1;
+	private String userId="";
 	/**
 	 * First name of user
 	 */
@@ -57,7 +57,13 @@ public class FacebookUser {
 	 * represents email of user in facebook and used to send
 	 * confirmation messages to him/her
 	 */
-	private String email="";	
+	private String email="";
+	
+	/**
+	 * Indicates if the user info was requested from the facebook server
+	 * before or not
+	 */
+	private boolean dataIsRetrieved=false;
 	
 	/**
 	 * Creates a new facebook user by analyzing data returned from
@@ -66,7 +72,7 @@ public class FacebookUser {
 	 * requesting after authentication is granted. Response must be in 
 	 * JSON format. 
 	 */
-	public FacebookUser(String responseJsonString){
+	public FacebookUser(String responseJsonString,boolean isJsonFormatedString){
 		
 		try {
 			
@@ -75,7 +81,7 @@ public class FacebookUser {
 			
 			// Get user ID
 			if (parsedValues.has("id")){
-				this.userId = parsedValues.getInt("id");
+				this.userId = parsedValues.getInt("id")+"";
 			}// end if: check if parameter exists
 									
 			// Get first name
@@ -109,6 +115,7 @@ public class FacebookUser {
 				this.email = parsedValues.getString("email");
 			}// end if: check if parameter exists
 			
+			this.dataIsRetrieved = true;
 		} catch (JSONException e) {
 			Log.e(TAG_PACKAGE_CLASS,"User response info could NOT be parsed");
 			e.printStackTrace();
@@ -128,6 +135,16 @@ public class FacebookUser {
 	public FacebookUser (){
 		
 	}// end constructor
+	
+	/**
+	 * Constructor used for initializing facebook user between
+	 * different activities in the app for the same session.
+	 * 
+	 * @param facebookId
+	 */
+	public FacebookUser(String facebookId){
+		this.userId = facebookId;
+	}// end FacebookUser
 	
 	/**
 	 * Constructor used for testing purposes in views. Generally, such
@@ -176,7 +193,7 @@ public class FacebookUser {
 	 * 		see @link {@link FacebookUser#isTrustWorthyUser()} 
 	 * 		for more examples
 	 */
-	public FacebookUser (int userId, String firstName , String middleName, String lastName ,
+	public FacebookUser (String userId, String firstName , String middleName, String lastName ,
 			boolean gender, String email , boolean isverified){
 		this.userId = userId;
 		this.firstName = firstName;
@@ -185,15 +202,30 @@ public class FacebookUser {
 		this.isFemale = gender;
 		this.email = email;
 		this.isVerified = isverified;
+		
+		this.dataIsRetrieved = true;
 	}// end constructor
 	
+	/**
+	 * Indicates if the object was populated with data from facebook server
+	 * with basic information or information needs to be requested explicitly
+	 * 
+	 * @return
+	 * <ul>
+	 * 		<li><code>true</code>: info has been requested and retrieved before</li>
+	 * 		<li><code>false</code>: object is using default values</li>
+	 * </ul>
+	 */
+	public boolean isRequestedBeforeSuccessfully(){
+		return this.dataIsRetrieved;
+	}// end isRequestedBeforeSuccessfully
 	
 	/** 
 	 * Gets the facebook ID of a user
-	 * @return unique number representing a user. If it could not be 
-	 * found, it returns -1
+	 * @return unique set of characters representing a user. If it could not be 
+	 * found, it returns empty string
 	 */
-	public int getUserId() {
+	public String getUserId() {
 		return userId;
 	}// end getUserId
 
@@ -286,7 +318,9 @@ public class FacebookUser {
 		
 		result += "Trust worthy ?: " + this.isVerified + "\n";
 		
-		result += "User ID: " + this.userId + "\n\n";
+		result += "User ID: " + this.userId ;
+		
+		result += "User was initialized? " + this.dataIsRetrieved+ "\n\n";
 		
 		return result;
 	}// end toString
