@@ -109,7 +109,8 @@ public class PhoneCommunication extends Activity {
 		 * Have a nice flight,
 		 * Sheel M3aya team
 		 */
-		String path = "/insertconfirmation/8/13/0";
+//		String path = "/insertconfirmation/8/13/0";
+		String path = "/insertconfirmation/15/13/1";
         SheelMaaayaClient sc = new SheelMaaayaClient() {
 			
 			@Override
@@ -122,7 +123,7 @@ public class PhoneCommunication extends Activity {
                                  public void run()
                                  {
                                      Toast.makeText(PhoneCommunication.this, str, Toast.LENGTH_LONG).show();
-                                     if(str.contains("12"))
+                                     if(str.contains("12") || str.contains("13"))
                                      {
                                     	 sendSMS("be5", "5556");
                                     	 sendSMS("be52", "5554");
@@ -148,5 +149,7 @@ public class PhoneCommunication extends Activity {
 		sendIntent.putExtra("sms_body", sms_content);
 		startActivity(sendIntent);
 	}
+	
+	
 	
 }//end class PhoneCommunication
