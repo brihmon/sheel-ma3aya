@@ -488,9 +488,11 @@ public class ViewSearchResultsActivity extends UserSessionStateMaintainingActivi
 			String source = flight.getString("source");
 			String destination = flight.getString("destination");
 			
+			int userStatus = offer.getInt("userStatus");
+			
 			return new OfferDisplay(
 				ownerId, offerId , displayName, email, mobile, weightStatus, kgs , price , ownerFbStatus, 
-				isFemale, nationality, flightNumber, source, destination);
+				isFemale, nationality, flightNumber, source, destination, userStatus);
 			
 			
 		} catch (JSONException e) {
@@ -518,7 +520,6 @@ public class ViewSearchResultsActivity extends UserSessionStateMaintainingActivi
     	 * 
     	 * make your class extend UserSessionStateMaintainingActivity not just activity
     	 */
-    	
     	// Parameters sent in intent
     	Intent intent = setSessionInformationBetweenActivities(PhoneCommunication.class);
     	intent.putExtra("email", getFacebookService().getFacebookUser().getEmail());
