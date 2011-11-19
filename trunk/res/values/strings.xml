@@ -1,21 +1,241 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="hello">Hello World, SheelMaayaaActivity!</string>
-    <string name="app_name">SheelMaayaa</string>
-    
-    <string-array name="codes">
-        <item value="20">Egypt (+20)</item>
-        <item value="33">Canada (+33)</item>
-        <item value="56">France</item>
-        <item value="77">Greece</item>
-        <item value="88">Greenland</item>
-        <item value="99">India</item>
-        <item value="00">Italy</item>
-    </string-array>
+	<string name="hello">Hello World, SheelMaayaaActivity!</string>
+	<string name="app_name">SheelMaayaa</string>
 
-    <string-array name="airports_array">
-    	
+	<string-array name="codes">
+		<item>Afghanistan (+93)</item>
+		<item>Albania (+355)</item>
+		<item>Algeria (+213)</item>
+		<item>American Samoa (+1684)</item>
+		<item>Andorra (+376)</item>
+		<item>Angola (+244)</item>
+		<item>Anguilla (+1264)</item>
+		<item>Antarctica (+672)</item>
+		<item>Antigua and Barbuda (+1268)</item>
+		<item>Argentina (+54)</item>
+		<item>Armenia (+374)</item>
+		<item>Aruba (+297)</item>
+		<item>Australia (+61)</item>
+		<item>Austria (+43)</item>
+		<item>Azerbaijan (+994)</item>
+		<item>Bahamas (+1242)</item>
+		<item>Bahrain (+973)</item>
+		<item>Bangladesh (+880)</item>
+		<item>Barbados (+1246)</item>
+		<item>Belarus (+375)</item>
+		<item>Belgium (+32)</item>
+		<item>Belize (+501)</item>
+		<item>Benin (+229)</item>
+		<item>Bermuda (+1441)</item>
+		<item>Bhutan (+975)</item>
+		<item>Bolivia (+591)</item>
+		<item>Bosnia and Herzegovina (+387)</item>
+		<item>Botswana (+297)</item>
+		<item>Brazil (+55)</item>
+		<item>Brunei (+673)</item>
+		<item>Bulgaria (+359)</item>
+		<item>Burkina Faso (+226)</item>
+		<item>Burundi (+257)</item>
+		<item>Cambodia (+855)</item>
+		<item>Cameroon (+237)</item>
+		<item>Canada (+1)</item>
+		<item>Cape Verde (+238)</item>
+		<item>Cayman Islands (+1345)</item>
+		<item>Central African Republic (+236)</item>
+		<item>Chad (+235)</item>
+		<item>Chile (+56)</item>
+		<item>China (+86)</item>
+		<item>Colombia (+57)</item>
+		<item>Comoros (+269)</item>
+		<item>Congo (+242)</item>
+		<item>Congo, The Democratic Republic of the (+243)</item>
+		<item>Cook Islands (+682)</item>
+		<item>Costa Rica (+506)</item>
+		<item>Cote D’Ivoire (+225)</item>
+		<item>Croatia (+385)</item>
+		<item>Cuba (+53)</item>
+		<item>Cyprus (+357)</item>
+		<item>Czech Republic (+420)</item>
+		<item>Denmark (+45)</item>
+		<item>Djibouti (+253)</item>
+		<item>Dominica (+1767)</item>
+		<item>Dominican Republic (+18)</item>
+		<item>Ecuador (+593)</item>
+		<item>Egypt (+20)</item>
+		<item>El Salvador (+503)</item>
+		<item>Equatorial Guinea (+240)</item>
+		<item>Eritrea (+291)</item>
+		<item>Estonia (+372)</item>
+		<item>Ethiopia (+251)</item>
+		<item>Falkland Islands (Malvinas) (+500)</item>
+		<item>Faroe Islands (+298)</item>
+		<item>Fiji (+679)</item>
+		<item>Finland (+358)</item>
+		<item>France (+33)</item>
+		<item>French Guiana (+594)</item>
+		<item>French Polynesia (+689)</item>
+		<item>Gabon (+241)</item>
+		<item>Gambia (+220)</item>
+		<item>Georgia (+995)</item>
+		<item>Germany (+49)</item>
+		<item>Ghana (+233)</item>
+		<item>Gibraltar (+350)</item>
+		<item>Greece (+30)</item>
+		<item>Greenland (+299)</item>
+		<item>Grenada (+1473)</item>
+		<item>Guadeloupe (+590)</item>
+		<item>Guam (+1671)</item>
+		<item>Guatemala (+502)</item>
+		<item>Guinea (+224)</item>
+		<item>Guinea-Bissau (+245)</item>
+		<item>Guyana (+592)</item>
+		<item>Haiti (+509)</item>
+		<item>Honduras (+504)</item>
+		<item>Hong Kong S.A.R., China (+852)</item>
+		<item>Hungary (+36)</item>
+		<item>Iceland (+354)</item>
+		<item>India (+91)</item>
+		<item>Indonesia (+62)</item>
+		<item>Iran (+98)</item>
+		<item>Iraq (+964)</item>
+		<item>Ireland (+353)</item>
+		<item>Israel (+972)</item>
+		<item>Italy (+39)</item>
+		<item>Jamaica (+1876)</item>
+		<item>Japan (+81)</item>
+		<item>Jordan (+962)</item>
+		<item>Kazakhstan (+7)</item>
+		<item>Kenya (+254)</item>
+		<item>Kiribati (+686)</item>
+		<item>Korea, North (+850)</item>
+		<item>Korea, South (+82)</item>
+		<item>Kuwait (+965)</item>
+		<item>Kyrgyzstan (+996)</item>
+		<item>Laos (+856)</item>
+		<item>Latvia (+371)</item>
+		<item>Lebanon (+961)</item>
+		<item>Lesotho (+266)</item>
+		<item>Liberia (+231)</item>
+		<item>Libya (+218)</item>
+		<item>Liechtenstein (+423)</item>
+		<item>Lithuania (+370)</item>
+		<item>Luxembourg (+352)</item>
+		<item>Macao (+853)</item>
+		<item>Macedonia (+389)</item>
+		<item>Madagascar (+261)</item>
+		<item>Malawi (+265)</item>
+		<item>Malaysia (+60)</item>
+		<item>Maldives (+960)</item>
+		<item>Mali (+223)</item>
+		<item>Malta (+356)</item>
+		<item>Marshall Islands (+692)</item>
+		<item>Martinique (+596)</item>
+		<item>Mauritania (+222)</item>
+		<item>Mauritius (+230)</item>
+		<item>Mayotte (+269)</item>
+		<item>Mexico (+52)</item>
+		<item>Micronesia, Federated States Of (+691)</item>
+		<item>Moldova (+373)</item>
+		<item>Monaco (+377)</item>
+		<item>Mongolia (+976)</item>
+		<item>Montenegro (+382)</item>
+		<item>Montserrat (+1664)</item>
+		<item>Morocco (+212)</item>
+		<item>Mozambique (+258)</item>
+		<item>Myanmar (+95)</item>
+		<item>Namibia (+264)</item>
+		<item>Nauru (+674)</item>
+		<item>Nepal (+977)</item>
+		<item>Netherlands (+31)</item>
+		<item>Netherlands Antilles (+599)</item>
+		<item>New Caledonia (+687)</item>
+		<item>New Zealand (+64)</item>
+		<item>Nicaragua (+505)</item>
+		<item>Niger (+227)</item>
+		<item>Nigeria (+234)</item>
+		<item>Niue (+683)</item>
+		<item>Northern Mariana Islands (+1670)</item>
+		<item>Norway (+47)</item>
+		<item>Oman (+968)</item>
+		<item>Pakistan (+92)</item>
+		<item>Palau (+680)</item>
+		<item>Panama (+507)</item>
+		<item>Papua New Guinea (+675)</item>
+		<item>Paraguay (+595)</item>
+		<item>Peru (+51)</item>
+		<item>Philippines (+63)</item>
+		<item>Poland (+48)</item>
+		<item>Portugal (+351)</item>
+		<item>Puerto Rico (+1787)</item>
+		<item>Qatar (+974)</item>
+		<item>Reunion (+262)</item>
+		<item>Romania (+40)</item>
+		<item>Russia (+7)</item>
+		<item>Rwanda (+250)</item>
+		<item>Saint Helena (+290)</item>
+		<item>Saint Kitts and Nevis (+1869)</item>
+		<item>Saint Lucia (+1758)</item>
+		<item>Saint Pierre and Miquelon (+508)</item>
+		<item>Saint Vincent and the Grenadines (+1784)</item>
+		<item>Samoa (+685)</item>
+		<item>San Marino (+378)</item>
+		<item>Sao Tome and Principe (+239)</item>
+		<item>Saudi Arabia (+966)</item>
+		<item>Senegal (+221)</item>
+		<item>Serbia (+381)</item>
+		<item>Seychelles (+248)</item>
+		<item>Sierra Leone (+232)</item>
+		<item>Singapore (+65)</item>
+		<item>Slovakia (+421)</item>
+		<item>Slovenia (+386)</item>
+		<item>Solomon Islands (+677)</item>
+		<item>Somalia (+252)</item>
+		<item>South Africa (+27)</item>
+		<item>Spain (+34)</item>
+		<item>Sri Lanka (+94)</item>
+		<item>Sudan (+249)</item>
+		<item>Suriname (+597)</item>
+		<item>Swaziland (+268)</item>
+		<item>Sweden (+46)</item>
+		<item>Switzerland (+41)</item>
+		<item>Syria (+963)</item>
+		<item>Taiwan (+886)</item>
+		<item>Tajikistan (+992)</item>
+		<item>Tanzania (+255)</item>
+		<item>Thailand (+66)</item>
+		<item>Timor-Leste (+670)</item>
+		<item>Togo (+228)</item>
+		<item>Tokelau (+690)</item>
+		<item>Tonga (+676)</item>
+		<item>Trinidad and Tobago (+1868)</item>
+		<item>Tunisia (+216)</item>
+		<item>Turkey (+90)</item>
+		<item>Turkmenistan (+993)</item>
+		<item>Turks and Caicos Islands (+1649)</item>
+		<item>Tuvalu (+688)</item>
+		<item>Uganda (+256)</item>
+		<item>Ukraine (+380)</item>
+		<item>United Arab Emirates (+971)</item>
+		<item>United Kingdom (+44)</item>
+		<item>United States (+1)</item>
+		<item>Uruguay (+598)</item>
+		<item>Uzbekistan (+998)</item>
+		<item>Vanuatu (+678)</item>
+		<item>Vatican City State (Holy See) (+3)</item>
+		<item>Venezuela (+58)</item>
+		<item>Vietnam (+84_</item>
+		<item>Virgin Islands, British (+1284)</item>
+		<item>Virgin Islands, US (+1340)</item>
+		<item>Wallis and Futuna (+681)</item>
+		<item>Yemen (+967)</item>
+		<item>Zambia (+260)</item>
+		<item>Zimbabwe (+263)</item>
+	</string-array>
+
+	<string-array name="airports_array">
+
 		<item>Aberdeen</item>
 		<item>Abidjan</item>
 		<item>Abuja</item>
@@ -448,248 +668,248 @@
 		<item>Zhengzhou</item>
 		<item>Zhuhai</item>
 		<item>Zurich</item>
-		    
-    </string-array>
-    
+
+	</string-array>
+
 	<string-array name="nationalities_array">
-        <item>Afghan</item>
-        <item>Albanian</item>
-        <item>Algerian</item>
-        <item>American</item>
-        <item>American Samoan</item>
-        <item>Andorran</item>
-        <item>Angolan</item>
-        <item>Anguillan</item>
-        <item>Antarctican</item>
-        <item>Antigua and Barbuda national</item>
-        <item>Antillean</item>
-        <item>Argentinian</item>
-        <item>Armenian</item>
-        <item>Aruban</item>
-        <item>Australian</item>
-        <item>Austrian</item>
-        <item>Azerbaijani</item>
-        <item>Bahamian</item>
-        <item>Bahraini</item>
-        <item>Bangladeshi</item>
-        <item>Barbadian</item>
-        <item>Basotho</item>
-        <item>Belarusian</item>
-        <item>Belgian</item>
-        <item>Belizean</item>
-        <item>Beninese</item>
-        <item>Bermudian</item>
-        <item>Bhutanese</item>
-        <item>Bolivian</item>
-        <item>Bosnia and Herzegovina national</item>
-        <item>Botswanan</item>
-        <item>Bouvet Island</item>
-        <item>Brazilian</item>
-        <item>British Indian Ocean Territory</item>
-        <item>British Virgin Islander</item>
-        <item>Briton</item>
-        <item>Bruneian</item>
-        <item>Bulgarian</item>
-        <item>Burkinabe</item>
-        <item>Burmese</item>
-        <item>Burundian</item>
-        <item>Cambodian</item>
-        <item>Cameroonian</item>
-        <item>Canadian</item>
-        <item>Cape Verdean</item>
-        <item>Caymanian</item>
-        <item>Central African</item>
-        <item>Chadian</item>
-        <item>Chilean</item>
-        <item>Chinese</item>
-        <item>Christmas Islander</item>
-        <item>Cocos Islander</item>
-        <item>Colombian</item>
-        <item>Comorian</item>
-        <item>Congolese</item>
-        <item>Congolese</item>
-        <item>Cook Islander</item>
-        <item>Costa Rican</item>
-        <item>Croat</item>
-        <item>Cuban</item>
-        <item>Cypriot</item>
-        <item>Czech</item>
-        <item>Dane</item>
-        <item>Djiboutian</item>
-        <item>Dominican</item>
-        <item>East Timorese</item>
-        <item>Ecuadorian</item>
-        <item>Egyptian</item>
-        <item>Emirian</item>
-        <item>Equatorial Guinean</item>
-        <item>Eritrean</item>
-        <item>Estonian</item>
-        <item>Ethiopian</item>
-        <item>Faeroese</item>
-        <item>Falkland Islander</item>
-        <item>Fiji Islander</item>
-        <item>Filipino</item>
-        <item>Finn</item>
-        <item>French</item>
-        <item>French Southern Territories</item>
-        <item>Gabonese</item>
-        <item>Gambian</item>
-        <item>Georgian</item>
-        <item>German</item>
-        <item>Ghanaian</item>
-        <item>Gibraltarian</item>
-        <item>Greek</item>
-        <item>Greenlander</item>
-        <item>Grenadian</item>
-        <item>Guadeloupean</item>
-        <item>Guamanian</item>
-        <item>Guatemalan</item>
-        <item>Guianese</item>
-        <item>Guinea-Bissau national</item>
-        <item>Guinean</item>
-        <item>Guyanese</item>
-        <item>Haitian</item>
-        <item>Heard Island and McDonald Islands</item>
-        <item>Honduran</item>
-        <item>Hong Kong Chinese</item>
-        <item>Hungarian</item>
-        <item>Icelander</item>
-        <item>Indian</item>
-        <item>Indonesian</item>
-        <item>Iranian</item>
-        <item>Iraqi</item>
-        <item>Irish</item>
-        <item>Israeli</item>
-        <item>Italian</item>
-        <item>Ivorian</item>
-        <item>Jamaican</item>
-        <item>Japanese</item>
-        <item>Kazakh</item>
-        <item>Kenyan</item>
-        <item>Kiribatian</item>
-        <item>Kuwaiti</item>
-        <item>Kyrgyz</item>
-        <item>Lao</item>
-        <item>Latvian</item>
-        <item>Lebanese</item>
-        <item>Liberian</item>
-        <item>Libyan</item>
-        <item>Liechtensteiner</item>
-        <item>Lithuanian</item>
-        <item>Luxembourger</item>
-        <item>Macanese</item>
-        <item>Macedonian</item>
-        <item>Mahorais</item>
-        <item>Malagasy</item>
-        <item>Malawian</item>
-        <item>Malaysian</item>
-        <item>Maldivian</item>
-        <item>Malian</item>
-        <item>Maltese</item>
-        <item>Marshallese</item>
-        <item>Martinican</item>
-        <item>Mauritanian</item>
-        <item>Mauritian</item>
-        <item>Mexican</item>
-        <item>Micronesian</item>
-        <item>Moldovan</item>
-        <item>Monegasque</item>
-        <item>Mongolian</item>
-        <item>Montenegrian</item>
-        <item>Montserratian</item>
-        <item>Moroccan</item>
-        <item>Mozambican</item>
-        <item>Namibian</item>
-        <item>Nauruan</item>
-        <item>Nepalese</item>
-        <item>Dutch</item>
-        <item>New Caledonian</item>
-        <item>New Zealander</item>
-        <item>Nicaraguan</item>
-        <item>Nigerian</item>
-        <item>Nigerien</item>
-        <item>Niuean</item>
-        <item>Norfolk Islander</item>
-        <item>North Korean</item>
-        <item>Northern Mariana Islander</item>
-        <item>Norwegian</item>
-        <item>Omani</item>
-        <item>Pakistani</item>
-        <item>Palauan</item>
-        <item>Panamanian</item>
-        <item>Papua New Guinean</item>
-        <item>Paraguayan</item>
-        <item>Peruvian</item>
-        <item>Pitcairner</item>
-        <item>Pole</item>
-        <item>Polynesian</item>
-        <item>Portuguese</item>
-        <item>Puerto Rican</item>
-        <item>Qatari</item>
-        <item>Reunionese</item>
-        <item>Romanian</item>
-        <item>Russian</item>
-        <item>Rwandan</item>
-        <item>Sahrawi</item>
-        <item>Saint Helenian</item>
-        <item>Saint Kitts and Nevis national</item>
-        <item>Saint Lucian</item>
-        <item>Saint Pierre and Miquelon national</item>
-        <item>Salvadorian</item>
-        <item>Samoan</item>
-        <item>San Marinese</item>
-        <item>São Toméan</item>
-        <item>Saudi Arabian</item>
-        <item>Senegalese</item>
-        <item>Serbian</item>
-        <item>Seychellois</item>
-        <item>Sierra Leonean</item>
-        <item>Singaporean</item>
-        <item>Slovak</item>
-        <item>Slovene</item>
-        <item>Solomon Islander</item>
-        <item>Somali</item>
-        <item>South African</item>
-        <item>South Georgia and the South Sandwich Islands</item>
-        <item>South Korean</item>
-        <item>Spanish</item>
-        <item>Sri Lankan</item>
-        <item>Sudanese</item>
-        <item>Surinamer</item>
-        <item>Svalbard and Jan Mayen</item>
-        <item>Swazi</item>
-        <item>Swedish</item>
-        <item>Swiss</item>
-        <item>Syrian</item>
-        <item>Taiwanese</item>
-        <item>Tajik</item>
-        <item>Tanzanian</item>
-        <item>Thai</item>
-        <item>Togolese</item>
-        <item>Tokelauan</item>
-        <item>Tongan</item>
-        <item>Trinidad and Tobago national</item>
-        <item>Tunisian</item>
-        <item>Turkish</item>
-        <item>Turkmen</item>
-        <item>Turks and Caicos Islander</item>
-        <item>Tuvaluan</item>
-        <item>Ugandan</item>
-        <item>Ukrainian</item>
-        <item>United States Minor Outlying Islands</item>
-        <item>Uruguayan</item>
-        <item>US Virgin Islander</item>
-        <item>Uzbek</item>
-        <item>Vanuatuan</item>
-        <item>Vatican</item>
-        <item>Venezuelan</item>
-        <item>Vietnamese</item>
-        <item>Vincentian</item>
-        <item>Wallis and Futuna Islander</item>
-        <item>Yemeni</item>
-        <item>Zambian</item>
-        <item>Zimbabwean</item>
-        <item>Åland Islander</item>
+		<item>Afghan</item>
+		<item>Albanian</item>
+		<item>Algerian</item>
+		<item>American</item>
+		<item>American Samoan</item>
+		<item>Andorran</item>
+		<item>Angolan</item>
+		<item>Anguillan</item>
+		<item>Antarctican</item>
+		<item>Antigua and Barbuda national</item>
+		<item>Antillean</item>
+		<item>Argentinian</item>
+		<item>Armenian</item>
+		<item>Aruban</item>
+		<item>Australian</item>
+		<item>Austrian</item>
+		<item>Azerbaijani</item>
+		<item>Bahamian</item>
+		<item>Bahraini</item>
+		<item>Bangladeshi</item>
+		<item>Barbadian</item>
+		<item>Basotho</item>
+		<item>Belarusian</item>
+		<item>Belgian</item>
+		<item>Belizean</item>
+		<item>Beninese</item>
+		<item>Bermudian</item>
+		<item>Bhutanese</item>
+		<item>Bolivian</item>
+		<item>Bosnia and Herzegovina national</item>
+		<item>Botswanan</item>
+		<item>Bouvet Island</item>
+		<item>Brazilian</item>
+		<item>British Indian Ocean Territory</item>
+		<item>British Virgin Islander</item>
+		<item>Briton</item>
+		<item>Bruneian</item>
+		<item>Bulgarian</item>
+		<item>Burkinabe</item>
+		<item>Burmese</item>
+		<item>Burundian</item>
+		<item>Cambodian</item>
+		<item>Cameroonian</item>
+		<item>Canadian</item>
+		<item>Cape Verdean</item>
+		<item>Caymanian</item>
+		<item>Central African</item>
+		<item>Chadian</item>
+		<item>Chilean</item>
+		<item>Chinese</item>
+		<item>Christmas Islander</item>
+		<item>Cocos Islander</item>
+		<item>Colombian</item>
+		<item>Comorian</item>
+		<item>Congolese</item>
+		<item>Congolese</item>
+		<item>Cook Islander</item>
+		<item>Costa Rican</item>
+		<item>Croat</item>
+		<item>Cuban</item>
+		<item>Cypriot</item>
+		<item>Czech</item>
+		<item>Dane</item>
+		<item>Djiboutian</item>
+		<item>Dominican</item>
+		<item>East Timorese</item>
+		<item>Ecuadorian</item>
+		<item>Egyptian</item>
+		<item>Emirian</item>
+		<item>Equatorial Guinean</item>
+		<item>Eritrean</item>
+		<item>Estonian</item>
+		<item>Ethiopian</item>
+		<item>Faeroese</item>
+		<item>Falkland Islander</item>
+		<item>Fiji Islander</item>
+		<item>Filipino</item>
+		<item>Finn</item>
+		<item>French</item>
+		<item>French Southern Territories</item>
+		<item>Gabonese</item>
+		<item>Gambian</item>
+		<item>Georgian</item>
+		<item>German</item>
+		<item>Ghanaian</item>
+		<item>Gibraltarian</item>
+		<item>Greek</item>
+		<item>Greenlander</item>
+		<item>Grenadian</item>
+		<item>Guadeloupean</item>
+		<item>Guamanian</item>
+		<item>Guatemalan</item>
+		<item>Guianese</item>
+		<item>Guinea-Bissau national</item>
+		<item>Guinean</item>
+		<item>Guyanese</item>
+		<item>Haitian</item>
+		<item>Heard Island and McDonald Islands</item>
+		<item>Honduran</item>
+		<item>Hong Kong Chinese</item>
+		<item>Hungarian</item>
+		<item>Icelander</item>
+		<item>Indian</item>
+		<item>Indonesian</item>
+		<item>Iranian</item>
+		<item>Iraqi</item>
+		<item>Irish</item>
+		<item>Israeli</item>
+		<item>Italian</item>
+		<item>Ivorian</item>
+		<item>Jamaican</item>
+		<item>Japanese</item>
+		<item>Kazakh</item>
+		<item>Kenyan</item>
+		<item>Kiribatian</item>
+		<item>Kuwaiti</item>
+		<item>Kyrgyz</item>
+		<item>Lao</item>
+		<item>Latvian</item>
+		<item>Lebanese</item>
+		<item>Liberian</item>
+		<item>Libyan</item>
+		<item>Liechtensteiner</item>
+		<item>Lithuanian</item>
+		<item>Luxembourger</item>
+		<item>Macanese</item>
+		<item>Macedonian</item>
+		<item>Mahorais</item>
+		<item>Malagasy</item>
+		<item>Malawian</item>
+		<item>Malaysian</item>
+		<item>Maldivian</item>
+		<item>Malian</item>
+		<item>Maltese</item>
+		<item>Marshallese</item>
+		<item>Martinican</item>
+		<item>Mauritanian</item>
+		<item>Mauritian</item>
+		<item>Mexican</item>
+		<item>Micronesian</item>
+		<item>Moldovan</item>
+		<item>Monegasque</item>
+		<item>Mongolian</item>
+		<item>Montenegrian</item>
+		<item>Montserratian</item>
+		<item>Moroccan</item>
+		<item>Mozambican</item>
+		<item>Namibian</item>
+		<item>Nauruan</item>
+		<item>Nepalese</item>
+		<item>Dutch</item>
+		<item>New Caledonian</item>
+		<item>New Zealander</item>
+		<item>Nicaraguan</item>
+		<item>Nigerian</item>
+		<item>Nigerien</item>
+		<item>Niuean</item>
+		<item>Norfolk Islander</item>
+		<item>North Korean</item>
+		<item>Northern Mariana Islander</item>
+		<item>Norwegian</item>
+		<item>Omani</item>
+		<item>Pakistani</item>
+		<item>Palauan</item>
+		<item>Panamanian</item>
+		<item>Papua New Guinean</item>
+		<item>Paraguayan</item>
+		<item>Peruvian</item>
+		<item>Pitcairner</item>
+		<item>Pole</item>
+		<item>Polynesian</item>
+		<item>Portuguese</item>
+		<item>Puerto Rican</item>
+		<item>Qatari</item>
+		<item>Reunionese</item>
+		<item>Romanian</item>
+		<item>Russian</item>
+		<item>Rwandan</item>
+		<item>Sahrawi</item>
+		<item>Saint Helenian</item>
+		<item>Saint Kitts and Nevis national</item>
+		<item>Saint Lucian</item>
+		<item>Saint Pierre and Miquelon national</item>
+		<item>Salvadorian</item>
+		<item>Samoan</item>
+		<item>San Marinese</item>
+		<item>São Toméan</item>
+		<item>Saudi Arabian</item>
+		<item>Senegalese</item>
+		<item>Serbian</item>
+		<item>Seychellois</item>
+		<item>Sierra Leonean</item>
+		<item>Singaporean</item>
+		<item>Slovak</item>
+		<item>Slovene</item>
+		<item>Solomon Islander</item>
+		<item>Somali</item>
+		<item>South African</item>
+		<item>South Georgia and the South Sandwich Islands</item>
+		<item>South Korean</item>
+		<item>Spanish</item>
+		<item>Sri Lankan</item>
+		<item>Sudanese</item>
+		<item>Surinamer</item>
+		<item>Svalbard and Jan Mayen</item>
+		<item>Swazi</item>
+		<item>Swedish</item>
+		<item>Swiss</item>
+		<item>Syrian</item>
+		<item>Taiwanese</item>
+		<item>Tajik</item>
+		<item>Tanzanian</item>
+		<item>Thai</item>
+		<item>Togolese</item>
+		<item>Tokelauan</item>
+		<item>Tongan</item>
+		<item>Trinidad and Tobago national</item>
+		<item>Tunisian</item>
+		<item>Turkish</item>
+		<item>Turkmen</item>
+		<item>Turks and Caicos Islander</item>
+		<item>Tuvaluan</item>
+		<item>Ugandan</item>
+		<item>Ukrainian</item>
+		<item>United States Minor Outlying Islands</item>
+		<item>Uruguayan</item>
+		<item>US Virgin Islander</item>
+		<item>Uzbek</item>
+		<item>Vanuatuan</item>
+		<item>Vatican</item>
+		<item>Venezuelan</item>
+		<item>Vietnamese</item>
+		<item>Vincentian</item>
+		<item>Wallis and Futuna Islander</item>
+		<item>Yemeni</item>
+		<item>Zambian</item>
+		<item>Zimbabwean</item>
+		<item>Åland Islander</item>
 	</string-array>
 
 </resources>
