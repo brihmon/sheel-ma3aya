@@ -285,6 +285,14 @@ public class InsertFlightActivity extends UserSessionStateMaintainingActivity {
 			 
 			 //startActivity(new Intent(this, InsertOfferActivity.class));	
 			Intent intent =setSessionInformationBetweenActivities(InsertOfferActivity.class);
+			try{
+			Bundle extras = getIntent().getExtras();
+			long userId = extras.getLong("userId");
+			intent.putExtra("userId", userId);
+			}
+			catch(Exception e){
+				
+			}
 			startActivity(intent);
 			break;
 		}
@@ -295,6 +303,14 @@ public class InsertFlightActivity extends UserSessionStateMaintainingActivity {
 	
 	public void onClick_goMainPage(View v){
 		Intent intent =setSessionInformationBetweenActivities(ConnectorUserActionsActivity.class);
+		try{
+			Bundle extras = getIntent().getExtras();
+			long userId = extras.getLong("userId");
+			intent.putExtra("userId", userId);
+			}
+			catch(Exception e){
+				
+			}
 		startActivity(intent);
 	}
 	 

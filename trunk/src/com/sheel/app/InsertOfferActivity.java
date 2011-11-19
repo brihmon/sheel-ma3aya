@@ -73,6 +73,14 @@ public class InsertOfferActivity extends UserSessionStateMaintainingActivity {
 		 
 		 //startActivity(new Intent(this, InsertFlightActivity.class));
 		 Intent intent =setSessionInformationBetweenActivities(InsertFlightActivity.class);
+			try{
+				Bundle extras = getIntent().getExtras();
+				long userId = extras.getLong("userId");
+				intent.putExtra("userId", userId);
+				}
+				catch(Exception e){
+					
+				}
 		 startActivity(intent);
 	 }
 	 
