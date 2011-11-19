@@ -248,7 +248,14 @@ public class InsertFlightActivity extends UserSessionStateMaintainingActivity {
 			Gson gson = new Gson();
 			String input = gson.toJson(flight);
 			input+= "<>"+gson.toJson(InsertOfferActivity.offer);
-			sc.runHttpPost("/insertnewoffer/"+getIntent().getExtras().getLong("userId"), input);
+			
+			try{
+				sc.runHttpPost("/insertnewoffer/"+getIntent().getExtras().getLong("userId"), input);
+			}catch(Exception e){
+				sc.runHttpPost("/insertnewoffer/"+0, input);
+			}
+			
+			 
 			
 		}
 	 
@@ -290,7 +297,7 @@ public class InsertFlightActivity extends UserSessionStateMaintainingActivity {
 			Bundle extras = getIntent().getExtras();
 			long userId = extras.getLong("userId");
 			intent.putExtra("userId", userId);
-			Toast.makeText(getApplicationContext(),"" + userId, Toast.LENGTH_SHORT).show();
+			//Toast.makeText(getApplicationContext(),"" + userId, Toast.LENGTH_SHORT).show();
 			}
 			catch(Exception e){
 				
