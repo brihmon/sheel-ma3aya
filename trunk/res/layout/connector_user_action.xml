@@ -19,5 +19,6 @@
         android:layout_marginBottom="28dp"
         android:text="Logout !" 
         android:onClick="onClick_logOut"/>
+    <TextView android:textAppearance="?android:attr/textAppearanceLarge" android:id="@+id/userID" android:text="TextView" android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_alignParentTop="true" android:layout_centerHorizontal="true" android:layout_marginTop="18dp"></TextView>
 
 </RelativeLayout>

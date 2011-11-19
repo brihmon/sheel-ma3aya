@@ -47,6 +47,7 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 	public static final String EMAIL_KEY = "email";
 	public static final String GENDER_KEY = "gender";
 	public static final String PASSPORT_IMAGE_KEY = "passportImage";
+	
 
 	private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
 	private Uri fileUri;
@@ -87,6 +88,8 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 	String nationality; /* Declaration of nationality string */
 	/** String containing the user facebook ID */
 	String faceBookID;
+	
+	String LoggedID;
 
 	/**
 	 * Boolean variable to check that all the required fields are filled and in
@@ -96,6 +99,7 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 	
 	boolean codeValid = false;
 	boolean nationalityValid = false;
+	boolean gotResponse = false;
 
 	/*
 	 * public void NewUser() { String gender = ""; String firstName = ""; String
@@ -445,7 +449,7 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 			toast.show();
 
 			// /////////////////
-
+			
 			SheelMaaayaClient sc = new SheelMaaayaClient() {
 
 				@Override
@@ -458,17 +462,24 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 						public void run() {
 							// Toast.makeText(this, "Done in DataBase", //
 							// Toast.LENGTH_LONG).show();
+							LoggedID = str;
 							System.out.println("Done in DataBase");
 							System.out.println(passportImage.length());
+							System.out.println("LogID " + LoggedID);
+							Intent statedIntent = setSessionInformationBetweenActivities(ConnectorUserActionsActivity.class);
+							statedIntent.putExtra(ConnectorUserActionsActivity.LOGGED_ID_KEY, LoggedID);
+							startActivity(statedIntent);
 
 						}
 					});
 
 				}
 			};
+			
+			
 
 			passportImage = "PassPortImage";
-			System.out.println("Nat: " + nationality);
+			
 
 			System.out.println("/insertuser/" + faceBookID + "/" + email + "/"
 					+ firstName + "/" + middleName + "/" + lastName + "/"
@@ -512,9 +523,7 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 			 * 
 			 * sc2.runHttpRequest(params);
 			 */
-
-			Intent statedIntent = setSessionInformationBetweenActivities(ConnectorUserActionsActivity.class);
-			startActivity(statedIntent);
+			
 
 		}
 	}
