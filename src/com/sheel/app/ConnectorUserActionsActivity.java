@@ -69,12 +69,24 @@ public class ConnectorUserActionsActivity extends UserSessionStateMaintainingAct
 	 * This is called when the search button is clicked
 	 * 
 	 * @param v
+	 * 		
 	 */
 
 	public void onClick_SearchOffers(View v) {		
 		Intent intent =setSessionInformationBetweenActivities(GetUserInfoActivity.class);
 		startActivity(intent);
 	}// end onClick_SearchOffers
+	
+	/**
+	 * This is called when Logout button is clicked
+	 * 
+	 * @param v
+	 * 		clicked button
+	 */
+	public void onClick_logOut(View v){
+		if (getFacebookService() != null)
+		getFacebookService().logout(this);
+	}// end onClick_logOut
 	
 	public void onClick_test(View v){
 		
