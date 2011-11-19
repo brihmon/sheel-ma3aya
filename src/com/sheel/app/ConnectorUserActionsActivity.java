@@ -7,7 +7,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.TwoLineListItem;
 
 /**
  * This activity displays the home page that will be displayed to the user after
@@ -22,7 +24,10 @@ public class ConnectorUserActionsActivity extends UserSessionStateMaintainingAct
 	 * Constant used for tracing purposes "class name (package name)"
 	 */
 	private final String TAG_CLASS_PACKAGE = "ConnectorUserActionsActivity (com.sheel.app): ";
+	public static final String LOGGED_ID_KEY = "LoggedID";
+	public static String LoggedID;
 	
+	TextView LoggedUserField;
 	
 	/** Called when the activity is first created. */
 	@Override
@@ -46,7 +51,11 @@ public class ConnectorUserActionsActivity extends UserSessionStateMaintainingAct
 		else{
 			Log.e(TAG_CLASS_PACKAGE,"onCreate: facebookservice is still not initialized");
 		}// end else: tracing : service is not initialized correctly
+		Bundle extras = getIntent().getExtras(); 
+		if (extras != null) LoggedID = extras.getString(LOGGED_ID_KEY);
 		
+		LoggedUserField = (TextView) findViewById(R.id.userID);
+		LoggedUserField.setText("User ID: " + LoggedID);
 	}// end onCreate
 
 	/**
