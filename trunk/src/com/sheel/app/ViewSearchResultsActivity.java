@@ -419,7 +419,7 @@ public class ViewSearchResultsActivity extends UserSessionStateMaintainingActivi
     	 */
     	class FacebookPriorityComparator implements Comparator<OfferDisplay>{
 
-			@Override
+			//@Override
 			public int compare(OfferDisplay object1, OfferDisplay object2) {
 				JSONArray facebookExtraInfo1 = object1.getFacebookExtraInfo();
 				JSONArray facebookExtraInfo2 = object2.getFacebookExtraInfo();
@@ -600,8 +600,14 @@ public class ViewSearchResultsActivity extends UserSessionStateMaintainingActivi
     	long offerId = Long.parseLong(offerId1);
     	String email = searchResults.get(selectedIndex).getEmail();
     	String fullName = searchResults.get(selectedIndex).getDisplayName();
-    	long userId = 13;
     	
+    	
+    	Bundle extras = getIntent().getExtras();
+		long userId = extras.getLong("userId"); 
+		Toast.makeText(getApplicationContext(),"" + userId, Toast.LENGTH_SHORT).show();
+    	    	
+
+		
     	Intent intent = setSessionInformationBetweenActivities(PhoneCommunication.class);
     	intent.putExtra("fb_account", getFacebookService().getFacebookUser().getEmail());
     	intent.putExtra("fbId", getFacebookService().getFacebookUser().getUserId());
