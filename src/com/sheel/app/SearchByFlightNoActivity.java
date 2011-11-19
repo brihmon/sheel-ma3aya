@@ -81,7 +81,35 @@ public class SearchByFlightNoActivity extends Activity{
 		startActivity(intent);
 	 }
 	 
-	 public void onClick_searchOffersByFlight (View v) 
+	 public void onClick_searchOffersByFlight (View v) {
+		 
+		 flightNo = flightNumber.getText().toString();
+		 flightNo = removeSpaces(flightNo);
+		 
+		 if(flightNo.equals(""))
+				return;
+		 
+		 String request = "/filterflightnumberoffers/" + flightNo + "/" + selectedDate + "/" + searchStatus +
+				 															"/0/0/both/none";
+		 
+		Intent intent = new Intent(getBaseContext(), ViewSearchResultsActivity.class);
+		intent.putExtra("request", request);
+		startActivity(intent);
+		 
+	 }
+	 
+	
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 /*public void onClick_searchOffersByFlight (View v) 
 	 {
 		 flightNo = flightNumber.getText().toString();
 		 flightNo = removeSpaces(flightNo);
@@ -150,6 +178,6 @@ public class SearchByFlightNoActivity extends Activity{
 	        sc.runHttpRequest("/getoffersbyflightnumber/" + flightNo + "/" + selectedDate + "/" + searchStatus);
 		 	
 		 
-	}	 
+	}	*/ 
 
 }
