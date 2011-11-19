@@ -4,27 +4,29 @@
     android:layout_height="fill_parent"
     android:layout_marginTop="20px"
     android:stretchColumns="1"
+    android:orientation="vertical" 
+    android:background="#004D79"
     >
-    <TableRow>
+    <TableRow android:layout_marginBottom="30px">
 	<TextView android:text="Offer details"
      android:textColorHighlight="@android:color/primary_text_light"
      android:layout_marginBottom="20px"
 	 />
 </TableRow>
 
-    <TableRow>
-    <TextView android:text="Type of offer :"/>
+    <TableRow android:layout_marginBottom="30px">
+    <TextView android:text="I have. . . . . ."/>
      <RadioGroup android:id="@+id/typesOffers">
 		<RadioButton android:id="@+id/exWeight"
-		android:text="    Excess weight"/>
+		android:text="    Extra weight"/>
 		<RadioButton android:id="@+id/avWeight"
-		android:text=" Available weight"/>
+		android:text=" Less weight"/>
 	</RadioGroup>
     </TableRow>
     
     
-    <TableRow>
-    <TextView android:text="No. of Kilograms :"/>
+    <TableRow android:layout_marginBottom="30px">
+    <TextView android:text="Weight in kilograms :"/>
     <EditText android:id="@+id/kgs"
         	  android:inputType="number"/>
     </TableRow>
@@ -39,7 +41,7 @@
     android:prompt="@string/currencies2"/>
     </TableRow>
      -->
-     <TableRow>
+     <TableRow android:layout_marginBottom="30px">
     <TextView android:text="Price per Kg* :"/>
     <EditText android:id="@+id/price"
         	  android:inputType="number"/>    </TableRow>
