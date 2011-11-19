@@ -6,6 +6,14 @@
         android:layout_height="fill_parent" 
         android:background="#004D79">
 
+         <ListView
+            android:id="@+id/listView_searchResults"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true" >
+        </ListView>
+        
         <SlidingDrawer
             android:id="@+id/slidingDrawer_details"
             android:layout_width="fill_parent"
@@ -26,7 +34,8 @@
                 android:id="@+id/content_slidingDrawer"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:orientation="vertical" >
+                android:orientation="vertical" 
+                android:background="#333333">
 
                 <TextView
                     android:id="@+id/details_textView_price"
@@ -93,13 +102,7 @@
             </LinearLayout>
         </SlidingDrawer>
 
-        <ListView
-            android:id="@+id/listView_searchResults"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true" >
-        </ListView>
+       
 
     </RelativeLayout>
 
