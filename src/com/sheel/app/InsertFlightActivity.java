@@ -21,7 +21,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 //import android.widget.Toast;
 
-//import com.google.gson.Gson;
+import com.google.gson.Gson;
 import com.sheel.datastructures.Flight;
 
 /**
@@ -244,10 +244,10 @@ public class InsertFlightActivity extends Activity {
 				}
 			};
 			
-			//Gson gson = new Gson();
-			//String input = gson.toJson(flight);
-			//input+= "<>"+gson.toJson(InsertOfferActivity.offer);
-			//sc.runHttpPost("/insertnewoffer", input);
+			Gson gson = new Gson();
+			String input = gson.toJson(flight);
+			input+= "<>"+gson.toJson(InsertOfferActivity.offer);
+			sc.runHttpPost("/insertnewoffer", input);
 			
 		}
 	 
