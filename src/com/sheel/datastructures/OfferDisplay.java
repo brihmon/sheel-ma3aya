@@ -74,6 +74,7 @@ public class OfferDisplay {
 	private String source = "";
 	private String destination = "";
 	private String nationality = "";
+	private int userStatus = -1;
 	
 	private OwnerFacebookStatus ownerFbStatus = OwnerFacebookStatus.UNRELATED;
 		
@@ -124,10 +125,10 @@ public class OfferDisplay {
 			String ownerId, String offerId , String displayName , 
 			String email, String mobile, OfferWeightStatus weightS,
 			int numKg , int price , OwnerFacebookStatus facebookS, boolean isFemale, String nationality, String flightNumber, String source,
-			String destination){
+			String destination, int userStatus){
 		
 		initParameters(ownerId, offerId, displayName, email, mobile, weightS, numKg, price, facebookS, isFemale, nationality, 
-				flightNumber, source, destination);
+				flightNumber, source, destination, userStatus);
 		
 	}// end constructor
 	
@@ -142,7 +143,7 @@ public class OfferDisplay {
 	 */
 	public OfferDisplay(String ownerId , String offerId, OwnerFacebookStatus facebookS){
 		initParameters(ownerId, offerId, "", "", "", OfferWeightStatus.LESS, -1, -1, facebookS,false, "",
-				"", "", "");
+				"", "", "", -1);
 	}// end constructor
 	
 	/**
@@ -156,7 +157,7 @@ public class OfferDisplay {
 	 */
 	public OfferDisplay(String ownerId , String offerId , String displayName){
 		initParameters(ownerId, offerId, displayName, "", "", OfferWeightStatus.UNDEFINED, -1, -1, OwnerFacebookStatus.UNRELATED,false,
-				"", "", "", "");
+				"", "", "", "", -1);
 	}// end constructor
 	
 	/**
@@ -251,6 +252,11 @@ public class OfferDisplay {
 	public String getNationality() {
 		return nationality;
 		}
+	
+	public int getUserStatus() {
+		
+		return userStatus;
+	}
 
 	/**
 	 * Gets the number of Kgs offered by the owner 
@@ -422,7 +428,7 @@ public class OfferDisplay {
 			String ownerId, String offerId , String displayName , 
 			String email, String mobile, OfferWeightStatus weightS,
 			int numKg , int price , OwnerFacebookStatus facebookS, boolean isFemale, String nationality,
-			String flightNumber, String source, String destination){
+			String flightNumber, String source, String destination, int userStatus){
 
 		this.ownerFacebookId = ownerId;
 		this.offerId = offerId;
@@ -438,6 +444,7 @@ public class OfferDisplay {
 		this.source = source;
 		this.destination = destination;
 		this.nationality = nationality;
+		this.userStatus = userStatus;
 	}// end initParameters
 	
 	
