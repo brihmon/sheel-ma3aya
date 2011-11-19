@@ -72,7 +72,7 @@ public class ConnectorUserActionsActivity extends UserSessionStateMaintainingAct
 	 */
 
 	public void onClick_SearchOffers(View v) {		
-		Intent intent =setSessionInformationBetweenActivities(FilterPreferencesActivity.class);
+		Intent intent =setSessionInformationBetweenActivities(GetUserInfoActivity.class);
 		startActivity(intent);
 	}// end onClick_SearchOffers
 	
