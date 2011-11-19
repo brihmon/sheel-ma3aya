@@ -33,5 +33,18 @@
         android:layout_marginTop="78dp"
         android:text="WELCOME TO SHEEL MA3aya"
         android:textAppearance="?android:attr/textAppearanceLarge" />
+    
+    
+    <ImageView
+  		android:src="@drawable/plane"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/textView1"
+         />
+    
+    
+    
 
 </RelativeLayout>
