@@ -110,6 +110,8 @@ public class PhoneCommunication extends Activity {
 		 * Sheel M3aya team
 		 */
 //		String path = "/insertconfirmation/8/13/0";
+		
+		Toast.makeText(PhoneCommunication.this, "Doing your request..", Toast.LENGTH_LONG).show();
 		String path = "/insertconfirmation/15/13/1";
         SheelMaaayaClient sc = new SheelMaaayaClient() {
 			
@@ -125,8 +127,10 @@ public class PhoneCommunication extends Activity {
                                      Toast.makeText(PhoneCommunication.this, str, Toast.LENGTH_LONG).show();
                                      if(str.contains("12") || str.contains("13"))
                                      {
-                                    	 sendSMS("be5", "5556");
-                                    	 sendSMS("be52", "5554");
+//                                    	 sendSMS("be5", "5556");
+//                                    	 sendSMS("be52", "5554");
+                                    	 
+                                    	 Toast.makeText(PhoneCommunication.this, "Offer has been confirmed!", Toast.LENGTH_LONG).show(); 
                                      }
                                      // Check the response string if success and ready
                                      // Then you go and startActivity of send SMS
@@ -138,8 +142,7 @@ public class PhoneCommunication extends Activity {
 			}
 		};
         
-        sc.runHttpRequest(path);
-        Toast.makeText(getApplicationContext(), "PH Activity" , Toast.LENGTH_SHORT).show();
+        sc.runHttpRequest(path);       
 
 	}// end onClick_send_email
 	
