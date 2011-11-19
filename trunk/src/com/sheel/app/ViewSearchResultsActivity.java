@@ -47,6 +47,10 @@ public class ViewSearchResultsActivity extends UserSessionStateMaintainingActivi
 	String request;
 	OwnerFacebookStatus facebook=OwnerFacebookStatus.UNRELATED;
 	String facebookStatus;
+	
+	
+	// Hossam Amer add-on
+	static int selectedIndex;
 		
 	ArrayList<OfferDisplay> searchResults=new ArrayList<OfferDisplay>();
 
@@ -155,6 +159,9 @@ public class ViewSearchResultsActivity extends UserSessionStateMaintainingActivi
     	     
     	    	// update details pane with appropriate data
     	    	updateDetailsPane(position);
+    	    	
+    	    	
+    	    	ViewSearchResultsActivity.selectedIndex = position;
     	    	
     	    	//test_searchUsingFacebook();
     	    	
@@ -406,7 +413,7 @@ public class ViewSearchResultsActivity extends UserSessionStateMaintainingActivi
 				 
 							 runOnUiThread(new Runnable()
                              {
-                                 @Override
+//                                 @Override
                                  public void run()
                                  {
                                     // Toast.makeText(ViewSearchResultsActivity.this, str, Toast.LENGTH_LONG).show();
@@ -533,13 +540,32 @@ public class ViewSearchResultsActivity extends UserSessionStateMaintainingActivi
     	 * 
     	 * make your class extend UserSessionStateMaintainingActivity not just activity
     	 */
-    	// Parameters sent in intent
+    	// Parameters sent in intent    	
+    	int status = searchResults.get(selectedIndex).getUserStatus();
+    	status = (status==0)? 1:0;
+    	
+    	String mobile = searchResults.get(selectedIndex).getMobile();
+    	int kgs = searchResults.get(selectedIndex).getNumberOfKgs();
+    	String offerId1 = searchResults.get(selectedIndex).getOfferId();    	
+    	long offerId = Long.parseLong(offerId1);
+    	String email = searchResults.get(selectedIndex).getEmail();
+    	String fullName = searchResults.get(selectedIndex).getDisplayName();
+    	long userId = 13;
+    	
     	Intent intent = setSessionInformationBetweenActivities(PhoneCommunication.class);
-    	intent.putExtra("email", getFacebookService().getFacebookUser().getEmail());
+    	intent.putExtra("fb_account", getFacebookService().getFacebookUser().getEmail());
     	intent.putExtra("fbId", getFacebookService().getFacebookUser().getUserId());
     	
+    	
+    	
     	// Query mobile from app DB
-    	intent.putExtra("mobile", "0984576845");
+    	intent.putExtra("mobile", mobile);
+    	intent.putExtra("kgs", kgs);
+    	intent.putExtra("offerId", offerId);
+    	intent.putExtra("email", email);
+    	intent.putExtra("fullName", fullName);
+    	intent.putExtra("userId", userId);
+    	intent.putExtra("user_status", status);
     	
     	// navigate to new activity
     	startActivity(intent);
