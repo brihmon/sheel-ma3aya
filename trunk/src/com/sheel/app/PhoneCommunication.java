@@ -1,6 +1,5 @@
 package com.sheel.app;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
@@ -109,13 +108,13 @@ public class PhoneCommunication extends UserSessionStateMaintainingActivity {
 			String sms_content4 = "";
 			String sms_content5 = "";
 			String sms_content6 = "";
-			String number = "5556";
+			String number = mobile;
 			
 		if(user_status == 0)
 		{
-			sms_content1 = "Hello User2,";
+			sms_content1 = "Hello " + fullName +",";
 			sms_content2 = "I have seen your offer on Sheel M3aaya app that you " +
-					"have an extra space (N Kilograms) in your bags." +
+					"have an extra space ("+ kgs +  "Kilograms) in your bags." +
 					" So, I would like to inform you that " +
 					"I am interested in putting some of my stuff in your bags.";
 			sms_content3 = "Please contact me at this number if your space is still available.";
@@ -127,9 +126,9 @@ public class PhoneCommunication extends UserSessionStateMaintainingActivity {
 		else
 		{
 			
-			sms_content1 = "Hello User1,";
+			sms_content1 = "Hello "+ fullName +",";
 			sms_content2 = "I have seen your request on Sheel M3aaya app that you " +
-					"need an extra space (N Kilograms) in your bags." +
+					"need an extra space ("+ kgs + " Kilograms) in your bags." +
 					" So, I would like to inform you that " +
 					"I am interested in offering you some of my space in my bags.";
 			sms_content3 = "Please contact me at this number if you are still intrested.";
