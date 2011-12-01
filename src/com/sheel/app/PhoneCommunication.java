@@ -18,7 +18,7 @@ import android.widget.Toast;
  *
  */
 
-public class PhoneCommunication extends Activity {
+public class PhoneCommunication extends UserSessionStateMaintainingActivity {
 	
 	
 	String mobile;
