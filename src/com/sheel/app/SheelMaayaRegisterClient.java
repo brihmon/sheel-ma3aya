@@ -45,7 +45,7 @@ public abstract class SheelMaayaRegisterClient {
 		THREAD = new Thread(new Runnable()
 
 		{
-			@Override
+		//	@Override
 			public void run() {
 				try {
 					// Create a new HttpClient and Post Header
