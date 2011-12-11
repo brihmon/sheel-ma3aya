@@ -50,7 +50,7 @@ public abstract class HTTPClient {
 	        THREAD = new Thread(new Runnable()
 	    
 	    	{
-	        @Override
+	  //      @Override
 	        public void run()
 	        {
 	            try
