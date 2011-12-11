@@ -17,22 +17,20 @@ import com.facebook.android.FacebookError;
  */
 public class AppDialogListener implements DialogListener {
 
-	public void onComplete(Bundle values) {	
-		
-	}// end onComplete
-
 	public void onFacebookError(FacebookError e) {
 		Log.e("AppDialogListener: " , "onFacebookError: "  );
 		e.printStackTrace();
 	}// end onFacebookError
 
-	@Override
+	public void onComplete(Bundle values) {	
+		
+	}// end onComplete
+
 	public void onError(DialogError e) {	
 		Log.e("AppDialogListener: " , "onError: "  );
 		e.printStackTrace();
 	}// end onError
 
-	@Override
 	public void onCancel() {
 			
 	}// end onCancel

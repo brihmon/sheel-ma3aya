@@ -3,7 +3,6 @@ package com.sheel.listeners;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.concurrent.Semaphore;
 
@@ -12,8 +11,9 @@ import org.json.JSONObject;
 
 import android.util.Log;
 
-import com.facebook.android.FacebookError;
+
 import com.facebook.android.AsyncFacebookRunner.RequestListener;
+import com.facebook.android.FacebookError;
 import com.sheel.datastructures.OfferDisplay;
 import com.sheel.datastructures.enums.OwnerFacebookStatus;
 
