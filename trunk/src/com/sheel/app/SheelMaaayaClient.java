@@ -41,7 +41,7 @@ public abstract class SheelMaaayaClient {
         THREAD = new Thread(new Runnable()
     
     	{
-        @Override
+    //    @Override
         public void run()
         {
             try
@@ -85,7 +85,7 @@ public abstract class SheelMaaayaClient {
 	        THREAD = new Thread(new Runnable()
 	    
 	    	{
-	        @Override
+//	        @Override
 	        public void run()
 	        {
 	            try
