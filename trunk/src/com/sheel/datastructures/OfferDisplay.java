@@ -3,13 +3,9 @@ package com.sheel.datastructures;
 import java.util.ArrayList;
 
 import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import com.sheel.datastructures.enums.OfferWeightStatus;
 import com.sheel.datastructures.enums.OwnerFacebookStatus;
-
-import android.util.Log;
 
 /**
  * This class is a data structure used to collect

@@ -1,23 +1,13 @@
 package com.sheel.app;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import com.sheel.datastructures.enums.OwnerFacebookStatus;
-
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
 import android.util.Log;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.sheel.datastructures.enums.OwnerFacebookStatus;
 
 public class SearchByFlightNoActivity extends UserSessionStateMaintainingActivity{
 	

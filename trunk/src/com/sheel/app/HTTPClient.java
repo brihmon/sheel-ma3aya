@@ -9,12 +9,6 @@ import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.util.EntityUtils;
-import org.json.JSONObject;
-
-import android.os.Looper;
-import android.util.Log;
-import android.widget.Toast;
 
 /**
  * 

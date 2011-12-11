@@ -1,12 +1,5 @@
 package com.sheel.app;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import com.sheel.datastructures.enums.OwnerFacebookStatus;
-
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,6 +9,8 @@ import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.Toast;
 import android.widget.ToggleButton;
+
+import com.sheel.datastructures.enums.OwnerFacebookStatus;
 
 public class FilterPreferencesActivity extends UserSessionStateMaintainingActivity {
 	
