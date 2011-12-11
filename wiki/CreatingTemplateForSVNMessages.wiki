@@ -1,5 +1,5 @@
 #labels Phase-Implementation
-#providing a template for commit messages from eclipse
+providing a template for commit messages from eclipse
 
 = Introduction =
 
