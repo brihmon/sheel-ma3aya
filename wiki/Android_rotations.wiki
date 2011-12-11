@@ -1,4 +1,4 @@
-#summary Handeling android rotations.
+#summary Handling android rotations.
 #labels Phase-Implementation,Error-Report
 
 = Introduction =
