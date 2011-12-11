@@ -1,5 +1,5 @@
+#summary Organize your project and force yourself to write comments
 #labels Phase-Implementation
-#Organize your project and force yourself to write comments
 
 = Introduction =
 
