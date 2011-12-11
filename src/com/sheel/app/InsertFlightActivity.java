@@ -226,7 +226,7 @@ public class InsertFlightActivity extends UserSessionStateMaintainingActivity {
 					 
 								 runOnUiThread(new Runnable()
 	                             {
-	                                 @Override
+//	                                 @Override
 	                                 public void run()
 	                                 {
 	                                	 if((!(dialog==null))&&dialog.isShowing()){
