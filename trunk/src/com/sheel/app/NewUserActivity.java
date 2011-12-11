@@ -161,7 +161,7 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 		nationalityField.setAdapter(nationalityAdapter);
 		Validator NationalityValidator = new Validator() {
 
-			@Override
+//			@Override
 			public boolean isValid(CharSequence text) {
 
 				Log.v("Test", "Checking if valid: " + text);
@@ -184,7 +184,7 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 				return false;
 			}
 
-			@Override
+//			@Override
 			public CharSequence fixText(CharSequence invalidText) {
 
 				return invalidText;
@@ -202,7 +202,7 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 		countryCodes.setAdapter(adapter);
 		Validator MobileValidator = new Validator() {
 
-			@Override
+//			@Override
 			public boolean isValid(CharSequence text) {
 				Log.v("Test", "Checking if valid: " + text);
 				Arrays.sort(codeStrings);
@@ -221,7 +221,7 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 				return false;
 			}
 
-			@Override
+//			@Override
 			public CharSequence fixText(CharSequence invalidText) {
 
 				return invalidText;
@@ -478,7 +478,7 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 
 					runOnUiThread(new Runnable() {
 
-						@Override
+//						@Override
 						public void run() {
 							// Toast.makeText(this, "Done in DataBase", //
 							// Toast.LENGTH_LONG).show();
