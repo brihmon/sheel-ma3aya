@@ -1,5 +1,5 @@
+#summary Collapse all comments inside the project by default.
 #labels Phase-Implementation
-#Collapse all comments inside the project by default.
 
 = Introduction =
 
