@@ -51,23 +51,21 @@ public class SearchResultsListAdapter extends BaseAdapter {
 		this.searchResults = users;
 	}// end constructor
 
-	@Override
+	
 	public int getCount() {
 		return searchResults.size();
 	}// end getCount
 
-	@Override
 	public Object getItem(int position) {
 		return searchResults.get(position);
 	}// end getItem
 
-	@Override
 	public long getItemId(int position) {
 		// TODO Auto-generated method stub
 		return 0;
 	}// end getItemId
 
-	@Override
+
 	public View getView(int position, View convertView, ViewGroup parent) {
 		
 		View listItem;
