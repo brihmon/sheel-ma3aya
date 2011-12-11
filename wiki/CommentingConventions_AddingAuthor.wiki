@@ -1,5 +1,5 @@
+#summary Adding author tag and auto generating comments for a component
 #labels Phase-Implementation
-adding author tag and auto generating comments for a component
 = Introduction =
 
 This post explains how to:
@@ -40,5 +40,3 @@ b) copy and paste the following:
 <i>For class comments: </i>
 
 choose types instead of methods
-
-
