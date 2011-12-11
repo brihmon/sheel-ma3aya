@@ -3,35 +3,26 @@ package com.sheel.webservices;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.security.acl.Owner;
 import java.util.ArrayList;
-import java.util.Dictionary;
 import java.util.Hashtable;
 import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.Semaphore;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.facebook.android.*;
+import com.facebook.android.AsyncFacebookRunner.RequestListener;
+import com.facebook.android.Facebook.DialogListener;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.media.FaceDetector.Face;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.facebook.android.AsyncFacebookRunner;
-import com.facebook.android.AsyncFacebookRunner.RequestListener;
-import com.facebook.android.DialogError;
-import com.facebook.android.Facebook;
-import com.facebook.android.Facebook.DialogListener;
-import com.facebook.android.FacebookError;
-import com.sheel.app.NewUserActivity;
-import com.sheel.app.SheelMaaayaClient;
 import com.sheel.datastructures.FacebookUser;
 import com.sheel.datastructures.OfferDisplay;
 import com.sheel.datastructures.enums.OwnerFacebookStatus;
@@ -440,7 +431,7 @@ public class FacebookWebservice {
 	 * 			</ul> 
 	 */	
 	public Hashtable<String,OfferDisplay>  filterOffersFromOwnersWithMutualFriends (Hashtable<String,OfferDisplay> offersFromUsers){
-		
+				
 		/**
 		 * Inner class for listening to different actions while requesting
 		 * mutual friends between the user and an owner of an offer
@@ -1014,22 +1005,7 @@ private JSONArray extractDataJsonArray(JSONObject receviedResponse){
 		
 	}// end tester
 	
-	private void tester2(){
-		
-		class Client2 extends SheelMaaayaClient{
-
-			@Override
-			public void doSomething() {
-				// TODO Auto-generated method stub
-				
-			}
-			
-		}// end class
-		
-		Client2 c= new Client2();
-		c.runHttpRequest("path");
-	}// end tester2
-
+	
 	
 	
 }// end class
