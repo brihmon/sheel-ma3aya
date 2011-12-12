@@ -66,6 +66,17 @@ public class Session {
 	}// end saveFaceookParameters 
 	
 	/**
+	 * Used to clear information of the session about the logged in user.
+	 * It is usually used on loggin out.	 * 
+	 *
+	 * @author 
+	 *		Passant El.Agroudy (passant.elagroudy@gmail.com)
+	 */
+	public static void resetSession() {
+		saveFaceookParameters("","", -1);
+	}// end resetSession
+	
+	/**
 	 * Represents information inside the session is readable way
 	 * 
 	 * @return 
