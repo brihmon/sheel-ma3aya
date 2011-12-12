@@ -5,6 +5,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.facebook.android.Facebook;
+import com.sheel.datastructures.FacebookUser;
+import com.sheel.datastructures.Session;
 import com.sheel.datastructures.enums.SharedValuesBetweenActivities;
 import com.sheel.webservices.FacebookWebservice;
 
@@ -13,7 +16,8 @@ import com.sheel.webservices.FacebookWebservice;
  * information of user and session that must be passed between all 
  * activities
  * 
- * @author passant
+ * @author 
+ * 		Passant El.Agroudy (passant.elagroudy@gmail.com)
  *
  */
 public class UserSessionStateMaintainingActivity extends Activity {
@@ -28,16 +32,24 @@ public class UserSessionStateMaintainingActivity extends Activity {
 	 * It handles all requests to facebook API. Moreover, it has
 	 * all related info to logged in user and session
 	 */
-	private FacebookWebservice fbService = null;
+	private static FacebookWebservice fbService = null;
 	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		if (fbService != null)
+			Log.e(TAG_CLASS_PACKAGE,"Info read from static facebook service: userId = " + fbService.getFacebookUser()+" , accessToken= "+  fbService.getUserAccessToken() + " ,accessExpiry= " + fbService.getUserAccessTokenExpiryTime());
+		else
+			Log.e(TAG_CLASS_PACKAGE,"Facebook service is not initialized yet");
+		
 		// read needed parameters from previous activity
 		getSessionInformationBetweenActivities();
 		
+		
+		
 		// do any logic you want
+		
 	}// end onCreate
 	
 	@Override 
@@ -51,16 +63,27 @@ public class UserSessionStateMaintainingActivity extends Activity {
 	 * Returns class responsible for handling all requests to facebook API. 
 	 * Moreover, it has all related info to logged in user and session.
 	 * <br><br>
-	 * Note: 
+	 * <b>Note:</b> 
 	 * <ul>
 	 * 		<li>In case you want details of logged in, use 
 	 * 		{@link FacebookWebservice#getFacebookUser()} method.</li>
+	 * 		<li>In case you want logged-in user facebook ID, use 
+	 * 		{@link FacebookUser#getUserId()} method.</li>
 	 *      <li>In case you want details about session, use 
 	 * 		{@link FacebookWebservice#isSessionValid()} method.</li>
 	 * </ul>
 	 * 
+	 * <b>Example:</b><br>
+	 * <code>
+	 * 		if (getFacebookService() != null) <br>
+	 * 		String userFacebookId = getFacebookService().getFacebookUser().getUserId();
+	 * </code> <br>
+	 * 
 	 * @return
 	 * 		Object used for interacting with facebook
+	 * 
+	 * @author 
+	 * 		Passant El.Agroudy (passant.elagroudy@gmail.com)
 	 */
 	public FacebookWebservice getFacebookService(){
 		return this.fbService;
@@ -115,8 +138,10 @@ public class UserSessionStateMaintainingActivity extends Activity {
 		}// end if : extras has info		
 	}// end getSessionInformationBetweenActivities
 	
+	
 	public void setFacebookService(FacebookWebservice fbService){
 		this.fbService = fbService;
 	}
+	
 	
 }// end class
