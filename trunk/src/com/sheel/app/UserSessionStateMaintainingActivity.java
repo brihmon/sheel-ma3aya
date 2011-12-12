@@ -32,7 +32,7 @@ public class UserSessionStateMaintainingActivity extends Activity {
 	 * It handles all requests to facebook API. Moreover, it has
 	 * all related info to logged in user and session
 	 */
-	private static FacebookWebservice fbService = null;
+	private  static FacebookWebservice fbService = null;
 	
 	
 	@Override
@@ -43,11 +43,7 @@ public class UserSessionStateMaintainingActivity extends Activity {
 		else
 			Log.e(TAG_CLASS_PACKAGE,"Facebook service is not initialized yet");
 		
-		// read needed parameters from previous activity
-		getSessionInformationBetweenActivities();
-		
-		
-		
+	
 		// do any logic you want
 		
 	}// end onCreate
@@ -86,7 +82,7 @@ public class UserSessionStateMaintainingActivity extends Activity {
 	 * 		Passant El.Agroudy (passant.elagroudy@gmail.com)
 	 */
 	public FacebookWebservice getFacebookService(){
-		return this.fbService;
+		return fbService;
 	}// end getFacebookService
 	
 	/**
@@ -103,6 +99,7 @@ public class UserSessionStateMaintainingActivity extends Activity {
 	 */
 	public Intent setSessionInformationBetweenActivities (Class<?> typeOfNextActivity){
 
+		//return new Intent(this, typeOfNextActivity);
 		   Intent mIntent = new Intent(this, typeOfNextActivity);
 		   
 		   if (fbService != null){
@@ -116,31 +113,9 @@ public class UserSessionStateMaintainingActivity extends Activity {
 			return mIntent;
 	}// end SetSessionInformationBetweenActivities
 	
-	/**
-	 * IMPORTANT: used to pass necessary information about current session and 
-	 * user between all activities	
-	 */
-	private void getSessionInformationBetweenActivities (){
-		//System.out.println("integration: getSessionInformationBetweenActivities: activity: " + this);
-		Intent actvIntent = this.getIntent();
-		Bundle extras = actvIntent.getExtras();
-		//Log.e(TAG_CLASS_PACKAGE, "getSessionInformationBetweenActivities: extras bundle of intent: " + extras.size() );
-		System.out.println(TAG_CLASS_PACKAGE + "getSessionInformationBetweenActivities: extras content:  " + extras);
-		
-		if (extras != null){
-			String key_id = SharedValuesBetweenActivities.userFacebookId.name();
-			String key_token= SharedValuesBetweenActivities.userAccessToken.name();
-			String key_expiry = SharedValuesBetweenActivities.accessTokenExpiry.name();
-			if (extras.containsKey(key_id) && extras.containsKey(key_token) && extras.containsKey(key_expiry)){
-				this.fbService= new FacebookWebservice(extras.getString(key_id), extras.getString(key_token), extras.getLong(key_expiry));
-				Log.e(TAG_CLASS_PACKAGE, "getSessionInformationBetweenActivities: passedConstantValues: token= " + fbService.getUserAccessToken() + "  Expiry=" + fbService.getUserAccessTokenExpiryTime() + " FBId= " + fbService.getFacebookUser().getUserId() );
-			}// end if : access token + expiry time + fb ID are there -> create new service
-		}// end if : extras has info		
-	}// end getSessionInformationBetweenActivities
 	
-	
-	public void setFacebookService(FacebookWebservice fbService){
-		this.fbService = fbService;
+	public void setFacebookService(FacebookWebservice fbServ){
+		fbService = fbServ;
 	}
 	
 	
