@@ -45,7 +45,6 @@ public class ConnectorUserActionsActivity extends UserSessionStateMaintainingAct
 		if (getFacebookService() == null){
 			Log.e(TAG_CLASS_PACKAGE,"onCreate: facebookservice is not initialized");			
 			setFacebookService(new FacebookWebservice());
-			//getFacebookService().login(this, true, false);
 			getFacebookService().login(this, true, false);
 		}// end if : previous activity was welcome(login)
 
@@ -104,6 +103,9 @@ public class ConnectorUserActionsActivity extends UserSessionStateMaintainingAct
 	public void onClick_logOut(View v){
 		if (getFacebookService() != null)
 		getFacebookService().logout(this);
+		/* because the session is static, if not set to null, the app
+		 * will never login again until it is closed then re-opened*/
+		setFacebookService(null);
 		startActivity(new Intent(this, ConnectorWelcomePageActivity.class));
 	}// end onClick_logOut
 	
