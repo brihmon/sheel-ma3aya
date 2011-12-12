@@ -12,7 +12,9 @@ import com.sheel.webservices.FacebookWebservice;
  * This activity displays the home page that will be displayed to the user after
  * registering
  * 
- * @author Nada Emad
+ * @author 
+ * 		Nada Emad<br>
+ * 		Passant El.Agroudy (passant.elagroudy@gmail.com)
  * 
  */
 public class ConnectorUserActionsActivity extends UserSessionStateMaintainingActivity {
@@ -26,7 +28,13 @@ public class ConnectorUserActionsActivity extends UserSessionStateMaintainingAct
 	
 	TextView LoggedUserField;
 	
-	/** Called when the activity is first created. */
+	/**
+	 *  Called when the activity is first created. 
+	 *  
+	 *  @author 
+	 *  	Passant El.Agroudy (passant.elagroudy@gmail.com)<br>
+	 *  	Hossam Amer
+	 * */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -35,8 +43,11 @@ public class ConnectorUserActionsActivity extends UserSessionStateMaintainingAct
 		if (getFacebookService() == null){
 			Log.e(TAG_CLASS_PACKAGE,"onCreate: facebookservice is not initialized");			
 			setFacebookService(new FacebookWebservice());
-			getFacebookService().login(this, false, false);
+			getFacebookService().login(this, true, false);
+			Log.e(TAG_CLASS_PACKAGE,"Login was successful and waited for all info to be retrieved");
 		}// end if : previous activity was welcome(login)
+
+		Log.e(TAG_CLASS_PACKAGE,"Login was successful and waited for all info to be retrieved");
 
 		if (getFacebookService() != null){
 			Log.e(TAG_CLASS_PACKAGE,"onCreate: facebookservice is initialized " + 
@@ -85,9 +96,12 @@ public class ConnectorUserActionsActivity extends UserSessionStateMaintainingAct
 	public void onClick_SearchOffers(View v) {		
 		Intent intent =setSessionInformationBetweenActivities(GetUserInfoActivity.class);
 		
+		try {
 		long userId = Long.parseLong(LoggedID);
 		intent.putExtra("userId", userId);
-		
+		}catch(Exception e) {
+			
+		}
 		startActivity(intent);
 	}// end onClick_SearchOffers
 	
