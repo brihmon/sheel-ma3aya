@@ -1,11 +1,21 @@
 package com.sheel.app;
 
 import java.io.ByteArrayOutputStream;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import com.google.gson.Gson;
+import com.sheel.datastructures.Session;
+import com.sheel.datastructures.User;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -18,12 +28,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.AutoCompleteTextView.Validator;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.Toast;
-import android.widget.AutoCompleteTextView.Validator;
-
+import android.widget.ToggleButton;
 import com.sheel.datastructures.Session;
 import com.sheel.webservices.FacebookWebservice;
 
@@ -133,6 +143,13 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 		setVariables();
 
 	}
+	
+	/*@Override
+	protected void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+	}
+	*/
 
 	/**
 	 * This method is called to create all the UI components and create and set
@@ -140,8 +157,8 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 	 */
 	public void setVariables() {
 		/* Gender Toggle Buttons */
-		toggleMale = (RadioButton) findViewById(R.id.toggleMale);
-		toggleFemale = (RadioButton) findViewById(R.id.toggleFemale);
+		//toggleMale = (RadioButton) findViewById(R.id.toggleMale);
+		//toggleFemale = (RadioButton) findViewById(R.id.toggleFemale);
 
 		/* Nationality field, its adaptor, its validator */
 		nationalityField = (AutoCompleteTextView) findViewById(R.id.autoNationality);
@@ -152,7 +169,7 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 		nationalityField.setAdapter(nationalityAdapter);
 		Validator NationalityValidator = new Validator() {
 
-//			@Override
+			@Override
 			public boolean isValid(CharSequence text) {
 
 				Log.v("Test", "Checking if valid: " + text);
@@ -175,7 +192,7 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 				return false;
 			}
 
-//			@Override
+			@Override
 			public CharSequence fixText(CharSequence invalidText) {
 
 				return invalidText;
@@ -193,7 +210,7 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 		countryCodes.setAdapter(adapter);
 		Validator MobileValidator = new Validator() {
 
-//			@Override
+			@Override
 			public boolean isValid(CharSequence text) {
 				Log.v("Test", "Checking if valid: " + text);
 				Arrays.sort(codeStrings);
@@ -212,7 +229,7 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 				return false;
 			}
 
-//			@Override
+			@Override
 			public CharSequence fixText(CharSequence invalidText) {
 
 				return invalidText;
@@ -223,11 +240,12 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 		/* Mobile number field */
 		mobileNumberField = (EditText) findViewById(R.id.mobileNumber);
 
-		/* First, middle and last names fields */
+		/* First, middle and last names fields 
 		firstNameField = (EditText) findViewById(R.id.FirstName);
 		middleNameField = (EditText) findViewById(R.id.MiddleName);
 		lastNameField = (EditText) findViewById(R.id.LastName);
-
+		*/
+	
 		/* Email field */
 		emailField = (EditText) findViewById(R.id.email);
 
@@ -266,10 +284,15 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 		 */
 
 		// Set the path where the taken photo will be saved
-		path = Environment.getExternalStorageDirectory().getName()
+		
+		/*path = Environment.getExternalStorageDirectory().getName()
 				+ File.separatorChar + "Android/data/"
-				+ NewUserActivity.this.getPackageName() + "/PassportPhoto.jpg";
-
+				+ NewUserActivity.this.getPackageName()+ "/PassportPhoto.jpg";
+		*/
+		
+		path =  Environment.getExternalStorageDirectory().getPath() 
+				+ File.separatorChar + "PassportPhoto.jpg";
+		System.out.println("Path: " + path.toString());
 		/** The file containing the taken passport photo */
 		File file = new File(path);
 
@@ -294,7 +317,9 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 		intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
 		// start the image capture Intent
 		startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
-	} // end onClick_takePhoto
+		
+		
+		} // end onClick_takePhoto
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -393,7 +418,7 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 			allValid = false;
 	}
 
-	public String GetUserFacebookID() {
+	public void GetUserFacebookID() {
 		String tempID = "";
 		getFacebookService().getUserInformation(true);
 		if (getFacebookService() != null) {
@@ -403,37 +428,50 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 				getFacebookService().getUserInformation(true);
 			} else {
 				tempID = getFacebookService().getFacebookUser().getUserId();
+				firstName = getFacebookService().getFacebookUser().getFirstName();
+				 firstName = firstName.trim();
+				 if(firstName.length() == 0) firstName = "%20";
+				 middleName = getFacebookService().getFacebookUser().getMiddleName();
+				middleName = middleName.trim();
+				if(middleName.length() == 0) middleName = "%20";
+				lastName =  getFacebookService().getFacebookUser().getLastName();
+				lastName = lastName.trim();
+				if(lastName.length() == 0) lastName = "%20";
+				email =  getFacebookService().getFacebookUser().getEmail();
+				email = email.trim();
+				if(email.length() == 0) email = "%20";
+				 if(getFacebookService().getFacebookUser().isFemale()) gender = "female";
+				 else gender = "male";
 			}
 
 		}
 
 		System.out.println("FB ID: " + tempID);
-		return tempID;
 	}
 
 	public void OnClick_register(View v) {
-		//faceBookID = GetUserFacebookID();
+		GetUserFacebookID();
 		faceBookID = Session.facebookUserId;
 		String countryCode = countryCodes.getText().toString();
 
 		mobileNumber = (mobileNumberField.getText().toString());
 		mobileNumber = mobileNumber.trim();
 		
-		firstName = firstNameField.getText().toString();
-		firstName = firstName.trim();
+		//firstName = firstNameField.getText().toString();
+		//firstName = firstName.trim();
 		
-		middleName = middleNameField.getText().toString();
-		middleName = middleName.trim();
+		//middleName = middleNameField.getText().toString();
+		//middleName = middleName.trim();
 		
 		if(middleName.length() == 0){ 
 			middleName = "%20";
 			System.out.println("Middle: " + middleName);}
 		
-		lastName = lastNameField.getText().toString();
-		lastName = lastName.trim();
+		//lastName = lastNameField.getText().toString();
+		//lastName = lastName.trim();
 		
-		email = emailField.getText().toString();
-		email = email.trim();
+		//email = emailField.getText().toString();
+		//email = email.trim();
 		
 		passportNumber = passportNumberField.getText().toString();
 		passportNumber = passportNumber.trim();
@@ -469,7 +507,7 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 
 					runOnUiThread(new Runnable() {
 
-//						@Override
+						@Override
 						public void run() {
 							// Toast.makeText(this, "Done in DataBase", //
 							// Toast.LENGTH_LONG).show();
