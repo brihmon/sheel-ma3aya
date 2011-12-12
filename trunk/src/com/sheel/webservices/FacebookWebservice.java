@@ -37,9 +37,10 @@ import com.sheel.listeners.OffersFilterListener;
 
 /**
  * This class is used as a web service to interact with facebook for requests
- * regarding the user
+ * regarding the user. A new instance of the class should be created per user.
  * 
- * @author passant
+ * @author 
+ * 		Passant El.Agroudy (passant.elagroudy@gmail.com)
  *
  */
 
@@ -304,17 +305,6 @@ public class FacebookWebservice {
 		
 	}// end getUserInformationForApp
 	
-	/**
-	 * Requests the facebook user ID and saves it in the session
-	 *  
-	 * @author 
-	 *		Passant El.Agroudy (passant.elagroudy@gmail.com)
-	 */
-	public void requestUserFacebookId() {
-		if (facebook.isSessionValid()) {
-			getUserInformation("?fields=id&");
-		}// end if : check that the session is still valid
-	}// end getUserId
 	
 	/**
 	 * Used to retrieve user basic information. User must be signed in
@@ -348,6 +338,7 @@ public class FacebookWebservice {
 				Log.e(TAG_CLASS_PACKAGE,"getUserInformation: onComplete: LoggedIn user=" + fbUser);
 				Session.facebookUserId = fbUser.getUserId();
 				Log.e(TAG_CLASS_PACKAGE,"getUserInformation: onComplete: session info updated: " + Session.showSessionInformation());
+				Session.user = fbUser;
 				dataIsReceived.release();
 			}// end onComplete
 			
@@ -366,6 +357,20 @@ public class FacebookWebservice {
 		
 	}// end getUserInformationForApp
 		
+	/**
+	 * Requests the facebook user ID and saves it in the session.
+	 * <br><b>IMPORTANT:</b> It will overwrite the content of the 
+	 * facebook user inside the facebook service and all its 
+	 * references 
+	 *  
+	 * @author 
+	 *		Passant El.Agroudy (passant.elagroudy@gmail.com)
+	 */
+	public void requestUserFacebookId() {
+		if (facebook.isSessionValid()) {
+			getUserInformation("?fields=id&");
+		}// end if : check that the session is still valid
+	}// end getUserId
 	
 	
 	
