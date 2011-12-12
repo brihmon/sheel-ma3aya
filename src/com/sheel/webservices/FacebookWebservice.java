@@ -46,21 +46,7 @@ import com.sheel.listeners.OffersFilterListener;
 
 public class FacebookWebservice {
 	
-	/*
-	 * --------------------------------------- Enumerations ------------------------------------------------
-	 *  
-	 */
-	
-	enum FacebookUserProperties{
-		id,
-		first_name,
-		middle_name,
-		last_name,
-		gender,
-		verified,
-		email		
-	}
-	
+		
 	/*
 	 * --------------------------------------- Constants ---------------------------------------------------
 	 * 
@@ -75,20 +61,6 @@ public class FacebookWebservice {
 	 */
 	private final String APP_ID = "301637916526853";
 	
-	/* Not grouped in an enumeration to avoid writing code for 
-	 * passing their values. (class implementation)
-	 * Check URL: 
-	 * http://javahowto.blogspot.com/2006/10/custom-string-values-for-enum.html
-	 */
-	
-	/**
-	 * Shared preferences key for user access token
-	 */
-	private final String SP_ACCESS_TOKEN = "access_token";
-	/**
-	 * Shared preferences key for user access token expiry duration
-	 */
-	private final String SP_ACCESS_TOKEN_EXPIRY = "access_expiry";
 	
 	/*
 	 * --------------------------------------- Instance parameters ------------------------------------------
@@ -98,19 +70,15 @@ public class FacebookWebservice {
 	/**
 	 * Instance of facebook for accessing all the features
 	 */
-	Facebook facebook = new Facebook(APP_ID);
+	private Facebook facebook = new Facebook(APP_ID);
 	/**
 	 * Asynchronous API requests to avoid blocking the UI thread
 	 */
-	AsyncFacebookRunner asyncFacebookRunner = new AsyncFacebookRunner(facebook);
-	/**
-	 * Different settings saved for different apps in android settings
-	 */
-	SharedPreferences sharedPreferences;
+	private AsyncFacebookRunner asyncFacebookRunner = new AsyncFacebookRunner(facebook);
 	/**
 	 * Data structure for holding information about the facebook user
 	 */	
-	FacebookUser fbUser = new FacebookUser();
+	private FacebookUser fbUser = new FacebookUser();
 
 	
 	/*
@@ -144,6 +112,8 @@ public class FacebookWebservice {
 	 * @return 
 	 * 		data structure having all information retrieved so far about user. If not initialized,
 	 * 		it will return null
+	 * @author 
+	 * 		Passant El.Agroudy (passant.elagroudy@gmail.com)
 	 */
 	public FacebookUser getFacebookUser(){
 		return fbUser;
@@ -158,6 +128,8 @@ public class FacebookWebservice {
 	 * 			<li><code>true</code>: session is valid</li>
 	 * 			<li><code>false</code>: session has expired and you should log in</li>
 	 * 		</ul>	
+	 * @author 
+	 * 		Passant El.Agroudy (passant.elagroudy@gmail.com)
 	 */
 	public boolean isSessionValid(){
 		return facebook.isSessionValid();
@@ -166,6 +138,10 @@ public class FacebookWebservice {
 	/**
 	 * Returns facebook access token for generating issues on HTTP
 	 * @return
+	 * 		String representing the access token that is checked by 
+	 * 		the API upon any requests 
+	 * @author 
+	 * 		Passant El.Agroudy (passant.elagroudy@gmail.com)
 	 */
 	public String getUserAccessToken(){
 		return facebook.getAccessToken();
@@ -174,6 +150,10 @@ public class FacebookWebservice {
 	/**
 	 * Returns after how many milliseconds will the session expire
 	 * @return
+	 * 		long representing number of remaining millisecs before
+	 * 		the session expires
+	 * @author 
+	 * 		Passant El.Agroudy (passant.elagroudy@gmail.com)
 	 */
 	public long getUserAccessTokenExpiryTime(){
 		return facebook.getAccessExpires();
@@ -203,6 +183,8 @@ public class FacebookWebservice {
 	 * 			information about retrieved data.</li>
 	 * 			<li><code>false</code>: retrieve all public information of the user</li>
 	 * 		</ul>	
+	 * @author 
+	 * 		Passant El.Agroudy (passant.elagroudy@gmail.com)
 	 */
 	public void login(Activity parentActivity ,final boolean getUserInfo , final boolean isInfoForApp){
 		
@@ -253,6 +235,8 @@ public class FacebookWebservice {
 	 * 
 	 * @param parentActivity
 	 * 		activity where the logout is called upon to retrieve context
+	 * @author 
+	 * 		Passant El.Agroudy (passant.elagroudy@gmail.com)
 	 */
 	public void logout(Activity parentActivity){
 		asyncFacebookRunner.logout(parentActivity.getApplicationContext(),new AppRequestListener());
@@ -317,9 +301,9 @@ public class FacebookWebservice {
 	 * 		requested fields from the facebook API. For more information
 	 * 		on available parameters, see 
 	 * 		{@linkplain http://developers.facebook.com/tools/explorer/?method=GET&path=me}
-	 * 		You should always include <code>id</code> in the fields if you specify any.
+	 * 		. <b>You should always include <code>id</code> in the fields if you specify any</b>.
 	 * 		The format needed is: ?fields=NEEDED_FIELD1,NEEDED_FIELD2& 
-	 * 		(Example: <code>?fields=id&</code> to get ID of user)
+	 * 		(<b>Example:</b> <code>?fields=id&</code> to get ID of user)
 	 * 		If you enter "", it will get all available information about user.
 	 *
 	 *@author 
@@ -398,6 +382,8 @@ public class FacebookWebservice {
 	 * 				it will check its facebook status to
 	 * 				@link {@link OwnerFacebookStatus#FRIEND}</li>
 	 * 			</ul> 
+	 * @author 
+	 * 		Passant El.Agroudy (passant.elagroudy@gmail.com)
 	 */
 	public Hashtable<String,OfferDisplay>  filterOffersFromFriends(Hashtable<String,OfferDisplay> offersFromUsers){
 		
@@ -499,6 +485,8 @@ public class FacebookWebservice {
 	 * 				it will check its facebook status to
 	 * 				@link {@link OwnerFacebookStatus#FRIEND_OF_FRIEND}</li>
 	 * 			</ul> 
+	 * @author 
+	 * 		Passant El.Agroudy (passant.elagroudy@gmail.com)
 	 */	
 	public Hashtable<String,OfferDisplay>  filterOffersFromOwnersWithMutualFriends (Hashtable<String,OfferDisplay> offersFromUsers){
 				
@@ -595,6 +583,8 @@ public class FacebookWebservice {
 	 * 		Reference hashtable that will be kept as is
 	 * @param needsFiltering
 	 * 		Hashtable that will get filtered (elements existing in main will be removed)
+	 * @author 
+	 * 		Passant El.Agroudy (passant.elagroudy@gmail.com)
 	 */
 	public static void removeDuplicates(Hashtable<String, OfferDisplay> main , Hashtable<String, OfferDisplay> needsFiltering){
 		
@@ -628,6 +618,8 @@ public class FacebookWebservice {
 	 * @return
 	 * 		Intent containing data needed for the next activity. Use 
 	 * 		{@link Activity#startActivity(Intent)} to start the new activity
+	 * @author 
+	 * 		Passant El.Agroudy (passant.elagroudy@gmail.com)
 	 */
 	public static Intent SetSessionInformationBetweenActivities (Activity currentActivity , Class<?> typeOfNextActivity, FacebookWebservice currentWebService){
 
@@ -645,7 +637,9 @@ public class FacebookWebservice {
 	 * catch needed for handling exceptions
 	 * 
 	 * @param s
-	 * 	Semaphore that will trying acquiring a permit
+	 * 		Semaphore that will trying acquiring a permit
+	 * @author 
+	 * 		Passant El.Agroudy (passant.elagroudy@gmail.com)
 	 */
 	private void blockThreadUntilAllOffersAreProcessed(Semaphore s){
 		try {
@@ -694,6 +688,8 @@ public class FacebookWebservice {
 	 * 				to be accessible on receiving a response</li>
 	 * 				<li><code>False</code>: leave state variable null</li>
 	 * 			</ul> 
+	 * @author 
+	 * 		Passant El.Agroudy (passant.elagroudy@gmail.com)
 	 */
 	private void requestOfferFilteringByRelationBetweenAppUserAnd(
 			Hashtable<String, OfferDisplay> offersFromUsers, 
@@ -734,6 +730,8 @@ public class FacebookWebservice {
 	 * @return
 	 * 		data object. If not found (no data was transfered) or 
 	 * 		in case of exceptions, it will return null
+	 * @author 
+	 * 		Passant El.Agroudy (passant.elagroudy@gmail.com)
 	 */
 	private JSONObject extractDataJsonObject(JSONObject receviedResponse){
 		
