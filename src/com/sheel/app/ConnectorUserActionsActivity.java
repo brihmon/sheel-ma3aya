@@ -13,7 +13,8 @@ import com.sheel.webservices.FacebookWebservice;
  * registering
  * 
  * @author 
- * 		Nada Emad<br>
+ * 		Nada Emad
+ * @author
  * 		Passant El.Agroudy (passant.elagroudy@gmail.com)
  * 
  */
@@ -32,7 +33,8 @@ public class ConnectorUserActionsActivity extends UserSessionStateMaintainingAct
 	 *  Called when the activity is first created. 
 	 *  
 	 *  @author 
-	 *  	Passant El.Agroudy (passant.elagroudy@gmail.com)<br>
+	 *  	Passant El.Agroudy (passant.elagroudy@gmail.com)
+	 *  @author
 	 *  	Hossam Amer
 	 * */
 	@Override
@@ -43,22 +45,10 @@ public class ConnectorUserActionsActivity extends UserSessionStateMaintainingAct
 		if (getFacebookService() == null){
 			Log.e(TAG_CLASS_PACKAGE,"onCreate: facebookservice is not initialized");			
 			setFacebookService(new FacebookWebservice());
-			getFacebookService().login(this, true, false);
-			Log.e(TAG_CLASS_PACKAGE,"Login was successful and waited for all info to be retrieved");
+			//getFacebookService().login(this, true, false);
+			getFacebookService().login(this, false, false);
 		}// end if : previous activity was welcome(login)
 
-		Log.e(TAG_CLASS_PACKAGE,"Login was successful and waited for all info to be retrieved");
-
-		if (getFacebookService() != null){
-			Log.e(TAG_CLASS_PACKAGE,"onCreate: facebookservice is initialized " + 
-		"(FbId="+getFacebookService().getFacebookUser().getUserId() + 
-		", accessToken= "+ getFacebookService().getUserAccessToken() + 
-		" , expiry= " + getFacebookService().getUserAccessTokenExpiryTime()+
-		" fbUserDataFilled: " + getFacebookService().getFacebookUser().isRequestedBeforeSuccessfully()+")");
-		}// end if : tracing: service is initialized correctly or not 
-		else{
-			Log.e(TAG_CLASS_PACKAGE,"onCreate: facebookservice is still not initialized");
-		}// end else: tracing : service is not initialized correctly
 		Bundle extras = getIntent().getExtras(); 
 		if (extras != null) LoggedID = extras.getString(LOGGED_ID_KEY);
 		
