@@ -305,22 +305,22 @@ public class FacebookUser {
 	public String toString(){
 		String result="";
 		
-		result += "Name: ("+this.firstName+")("+this.middleName+")("+this.lastName+")\n";
+		result += "[Name: ("+this.firstName+")("+this.middleName+")("+this.lastName+") , ";
 		result += "Gender: ";
 		if (this.isFemale)
 			result += "female";
 		else
 			result += "male";
 		
-		result += "\n";
+		result += " , ";
 		
-		result += "Email: " + this.email + "\n";
+		result += "Email: " + this.email + " , ";
 		
-		result += "Trust worthy ?: " + this.isVerified + "\n";
+		result += "Trust worthy ?: " + this.isVerified + " , ";
 		
-		result += "User ID: " + this.userId ;
+		result += "User ID: " + this.userId + " , ";
 		
-		result += "User was initialized? " + this.dataIsRetrieved+ "\n\n";
+		result += "User was initialized? " + this.dataIsRetrieved+ "]";
 		
 		return result;
 	}// end toString
