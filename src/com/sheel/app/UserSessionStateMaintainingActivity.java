@@ -5,9 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.facebook.android.Facebook;
 import com.sheel.datastructures.FacebookUser;
-import com.sheel.datastructures.Session;
 import com.sheel.datastructures.enums.SharedValuesBetweenActivities;
 import com.sheel.webservices.FacebookWebservice;
 

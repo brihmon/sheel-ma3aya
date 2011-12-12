@@ -1,21 +1,11 @@
 package com.sheel.app;
 
 import java.io.ByteArrayOutputStream;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import com.google.gson.Gson;
-import com.sheel.datastructures.Session;
-import com.sheel.datastructures.User;
-
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -33,8 +23,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.Toast;
-import android.widget.ToggleButton;
-import com.sheel.datastructures.Session;
+
 import com.sheel.webservices.FacebookWebservice;
 
 /**
@@ -451,7 +440,8 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 
 	public void OnClick_register(View v) {
 		GetUserFacebookID();
-		faceBookID = Session.facebookUserId;
+		//faceBookID = Session.facebookUserId;
+		faceBookID = getFacebookService().getFacebookUser().getUserId();
 		String countryCode = countryCodes.getText().toString();
 
 		mobileNumber = (mobileNumberField.getText().toString());

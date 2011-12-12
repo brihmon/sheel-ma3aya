@@ -15,19 +15,17 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 
 import com.facebook.android.AsyncFacebookRunner;
+import com.facebook.android.AsyncFacebookRunner.RequestListener;
 import com.facebook.android.DialogError;
 import com.facebook.android.Facebook;
-import com.facebook.android.FacebookError;
-import com.facebook.android.AsyncFacebookRunner.RequestListener;
 import com.facebook.android.Facebook.DialogListener;
+import com.facebook.android.FacebookError;
 import com.sheel.datastructures.FacebookUser;
 import com.sheel.datastructures.OfferDisplay;
-import com.sheel.datastructures.Session;
 import com.sheel.datastructures.enums.OwnerFacebookStatus;
 import com.sheel.datastructures.enums.SharedValuesBetweenActivities;
 import com.sheel.listeners.AppDialogListener;
@@ -201,10 +199,7 @@ public class FacebookWebservice {
 			@Override
 			public void onComplete(Bundle values) {
 				Log.e(TAG_CLASS_PACKAGE,"login: onComplete: Login successful " );
-				
-				Session.saveFaceookParameters(facebook.getAccessToken(), facebook.getAccessExpires());
-				
-				Log.e(TAG_CLASS_PACKAGE,"login: onComplete: session information (access token = " + Session.facebookAccessToken + "  , expiry = " + Session.facebookAccessTokenExpiry);
+			
 				if (getUserInfo){
 					Log.e(TAG_CLASS_PACKAGE, "login: onComplete: getUserInformation for app");
 					getUserInformation(isInfoForApp);					
@@ -252,7 +247,6 @@ public class FacebookWebservice {
 	 *		Passant El.Agroudy (passant.elagroudy@gmail.com)
 	 */
 	public void logout(Context c){
-		Session.resetSession();
 		asyncFacebookRunner.logout(c,new AppRequestListener());
 	}// end logout
 	
@@ -320,9 +314,6 @@ public class FacebookWebservice {
 				Log.e(TAG_CLASS_PACKAGE,"getUserInformation: onComplete: LoggedIn user response=" + response);
 				fbUser = new FacebookUser(response,true);
 				Log.e(TAG_CLASS_PACKAGE,"getUserInformation: onComplete: LoggedIn user=" + fbUser);
-				Session.facebookUserId = fbUser.getUserId();
-				Log.e(TAG_CLASS_PACKAGE,"getUserInformation: onComplete: session info updated: " + Session.showSessionInformation());
-				Session.user = fbUser;
 				dataIsReceived.release();
 			}// end onComplete
 			
