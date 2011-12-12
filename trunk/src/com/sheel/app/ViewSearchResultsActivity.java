@@ -348,6 +348,9 @@ public class ViewSearchResultsActivity extends UserSessionStateMaintainingActivi
 	 * 				<li>the <code>value</code> is object representing offer 
 	 * 				and user details needed to display a search result</li>
 	 * 			</ul> 
+	 * 		<b>IMPORTANT: the minimum number of allowed elements in the list is 1,
+	 * 		i.e. the list must be checked that it is not empty before calling the 
+	 * 		method</b>
      * @param maximumOwnerFacebookStatus
      * 		represents depth of search needed. Each level includes also its previous 
      * 		more filtered levels. Available levels are ordered from most filtered level
@@ -491,13 +494,13 @@ public class ViewSearchResultsActivity extends UserSessionStateMaintainingActivi
                    
                                     	 }// end for
                                     
-                                    if(facebookStatus.equals(OwnerFacebookStatus.UNRELATED.name()))
+                                    if(facebookStatus.equals(OwnerFacebookStatus.UNRELATED.name())) {
                                     	updateSearchResultsList(list, false);
-                                    	
-                                    else	
+                                    }// end if: no facebook search enabled -> display offers
+                                    else if (offersFromUsers.size() > 0) {	
                                     	searchUsingFacebook(offersFromUsers, facebook);
 										
-                                    	 
+                                    }// end else: offers list is not empty & facebook search required -> do	 
 									} catch (JSONException e) {
 										
 										e.printStackTrace();
