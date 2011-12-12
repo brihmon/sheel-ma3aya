@@ -209,22 +209,27 @@ public class FacebookWebservice {
 		 * Inner class for listening to different 
 		 * events relevant to login process dialog
 		 * 
-		 * @author passant
+		 * @author 
+		 * 		Passant El.Agroudy (passant.elagroudy@gmail.com)
 		 *
 		 */
 		class LoginListener extends AppDialogListener{
 					
 			@Override
 			public void onComplete(Bundle values) {
-				Log.e(TAG_CLASS_PACKAGE,"login2: onComplete: Login successful " );
+				Log.e(TAG_CLASS_PACKAGE,"login: onComplete: Login successful " );
 				
 				Session.saveFaceookParameters(facebook.getAccessToken(), facebook.getAccessExpires());
 				
-				Log.e(TAG_CLASS_PACKAGE,"login2: onComplete: session information (access token = " + Session.facebookAccessToken + "  , expiry = " + Session.facebookAccessTokenExpiry);
+				Log.e(TAG_CLASS_PACKAGE,"login: onComplete: session information (access token = " + Session.facebookAccessToken + "  , expiry = " + Session.facebookAccessTokenExpiry);
 				if (getUserInfo){
-					Log.e("passant: ", "getUserInformation");
+					Log.e(TAG_CLASS_PACKAGE, "login: onComplete: getUserInformation for app");
 					getUserInformation(isInfoForApp);					
-				}// end if : 1st time to log in -> get user data
+				}// end if : 1st time to log in -> get user data relevant for app
+				else {
+					Log.e(TAG_CLASS_PACKAGE, "login: onComplete: getUserId");
+					requestUserFacebookId();
+				}// end else: get User facebook ID to be saved in session
 				
 			}// end onComplete	
 		
@@ -232,7 +237,7 @@ public class FacebookWebservice {
 		
 		if (!facebook.isSessionValid()){
 			
-			Log.e(TAG_CLASS_PACKAGE,"Login2: session expired");
+			Log.e(TAG_CLASS_PACKAGE,"Login: session expired");
 			
 			//String[] permissions = new String[]{"email","user_about_me"};
 			String[] permissions = new String[]{"email"};
@@ -257,8 +262,12 @@ public class FacebookWebservice {
 	 * 
 	 * @param c
 	 * 		application context
+	 * 
+	 * @author 
+	 *		Passant El.Agroudy (passant.elagroudy@gmail.com)
 	 */
 	public void logout(Context c){
+		Session.resetSession();
 		asyncFacebookRunner.logout(c,new AppRequestListener());
 	}// end logout
 	
@@ -276,8 +285,57 @@ public class FacebookWebservice {
 	 * 			<li><code>false</code>: retrieve all public information 
 	 * 			of the user</li>
 	 * 		</ul>	
+	 * 
+	 * @author 
+	 *		Passant El.Agroudy (passant.elagroudy@gmail.com)
 	 */
 	public void getUserInformation(boolean isForApp){
+			
+		if (facebook.isSessionValid()){
+			String fields="";
+			
+			if (isForApp){
+				fields="?fields=id,first_name,middle_name,last_name,gender,verified,email&";
+			}// end if: get only needed parameters for the app
+			
+			getUserInformation(fields);
+	
+		}// end if : get information if session is valid
+		
+	}// end getUserInformationForApp
+	
+	/**
+	 * Requests the facebook user ID and saves it in the session
+	 *  
+	 * @author 
+	 *		Passant El.Agroudy (passant.elagroudy@gmail.com)
+	 */
+	public void requestUserFacebookId() {
+		if (facebook.isSessionValid()) {
+			getUserInformation("?fields=id&");
+		}// end if : check that the session is still valid
+	}// end getUserId
+	
+	/**
+	 * Used to retrieve user basic information. User must be signed in
+	 * and having active access_token for the method to perform properly.
+	 * The information is loaded and can be retrieved using
+	 * {@link FacebookWebservice#getFacebookUser()}
+	 * 
+	 * 
+	 * @param fields
+	 * 		requested fields from the facebook API. For more information
+	 * 		on available parameters, see 
+	 * 		{@linkplain http://developers.facebook.com/tools/explorer/?method=GET&path=me}
+	 * 		You should always include <code>id</code> in the fields if you specify any.
+	 * 		The format needed is: ?fields=NEEDED_FIELD1,NEEDED_FIELD2& 
+	 * 		(Example: <code>?fields=id&</code> to get ID of user)
+	 * 		If you enter "", it will get all available information about user.
+	 *
+	 *@author 
+	 *		Passant El.Agroudy (passant.elagroudy@gmail.com)
+	 */
+	public void getUserInformation(String fields){
 		
 		class BasicInfoListener extends AppRequestListener{
 			
@@ -299,12 +357,8 @@ public class FacebookWebservice {
 		}// end class
 		
 		if (facebook.isSessionValid()){
-			String fields="";
-			
-			if (isForApp){
-				fields="?fields=id,first_name,middle_name,last_name,gender,verified,email&";
-			}// end if: get only needed parameters for the app
-			
+		
+			Log.e(TAG_CLASS_PACKAGE,"getUserInformation: Requested fields: " + fields);
 			BasicInfoListener listener = new BasicInfoListener();
 			asyncFacebookRunner.request("me"+fields, listener);
 			blockThreadUntilAllOffersAreProcessed(listener.getSemaphore());
@@ -312,6 +366,9 @@ public class FacebookWebservice {
 		
 	}// end getUserInformationForApp
 		
+	
+	
+	
 	/**
 	 * This method is filter offers coming from user's friends from a more
 	 * generic set of offers. This method will issue (N) HTTP requests for checking
