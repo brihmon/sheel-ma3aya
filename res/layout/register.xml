@@ -1,83 +1,232 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="fill_parent" android:layout_height="fill_parent"
-	android:background="#004D79" android:orientation="vertical">
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:stretchColumns="2" >
+
+    <TableRow >
+
+        <!-- Mobile Code -->
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="8dip"
+            android:text="Mobile Code* " >
+        </TextView>
+
+        <AutoCompleteTextView
+            android:id="@+id/auto"
+            android:layout_width="fill_parent"
+            android:layout_height="35dp"
+            android:singleLine="true"
+             >
+        </AutoCompleteTextView>
+    </TableRow>
+
+    <!-- Mobile Number -->
+
+    <TableRow >
+
+        <TextView
+            android:id="@+id/TextView01"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="8dip"
+            android:text="Mobile Number* " >
+        </TextView>
+
+        <EditText
+            android:id="@+id/mobileNumber"
+            android:inputType="number"
+            android:layout_width="100dp"
+            android:layout_height="35dp" >
+        </EditText>
+    </TableRow>
+
+    <!-- Email 
+
+    <TableRow >
+
+        <TextView
+            android:id="@+id/textView8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="8dip"
+            android:text="Email* " >
+        </TextView>
+
+        <EditText
+            android:id="@+id/email"
+            android:layout_width="fill_parent"
+            android:layout_height="35dp"
+            android:layout_column="1" >
+        </EditText>
+    </TableRow>
+
+   
+
+    <TableRow >
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="8dip"
+            android:text="First Name* " >
+        </TextView>
+
+        <EditText
+            android:id="@+id/FirstName"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp" >
+        </EditText>
+    </TableRow>
+ 
+
+    <TableRow >
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="8dip"
+            android:text="Middle Name " >
+        </TextView>
+
+        <EditText
+            android:id="@+id/MiddleName"
+            android:layout_width="fill_parent"
+            android:layout_height="35dp" >
+        </EditText>
+    </TableRow>
+
+    <TableRow >
+
+        <TextView
+            android:id="@+id/textView9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:padding="8dip"
+            android:text="Last Name* " >
+        </TextView>
+
+        <EditText
+            android:id="@+id/LastName"
+            android:layout_width="fill_parent"
+            android:layout_height="35dp" >
+        </EditText>
 
 
+    </TableRow>
 
+    <TableRow >
 
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="8dip"
+            android:text="Gender " >
+        </TextView>
 
-	<TextView android:text="Mobile Code* " android:layout_width="wrap_content"
-		android:layout_height="wrap_content" android:padding="8dip"
-		android:id="@+id/textView1"></TextView>
-	<EditText android:layout_width="fill_parent" android:id="@+id/passNum"
-		android:layout_above="@+id/takePhoto" android:layout_alignParentRight="true"
-		android:layout_alignLeft="@+id/autoNationality" android:layout_height="35dp"></EditText>
-	<Button android:id="@+id/register" android:onClick="OnClick_register"
-		android:layout_width="wrap_content" android:text="Register"
-		android:layout_alignParentBottom="true"
-		android:layout_alignParentLeft="true" android:layout_alignParentRight="true"
-		android:layout_height="40dp"></Button>
-	<TextView android:text="Passport Photo* "
-		android:layout_height="wrap_content" android:padding="8dip"
-		android:layout_width="wrap_content" android:layout_above="@+id/register"
-		android:layout_alignParentLeft="true" android:id="@+id/textView7"></TextView>
-	<ImageView android:layout_width="wrap_content"
-		android:layout_height="wrap_content" android:id="@+id/pictureView"
-		android:src="@drawable/android_icon" android:layout_alignBottom="@+id/takePhoto"
-		android:layout_toRightOf="@+id/toggleMale" android:layout_alignRight="@+id/toggleFemale"></ImageView>
-	<ImageButton android:id="@+id/takePhoto" android:src="@drawable/camera_icon"
-		android:layout_width="70dp" android:onClick="onClick_takePhoto"
-		android:layout_height="35dp" android:layout_alignTop="@+id/textView7"
-		android:layout_toRightOf="@+id/textView7"></ImageButton>
-		
-		<RadioButton android:drawableBottom="@drawable/gender_female" android:id="@+id/toggleFemale" android:onClick="onClick_female" android:layout_width="wrap_content" android:layout_alignBaseline="@+id/toggleMale" android:layout_alignBottom="@+id/toggleMale" android:layout_toRightOf="@+id/toggleMale" android:layout_marginLeft="41dp" android:layout_height="35dp"></RadioButton>
-	<RadioButton 
-		android:id="@+id/toggleMale"
-		android:layout_width="wrap_content" android:onClick="onClick_male" android:drawableBottom="@drawable/gender_male"
-		android:layout_alignTop="@+id/textView3" android:layout_alignRight="@+id/takePhoto" android:layout_height="35dp"></RadioButton>
-	
-	<TextView android:id="@+id/textView2" android:text="Passport Number* "
-		android:layout_height="wrap_content" android:padding="8dip"
-		android:layout_width="wrap_content" android:layout_above="@+id/passNum"
-		android:layout_alignParentLeft="true"></TextView>
-	<TextView android:id="@+id/textView5" android:text="Nationality "
-		android:layout_height="wrap_content" android:padding="8dip"
-		android:layout_width="wrap_content" android:layout_above="@+id/autoNationality"
-		android:layout_alignRight="@+id/textView9"></TextView>
-	<AutoCompleteTextView android:id="@+id/autoNationality"
-		android:layout_height="35dp" android:singleLine="true"
-		android:layout_width="fill_parent" android:layout_above="@+id/textView2"
-		android:layout_alignParentLeft="true"></AutoCompleteTextView>
-	<TextView android:id="@+id/textView3" android:text="Gender "
-		android:layout_height="wrap_content" android:padding="8dip"
-		android:layout_width="wrap_content" android:layout_above="@+id/textView5"
-		android:layout_alignLeft="@+id/textView5"></TextView>
-	<EditText android:layout_height="35dp" android:layout_width="fill_parent"
-		android:id="@+id/email" android:layout_above="@+id/toggleMale"
-		android:layout_alignParentRight="true" android:layout_alignParentLeft="true">
-		<requestFocus></requestFocus>
-	</EditText>
-	<EditText android:layout_height="35dp" android:layout_width="fill_parent"
-		android:id="@+id/MiddleName" android:layout_above="@+id/LastName"
-		android:layout_alignParentRight="true" android:layout_toRightOf="@+id/textView4"></EditText>
-	<AutoCompleteTextView android:id="@+id/auto"
-		android:layout_height="35dp" android:singleLine="true"
-		android:layout_width="fill_parent" android:layout_alignParentTop="true" android:layout_alignLeft="@+id/MiddleName"></AutoCompleteTextView>
-	<EditText android:layout_width="wrap_content"
-		android:layout_above="@+id/MiddleName"
-		android:layout_alignParentRight="true" android:layout_alignLeft="@+id/mobileNumber"
-		android:layout_height="35dp" android:id="@+id/FirstName"></EditText>
-	<TextView android:id="@+id/textView8" android:text="Email* "
-		android:layout_height="wrap_content" android:padding="8dip"
-		android:layout_width="wrap_content" android:layout_above="@+id/email"
-		android:layout_alignLeft="@+id/textView4"></TextView>
-	<TextView android:id="@+id/textView6" android:text="First Name* " android:layout_height="wrap_content" android:padding="8dip" android:layout_width="wrap_content" android:layout_above="@+id/textView4" android:layout_alignParentLeft="true"></TextView>
-	<TextView android:id="@+id/textView9" android:text="Last Name* " android:layout_height="wrap_content" android:padding="8dip" android:layout_width="wrap_content" android:layout_alignBottom="@+id/textView8" android:layout_alignLeft="@+id/textView8" android:layout_marginBottom="16dp"></TextView>
-	<EditText android:layout_height="35dp" android:layout_width="fill_parent" android:id="@+id/LastName" android:layout_alignBaseline="@+id/textView9" android:layout_alignBottom="@+id/textView9" android:layout_alignParentRight="true" android:layout_alignLeft="@+id/MiddleName"></EditText>
-	<TextView android:id="@+id/textView4" android:text="Middle Name " android:layout_height="wrap_content" android:padding="8dip" android:layout_width="wrap_content" android:layout_above="@+id/textView9" android:layout_alignRight="@+id/textView1"></TextView>
-	<TextView android:id="@+id/TextView01" android:text="Mobile Number* " android:layout_height="wrap_content" android:padding="8dip" android:layout_width="wrap_content" android:layout_alignBaseline="@+id/mobileNumber" android:layout_alignBottom="@+id/mobileNumber" android:layout_alignParentLeft="true"></TextView>
-	<EditText android:layout_height="35dp" android:layout_width="100dp" android:id="@+id/mobileNumber" android:layout_below="@+id/auto" android:layout_alignParentRight="true" android:layout_alignLeft="@+id/auto"></EditText>
-	
+        <RadioButton
+            android:id="@+id/toggleMale"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:drawableBottom="@drawable/gender_male"
+            android:onClick="onClick_male" >
+        </RadioButton>
 
+        <RadioButton
+            android:id="@+id/toggleFemale"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_column="2"
+            android:drawableBottom="@drawable/gender_female"
+            android:onClick="onClick_female" />
+    </TableRow>
+    -->
+    
+    <!-- Nationality -->
 
-</RelativeLayout>
+    <TableRow >
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="8dip"
+            android:text="Nationality " >
+        </TextView>
+
+        <AutoCompleteTextView
+            android:id="@+id/autoNationality"
+            android:layout_width="fill_parent"
+            android:layout_height="35dp"
+            android:singleLine="true" >
+        </AutoCompleteTextView>
+    </TableRow>
+
+    <!-- Passport Number -->
+
+    <TableRow >
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="8dip"
+            android:text="Passport Number* " >
+        </TextView>
+
+        <EditText
+            android:id="@+id/passNum"
+            android:layout_width="fill_parent"
+            android:layout_height="35dp" >
+        </EditText>
+    </TableRow>
+
+    <!-- Passport Photo -->
+
+    <TableRow >
+
+        <TextView
+            android:id="@+id/textView7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="8dip"
+            android:text="Passport Photo* " >
+        </TextView>
+
+        <ImageButton
+            android:id="@+id/takePhoto"
+            android:layout_width="70dp"
+            android:layout_height="35dp"
+            android:onClick="onClick_takePhoto"
+            android:src="@drawable/camera_icon" >
+        </ImageButton>
+
+        <ImageView
+            android:id="@+id/pictureView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/android_icon" >
+        </ImageView>
+    </TableRow>
+    <!-- Register Button -->
+
+    <TableRow >
+
+        <Button
+            android:id="@+id/register"
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:onClick="OnClick_register"
+            android:text="Register">
+        </Button>
+    </TableRow>
+
+</TableLayout>
