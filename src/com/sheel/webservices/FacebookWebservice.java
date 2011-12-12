@@ -361,6 +361,9 @@ public class FacebookWebservice {
 	 * 				<li>the <code>key</code> is Facebook ID of requested offer owner</li>
 	 * 				<li>the <code>value</code> is object representing offer</li>
 	 * 			</ul> 
+	 * 		<b>IMPORTANT: the minimum number of allowed elements in the list is 1,
+	 * 		i.e. the list must be checked that it is not empty before calling the 
+	 * 		method</b>
 	 * @return
 	 * 		Hashtable of search results having owners who are friends with app
 	 * 		user. If no owners who are friends were found, list is returned
@@ -463,7 +466,10 @@ public class FacebookWebservice {
 	 * 				<li>the <code>key</code> is Facebook ID of offer owner</li>
 	 * 				<li>the <code>value</code> is object representing offer 
 	 * 				and user details needed to display a search result</li>
-	 * 			</ul> 
+	 * 			</ul>
+	 * 		<b>IMPORTANT: the minimum number of allowed elements in the list is 1,
+	 * 		i.e. the list must be checked that it is not empty before calling the 
+	 * 		method</b>
 	 * @return
 	 * 		Hashtable of search results having owners with common friends with app
 	 * 		user. If no owners with mutual friends were found, list is returned
