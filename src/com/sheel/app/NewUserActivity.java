@@ -24,6 +24,7 @@ import android.widget.RadioButton;
 import android.widget.Toast;
 import android.widget.AutoCompleteTextView.Validator;
 
+import com.sheel.datastructures.Session;
 import com.sheel.webservices.FacebookWebservice;
 
 /**
@@ -127,7 +128,7 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 		setContentView(R.layout.register);
 
 		setFacebookService(new FacebookWebservice());
-		getFacebookService().login(this, false, false);
+		getFacebookService().login(this, true, false);
 		// call the setVariables
 		setVariables();
 
@@ -411,8 +412,8 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 	}
 
 	public void OnClick_register(View v) {
-		faceBookID = GetUserFacebookID();
-
+		//faceBookID = GetUserFacebookID();
+		faceBookID = Session.facebookUserId;
 		String countryCode = countryCodes.getText().toString();
 
 		mobileNumber = (mobileNumberField.getText().toString());
