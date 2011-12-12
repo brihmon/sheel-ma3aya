@@ -28,6 +28,10 @@ public class Session {
 	 */
 	public static long facebookAccessTokenExpiry ;
 	
+	
+	
+	public static FacebookUser user=null;
+	
 	/**
 	 * Used to set all the parameters relevant to facebook in one step
 	 * 
