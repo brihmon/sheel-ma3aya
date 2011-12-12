@@ -27,6 +27,7 @@ import com.facebook.android.AsyncFacebookRunner.RequestListener;
 import com.facebook.android.Facebook.DialogListener;
 import com.sheel.datastructures.FacebookUser;
 import com.sheel.datastructures.OfferDisplay;
+import com.sheel.datastructures.Session;
 import com.sheel.datastructures.enums.OwnerFacebookStatus;
 import com.sheel.datastructures.enums.SharedValuesBetweenActivities;
 import com.sheel.listeners.AppDialogListener;
@@ -217,6 +218,9 @@ public class FacebookWebservice {
 			public void onComplete(Bundle values) {
 				Log.e(TAG_CLASS_PACKAGE,"login2: onComplete: Login successful " );
 				
+				Session.saveFaceookParameters(facebook.getAccessToken(), facebook.getAccessExpires());
+				
+				Log.e(TAG_CLASS_PACKAGE,"login2: onComplete: session information (access token = " + Session.facebookAccessToken + "  , expiry = " + Session.facebookAccessTokenExpiry);
 				if (getUserInfo){
 					Log.e("passant: ", "getUserInformation");
 					getUserInformation(isInfoForApp);					
@@ -284,6 +288,8 @@ public class FacebookWebservice {
 				Log.e(TAG_CLASS_PACKAGE,"getUserInformation: onComplete: LoggedIn user response=" + response);
 				fbUser = new FacebookUser(response,true);
 				Log.e(TAG_CLASS_PACKAGE,"getUserInformation: onComplete: LoggedIn user=" + fbUser);
+				Session.facebookUserId = fbUser.getUserId();
+				Log.e(TAG_CLASS_PACKAGE,"getUserInformation: onComplete: session info updated: " + Session.showSessionInformation());
 				dataIsReceived.release();
 			}// end onComplete
 			
