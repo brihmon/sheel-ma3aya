@@ -23,7 +23,11 @@ import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
 import com.sheel.adapters.SearchResultsListAdapter;
+import com.sheel.datastructures.Flight;
+import com.sheel.datastructures.Offer;
 import com.sheel.datastructures.OfferDisplay;
+import com.sheel.datastructures.OfferDisplay2;
+import com.sheel.datastructures.User;
 import com.sheel.datastructures.enums.OfferWeightStatus;
 import com.sheel.datastructures.enums.OwnerFacebookStatus;
 import com.sheel.webservices.FacebookWebservice;
@@ -470,9 +474,11 @@ public class ViewSearchResultsActivity extends UserSessionStateMaintainingActivi
                                     	 
                                     	JSONArray jsonArray = new JSONArray(builder.toString());
                                     	
-                                    	ArrayList<OfferDisplay> list = new ArrayList<OfferDisplay>();
-                                    	Hashtable<String,OfferDisplay> offersFromUsers = new Hashtable<String,OfferDisplay>();
-                                    	OfferDisplay offerDisplay;
+                                    	
+                                    	ArrayList<OfferDisplay2> list = new ArrayList<OfferDisplay2>();
+                                    	Hashtable<String,OfferDisplay2> offersFromUsers = new Hashtable<String,OfferDisplay2>();
+                                    	OfferDisplay2 offerDisplay;
+                                    
                                     	
                                     	JSONObject offer;
                                     	
@@ -494,13 +500,16 @@ public class ViewSearchResultsActivity extends UserSessionStateMaintainingActivi
                    
                                     	 }// end for
                                     
-                                    if(facebookStatus.equals(OwnerFacebookStatus.UNRELATED.name())) {
+                                    	 //	TO DO: REMOVE COMMENTS AFTER UPDATING -------- PASSANT
+                               /*    if(facebookStatus.equals(OwnerFacebookStatus.UNRELATED.name())) {
                                     	updateSearchResultsList(list, false);
+
                                     }// end if: no facebook search enabled -> display offers
                                     else if (offersFromUsers.size() > 0) {	
                                     	searchUsingFacebook(offersFromUsers, facebook);
-										
+	
                                     }// end else: offers list is not empty & facebook search required -> do	 
+                               */
 									} catch (JSONException e) {
 										
 										e.printStackTrace();
@@ -514,50 +523,40 @@ public class ViewSearchResultsActivity extends UserSessionStateMaintainingActivi
 			sc.runHttpRequest(request); 	
 	}
     
-    public OfferDisplay mapOffer(JSONObject offer){
+    public OfferDisplay2 mapOffer(JSONObject offerJSON){
     	
     	try {
-			JSONObject user = offer.getJSONObject("user");
-			JSONObject flight = offer.getJSONObject("flight");
+			JSONObject userJSON = offerJSON.getJSONObject("user");
+			JSONObject flightJSON = offerJSON.getJSONObject("flight");
+						
+			String ownerId = userJSON.getString("facebookAccount");
+			String firstName = userJSON.getString("firstName");
+			String middleName = userJSON.getString("middleName");
+			String lastName = userJSON.getString("lastName");
+			String email = userJSON.getString("email");
+			String mobile = userJSON.getString("mobileNumber");
+			String gender = userJSON.getString("gender");
+			String nationality = userJSON.getString("nationality");
 			
-			String ownerId = user.getString("facebookAccount");
-			String offerId = offer.getLong("id") + "";
-			String displayName = user.getString("firstName") + " " + user.getString("middleName") 
-														+ " " + user.getString("lastName");
-			String email = user.getString("email");
-			String mobile = user.getString("mobileNumber");
+			User user = new User(ownerId, firstName, middleName, lastName, "", "", email, mobile, gender, nationality);
 			
-			int status = offer.getInt("userStatus");
+			Long offerId = offerJSON.getLong("id");
+			String offerstatus = offerJSON.getString("offerStatus");
+			int userstatus = offerJSON.getInt("userStatus");
+			int kgs = offerJSON.getInt("noOfKilograms");
+			int price = offerJSON.getInt("pricePerKilogram");
 			
-			OfferWeightStatus weightStatus;
+			Offer offer = new Offer(offerId, kgs, price, userstatus, offerstatus);
+			    
+			String flightNumber = flightJSON.getString("flightNumber");
+			String source = flightJSON.getString("source");
+			String destination = flightJSON.getString("destination");
+			String departureDate = flightJSON.getString("departureDate");
 			
-			if(status == 0)
-				weightStatus = OfferWeightStatus.LESS;
-			else
-				weightStatus = OfferWeightStatus.MORE;
+			Flight flight = new Flight(flightNumber, source, destination, departureDate);
+	
 			
-			int kgs = offer.getInt("noOfKilograms");
-			int price = offer.getInt("pricePerKilogram");
-			
-			OwnerFacebookStatus ownerFbStatus = OwnerFacebookStatus.UNRELATED;
-			
-			String gender = user.getString("gender");
-			boolean isFemale = true;
-			
-			if(!gender.equals("female"))
-				isFemale = false;
-			
-			String nationality = user.getString("nationality");
-			
-			String flightNumber = flight.getString("flightNumber");
-			String source = flight.getString("source");
-			String destination = flight.getString("destination");
-			
-			int userStatus = offer.getInt("userStatus");
-			
-			return new OfferDisplay(
-				ownerId, offerId , displayName, email, mobile, weightStatus, kgs , price , ownerFbStatus, 
-				isFemale, nationality, flightNumber, source, destination, userStatus);
+			return new OfferDisplay2(user, flight, offer);
 			
 			
 		} catch (JSONException e) {
