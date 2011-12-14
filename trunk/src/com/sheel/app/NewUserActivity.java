@@ -7,12 +7,14 @@ import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
@@ -21,6 +23,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.AutoCompleteTextView.Validator;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
@@ -46,6 +49,9 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 	private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
 	private Uri fileUri;
 	private static final String TAG = "MyActivity";
+
+     
+     ProgressDialog dialog;
 
 	/** Path string where the taken passport photo is saved */
 	String path;
@@ -240,6 +246,7 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 
 		/* Passport number field */
 		passportNumberField = (EditText) findViewById(R.id.passNum);
+		
 
 	} // end setVariables
 
@@ -280,7 +287,8 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 		*/
 		
 		path =  Environment.getExternalStorageDirectory().getPath() 
-				+ File.separatorChar + "PassportPhoto.jpg";
+				+ File.separatorChar+ "Android/data/"
+						+ NewUserActivity.this.getPackageName() +File.separatorChar+  "PassportPhoto.jpg";
 		System.out.println("Path: " + path.toString());
 		/** The file containing the taken passport photo */
 		File file = new File(path);
@@ -488,7 +496,8 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 
 			System.out.println("After mobile");
 
-			
+			dialog = ProgressDialog.show(NewUserActivity.this, "", "Registering, Please wait..", true, false);
+			dialog.setCancelable(false);
 			SheelMaaayaClient sc = new SheelMaaayaClient() {
 
 				@Override
@@ -499,8 +508,11 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 
 						@Override
 						public void run() {
-							// Toast.makeText(this, "Done in DataBase", //
-							// Toast.LENGTH_LONG).show();
+							if(dialog != null)
+								
+                         		dialog.dismiss();
+							//Toast.makeText(this, "You have confirmed the offer!", Toast.LENGTH_LONG).show();
+							Toast.makeText(NewUserActivity.this, "Successful Registration", Toast.LENGTH_LONG).show();
 							LoggedID = str;
 							System.out.println("Done in DataBase");
 							System.out.println(passportImage.length());
