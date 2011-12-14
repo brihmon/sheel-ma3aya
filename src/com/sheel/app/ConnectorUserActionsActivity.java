@@ -106,7 +106,7 @@ public class ConnectorUserActionsActivity extends UserSessionStateMaintainingAct
 		/* because the session is static, if not set to null, the app
 		 * will never login again until it is closed then re-opened*/
 		setFacebookService(null);
-		startActivity(new Intent(this, ConnectorWelcomePageActivity.class));
+		startActivity(new Intent(this, SheelMaayaaActivity.class));
 	}// end onClick_logOut
 	
 	public void onClick_test(View v){
