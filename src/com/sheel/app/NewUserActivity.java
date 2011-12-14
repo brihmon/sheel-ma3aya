@@ -7,14 +7,17 @@ import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
@@ -23,7 +26,6 @@ import android.widget.AutoCompleteTextView;
 import android.widget.AutoCompleteTextView.Validator;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
@@ -445,8 +447,38 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 
 		System.out.println("FB ID: " + tempID);
 	}
+	
+	public final boolean isInternetOn() {
+		ConnectivityManager connec =  (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+		// ARE WE CONNECTED TO THE NET
+		if ( connec.getNetworkInfo(0).getState() == NetworkInfo.State.CONNECTED ||
+		connec.getNetworkInfo(0).getState() == NetworkInfo.State.CONNECTING ||
+		connec.getNetworkInfo(1).getState() == NetworkInfo.State.CONNECTING ||
+		connec.getNetworkInfo(1).getState() == NetworkInfo.State.CONNECTED ) {
+		// MESSAGE TO SCREEN FOR TESTING (IF REQ)
+			//System.out.println("CONNECTED");
+		//Toast.makeText(this, connectionType + " connected", Toast.LENGTH_SHORT).show();
+		return true;
+		} else if ( connec.getNetworkInfo(0).getState() == NetworkInfo.State.DISCONNECTED ||  connec.getNetworkInfo(1).getState() == NetworkInfo.State.DISCONNECTED  ) {
+		//System.out.println("Not Connected");
+		return false;
+		}
+		return false;
+		}
 
+	public void showAlert(String message){
+		 AlertDialog alertDialog;
+		 alertDialog = new AlertDialog.Builder(this).create();
+		 alertDialog.setTitle("Network Connectivity");
+		 alertDialog.setMessage(message);
+		 alertDialog.show();
+	 }
 	public void OnClick_register(View v) {
+		if(isInternetOn()) {
+			// INTERNET IS AVAILABLE, DO STUFF..
+			System.out.println("CONNECCTIVITY OK");
+			
+		
 		GetUserFacebookID();
 		//faceBookID = Session.facebookUserId;
 		faceBookID = getFacebookService().getFacebookUser().getUserId();
@@ -511,7 +543,7 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 							if(dialog != null)
 								
                          		dialog.dismiss();
-							//Toast.makeText(this, "You have confirmed the offer!", Toast.LENGTH_LONG).show();
+							
 							Toast.makeText(NewUserActivity.this, "Successful Registration", Toast.LENGTH_LONG).show();
 							LoggedID = str;
 							System.out.println("Done in DataBase");
@@ -581,9 +613,15 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 			 * 
 			 * sc2.runHttpRequest(params);
 			 */
-			
+		
 
 		}
+		}
+		else{
+			// NO INTERNET AVAILABLE, DO STUFF..
+				showAlert("Rgistration failed because no network connectivity was detected");
+			}
 	}
+
 
 }
