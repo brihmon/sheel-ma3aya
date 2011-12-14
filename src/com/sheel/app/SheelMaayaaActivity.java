@@ -5,111 +5,71 @@ import com.sheel.webservices.FacebookWebservice;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+/**
+ * Connector activity used as a welcome page for the application
+ * 
+ * @author passant
+ *
+ */
 public class SheelMaayaaActivity extends Activity {
-	
-	// New FB service
-	FacebookWebservice fbService = new FacebookWebservice();
-	
-    /** Called when the activity is first created. */
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.main);
-    	startActivity(new Intent(this, ConnectorWelcomePageActivity.class));
-    }
-    
-    public void onClick_goToSheelMa3aya(View v){
-    	startActivity(new Intent(this, ConnectorWelcomePageActivity.class));
-    }
-    
-    
-    public void onClick_insertoffer(View v){
-		 startActivity(new Intent(this, InsertOfferActivity.class));
-	 }
-    
-	 public void onClick_go (View v) 
-	 {
-		 Toast.makeText(getApplicationContext(), "Displaying contact info", Toast.LENGTH_SHORT).show();
-		 startActivity(new Intent(this, PhoneCommunication.class));
-	}	 
-	 
-	 public void onClick_goToFacebook (View v) 
-	 {
-		 //Toast.makeText(getApplicationContext(), "Displaying contact info", Toast.LENGTH_SHORT).show();
-		 //FacebookWebservice fbService = new FacebookWebservice();
-		 // will automatically login and get the first set of info
-		 Log.e("passant","Login");
-		 //fbService.login(this);
-	}	 
-	 
-	 public void onClick_goToFacebookToLogout (View v) 
-	 {
-		  Log.e("passant","Logout");
-		  fbService.logout(this);
-	 }	 
-	 
-	 public void onClick_doSocialSearch(View v){
-		 ViewSearchResultsActivity act = new ViewSearchResultsActivity();
-		 Log.e("Passant", "start testing search results");
-		 act.test_searchUsingFacebook();
-	 }
-	 
-	 public void onClick_goToSearchResults(View v){
-		 startActivity(new Intent(this, ViewSearchResultsActivity.class));
-	 }
-	 
-	 public void onClick_goHTTP (View v) 
-	 {
-	        SheelMaaayaClient sc = new SheelMaaayaClient() {
-				
-				@Override
-				public void doSomething() {
-					final String str = this.rspStr;
-					 
-								 runOnUiThread(new Runnable()
-	                             {
-	                 //                @Override
-	                                 public void run()
-	                                 {
-	                                     Toast.makeText(SheelMaayaaActivity.this, str, Toast.LENGTH_LONG).show();
-	                                     startActivity(new Intent(SheelMaayaaActivity.this, PhoneCommunication.class));
-	                                 }
-	                             });
 
-				}
-			};
-	        
-	        sc.runHttpRequest("/test");
-	        Toast.makeText(getApplicationContext(), "MainApp" , Toast.LENGTH_SHORT).show();
-		 	
-		 
-	}	 
-	 
-	 public void onClick_view1 (View v) 
-	 {
-		 startActivity(new Intent(this, GetUserInfoActivity.class));
-	 }	
-	 
-	 public void onClick_register (View v) 
-	 {
-
-		   startActivity(new Intent(this, NewUserActivity.class));
+	/**
+	 * It handles all requests to facebook API. Moreover, it has
+	 * all related info to logged in user and session
+	 */
+	private FacebookWebservice fbService = new FacebookWebservice();
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {		
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.connector_welcome_page);		
+	}// end onCreate
+	
+	@Override 
+	protected void onSaveInstanceState(Bundle outState) {
 		
-		 
-		  /* Intent mIntent = new Intent(this, NewUserActivity.class);
-			// Pass variable to detailed view activity using the intent
-			mIntent.putExtra(NewUserActivity.FIRST_NAME_KEY, "NADA");
-			mIntent.putExtra(NewUserActivity.MIDDLE_NAME_KEY, "EMAD");
-			mIntent.putExtra(NewUserActivity.LAST_NAME_KEY, "ADLY");
-			mIntent.putExtra(NewUserActivity.GENDER_KEY, "female");
-			// Start the new activity
-			startActivity(mIntent);
-			*/
-	 
-	 }
+		//out
+	}// end onSaveInstanceState
 	
-}
+	/**
+	 * Called when (register) button is clicked
+	 * @param v
+	 * 		Clicked button
+	 */
+	public void onClick_button_register(View v){
+		Toast.makeText(this, "Hello Register", Toast.LENGTH_SHORT).show();
+		startActivity(new Intent(this, NewUserActivity.class));
+		
+	}// end onClick_button_register
+	
+	/**
+	 * Called when (login) button is clicked
+	 * @param v
+	 * 		Clicked button
+	 */
+	public void onClick_button_login(View v){
+		startActivity(new Intent(this,ConnectorUserActionsActivity.class));
+	}// end onClick_button_login
+	
+	/**
+	 * Returns class responsible for handling all requests to facebook API. 
+	 * Moreover, it has all related info to logged in user and session.
+	 * <br><br>
+	 * Note: 
+	 * <ul>
+	 * 		<li>In case you want details of logged in, use 
+	 * 		{@link FacebookWebservice#getFacebookUser()} method.</li>
+	 *      <li>In case you want details about session, use 
+	 * 		{@link FacebookWebservice#isSessionValid()} method.</li>
+	 * </ul>
+	 * 
+	 * @return
+	 * 		Object used for interacting with facebook
+	 */
+	public FacebookWebservice getFacebookService(){
+		return this.fbService;
+	}// end getFacebookService
+}// end class
