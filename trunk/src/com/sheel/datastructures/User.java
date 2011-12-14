@@ -11,7 +11,6 @@ public class User
 		
 		public Long id;
 
-	 	public String username;
 	    public String firstName;
 	    public String middleName;
 	    public String lastName;
@@ -24,7 +23,7 @@ public class User
 		public String nationality;
 	    
 	    public User(
-	    		String username, 
+	    		String facebookAccount,
 	            String firstName,
 	            String middleName,
 	            String lastName,
@@ -32,10 +31,9 @@ public class User
 	            String passportNumber,
 	            String email,
 	            String mobileNumber,
-	            String facebookAccount,
 	            String gender,
 	            String nationality) {
-	        this.username = username;
+	     
 	        this.firstName = firstName;
 	        this.middleName = middleName;
 	        this.lastName = lastName;
@@ -53,7 +51,7 @@ public class User
 	    public String toString()
 	    {
 	    	return
-	    	"User [id: " + id + ", Username: " + username + 
+	    	"User [id: " + id + 
 	    	", First Name: " + firstName +
 	    	", Middle Name: " + middleName +
 	    	", Last Name: " + lastName +
