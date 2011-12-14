@@ -158,9 +158,9 @@ public class GetUserInfoActivity extends UserSessionStateMaintainingActivity {
 			intent.putExtra("selectedDate", selectedDate);
 			intent.putExtra("searchMethod", searchMethod);
 			
-			Bundle extras = getIntent().getExtras();
-			long userId = extras.getLong("userId");
-			intent.putExtra("userId", userId);
+//			Bundle extras = getIntent().getExtras();
+//			long userId = extras.getLong("userId");
+//			intent.putExtra("userId", userId);
 //			Toast.makeText(getApplicationContext(),"" + userId, Toast.LENGTH_SHORT).show();
 		
 			

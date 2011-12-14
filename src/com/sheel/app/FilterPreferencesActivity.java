@@ -191,9 +191,9 @@ public class FilterPreferencesActivity extends UserSessionStateMaintainingActivi
 		intent.putExtra("request", request);
 		intent.putExtra("facebook", facebook.name());
 		
-		Bundle extras = getIntent().getExtras();
-		long userId = extras.getLong("userId");
-		intent.putExtra("userId", userId);
+//		Bundle extras = getIntent().getExtras();
+//		long userId = extras.getLong("userId");
+//		intent.putExtra("userId", userId);
 //		Toast.makeText(getApplicationContext(),"" + userId, Toast.LENGTH_SHORT).show();
 		
 		startActivity(intent);
