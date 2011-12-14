@@ -91,9 +91,9 @@ public class SearchBySrcDesActivity extends UserSessionStateMaintainingActivity{
 		intent.putExtra("srcAirport", srcAirport);
 		intent.putExtra("desAirport", desAirport);
 		
-		Bundle extras = getIntent().getExtras();
-		long userId = extras.getLong("userId");
-		intent.putExtra("userId", userId);
+//		Bundle extras = getIntent().getExtras();
+//		long userId = extras.getLong("userId");
+//		intent.putExtra("userId", userId);
 //		Toast.makeText(getApplicationContext(),"" + userId, Toast.LENGTH_SHORT).show();
 		
 		startActivity(intent);
@@ -119,9 +119,9 @@ public class SearchBySrcDesActivity extends UserSessionStateMaintainingActivity{
 		intent.putExtra("request", request);
 		intent.putExtra("facebook", OwnerFacebookStatus.UNRELATED.name());
 
-		Bundle extras = getIntent().getExtras();
-		long userId = extras.getLong("userId");
-		intent.putExtra("userId", userId);
+//		Bundle extras = getIntent().getExtras();
+//		long userId = extras.getLong("userId");
+//		intent.putExtra("userId", userId);
 //		Toast.makeText(getApplicationContext(),"" + userId, Toast.LENGTH_SHORT).show();
 		
 		startActivity(intent);
