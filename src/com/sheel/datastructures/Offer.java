@@ -30,6 +30,19 @@ public class Offer
     
     //public String currency; //Will be done next sprint
     
+    public Offer(Long id,int noOfKilograms,
+    		int pricePerKilogram,
+            int userStatus,
+            String offerStatus) 
+    {
+    	this.id = id;
+    	this.noOfKilograms = noOfKilograms;
+        this.pricePerKilogram = pricePerKilogram;
+        this.userStatus = userStatus;
+        this.offerStatus = offerStatus;
+
+    }
+    
     public Offer(int noOfKilograms,
     		int pricePerKilogram,
             int userStatus,
@@ -40,8 +53,8 @@ public class Offer
         this.userStatus = userStatus;
         this.offerStatus = offerStatus;
 
-    } 
-
+    }
+    
     public int getNoOfKilograms() {
         return noOfKilograms;
     }
