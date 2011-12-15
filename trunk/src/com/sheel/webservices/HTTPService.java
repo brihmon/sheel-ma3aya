@@ -18,7 +18,7 @@ public class HTTPService extends Service
 	
 	public void onHandleIntent(Intent intent)
 	{
-		
+	// TODO	Take the intent info and broadcast the results
 		
 	}
 	
