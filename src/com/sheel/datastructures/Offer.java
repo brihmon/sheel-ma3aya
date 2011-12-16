@@ -55,6 +55,17 @@ public class Offer
 
     }
     
+    /**
+     * Constructor used for testing purposes
+     * @param offerId
+     * 		ID of the offer
+     * @author 
+     * 		Passant El.Agroudy (passant.elagroudy@gmail.com)
+     */
+    public Offer (long offerId) {
+    	this.id = offerId;
+    }// end constructor
+    
     public int getNoOfKilograms() {
         return noOfKilograms;
     }
@@ -87,6 +98,16 @@ public class Offer
         this.userStatus = userStatus;
     }
     
+    /**
+     * Offer ID from  the data base
+     * @return
+     * 		Long representing offer ID
+     * @author 
+     *		Passant El.Agroudy (passant.elagroudy@gmail.com)
+     */
+    public long getId() {
+    	return id;
+    }// end getId
 
 	@Override
 	public String toString() {
