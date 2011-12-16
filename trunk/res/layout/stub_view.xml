@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:id="@+id/stub_container"
+    android:descendantFocusability="blocksDescendants">
+	
+    
+    <TextView
+                    android:id="@+id/details_textView_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="N/A"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+    
+    <TextView
+                    android:id="@+id/details_textView_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="N/A"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+    
+     <TextView
+                    android:id="@+id/details_textView_email"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" N/A"
+                  />
+    
+     
+      <LinearLayout
+                android:id="@+id/content_slidingDrawer_buttons"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:orientation="horizontal"
+                android:gravity="center_horizontal" >
+                
+	                <Button
+	                android:id="@+id/details_button_call"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:text="Call" 
+	                android:onClick="onClick"
+	                />
+	                
+	                <Button
+	                android:id="@+id/details_button_sendSms"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:text="SMS"
+	                />
+	                 
+	                <Button
+	                android:id="@+id/details_button_confirm"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:text="Confirm" 
+	                />
+	                
+	                <Button
+	                android:id="@+id/details_button_communicate"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:text="More info"
+	                 />
+                 
+                </LinearLayout>
+   	 <!-- -->             
+
+</LinearLayout>
