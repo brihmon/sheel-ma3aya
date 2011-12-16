@@ -10,6 +10,7 @@ import java.util.regex.Pattern;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -27,6 +28,7 @@ import android.widget.AutoCompleteTextView.Validator;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sheel.webservices.FacebookWebservice;
@@ -466,19 +468,21 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 		return false;
 		}
 
-	public void showAlert(String message){
+	public AlertDialog showAlert(String title, String message){
 		 AlertDialog alertDialog;
 		 alertDialog = new AlertDialog.Builder(this).create();
-		 alertDialog.setTitle("Network Connectivity");
+		 //alertDialog.setButton(, listener)
+		 alertDialog.setTitle(title);
 		 alertDialog.setMessage(message);
-		 alertDialog.show();
+		 //alertDialog.show();
+		 return alertDialog;
 	 }
 	public void OnClick_register(View v) {
 		if(isInternetOn()) {
 			// INTERNET IS AVAILABLE, DO STUFF..
 			System.out.println("CONNECCTIVITY OK");
 			
-		
+		boolean registered = false;
 		GetUserFacebookID();
 		//faceBookID = Session.facebookUserId;
 		faceBookID = getFacebookService().getFacebookUser().getUserId();
@@ -544,15 +548,38 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 								
                          		dialog.dismiss();
 							
-							Toast.makeText(NewUserActivity.this, "Successful Registration", Toast.LENGTH_LONG).show();
-							LoggedID = str;
-							System.out.println("Done in DataBase");
-							System.out.println(passportImage.length());
-							System.out.println("LogID " + LoggedID);
-							Intent statedIntent = setSessionInformationBetweenActivities(ConnectorUserActionsActivity.class);
-							statedIntent.putExtra(ConnectorUserActionsActivity.LOGGED_ID_KEY, LoggedID);
-							startActivity(statedIntent);
-
+							if(str.equals("false")){
+								System.out.println("Not found");
+								runHttpRequest("/insertuser/" + faceBookID + "/" + email + "/"
+										+ firstName + "/" + middleName + "/" + lastName + "/"
+										+ mobileNumber + "/" + nationality + "/" + passportNumber
+										+ "/" + gender + "/" + passportImage);
+								Toast.makeText(NewUserActivity.this, "Successful Registration", Toast.LENGTH_LONG).show();
+								//LoggedID = faceBookID;
+								System.out.println("Done in DataBase");
+								System.out.println(passportImage.length());
+								//System.out.println("LogID " + LoggedID);
+								Intent statedIntent = setSessionInformationBetweenActivities(ConnectorUserActionsActivity.class);
+								statedIntent.putExtra(ConnectorUserActionsActivity.LOGGED_ID_KEY, faceBookID);
+								startActivity(statedIntent);
+							}
+							else if(str.equalsIgnoreCase("true")){
+								AlertDialog a = showAlert("Registration failed","Sorry you are already registered");
+								a.setButton("ok", new android.content.DialogInterface.OnClickListener() {
+									
+									@Override
+									public void onClick(DialogInterface dialog, int which) {
+										Intent statedIntent = setSessionInformationBetweenActivities(ConnectorUserActionsActivity.class);
+										statedIntent.putExtra(ConnectorUserActionsActivity.LOGGED_ID_KEY, faceBookID);
+										startActivity(statedIntent);
+									}
+								});
+								a.show();
+								System.out.println("Already Registered");
+							}
+							
+							
+							
 						}
 					});
 
@@ -560,7 +587,7 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 			};
 			
 			
-
+			sc.runHttpRequest("/checkRegistered/" + faceBookID);
 			
 			passportImage = "PassPortImage";
 
@@ -568,10 +595,7 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 					+ firstName + "/" + middleName + "/" + lastName + "/"
 					+ mobileNumber + "/" + nationality + "/" + passportNumber
 					+ "/" + gender + "/" + passportImage);
-			sc.runHttpRequest("/insertuser/" + faceBookID + "/" + email + "/"
-					+ firstName + "/" + middleName + "/" + lastName + "/"
-					+ mobileNumber + "/" + nationality + "/" + passportNumber
-					+ "/" + gender + "/" + passportImage);
+			
 			
 			//User user = new User("", firstName, middleName, lastName, passportImage, passportNumber, 
 			//		email, mobileNumber, faceBookID, gender, nationality);
@@ -619,7 +643,8 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 		}
 		else{
 			// NO INTERNET AVAILABLE, DO STUFF..
-				showAlert("Rgistration failed because no network connectivity was detected");
+			
+				showAlert("Network connection","Rgistration failed because no network connectivity was detected").show();
 			}
 	}
 
