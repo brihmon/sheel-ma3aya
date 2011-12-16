@@ -10,7 +10,7 @@ import android.os.Message;
 import android.view.View;
 import android.view.ViewStub;
 
-public class MyOffersActivity extends Activity 
+public class MyOffersActivity extends UserSessionStateMaintainingActivity 
 {
 	private static final String TAG = MyOffersActivity.class.getName();
 	private static final String HTTP_GET_MY_OFFERS_FILTER = "HTTP_GET_MY_OFFERS";
