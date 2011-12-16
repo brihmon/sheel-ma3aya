@@ -26,6 +26,7 @@ import com.facebook.android.Facebook.DialogListener;
 import com.facebook.android.FacebookError;
 import com.sheel.datastructures.FacebookUser;
 import com.sheel.datastructures.OfferDisplay;
+import com.sheel.datastructures.OfferDisplay2;
 import com.sheel.datastructures.enums.OwnerFacebookStatus;
 import com.sheel.datastructures.enums.SharedValuesBetweenActivities;
 import com.sheel.listeners.AppDialogListener;
@@ -282,8 +283,7 @@ public class FacebookWebservice {
 		}// end if : get information if session is valid
 		
 	}// end getUserInformationForApp
-	
-	
+		
 	/**
 	 * Used to retrieve user basic information. User must be signed in
 	 * and having active access_token for the method to perform properly.
@@ -346,40 +346,44 @@ public class FacebookWebservice {
 			getUserInformation("?fields=id&");
 		}// end if : check that the session is still valid
 	}// end getUserId
-	
-	
-	
+			
 	/**
-	 * This method is filter offers coming from user's friends from a more
+	 * This method filters offers coming from user's friends from a more
 	 * generic set of offers. This method will issue (N) HTTP requests for checking
 	 * whether owners are friends with user or not. N is the number of owners to
 	 * be checked
 	 * 
 	 * @param offersFromUsers 
 	 * 		Hash table where:
-	 * 			<ul>
-	 * 				<li>the <code>key</code> is Facebook ID of requested offer owner</li>
-	 * 				<li>the <code>value</code> is object representing offer</li>
-	 * 			</ul> 
+	 * 		<ul>
+	 * 			<li>the <code>key</code> is Facebook ID of requested offer owner</li>
+	 * 			<li>the <code>value</code> different offers from this offer owner</li>
+	 * 		</ul> 
 	 * 		<b>IMPORTANT: the minimum number of allowed elements in the list is 1,
 	 * 		i.e. the list must be checked that it is not empty before calling the 
 	 * 		method</b>
 	 * @return
-	 * 		Hashtable of search results having owners who are friends with app
-	 * 		user. If no owners who are friends were found, list is returned
-	 * 		empty. In case of any exceptions (usually about connection), null is returned.
-	 *		Hash table where:
-	 * 			<ul>
-	 * 				<li>the <code>key</code> is Facebook ID of offer owner</li>
-	 * 				<li>the <code>value</code> is object representing offer 
-	 * 				and user details needed to display a search result. By default
-	 * 				it will check its facebook status to
-	 * 				@link {@link OwnerFacebookStatus#FRIEND}</li>
-	 * 			</ul> 
+	 * 		List of 2 items containing all needed information about offers.
+	 * 		<ul>
+	 * 			<li> <code> index= 0 ==> ArrayList of OfferDisplay2</code>:
+	 * 			List of search results having owners who are friends with app
+	 * 			user.  The list is ordered where all offers of the same owner 
+	 * 			are after each other. If no owners who are friends were found, 
+	 * 			list is returned empty. In case of any exceptions (usually about 
+	 * 			connection), null is returned. By default it will check 
+ 	 *			facebook status of returned results to	
+	 *			{@link OwnerFacebookStatus#FRIEND}
+	 *			<li> <code> index= 1 ==> ArrayList of String</code>:
+	 * 			List of filtered offer owners Facebook IDs. This list is a set, 
+	 * 			i.e. has no duplicates 
+	 *			</li>
+	 *		</ul>
+	 *		In case no results were found, an empty list of size 0 is returned
+	 *
 	 * @author 
 	 * 		Passant El.Agroudy (passant.elagroudy@gmail.com)
 	 */
-	public Hashtable<String,OfferDisplay>  filterOffersFromFriends(Hashtable<String,OfferDisplay> offersFromUsers){
+	public ArrayList<ArrayList<?>>  filterOffersFromFriends(Hashtable<String,ArrayList<OfferDisplay2>> offersFromUsers){
 		
 		/**
 		 * Inner class for listening to different actions while requesting
@@ -396,17 +400,20 @@ public class FacebookWebservice {
 			 * 		Hash table where:
 			 * 		<ul>
 			 * 			<li>the <code>key</code> is Facebook ID of requested offer owner</li>
-			 * 			<li>the <code>value</code> is object representing offer</li>
+			 * 			<li>the <code>value</code> different offers from this offer owner</li>
 			 * 		</ul> 
 			 * @param classPackageName
 			 * 		class name (package name) where listener is called. It is used
 			 * 		for tracing purposes in the log messages	
 			 * @param methodName
 			 * 		method name where the listener is used. It is used
-			 * 		for tracing purposes in the log messages	 
+			 * 		for tracing purposes in the log messages	
+			 * 
+			 *  @author 
+			 *  	Passant El.Agroudy (passant.elagroudy@gmail.com)
 			 */
-			public FriendShipStatusCheckListener(Hashtable<String, OfferDisplay> offersFromUsers,
-					String classPackageName, String methodName) {
+			public FriendShipStatusCheckListener( Hashtable<String, ArrayList<OfferDisplay2>> offersFromUsers,
+					String classPackageName,String methodName){
 				super(offersFromUsers, classPackageName, methodName);
 				
 			}// end constructor
@@ -420,8 +427,8 @@ public class FacebookWebservice {
 						// Get owner facebook ID currently checked if a friend or not
 						String ownerId = receivedDataOfFriend.getString("id");
 						// Get the OfferDisplay of that owner and save in result
-						addFilteredOfferDisplay(ownerId,OwnerFacebookStatus.FRIEND);
-						generateLogMessage(": processRequest: New offer from friend added ->ownerID:" + ownerId);
+						addFilteredOfferDisplay(ownerId,OwnerFacebookStatus.FRIEND,null);
+						generateLogMessage(": processRequest: New offers from friend added ->ownerID:" + ownerId);
 					}catch(JSONException e){
 						generateLogMessage("processRequest: Error: could not get id ");
 						e.printStackTrace();
@@ -432,7 +439,7 @@ public class FacebookWebservice {
 		}// end class
 		
 		// Used for tracing purposes
-		String methodName = "filterOffersFromFriends (Hashtable<String,OfferDisplay> offersFromUsers)";
+		String methodName = "filterOffersFromFriends(Hashtable<String,ArrayList<OfferDisplay2>> offersFromUsers)";
 		
 		if (this.facebook.isSessionValid()){
 			// Create new listener for friends of friends status
@@ -446,11 +453,14 @@ public class FacebookWebservice {
 			
 			blockThreadUntilAllOffersAreProcessed(friendshipStatusCheckListener.getSemaphore());
 			
-			return friendshipStatusCheckListener.getFilteredOffers();
+			ArrayList<ArrayList<?>> result = new ArrayList<ArrayList<?>>();
+			result.add(friendshipStatusCheckListener.getFilteredOffers());
+			result.add(friendshipStatusCheckListener.getFilteredOffersOwners());
+			return result;
 		}else{
-			Log.e(TAG_CLASS_PACKAGE,methodName + " : session expired -> no search");
-			return new Hashtable<String, OfferDisplay>();
-		}
+			Log.e(TAG_CLASS_PACKAGE,methodName + " : session expired -> no search -> return empty list");
+			return new ArrayList<ArrayList<?>>();
+		}// end else
 		
 	}// end filterOffersFromOwnersWithMutualFriends
 		
@@ -460,38 +470,44 @@ public class FacebookWebservice {
 	 * will issue (N) HTTP requests for checking whether owners have mutual
 	 * friends with the user or not.  (N) is the number of owners to be checked.
 	 * 
-	 * @param offersFromUsers
+	* @param offersFromUsers 
 	 * 		Hash table where:
-	 * 			<ul>
-	 * 				<li>the <code>key</code> is Facebook ID of offer owner</li>
-	 * 				<li>the <code>value</code> is object representing offer 
-	 * 				and user details needed to display a search result</li>
-	 * 			</ul>
+	 * 		<ul>
+	 * 			<li>the <code>key</code> is Facebook ID of requested offer owner</li>
+	 * 			<li>the <code>value</code> different offers from this offer owner</li>
+	 * 		</ul> 
 	 * 		<b>IMPORTANT: the minimum number of allowed elements in the list is 1,
 	 * 		i.e. the list must be checked that it is not empty before calling the 
 	 * 		method</b>
-	 * @return
-	 * 		Hashtable of search results having owners with common friends with app
-	 * 		user. If no owners with mutual friends were found, list is returned
-	 * 		empty. In case of any exceptions (usually about connection), null is returned.
-	 *		Hash table where:
-	 * 			<ul>
-	 * 				<li>the <code>key</code> is Facebook ID of offer owner</li>
-	 * 				<li>the <code>value</code> is object representing offer 
-	 * 				and user details needed to display a search result. By default
-	 * 				it will check its facebook status to
-	 * 				@link {@link OwnerFacebookStatus#FRIEND_OF_FRIEND}</li>
-	 * 			</ul> 
+	 * @return	 
+	 * 		List of 2 items containing all needed information about offers.
+	 * 		<ul>
+	 * 			<li> <code> index= 0 ==> ArrayList of OfferDisplay2</code>:
+	 * 			List of search results having owners who are friends with app
+	 * 			user.  The list is ordered where all offers of the same owner 
+	 * 			are after each other. If no owners who are friends were found, 
+	 * 			list is returned empty. In case of any exceptions (usually about 
+	 * 			connection), null is returned. By default it will check 
+ 	 *			facebook status of returned results to	
+	 *			{@link OwnerFacebookStatus#FRIEND_OF_FRIEND}
+	 *			<li> <code> index= 1 ==> ArrayList of String</code>:
+	 * 			List of filtered offer owners Facebook IDs. This list is a set, 
+	 * 			i.e. has no duplicates 
+	 *			</li>
+	 *		</ul>
+	 *		In case no results were found, an empty list of size 0 is returned
+	 *
 	 * @author 
 	 * 		Passant El.Agroudy (passant.elagroudy@gmail.com)
 	 */	
-	public Hashtable<String,OfferDisplay>  filterOffersFromOwnersWithMutualFriends (Hashtable<String,OfferDisplay> offersFromUsers){
+	public ArrayList<ArrayList<?>>  filterOffersFromOwnersWithMutualFriends (Hashtable<String,ArrayList<OfferDisplay2>> offersFromUsers){
 				
 		/**
 		 * Inner class for listening to different actions while requesting
 		 * mutual friends between the user and an owner of an offer
 		 * 
-		 * @author passant
+		 * @author 
+		 * 		Passant El.Agroudy (passant.elagroudy@gmail.com)
 		 *
 		 */
 		class MutualFriendsCheckListener extends OffersFilterListener{
@@ -502,17 +518,20 @@ public class FacebookWebservice {
 			 * 		Hash table where:
 			 * 		<ul>
 			 * 			<li>the <code>key</code> is Facebook ID of requested offer owner</li>
-			 * 			<li>the <code>value</code> is object representing offer</li>
+			 * 			<li>the <code>value</code> different offers from this offer owner</li>
 			 * 		</ul> 
 			 * @param classPackageName
 			 * 		class name (package name) where listener is called. It is used
 			 * 		for tracing purposes in the log messages	
 			 * @param methodName
 			 * 		method name where the listener is used. It is used
-			 * 		for tracing purposes in the log messages	 
+			 * 		for tracing purposes in the log messages	
+			 * 
+			 *  @author 
+			 *  	Passant El.Agroudy (passant.elagroudy@gmail.com)
 			 */
-			public MutualFriendsCheckListener(Hashtable<String, OfferDisplay> offersFromUsers,
-					String classPackageName, String methodName) {
+			public MutualFriendsCheckListener( Hashtable<String, ArrayList<OfferDisplay2>> offersFromUsers,
+					String classPackageName,String methodName){
 				super(offersFromUsers, classPackageName, methodName);
 				
 			}// end constructor
@@ -525,17 +544,16 @@ public class FacebookWebservice {
 					// Get owner ID currently checked for mutual friends
 					String ownerId = (String)state;
 					generateLogMessage(": onComplete(processRequest): has mutual friends ownerId: " + ownerId);
-					// Get the OfferDisplay of that owner and save mutual friends
-					getOfferDisplayBy(ownerId).setFacebookExtraInfo(receivedDataOfMutualFriends);
+					// Add the owner relevant offers to the filtered list + update their Facebook Info
 					generateLogMessage(" : onComplete(processRequest): Mutual Friends for " + ownerId + " are: " + receivedDataOfMutualFriends);
-					addFilteredOfferDisplay(ownerId,OwnerFacebookStatus.FRIEND_OF_FRIEND);
-					generateLogMessage(": onComplete(processRequest): Extra info set for ownerId " + ownerId);		
+					addFilteredOfferDisplay(ownerId,OwnerFacebookStatus.FRIEND_OF_FRIEND,receivedDataOfMutualFriends);
+					generateLogMessage(": onComplete(processRequest): Extra info set for offers of ownerId " + ownerId);		
 				}// end if : if owner and user have common friends => FB returns mutual friends between both
 			}// end processRequest			
 		}// end class
 		
 		// Used for tracing purposes
-		String methodName = "filterOffersFromOwnersWithMutualFriends (Hashtable<String,OfferDisplay> offersFromUsers)";
+		String methodName = "filterOffersFromOwnersWithMutualFriends (Hashtable<String,ArrayList<OfferDisplay2>> offersFromUsers)";
 		
 		if (this.isSessionValid()){
 			
@@ -550,14 +568,16 @@ public class FacebookWebservice {
 			
 			blockThreadUntilAllOffersAreProcessed(mutualFriendsCheckListener.getSemaphore());
 			
-			return mutualFriendsCheckListener.getFilteredOffers();
-			
+			ArrayList<ArrayList<?>> result = new ArrayList<ArrayList<?>>();
+			result.add(mutualFriendsCheckListener.getFilteredOffers());
+			result.add(mutualFriendsCheckListener.getFilteredOffersOwners());
+			return result;
 		}else{
-			Log.e(TAG_CLASS_PACKAGE,methodName + " : session expired -> no search");
-			return new Hashtable<String, OfferDisplay>();
-		}
+			Log.e(TAG_CLASS_PACKAGE,methodName + " : session expired -> no search -> return empty list");
+			return new ArrayList<ArrayList<?>>();
+		}// end else
 	
-	}// end filterOffersFromOwnersWithMutualFriends2
+	}// end filterOffersFromOwnersWithMutualFriends
 	
 	/**
 	 * IMPORTANT: This method must be invoked at the top of the calling
@@ -573,61 +593,6 @@ public class FacebookWebservice {
 	public void authorizeCallback(int requestCode, int resultCode, Intent data){
 		facebook.authorizeCallback(requestCode, resultCode, data);
 	}// end authorizeCallback
-	
-	/**
-	 * Used to filter all elements of <code>needsFiltering</code> from <code>main</code>
-	 * @param main
-	 * 		Reference hashtable that will be kept as is
-	 * @param needsFiltering
-	 * 		Hashtable that will get filtered (elements existing in main will be removed)
-	 * @author 
-	 * 		Passant El.Agroudy (passant.elagroudy@gmail.com)
-	 */
-	public static void removeDuplicates(Hashtable<String, OfferDisplay> main , Hashtable<String, OfferDisplay> needsFiltering){
-		
-		Iterator contentIt = main.keySet().iterator();
-		
-		while(contentIt.hasNext()){
-			String key = (String)contentIt.next();
-			
-			if (needsFiltering.containsKey(key)){
-				needsFiltering.remove(key);
-			}// end if : needsFiltering has duplicate from main -> remove
-			
-		}// end while: remove all elements in main from needsFiltering
-		
-	}// end removeDuplicates
-	
-	
-	
-	/**
-	 * IMPORTANT: Before leaving any activity, you must call this  method to pass
-	 * the important details about session and user 
-	 * 
-	 * @param currentActivity
-	 * 		Activity that is about to be left
-	 * @param typeOfNextActivity
-	 * 		Class type of new activity you intend to navigate to. Write activity name
-	 * 		then call .getClass() method
-	 * @param currentWebService
-	 * 		Webservice in the current activity that data will be taken from 
-	 * 
-	 * @return
-	 * 		Intent containing data needed for the next activity. Use 
-	 * 		{@link Activity#startActivity(Intent)} to start the new activity
-	 * @author 
-	 * 		Passant El.Agroudy (passant.elagroudy@gmail.com)
-	 */
-	public static Intent SetSessionInformationBetweenActivities (Activity currentActivity , Class<?> typeOfNextActivity, FacebookWebservice currentWebService){
-
-		   Intent mIntent = new Intent(currentActivity, typeOfNextActivity);
-			// Pass variable to detailed view activity using the intent
-			mIntent.putExtra(SharedValuesBetweenActivities.userFacebookId.name(), currentWebService.fbUser.getUserId());
-			mIntent.putExtra(SharedValuesBetweenActivities.userAccessToken.name(), currentWebService.getUserAccessToken());
-			mIntent.putExtra(SharedValuesBetweenActivities.accessTokenExpiry.name(), currentWebService.getUserAccessTokenExpiryTime());
-			
-			return mIntent;
-	}// end SetSessionInformationBetweenActivities
 	
 	/**
 	 * Helper method for acquiring a semaphore with the try and 
@@ -662,11 +627,10 @@ public class FacebookWebservice {
 	 * 
 	  * @param offersFromUsers
 	 * 		Hash table where:
-	 * 			<ul>
-	 * 				<li>the <code>key</code> is Facebook ID of offer owner</li>
-	 * 				<li>the <code>value</code> is object representing offer 
-	 * 				and user details needed to display a search result</li>
-	 * 			</ul> 
+	 * 		<ul>
+	 * 			<li>the <code>key</code> is Facebook ID of requested offer owner</li>
+	 * 			<li>the <code>value</code> different offers from this offer owner</li>
+	 * 		</ul> 
 	 * @param filterName
 	 * 		Name of connection that will be used as the path in the
 	 * 		graph API. 
@@ -689,7 +653,7 @@ public class FacebookWebservice {
 	 * 		Passant El.Agroudy (passant.elagroudy@gmail.com)
 	 */
 	private void requestOfferFilteringByRelationBetweenAppUserAnd(
-			Hashtable<String, OfferDisplay> offersFromUsers, 
+			Hashtable<String, ArrayList<OfferDisplay2>> offersFromUsers, 
 			String filterName, OffersFilterListener listener,
 			boolean isSendOwnerIdInState){
 		
@@ -756,7 +720,7 @@ public class FacebookWebservice {
 				
 	}// end extractDataJsonObject
 	
-private JSONArray extractDataJsonArray(JSONObject receviedResponse){
+	private JSONArray extractDataJsonArray(JSONObject receviedResponse){
 		
 		if (receviedResponse.has("error")){
 			return null;
@@ -781,138 +745,58 @@ private JSONArray extractDataJsonArray(JSONObject receviedResponse){
 		}// end catch
 				
 	}// end extractDataJsonObject
-	
-	
-	// _________________________________ will take code snippets from it____
-	
-	private void loginOld (Activity parentActivity){
 		
-		/*
-		 * ########################################################## 
-		 * # If the user is already logged in -> use his credentials#
-		 * ##########################################################
-		 */
-		
-	/*	// Get the shared preferences of the user from the activity
-		sharedPreferences = parentActivity.getPreferences(Context.MODE_PRIVATE);
-
-		Log.e(TAG_CLASS_PACKAGE, "login: sharedPreferences: " + sharedPreferences);
-
-		// Search for user access token and its expiry duration
-		String accessToken = sharedPreferences.getString(SP_ACCESS_TOKEN, null);
-		long accessTokenExpiry = sharedPreferences.getLong(
-				SP_ACCESS_TOKEN_EXPIRY, -1);
-
-		Log.e(TAG_CLASS_PACKAGE, "login: accessToken( " + accessToken + ")  expiry("
-				+ accessTokenExpiry + ")");
-
-		if (accessToken != null && accessTokenExpiry >= 0) {
-			Log.e(TAG_CLASS_PACKAGE, "login: " + "FB session is working");
-			facebook.setAccessToken(accessToken);
-			facebook.setAccessExpires(accessTokenExpiry);
-			getUserInfoForApp();
-			Log.e(TAG_CLASS_PACKAGE, "login: " + "FB token setting is done");			
-		}// end if : user already logged in -> pass token + expiry
-		
-		
-		sharedPreferences = parentActivity.getPreferences(Context.MODE_PRIVATE); */
-		
-		/*
-		 * ##############################################################
-		 * # If the user is not logged in (session expired) -> request  #
-		 * # authorization 												#
-		 * ##############################################################
-		 */
-		if (!facebook.isSessionValid()) {
-			Log.e(TAG_CLASS_PACKAGE, "login: " + "FB session expired");
-
-			facebook.authorize(parentActivity, new DialogListener() {
-				// @Override
-				public void onComplete(Bundle values) {
-
-					/*
-					 * Called when the Log in for FB + APP is successful
-					 * -> basic data of user is there
-					 */
-					Log.e(TAG_CLASS_PACKAGE, "login : onComplete");
-					// Log.e(ERROR_TAG,"Welcome "+name);
-
-					/*
-					 * Edit the shared preferences and add to them the user
-					 * access token and its expiry date
-					 * 
-					 * It is used to avoid showing the user a transition
-					 * dialog between facebook and app during the same 
-					 * session
-					 */
-					
-				/*	SharedPreferences.Editor editor = sharedPreferences.edit();
-					editor.putString(SP_ACCESS_TOKEN, facebook.getAccessToken());
-					editor.putLong(SP_ACCESS_TOKEN_EXPIRY,
-							facebook.getAccessExpires());
-					editor.commit();*/
-					//getUserInfoForApp();
-
-					methodTester();
-				}// end onComplete:
-
-				public void onFacebookError(FacebookError error) {
-					Log.e(TAG_CLASS_PACKAGE, "onFacebookError");
-				}// end onFacebookError
-
-				public void onError(DialogError e) {
-					Log.e(TAG_CLASS_PACKAGE, "onError " + e.getMessage());
-				}// end onError
-
-				public void onCancel() {
-					Log.e(TAG_CLASS_PACKAGE, "onCancel");
-				}// end onCancel
-			});
-
-		}// end if : facebook session expired -> login
-		else{
-			//tester_filterOffersFromOwnersWithMutualFriends();
-			methodTester();
-		}
-		
-	}// end login
 	
 	// ________________________________TESTING METHODS________________
-	
-	private void methodTester(){
-		tester_filterOffersFromFriends();
-		//tester_filterOffersFromOwnersWithMutualFriends();
-	}
-	
-	private void tester_filterOffersFromFriends(){
+		
+	public void tester_filterOffersFromFriends(){
+		
+		// TODO : change testing IDs to ones relevant to sheelma3aya
 		
 		// Input list: cannot make value = null -> exception
-		Hashtable<String, OfferDisplay>offersFromUsers = new Hashtable<String, OfferDisplay>();
-		offersFromUsers.put("32529", new OfferDisplay("32529","ofr1",OwnerFacebookStatus.UNRELATED)); 	// friend
-		offersFromUsers.put("48304588",new OfferDisplay("48304588","ofr2",OwnerFacebookStatus.UNRELATED)); 	// friend
-		offersFromUsers.put("58215973",new OfferDisplay("58215973","ofr3",OwnerFacebookStatus.UNRELATED)); 	// friend
-		offersFromUsers.put("1207059", new OfferDisplay("1207059","ofr4",OwnerFacebookStatus.UNRELATED)); 	// non friend
+		Hashtable<String, ArrayList<OfferDisplay2>>offersFromUsers = new Hashtable<String, ArrayList<OfferDisplay2>>();
 		
-		// Expected output : Arraylist having 32529 , 48304588 , 58215973
+		ArrayList<OfferDisplay2> offersList1 = new ArrayList<OfferDisplay2>();
+		ArrayList<OfferDisplay2> offersList2 = new ArrayList<OfferDisplay2>();
+		ArrayList<OfferDisplay2> offersList3 = new ArrayList<OfferDisplay2>();
+		ArrayList<OfferDisplay2> offersList4 = new ArrayList<OfferDisplay2>();
+		
+		offersList1.add(new OfferDisplay2("32529",1,OwnerFacebookStatus.UNRELATED));// friend
+		offersList1.add(new OfferDisplay2("32529",5,OwnerFacebookStatus.UNRELATED));// friend
+		offersList2.add(new OfferDisplay2("48304588",2,OwnerFacebookStatus.UNRELATED));// friend
+		offersList3.add(new OfferDisplay2("58215973",3,OwnerFacebookStatus.UNRELATED));// friend
+		offersList4.add(new OfferDisplay2("1207059",4,OwnerFacebookStatus.UNRELATED));// not friend
+		
+		offersFromUsers.put("32529", offersList1);
+		offersFromUsers.put("48304588", offersList2);
+		offersFromUsers.put("58215973", offersList3);
+		offersFromUsers.put("1207059", offersList4);
+			
+		// Expected output : Arraylist having 32529 (ofr1 , ofr5), 48304588 (2), 58215973 (3)
 		// STATUS : SUCCESSFUL
+		// STATUS AFTER SUPPORTING MULTIPLE OFFERS/SAME USER: SUCCESSFUL
 		
-		/* Comments: CANNOT TEST ON YOUR OWN ACCOUNTS : user- dependent */
+		
+		/* Comments: CANNOT TEST ON YOUR OWN ACCOUNTS : user- dependent
+		 * 
+		 *  Bugs:
+		 *  	1) total number of things to be processed before releasing
+		 *  	semaphore is number of users NOT offers  -> FIXED (sprint2)
+		 *  
+		 */
 		
 		
 		// Execute method
-		Hashtable<String, OfferDisplay> friendsIds  = filterOffersFromFriends(offersFromUsers);
-		
-		// Display results
-		//String friendsIdsForDisplay = "friends IDs retrieved: ";		
-		//for (int i = 0 ; i < friendsIds.size() ; i++)
-			//friendsIdsForDisplay += friendsIds.get(i) + " , ";
-		
-		//Log.e(TAG_CLASS_PACKAGE, "tester_filterOffersFromFriends: " + friendsIdsForDisplay);
-		System.out.println("Number of offers from friends: " + friendsIds.size());
-		System.out.println("Friends results: " + friendsIds);
+		ArrayList<ArrayList<?>> results = filterOffersFromFriends(offersFromUsers);
+		ArrayList<OfferDisplay2>friendsOffers  = (ArrayList<OfferDisplay2>)results.get(0);
+		ArrayList<String>friendsIds  = (ArrayList<String>)results.get(1);
+				
+		System.out.println("Number of offers from friends: " + friendsOffers.size());
+		System.out.println("Friends results: " + friendsOffers);
+		System.out.println("Friends IDs: " + friendsIds);
 	}// end tester_filterOffersFromFriends
 	
-	private void tester_filterOffersFromOwnersWithMutualFriends(){
+	public void tester_filterOffersFromOwnersWithMutualFriends(){
 		
 		// Input list
 		OwnerFacebookStatus fbStatus = OwnerFacebookStatus.FRIEND_OF_FRIEND;
@@ -920,157 +804,49 @@ private JSONArray extractDataJsonArray(JSONObject receviedResponse){
 		String usrId2 = "48304588";	// will have mutual friends
 		String usrId3 = "1207059";	// no mutual friends
 		
-		OfferDisplay ofr1 = new OfferDisplay(usrId1,"1",fbStatus);
-		OfferDisplay ofr2 = new OfferDisplay(usrId2,"2",fbStatus);
-		OfferDisplay ofr3 = new OfferDisplay(usrId1,"3",fbStatus);
+		OfferDisplay2 ofr1 = new OfferDisplay2(usrId1,1,fbStatus);
+		OfferDisplay2 ofr4 = new OfferDisplay2(usrId1,4,fbStatus);
+		OfferDisplay2 ofr2 = new OfferDisplay2(usrId2,2,fbStatus);
+		OfferDisplay2 ofr3 = new OfferDisplay2(usrId3,3,fbStatus);
+	
+		ArrayList<OfferDisplay2> offersList1 = new ArrayList<OfferDisplay2>();
+		ArrayList<OfferDisplay2> offersList2 = new ArrayList<OfferDisplay2>();
+		ArrayList<OfferDisplay2> offersList3 = new ArrayList<OfferDisplay2>();
+	
+		offersList1.add(ofr1);
+		offersList1.add(ofr4);
+		offersList2.add(ofr2);
+		offersList3.add(ofr3);		
 		
-		Hashtable<String, OfferDisplay> offersFromUsers = new Hashtable<String, OfferDisplay>();
-		offersFromUsers.put(usrId1, ofr1);
-		offersFromUsers.put(usrId2, ofr2);
-		offersFromUsers.put(usrId3, ofr3);
+		Hashtable<String, ArrayList<OfferDisplay2>> offersFromUsers = new Hashtable<String, ArrayList<OfferDisplay2>>();
+		offersFromUsers.put(usrId1, offersList1);
+		offersFromUsers.put(usrId2, offersList2);
+		offersFromUsers.put(usrId3, offersList3);
 		
-		// Expected output : Arraylist having ofr1 , ofr2 
+		// Expected output : Arraylist having ofr1 ,ofr4, ofr2 , 
 		// STATUS : SUCCESSFUL
 		
 		/* Comments: CANNOT TEST ON YOUR OWN ACCOUNTS : user- dependent
 		 * 
 		 * Bugs:
 		 *  	1) Sync as result is returned before processing all
-		 *  	offers -> FIXED
+		 *  	offers -> FIXED (sprint1)
 		 *  	2) Data should be extracted from response and not the whole
-		 *  	response including pagination -> FIXED
+		 *  	response including pagination -> FIXED (sprint1)
 		 *  	
 		 */
 		
-		// call method
-		Hashtable<String, OfferDisplay> result = filterOffersFromOwnersWithMutualFriends(offersFromUsers);
 		
-		Log.e(TAG_CLASS_PACKAGE,"tester_filterOffersFromOwnersWithMutualFriends: result retrieved ");
-		System.out.println("Result is: " + result);
-		//for (int i=0 ; i<result.size(); i++)
-			//Log.e(TAG_CLASS_PACKAGE,"tester_filterOffersFromOwnersWithMutualFriends: OfferDisplay: " + result.get(i));
-			//System.out.println(result.get(i));
-		
+		// Execute method
+				ArrayList<ArrayList<?>> results = filterOffersFromOwnersWithMutualFriends(offersFromUsers);
+				ArrayList<OfferDisplay2>friendsOffers  = (ArrayList<OfferDisplay2>)results.get(0);
+				ArrayList<String>friendsIds  = (ArrayList<String>)results.get(1);
+						
+				System.out.println("Number of offers from friends: " + friendsOffers.size());
+				System.out.println("Friends results: " + friendsOffers);
+				System.out.println("Friends IDs: " + friendsIds);
 	}// end tester_filterOffersFromOwnersWithMutualFriends
 	
-	public void tester_removeDuplicates(){
-		
-		// Input	
-		Hashtable<String, OfferDisplay> main = new Hashtable<String, OfferDisplay>();
-		main.put("1", new OfferDisplay());
-		main.put("2", new OfferDisplay());
-		
-		Hashtable<String, OfferDisplay> filter = new Hashtable<String, OfferDisplay>();
-		filter.put("1", new OfferDisplay());
-		filter.put("2", new OfferDisplay());
-		filter.put("3", new OfferDisplay("myOwner", "myOffer",OwnerFacebookStatus.FRIEND ));
-		
-		// Expected output : filter having only 1 element (last one) 
-				// STATUS : SUCCESS
-				
-				/* Comments:
-				 *  	
-				 */
-		
-		// call method
-		removeDuplicates(main, filter);
-		
-		for (int i=0 ; i<filter.size() ; i++)
-			System.out.println("Result: " + filter);
-		
-	}
-	
-	public void tester(){
-		
-		Hashtable<String, Object> x=null;
-		boolean hasKey = x.containsKey("gjgdgf");
-		boolean hasValue = x.containsValue("jhkjdf");
-		boolean has = x.contains(new Object());
-		
-	
-		
-		/*RequestListener reqList = new RequestListener() {
-			
-			public ArrayList<String> myArray = new ArrayList<String>();
-			
-			@Override
-			public void onMalformedURLException(MalformedURLException e, Object state) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void onIOException(IOException e, Object state) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void onFileNotFoundException(FileNotFoundException e, Object state) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void onFacebookError(FacebookError e, Object state) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void onComplete(String response, Object state) {
-				myArray.add("HelloWorld");
-				
-			}
-			
-			
-			public ArrayList<String> getMyArray(){
-				return myArray;
-			}
-		}; */
-		
-		class MyRequestListener implements RequestListener{
 
-			private ArrayList<String> myArray = new ArrayList<String>();
-			
-			public void onComplete(String response, Object state) {
-				myArray.add("HelloWorld");
-				
-			}
-
-			public void onIOException(IOException e, Object state) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			public void onFileNotFoundException(FileNotFoundException e,
-					Object state) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			public void onMalformedURLException(MalformedURLException e,
-					Object state) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			public void onFacebookError(FacebookError e, Object state) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-		}
-		
-		MyRequestListener reqList = new MyRequestListener();
-		ArrayList<String> arr = reqList.myArray;
-		
-		
-		
-		
-	}// end tester
-	
-	
-	
 	
 }// end class
