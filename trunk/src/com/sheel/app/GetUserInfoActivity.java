@@ -2,6 +2,7 @@ package com.sheel.app;
 
 import java.util.Calendar;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
@@ -9,6 +10,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
@@ -19,8 +21,8 @@ public class GetUserInfoActivity extends UserSessionStateMaintainingActivity {
 	String selectedDate;
 	int searchMethod;
 	
-	ToggleButton lessWeight;
-	ToggleButton extraWeight;
+	RadioButton lessWeight;
+	RadioButton extraWeight;
 	ToggleButton srcDes;
 	ToggleButton flightNo;
 	
@@ -31,19 +33,20 @@ public class GetUserInfoActivity extends UserSessionStateMaintainingActivity {
     int day;
    
     static final int DATE_DIALOG_ID = 0;	
+    static Calendar datePicked = Calendar.getInstance();
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.get_user_info);
         
-        lessWeight = (ToggleButton) findViewById(R.id.lessWeight);
-        extraWeight = (ToggleButton) findViewById(R.id.extraWeight);
+        lessWeight = (RadioButton) findViewById(R.id.lessWeight);
+        extraWeight = (RadioButton) findViewById(R.id.extraWeight);
         srcDes = (ToggleButton) findViewById(R.id.srcDes);
         flightNo = (ToggleButton) findViewById(R.id.flightNo);
         
         dateDisplay = (TextView) findViewById(R.id.dateDisplay);
-        pickDate = (Button) findViewById(R.id.pickDate);
+        pickDate = (Button) findViewById(R.id.changeDate);
 
         // add a click listener to the button
         pickDate.setOnClickListener(new View.OnClickListener() {
@@ -52,11 +55,9 @@ public class GetUserInfoActivity extends UserSessionStateMaintainingActivity {
             }
         });
 
-        // get the current date
-        final Calendar c = Calendar.getInstance();
-        year = c.get(Calendar.YEAR);
-        month = c.get(Calendar.MONTH);
-        day = c.get(Calendar.DAY_OF_MONTH);
+        year = datePicked.get(Calendar.YEAR);
+        month = datePicked.get(Calendar.MONTH);
+        day = datePicked.get(Calendar.DAY_OF_MONTH);
 
         // display the current date (this method is below)
         updateDisplay();
@@ -80,6 +81,8 @@ public class GetUserInfoActivity extends UserSessionStateMaintainingActivity {
 
             public void onDateSet(DatePicker view, int selectedYear, 
                                   int monthOfYear, int dayOfMonth) {
+            	
+            	GetUserInfoActivity.datePicked.set(selectedYear, monthOfYear, dayOfMonth);
                 year = selectedYear;
                 month = monthOfYear;
                 day = dayOfMonth;
@@ -112,62 +115,77 @@ public class GetUserInfoActivity extends UserSessionStateMaintainingActivity {
 	public void onClick_srcDes(View v) 
 	{
 		flightNo.setChecked(false);
+		if(!isValidInput())
+			return;
+		
+		searchMethod = 1;
+		Intent intent = setSessionInformationBetweenActivities(SearchBySrcDesActivity.class);
+		intent.putExtra("searchStatus", searchStatus);
+		intent.putExtra("selectedDate", selectedDate);
+		intent.putExtra("searchMethod", searchMethod);
+		
+		startActivity(intent);
+		
 	}
 	
 	public void onClick_flightNo(View v) 
 	{
 		srcDes.setChecked(false);
-	}
-	
-	public void onClick_checkSelectedButtons(View v){
 		
-		if(!lessWeight.isChecked() && !extraWeight.isChecked())
+		if(!isValidInput())
 			return;
 		
-		if(lessWeight.isChecked())
-			searchStatus = 0;
+		searchMethod = 0;
+		Intent intent = setSessionInformationBetweenActivities(SearchByFlightNoActivity.class);
+		intent.putExtra("searchStatus", searchStatus);
+		intent.putExtra("selectedDate", selectedDate);
+		intent.putExtra("searchMethod", searchMethod);
 		
-		else if(extraWeight.isChecked())
-			searchStatus = 1;
+		startActivity(intent);
 			
-		if(flightNo.isChecked()){
-			
-			searchMethod = 0;
-			
-			//Intent intent = new Intent(getBaseContext(), SearchByFlightNoActivity.class);
-			Intent intent = setSessionInformationBetweenActivities(SearchByFlightNoActivity.class);
-			intent.putExtra("searchStatus", searchStatus);
-			intent.putExtra("selectedDate", selectedDate);
-			intent.putExtra("searchMethod", searchMethod);
-			
-			Bundle extras = getIntent().getExtras();
-			long userId = extras.getLong("userId");
-			intent.putExtra("userId", userId);
-//			Toast.makeText(getApplicationContext(),"" + userId, Toast.LENGTH_SHORT).show();
-			
-			startActivity(intent);
-		}
-				
-		else if(srcDes.isChecked()){
-			
-			searchMethod = 1;
-			
-			//Intent intent = new Intent(getBaseContext(), SearchBySrcDesActivity.class);
-			Intent intent = setSessionInformationBetweenActivities(SearchBySrcDesActivity.class);
-			intent.putExtra("searchStatus", searchStatus);
-			intent.putExtra("selectedDate", selectedDate);
-			intent.putExtra("searchMethod", searchMethod);
-			
-//			Bundle extras = getIntent().getExtras();
-//			long userId = extras.getLong("userId");
-//			intent.putExtra("userId", userId);
-//			Toast.makeText(getApplicationContext(),"" + userId, Toast.LENGTH_SHORT).show();
-		
-			
-			startActivity(intent);
-			
-		}
-		
 	}
-   
+	
+	 public void showErrors(String title, String message){
+		 AlertDialog alertDialog;
+		 alertDialog = new AlertDialog.Builder(this).create();
+		 alertDialog.setTitle(title);
+		 alertDialog.setMessage(message);
+		 alertDialog.show();
+	 }
+	 
+	 public boolean isValidInput(){
+		 
+		 if(!lessWeight.isChecked() && !extraWeight.isChecked()){
+				showErrors("Missing Input", "Please select the user status you're searching for");
+				srcDes.setChecked(false);
+		    	flightNo.setChecked(false);
+				return false;
+		}
+		 
+		/*if(datePicked.before(Calendar.getInstance())){
+	    	showErrors("Invalid Input", "Please enter a valid date");
+	    	srcDes.setChecked(false);
+	    	flightNo.setChecked(false);
+	    	return false;
+	    }*/
+		 
+		 if(lessWeight.isChecked())
+				searchStatus = 0;
+			
+			else if(extraWeight.isChecked())
+				searchStatus = 1;
+		 
+		 return true;
+	 }
+	 
+		@Override
+		protected void onResume() {
+			
+			super.onResume();
+			
+			srcDes.setChecked(false);
+	    	flightNo.setChecked(false);
+			
+			
+		}
 }
