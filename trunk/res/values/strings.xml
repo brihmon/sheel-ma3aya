@@ -912,4 +912,8 @@
 		<item>Åland Islander</item>
 	</string-array>
 
+	<string name="menu_main_search">Search Offers</string>
+	<string name="menu_main_declare">Declare New Offer</string>
+	<string name="menu_main_myOffers">My Offers</string>
+	<string name="menu_main_logout">Logout</string>    
 </resources>
