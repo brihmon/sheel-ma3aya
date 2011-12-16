@@ -1,49 +1,59 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="fill_parent" 
+    android:scrollbars="vertical"
     android:background="#004D79"
+    
+    >
+ 
+<RelativeLayout
+    android:layout_width="318dp"
+    android:layout_height="386dp"
     android:orientation="vertical" >
 
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/textView1_maged"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="34dp"
-        android:text="I&apos;m searching for users having"
+        android:text="I&apos;m searching for users with"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
-    <ToggleButton
-        android:id="@+id/lessWeight"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="36dp"
-        android:layout_marginTop="87dp"
-        android:onClick="onClick_lessWeight"
-        android:textOff="Less weight"
-        android:textOn="Less weight"
-        android:textSize="16dp" />
-
-    <ToggleButton
+    <RadioButton
         android:id="@+id/extraWeight"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/textView1"
-        android:layout_alignTop="@+id/lessWeight"
-        android:layout_marginRight="17dp"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/textView1_maged"
+        android:layout_marginLeft="19dp"
+        android:layout_marginTop="16dp"
         android:onClick="onClick_extraWeight"
-        android:textOff="Extra weight"
-        android:textOn="Extra weight"
+        android:text="   Extra weight"
+        android:textSize="16dp" />
+
+    <RadioButton
+        android:id="@+id/lessWeight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/extraWeight"
+        android:layout_alignBottom="@+id/extraWeight"
+        android:layout_alignRight="@+id/textView1_maged"
+        android:layout_marginRight="17dp"
+        android:onClick="onClick_lessWeight"
+        android:text="Less weight"
         android:textSize="16dp" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/textView2_maged"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textView1"
-        android:layout_below="@+id/lessWeight"
-        android:layout_marginTop="50dp"
+        android:layout_alignLeft="@+id/extraWeight"
+        android:layout_below="@+id/extraWeight"
+        android:layout_marginTop="20dp"
         android:text="On"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
@@ -51,88 +61,74 @@
         android:id="@+id/dateDisplay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/lessWeight"
-        android:layout_below="@+id/textView2"
-        android:text=""
+        android:layout_below="@+id/textView2_maged"
+        android:layout_toLeftOf="@+id/lessWeight"
+        android:text="Current Date"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <Button
-        android:id="@+id/pickDate"
+        android:id="@+id/changeDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/dateDisplay"
-        android:layout_alignRight="@+id/extraWeight"
-        android:layout_marginRight="15dp"
+        android:layout_alignRight="@+id/lessWeight"
+        android:layout_alignTop="@+id/dateDisplay"
         android:onClick="onClick_datePicker"
-        android:text="Change date"
-        android:textSize="18dp" />
+        android:text="Change Date" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/textView3_maged"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textView2"
-        android:layout_below="@+id/dateDisplay"
-        android:layout_marginTop="40dp"
+        android:layout_alignLeft="@+id/textView2_maged"
+        android:layout_below="@+id/changeDate"
+        android:layout_marginTop="15dp"
         android:text="Using"
         android:textAppearance="?android:attr/textAppearanceLarge" />
-
-    <ToggleButton
-        android:id="@+id/srcDes"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/extraWeight"
-        android:layout_below="@+id/textView3"
-        android:layout_marginTop="17dp"
-        android:background="@drawable/src_des_xml"
-        android:onClick="onClick_srcDes"
-        android:textOff=""
-        android:textOn="" />
-
-    <Button
-        android:id="@+id/button1"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:onClick="onClick_checkSelectedButtons"
-        android:text="Enter Trip Details" />
 
     <ToggleButton
         android:id="@+id/flightNo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/srcDes"
-        android:layout_toLeftOf="@+id/pickDate"
+        android:layout_below="@+id/textView3_maged"
+        android:layout_marginTop="14dp"
+        android:layout_toRightOf="@+id/textView3_maged"
         android:background="@drawable/flight_xml"
         android:onClick="onClick_flightNo"
         android:textOff=""
         android:textOn="" />
 
-    <TextView
-        android:id="@+id/textView5"
+    <ToggleButton
+        android:id="@+id/srcDes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/textView1"
-        android:layout_below="@+id/srcDes"
-        android:text="Source &amp; Destination"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
+        android:layout_alignBottom="@+id/flightNo"
+        android:layout_alignRight="@+id/changeDate"
+        android:layout_alignTop="@+id/flightNo"
+        android:background="@drawable/src_des_xml"
+        android:onClick="onClick_srcDes"
+        android:textOff=""
+        android:textOn="" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/textView4_maged"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/flightNo"
         android:layout_below="@+id/flightNo"
+        android:layout_marginTop="18dp"
+        android:layout_toRightOf="@+id/textView3_maged"
         android:text="Flight Number"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
     <TextView
-        android:id="@+id/textView6"
+        android:id="@+id/textView5_maged"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/srcDes"
-        android:layout_marginBottom="15dp"
-        android:layout_toLeftOf="@+id/textView5"
-        android:text="  or" />
+        android:layout_alignBaseline="@+id/textView4_maged"
+        android:layout_alignBottom="@+id/textView4_maged"
+        android:layout_alignLeft="@+id/changeDate"
+        android:text="Source &amp; Destination"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
 
 </RelativeLayout>
+
+ </ScrollView>   
