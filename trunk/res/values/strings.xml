@@ -911,7 +911,17 @@
 		<item>Zimbabwean</item>
 		<item>Åland Islander</item>
 	</string-array>
+	
+<!--
+I feel that you can make it an array of items... better
 
+and access it with index
+
+What do you think?
+
+Hossam Amer
+-->
+	
 	<string name="menu_main_search">Search Offers</string>
 	<string name="menu_main_declare">Declare New Offer</string>
 	<string name="menu_main_myOffers">My Offers</string>
