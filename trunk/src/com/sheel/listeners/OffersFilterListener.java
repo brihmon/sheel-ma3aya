@@ -3,24 +3,25 @@ package com.sheel.listeners;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.concurrent.Semaphore;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.util.Log;
 
-
 import com.facebook.android.AsyncFacebookRunner.RequestListener;
 import com.facebook.android.FacebookError;
-import com.sheel.datastructures.OfferDisplay;
+import com.sheel.datastructures.OfferDisplay2;
 import com.sheel.datastructures.enums.OwnerFacebookStatus;
 
 /**
  * Listener used to handle filtering multiple offers using
  * Facebook connections to schedule returning all the filtered
- * results together but process each offer parrallel to the other
+ * results together but process each offer parallel to the other
  * 
  * @author passant
  *
@@ -41,13 +42,19 @@ public class OffersFilterListener implements RequestListener{
 	//_____________________ Instance parameters __________________
 	
 	/**
-	 *  List of all available offers from different owners
+	 *  List of all available offers from different owners.
+	 *  <code>Key</code> is the facebook ID of the offer owner. 
+	 *  <code>value</code> list of offers from this owner. 
 	 */
-	private Hashtable<String,OfferDisplay> offersFromUsers;
+	private Hashtable<String,ArrayList<OfferDisplay2>> offersFromUsers;
 	/**
 	 *  List of offers after filtering according to a certain condition
 	 */
-	private Hashtable<String,OfferDisplay> filteredOffers = new Hashtable<String,OfferDisplay>();
+	private ArrayList<OfferDisplay2> filteredOffers = new ArrayList<OfferDisplay2>();
+	/**
+	 * List of offer owners appearing in the results
+	 */
+	private ArrayList<String> filteredOwnersOfOffers = new ArrayList<String>();
 	
 	/**
 	 * Total number of offers that must be processed. It is used for scheduling
@@ -71,16 +78,19 @@ public class OffersFilterListener implements RequestListener{
 	 * 		Hash table where:
 	 * 		<ul>
 	 * 			<li>the <code>key</code> is Facebook ID of requested offer owner</li>
-	 * 			<li>the <code>value</code> is object representing offer</li>
+	 * 			<li>the <code>value</code> different offers from this offer owner</li>
 	 * 		</ul> 
 	 * @param classPackageName
 	 * 		class name (package name) where listener is called. It is used
 	 * 		for tracing purposes in the log messages	
 	 * @param methodName
 	 * 		method name where the listener is used. It is used
-	 * 		for tracing purposes in the log messages	 
+	 * 		for tracing purposes in the log messages	
+	 * 
+	 *  @author 
+	 *  	Passant El.Agroudy (passant.elagroudy@gmail.com)
 	 */
-	public OffersFilterListener( Hashtable<String, OfferDisplay> offersFromUsers, String classPackageName,String methodName){
+	public OffersFilterListener( Hashtable<String, ArrayList<OfferDisplay2>> offersFromUsers, String classPackageName,String methodName){
 		
 		this.TAG_CLASS_PACKAGE = classPackageName;
 		this.METHOD_NAME = methodName;
@@ -159,7 +169,7 @@ public class OffersFilterListener implements RequestListener{
 	 * a response from the facebook server. It is called inside 
 	 * the (onComplete) method.
 	 * 
-	 * This method should be overriden to provide logic needed
+	 * This method should be overridden to provide logic needed
 	 * 
 	 * @param parsedResponse
 	 * 		JSONObject representing the parsed response of the 
@@ -205,20 +215,30 @@ public class OffersFilterListener implements RequestListener{
 	/**
 	 * Returns List of filtered offers according to logic
 	 * implemented by developer in
-	 * @link {@link OffersFilterListener#processRequest(JSONObject, Object)}
+	 * @link {@link OffersFilterListener#processRequest(JSONObject, Object)}.
 	 * 
 	 * @return
-	 * 		Hash table where:
-	 * 		<ul>
-	 * 			<li>the <code>key</code> is Facebook ID of requested offer owner</li>
-	 * 			<li>the <code>value</code> is hybrid object containing important data
-	 * 			about offer and user for displaying a search result</li>
-	 * 		</ul> 
-	 * 		If no offers are chosen due to filtering conditions, 
-	 * 		empty hash table is returned.
+	 * 		List of filtered offers.  The list is ordered where all offers 
+	 * 		of the same owner are after each other. If no offers are chosen
+	 * 		due to filtering conditions, empty list is returned.
 	 */
-	public Hashtable<String,OfferDisplay> getFilteredOffers(){
+	public ArrayList<OfferDisplay2> getFilteredOffers(){
 		return this.filteredOffers;
+	}// end getFilteredOffers
+	
+
+	/**
+	 * Returns List of filtered offers owners according to logic
+	 * implemented by developer in
+	 * {@link OffersFilterListener#processRequest(JSONObject, Object)}.
+	 * <b>The list has no duplicates.</b>
+	 * 
+	 * @return
+	 * 		List of filtered offers owners facebook IDs. The list
+	 * 		is a set, i.e. has no duplicates
+	 */
+	public ArrayList<String> getFilteredOffersOwners(){
+		return this.filteredOwnersOfOffers;
 	}// end getFilteredOffers
 	
 	/**
@@ -226,27 +246,65 @@ public class OffersFilterListener implements RequestListener{
 	 * @param ownerId
 	 * 		offer owner Facebook ID 
 	 * @return
-	 * 		Offer/user hubrid object containing data 
-	 * 		used in displaying a search result
+	 * 		List of hybrid objects used representing one
+	 * 		search result (offer) by this owner
 	 */
-	public OfferDisplay getOfferDisplayBy(String ownerId){
+	public ArrayList<OfferDisplay2> getOfferDisplayBy(String ownerId){
 		return this.offersFromUsers.get(ownerId);
 	}// end getOfferDisplayBy
 	
 	/**
-	 * Used to add a filtered offer to the result. An offer
-	 * is mapped to its owner ID as its key and it automatically
-	 * retrieved from the full list of offers
+	 * Used to add filtered offers of a certain owner to the result. 
+	 * Offers are retrieved and updated automatically using their 
+	 * owner facebook ID
 	 * 
 	 * @param ownerId
 	 * 		facebook ID of offer owner
 	 * @param status
 	 * 		defines relation between app user and offer owner
+	 * Holds extra information about facebook relation depending on the 
+	 * relation itself (value of <code>ownerFbStatus</code>).
+	 * <b>Example</b>:It is the parsing of the facebook response to mutual 
+	 * friends request to a  JSON object indexed by different available keys. 
+	 * To get any of the mutual friends, call {@link JSONArray#get(int)}
+	 * 	
+	 * @return 
+	 * 		If relation is:
+	 * 		<ul>
+	 * 			<li><code>{@link OwnerFacebookStatus#FRIEND}</code> : object is empty </li>
+	 * 			<li><code>{@link OwnerFacebookStatus#FRIEND_OF_FRIEND}</code> : object has names
+	 * 			and IDs of mutual friends where each (id-name) form an object with index from o-n</li>
+	 *  		<li><code>{@link OwnerFacebookStatus#COMMON_NETWORKS}</code> : object has names 
+	 *  		and IDs of common networks where each (id-name) form an object with index from o-n</li>
+	 *   		<li><code>{@link OwnerFacebookStatus#UNRELATED}</code> : object is empty</li>
+	 * 		</ul>
+	 * @author 
+	 * 		Passant El.Agroudy (passant.elagroudy@gmail.com)
 	 * 		
 	 */
-	public void addFilteredOfferDisplay(String ownerId, OwnerFacebookStatus status){
-		this.offersFromUsers.get(ownerId).setFacebookStatus(status);
-		this.filteredOffers.put(ownerId, this.offersFromUsers.get(ownerId));		
+	public void addFilteredOfferDisplay(String ownerId, OwnerFacebookStatus status, JSONArray response){
+		/* Add the facebook information (status + extra) to all offers
+		 * relevant to this owner ID
+		 */
+		OfferDisplay2 currentOffer=null;
+		ArrayList<OfferDisplay2> offersFromThisOwner = this.offersFromUsers.get(ownerId);
+		for (int i=0 ; i<offersFromThisOwner.size() ; i++) {
+			currentOffer = offersFromThisOwner.get(i);
+			currentOffer.setFacebookStatus(status);
+			currentOffer.setFacebookExtraInfo(response);
+		}// end for: set facebook parameters to each
+		
+		/*
+		 * Add Owner ID to filtered owners if it does not exist
+		 */
+		if (!filteredOwnersOfOffers.contains(ownerId)) {
+			filteredOwnersOfOffers.add(ownerId);
+		}// end if 
+		
+		/*
+		 * Add all these offers to the output list
+		 */
+		this.filteredOffers.addAll(offersFromThisOwner);
 	}// end addFilteredOffer
 	
 	/**
