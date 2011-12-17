@@ -16,7 +16,7 @@ import com.sheel.datastructures.enums.OwnerFacebookStatus;
  * 		Passant El.Agroudy (passant.elagroudy@gmail.com)
  *
  */
-public class OfferDisplay2 extends OfferDisplay{	
+public class OfferDisplay2 {	
 	
 	/**
 	 * Constant used for tracing purposes "class name (package name)"
