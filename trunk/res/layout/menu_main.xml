@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+	 <item android:id="@+id/menu_main_search"
+          android:icon="@drawable/sheel_menu_main_search"
+          android:title="@string/menu_main_search" />
+	  <item android:id="@+id/menu_main_declare"
+          android:icon="@drawable/sheel_menu_main_declare"
+          android:title="@string/menu_main_declare" />
+	  <item android:id="@+id/menu_main_myoffers"
+          android:icon="@drawable/sheel_menu_main_myoffers"
+          android:title="@string/menu_main_myOffers" />
+	  <item android:id="@+id/menu_main_logout"
+          android:icon="@drawable/sheel_menu_main_logout"
+          android:title="@string/menu_main_logout" />
+</menu>
