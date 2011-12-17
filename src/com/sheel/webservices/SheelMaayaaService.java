@@ -1,10 +1,7 @@
 package com.sheel.webservices;
 
 
-import static com.sheel.datastructures.enums.SheelMaayaaConstants.HTTP_RESPONSE;
-import static com.sheel.datastructures.enums.SheelMaayaaConstants.HTTP_STATUS;
-import static com.sheel.datastructures.enums.SheelMaayaaConstants.SERVER;
-import static com.sheel.datastructures.enums.SheelMaayaaConstants.pathKey;
+import static com.sheel.utils.SheelMaayaaConstants.*;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
