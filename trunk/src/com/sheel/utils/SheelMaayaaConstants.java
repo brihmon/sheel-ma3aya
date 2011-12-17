@@ -1,4 +1,4 @@
-package com.sheel.datastructures.enums;
+package com.sheel.utils;
 
 /**
  * Interface for inserting all the constants of SheelMaayaa
