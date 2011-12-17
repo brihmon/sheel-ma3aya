@@ -22,8 +22,8 @@ public class InternetManager {
 	 * @param mContext The current context of the activity
 	 * @note You can get mContext by getApplicationContext or getContext, notsure!
 	 * @return
-	 * 	true Available Internet connection
-	 * 	false Not Available Internet connection
+	 * 	true   Internet connection is available
+	 * 	false  Internet connection is not available
 	 * @author Hossam_Amer
 	 * @author Nada Adly
 	 */
