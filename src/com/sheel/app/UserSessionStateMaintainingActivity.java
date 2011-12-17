@@ -4,6 +4,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.sheel.datastructures.FacebookUser;
 import com.sheel.datastructures.enums.SharedValuesBetweenActivities;
@@ -48,10 +52,60 @@ public class UserSessionStateMaintainingActivity extends Activity {
 	
 	@Override 
     protected void onActivityResult(int requestCode, int resultCode, android.content.Intent data) {
-    	getFacebookService().authorizeCallback(requestCode, resultCode, data);
+    	/*This method must be called for facebook login to function properly*/
+		getFacebookService().authorizeCallback(requestCode, resultCode, data);
     }// end onActivityResult
       
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		/**
+		 * This method is used to create the main menu of the app
+		 * @author 
+		 * 		Passant El.Agroudy (passant.elagroudy@gmail.com)
+		 */
+		MenuInflater inflater = getMenuInflater();
+	    inflater.inflate(R.layout.menu_main, menu);
+	    return true;
+	}// end onCreateOptionsMenu
 	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		/**
+		 * This method is used to handle clicks of the app main menu
+		 * @author 
+		 * 		Passant El.Agroudy (passant.elagroudy@gmail.com)
+		 */
+		
+		Class<?> typeOfNextActivity = null;
+		
+		switch (item.getItemId()) {
+			case R.id.menu_main_search: 
+				typeOfNextActivity = GetUserInfoActivity.class;
+				break;				
+			case R.id.menu_main_declare:
+				typeOfNextActivity = InsertOfferActivity.class;
+				break;					
+			//case R.id.menu_main_myOffers:
+				//typeOfNextActivity = GetUserInfoActivity.class;
+		    //	Toast.makeText(this, "Not activated yet", Toast.LENGTH_SHORT).show();
+			//	break;					
+			case R.id.menu_main_logout: 
+				if (getFacebookService() != null)
+					getFacebookService().logout(this);
+					/* because the session is static, if not set to null, the app
+					 * will never login again until it is closed then re-opened*/
+				setFacebookService(null);
+				startActivity(new Intent(this, SheelMaayaaActivity.class));
+				return true;
+			default:
+				return super.onOptionsItemSelected(item);
+				
+		}// end switch: according to selected action -> decide next activity
+		
+		Intent intent = new Intent(this, typeOfNextActivity);
+		startActivity(intent);
+		return true;
+	}// end onOptionsItemSelected
 	
 	/**
 	 * Returns class responsible for handling all requests to facebook API. 
