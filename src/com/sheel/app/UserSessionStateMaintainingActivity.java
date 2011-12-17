@@ -87,7 +87,6 @@ public class UserSessionStateMaintainingActivity extends Activity {
 				break;					
 			case R.id.menu_main_myoffers:
 				typeOfNextActivity = MyOffersActivity.class;
-		    	Toast.makeText(this, "7as7as: Activated Now ;)", Toast.LENGTH_SHORT).show();
 				break;					
 			case R.id.menu_main_logout: 
 				if (getFacebookService() != null)
