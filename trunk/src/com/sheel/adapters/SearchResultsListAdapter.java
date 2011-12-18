@@ -41,13 +41,13 @@ public class SearchResultsListAdapter extends BaseAdapter {
 	 * @param c
 	 * 		Context of the application having the list view. 
 	 * 		It is used to have access to (inflation) properties
-	 * @param users
+	 * @param offersWrappers
 	 * 		List of hybrid object used to display data about the 
 	 * 		offer and its owner
 	 */
-	public SearchResultsListAdapter(Context c, ArrayList<OfferDisplay2> users ){
+	public SearchResultsListAdapter(Context c, ArrayList<OfferDisplay2> offersWrappers ){
 		this.context = c;
-		this.searchResults = users;
+		this.searchResults = offersWrappers;
 	}// end constructor
 
 	
