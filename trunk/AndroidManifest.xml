@@ -33,8 +33,10 @@
         <activity android:name=".InsertFlightActivity"></activity>
         <activity android:name=".MyOffersActivity"></activity>
 
-
-		<service android:name=".SheelMaayaaService"/>
+            
+        
+       <!-- SheelMa3aya Service for HTTP -->
+		<service android:name="com.sheel.webservices.SheelMaayaaService"/>
 	
 	</application>
 
