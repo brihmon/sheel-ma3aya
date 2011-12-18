@@ -4,14 +4,16 @@
 package com.sheel.adapters;
 
 import java.util.ArrayList;
-import java.util.Hashtable;
 
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ListView;
 
+import com.sheel.app.R;
+import com.sheel.datastructures.Category;
 import com.viewpagerindicator.TitleProvider;
 
 /**
@@ -22,14 +24,9 @@ import com.viewpagerindicator.TitleProvider;
 public class HorizontalSwypingPagingAdapter extends PagerAdapter  implements TitleProvider{
 	
 	/**
-	 * category titles that will be displayed in the page 
-	 * indicator. It should not be too long.
+	 * Different categories of offers to be displayed
 	 */
-	private ArrayList<String> categoriesNames;
-	/**
-	 * Respective categories resources IDs (Layout IDs to be inflated)
-	 */
-	private ArrayList<Integer> categoriesResourcesIds;
+	private ArrayList<Category> categories = new ArrayList<Category>();
 	
 	/**
 	 * Constructor for creating adapter to swap between set of 
@@ -37,19 +34,15 @@ public class HorizontalSwypingPagingAdapter extends PagerAdapter  implements Tit
 	 * of the category.
 	 * <b>IMPORTANT: both inputs must be equal in size</b>	
 	 * 	 
-	 * @param catNames
-	 * 		category titles that will be displayed in the page 
-	 * 		indicator. It should not be too long.
-	 * @param catResources
-	 * 		Respective categories resources IDs (Layout IDs to be inflated)
-	 * 
+	 * @param
+	 * 		Different categories to be displayed in the swyping 
+	 * 		views with their respective data
 	 *  	
 	 * @author 
 	 * 		Passant El.Agroudy (passant.elagroudy@gmail.com)
 	 */
-	public HorizontalSwypingPagingAdapter(ArrayList<String> catNames, ArrayList<Integer> catResources) {
-		this.categoriesNames = catNames;
-		this.categoriesResourcesIds = catResources;
+	public HorizontalSwypingPagingAdapter(ArrayList<Category> categories) {
+		this.categories = categories;
 	}// end constructor
 	
 	/*
@@ -58,7 +51,7 @@ public class HorizontalSwypingPagingAdapter extends PagerAdapter  implements Tit
 	 */
 	@Override
 	public int getCount() {
-		return categoriesNames.size();
+		return categories.size();
 	}// end getCount
 	
 	/*
@@ -71,7 +64,9 @@ public class HorizontalSwypingPagingAdapter extends PagerAdapter  implements Tit
 		LayoutInflater inflater = (LayoutInflater) container.getContext()
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);		
 		
-		View view = inflater.inflate(categoriesResourcesIds.get(position).intValue(), null);
+		View view = inflater.inflate(categories.get(position).getResourceId(), null);
+		
+		//ListView displayList = (ListView)view.findViewById(R.id.list);
 		((ViewPager) container).addView(view, 0);
 		
 		
@@ -103,7 +98,7 @@ public class HorizontalSwypingPagingAdapter extends PagerAdapter  implements Tit
 	 */
 	@Override
 	public String getTitle(int position) {
-		return categoriesNames.get(position);
+		return categories.get(position).getName();
 	}
 
 	
