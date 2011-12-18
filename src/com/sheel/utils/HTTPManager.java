@@ -24,7 +24,7 @@ public class HTTPManager
 	public static void startHttpService(String path, String FILTER, Context mContext) {
 		
 		Intent serviceIntent = new Intent(mContext, SheelMaayaaService.class);
-    	serviceIntent.setAction(HTTP_GET_MY_OFFERS_FILTER);
+    	serviceIntent.setAction(FILTER);
     	serviceIntent.putExtra(pathKey, path);
     	
     	Log.e(TAG, "Before Get HTTP Request: " + serviceIntent);
