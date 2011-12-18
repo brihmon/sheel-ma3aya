@@ -296,7 +296,7 @@ public class MyOffersActivity extends UserSessionStateMaintainingActivity
 	}
 	
 	/**
-	 * Handler for notifiying the change of data to the adapter
+	 * Handler for notifying the change of data to the adapter
 	 */
 	
 	 private Handler handler = new Handler()
