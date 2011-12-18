@@ -1,5 +1,7 @@
 package com.sheel.utils;
 
+import com.sheel.datastructures.enums.OfferWeightStatus;
+
 /**
  * Interface for inserting all the constants of SheelMaayaa
  * To use this interface, you should import as follows:
@@ -13,7 +15,7 @@ public interface SheelMaayaaConstants {
 
 	
 	
-	/*
+	/**
 	 * Constants used for IntentService accessibility
 	 * 
 	 */
@@ -30,5 +32,15 @@ public interface SheelMaayaaConstants {
 	final String SERVER  = "http://sheelmaaayaa.appspot.com";
 	
 	//======================================================================
+	
+	/**
+	 * Constants used for checking inside the SearchListAdapter
+	 * 
+	 */
+	
+	final String female = "female";
+	final int OfferWeightStatus_LESS = 0;
+	final int OfferWeightStatus_MORE = 1;
+	
 	
 }
