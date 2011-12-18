@@ -23,7 +23,6 @@ public class HTTPManager
 	 */
 	public static void startHttpService(String path, String FILTER, Context mContext) {
 		
-//		dialog = ProgressDialog.show(MyOffersActivity.this, "", "Getting your Offers, Please wait..", true, false);
 		Intent serviceIntent = new Intent(mContext, SheelMaayaaService.class);
     	serviceIntent.setAction(HTTP_GET_MY_OFFERS_FILTER);
     	serviceIntent.putExtra(pathKey, path);
