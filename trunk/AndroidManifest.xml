@@ -34,9 +34,8 @@
         <activity android:name=".MyOffersActivity"></activity>
 
 
-
-
-
+		<service android:name="SheelMaayaaService"/>
+	
 	</application>
 
 	<uses-permission android:name="android.permission.CALL_PHONE"></uses-permission>
