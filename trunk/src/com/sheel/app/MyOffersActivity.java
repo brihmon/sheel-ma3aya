@@ -139,8 +139,6 @@ public class MyOffersActivity extends UserSessionStateMaintainingActivity
     		
 		//=====================================
 		
-		
-    	
     	//==========Item Click Listener========
     	
 		/**
