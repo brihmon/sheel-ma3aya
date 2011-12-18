@@ -1,5 +1,7 @@
 package com.sheel.app;
 
+import java.util.ArrayList;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -109,11 +111,24 @@ public class ConnectorUserActionsActivity extends UserSessionStateMaintainingAct
 		startActivity(new Intent(this, SheelMaayaaActivity.class));
 	}// end onClick_logOut
 	
-	public void onClick_test(View v){
+	public void onClick_checkFacebookSearch(View v){
 		
-		FacebookWebservice fbServ = getFacebookService();
-		System.out.println("Register intergrate: " + "facebookservice after login: "+ fbServ );
-		fbServ.getUserInformation(true);
+		//getFacebookService().tester_filterOffersFromFriends();
+		//getFacebookService().tester_filterOffersFromOwnersWithMutualFriends();
+		
+		//ArrayList<String> catNames = new ArrayList<String>();
+		//catNames.add("declare"); catNames.add("search");
+		
+		//ArrayList<Integer> catRsc = new ArrayList<Integer>();
+		//catRsc.add(R.id.menu_main_declare); catRsc.add(R.id.menu_main_search);
+		
+	System.out.println("I am in the correct version");
+		Intent intent = new Intent(getApplicationContext(), SwypingHorizontalViewsActivity.class);
+		startActivity(intent);
+		
+	//	System.out.println("I am in the correct version");
+	//	Intent intent = new Intent(getApplicationContext(), MyOffersActivity.class);
+	//	startActivity(intent);
 		
 	}
 
