@@ -78,10 +78,10 @@ public class FacebookUser {
 			
 			// Parse the JSON string to key-value map
 			JSONObject parsedValues = new JSONObject(responseJsonString);	
-			
+		
 			// Get user ID
 			if (parsedValues.has("id")){
-				this.userId = parsedValues.getInt("id")+"";
+				this.userId = parsedValues.getString("id");
 			}// end if: check if parameter exists
 									
 			// Get first name
