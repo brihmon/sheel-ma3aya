@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 
 import com.sheel.adapters.HorizontalSwypingPagingAdapter;
+import com.sheel.datastructures.Category;
+import com.sheel.datastructures.OfferDisplay2;
 import com.viewpagerindicator.TitlePageIndicator;
 
 /**
@@ -21,35 +23,11 @@ import com.viewpagerindicator.TitlePageIndicator;
  *
  */
 public class SwypingHorizontalViewsActivity extends Activity {
-	/**
-	 * category titles that will be displayed in the page 
-	 * indicator. It should not be too long.
-	 */
-	private ArrayList<String> categoriesNames= new ArrayList<String>();
-	/**
-	 * Respective categories resources IDs (Layout IDs to be inflated)
-	 */
-	private ArrayList<Integer> categoriesResourcesIds = new ArrayList<Integer>();
 	
 	/**
-	 * Constructor for creating a new activity that can handle
-	 * swapping horizontally multiple views with a built-in 
-	 * page indicator with categories names as its title
-	 * 
-	  * @param catNames
-	 * 		category titles that will be displayed in the page 
-	 * 		indicator. It should not be too long.
-	 * @param catResources
-	 * 		Respective categories resources IDs (Layout IDs to be inflated)
-	 * 
-	 *  	
-	 * @author 
-	 * 		Passant El.Agroudy (passant.elagroudy@gmail.com)
+	 * Different categories of offers to be displayed
 	 */
-	/*public SwypingHorizontalViewsActivity (ArrayList<String> catNames, ArrayList<Integer> catResources) { 	
-		this.categoriesNames = catNames;
-		this.categoriesResourcesIds = catResources;		
-	}// end constructor*/
+	private ArrayList<Category> categories = new ArrayList<Category>();
 	
     /** Called when the activity is first created. */
     @Override
@@ -59,7 +37,7 @@ public class SwypingHorizontalViewsActivity extends Activity {
        setContentView(R.layout.sheel_offers_list);
        initializeContent();
         
-        HorizontalSwypingPagingAdapter swypeAdapter = new HorizontalSwypingPagingAdapter(this.categoriesNames,this.categoriesResourcesIds);
+        HorizontalSwypingPagingAdapter swypeAdapter = new HorizontalSwypingPagingAdapter(this.categories);
         ViewPager swypePager = (ViewPager)findViewById(R.id.swypeView);
         swypePager.setAdapter(swypeAdapter);
         
@@ -69,12 +47,24 @@ public class SwypingHorizontalViewsActivity extends Activity {
      
     }// end onCreate
     
+    public void updateCategoryContent (ArrayList<OfferDisplay2> newOffersWrappers , int categoryIndex , boolean isAppend) {
+    	
+    	// Update the data of the category
+    	categories.get(categoryIndex).setOffersDisplayed(newOffersWrappers, isAppend);
+    	// Update the view of the list
+    	
+    	// notify list with the update
+    	
+    }// end updateCategoryContent
+   
     private void initializeContent() {
     	
-		categoriesNames.add("communicate"); categoriesNames.add("search");
+		//categoriesNames.add("Communicate"); categoriesNames.add("My Offers");
 		
-		categoriesResourcesIds.add(R.layout.communicate); categoriesResourcesIds.add(R.layout.get_user_info);
+		//categoriesResourcesIds.add(R.layout.communicate); categoriesResourcesIds.add(R.layout.my_offers_main);
 		
+    	categories.add(new Category("Communicate", R.layout.communicate));
+    	categories.add(new Category("My Offers", R.layout.my_offers_main));
 		
     
     }
