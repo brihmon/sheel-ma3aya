@@ -1,8 +1,19 @@
 package com.sheel.app;
 
+import static com.sheel.utils.SheelMaayaaConstants.HTTP_RESPONSE;
+import static com.sheel.utils.SheelMaayaaConstants.HTTP_STATUS;
+import static com.sheel.utils.SheelMaayaaConstants.pathKey;
+
 import java.util.ArrayList;
 
+import org.apache.http.HttpStatus;
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -17,6 +28,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import com.sheel.adapters.SearchResultsListAdapter;
 import com.sheel.datastructures.OfferDisplay;
 import com.sheel.listeners.InflateListener;
+import com.sheel.webservices.SheelMaayaaService;
 
 /**
  * This activity is used for displaying and interacting with
@@ -30,13 +42,22 @@ public class MyOffersActivity extends UserSessionStateMaintainingActivity
 {
 	private static final String TAG = MyOffersActivity.class.getName();
 	private static final String HTTP_GET_MY_OFFERS_FILTER = "HTTP_GET_MY_OFFERS";
-		
 	
+	
+	/**
+	 * Path for the database query
+	 */
+	String path;
+	
+	/**
+	 * Filter added for this activity to filter the actions received by the receiver
+	 */
+	IntentFilter filter;
 	
 	/**
 	 *  The receiver used for detecting the HTTP data arrival 
 	 */
-	private BroadcastReceiver receiver;
+	private SheelMaayaaBroadCastRec receiver;
 	
 	/**
 	 *  Last position clicked in the listView, used for saving the  
@@ -71,6 +92,11 @@ public class MyOffersActivity extends UserSessionStateMaintainingActivity
 	 */
 	ListView searchResultsList;
 	
+	/**
+	 * Intent used to pass the path for SheelMaayaService for handling HTTP Requests
+	 */
+	Intent serviceIntent;	
+	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -79,12 +105,17 @@ public class MyOffersActivity extends UserSessionStateMaintainingActivity
 		setContentView(R.layout.my_offers_main);
 		
 		//======Start the HTTP Request=========
+		path = "/getmyoffers/" + getFacebookService().getFacebookUser().getUserId();
+		path = "/getmyoffers/673780564";
 		
+		startHttpService(path);
+		
+    	
 		searchResults.add(new OfferDisplay("8", "13", "Hossam_Amer"));
-		searchResults.add(new OfferDisplay("8", "13", "Hossam_Amer"));
-		searchResults.add(new OfferDisplay("8", "13", "Hossam_Amer"));
-		searchResults.add(new OfferDisplay("8", "13", "Hossam_Amer"));
-		searchResults.add(new OfferDisplay("8", "13", "Hossam_Amer"));
+//		searchResults.add(new OfferDisplay("8", "13", "Hossam_Amer"));
+//		searchResults.add(new OfferDisplay("8", "13", "Hossam_Amer"));
+//		searchResults.add(new OfferDisplay("8", "13", "Hossam_Amer"));
+//		searchResults.add(new OfferDisplay("8", "13", "Hossam_Amer"));
 		
 		//=====================================
 		
@@ -122,6 +153,8 @@ public class MyOffersActivity extends UserSessionStateMaintainingActivity
 						{
 							InflateListener	infListener = new InflateListener(mPos);
 							stub.setOnInflateListener(infListener);
+							
+							Toast.makeText(getApplicationContext(), "Registering BUtton", Toast.LENGTH_SHORT).show();
 							stub.setVisibility(View.VISIBLE);
 						}
 					else
@@ -132,6 +165,7 @@ public class MyOffersActivity extends UserSessionStateMaintainingActivity
 				{
 					if(inflated.getVisibility() == View.GONE)
 						{
+						Toast.makeText(getApplicationContext(), "Should Registering BUtton", Toast.LENGTH_SHORT).show();
 							inflated.setVisibility(View.VISIBLE);
 						}
 					else
@@ -151,6 +185,22 @@ public class MyOffersActivity extends UserSessionStateMaintainingActivity
     	
     	//=====================================
 
+	}
+
+	/**
+	 * Initiates the HTTP call to the server
+	 * @param path
+	 * 				Path to the server controller
+	 */
+	private void startHttpService(String path) {
+		
+		serviceIntent = new Intent(this, SheelMaayaaService.class);
+    	serviceIntent.setAction(HTTP_GET_MY_OFFERS_FILTER);
+    	serviceIntent.putExtra(pathKey, path);
+    	
+    	Log.e(TAG, "Before Get My Offers HTTP Request: " + serviceIntent);
+	    startService(serviceIntent);
+    	
 	}
 
 	/**
@@ -179,6 +229,9 @@ public class MyOffersActivity extends UserSessionStateMaintainingActivity
 	protected void onPause() {
 		// TODO Auto-generated method stub
 		super.onPause();
+		
+		// Unregister the receiver onPause
+		unregisterReceiver(receiver);
 	}
 
 	@Override
@@ -191,6 +244,16 @@ public class MyOffersActivity extends UserSessionStateMaintainingActivity
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
+		
+		filter = new IntentFilter();
+		
+		// Add the filters of your activity
+		filter.addAction(HTTP_GET_MY_OFFERS_FILTER);
+		
+		receiver = new SheelMaayaaBroadCastRec();
+		
+		Log.e(TAG, "Receiver Registered");
+		registerReceiver(receiver, filter);
 	}
 
 	@Override
@@ -222,5 +285,83 @@ public class MyOffersActivity extends UserSessionStateMaintainingActivity
 	        }
 
 	   };
+	   
+	   
+	   public void onClick(View view) {
+	    	Toast.makeText(getApplicationContext(), "Button Position: " +
+	    			view.getTag(), Toast.LENGTH_SHORT).show();
+	    		    	
+	    	String path = "/getmyoffers/673780564";
+	    	
+	    	    	
+	    	Intent serviceIntent = new Intent(this, SheelMaayaaService.class);
+	    	serviceIntent.setAction(HTTP_GET_MY_OFFERS_FILTER);
+	    	serviceIntent.putExtra(pathKey, path);
+	    	
+	    	Toast.makeText(getApplicationContext(), "Before Intent Service",
+	    			Toast.LENGTH_SHORT).show();
+	    	
+	    	startService(serviceIntent);
+	    	
+	    	
+	    }
+	   
+	   
+	   /**
+	    * {@link SheelMaayaaBroadCastRec} Class for Broadcast receiver i.e to receive the result from the HTTP request
+	    * @author Hossam_Amer
+	    *
+	    */
+	   
+		class SheelMaayaaBroadCastRec extends BroadcastReceiver {
+
+			@Override
+			public void onReceive(Context context, Intent intent) {
+				// TODO Auto-generated method stub
+				
+				Log.e(TAG, intent.getAction());
+				String action = intent.getAction();
+				int httpStatus = intent.getExtras().getInt(HTTP_STATUS);
+				Log.e(TAG, "HTTPSTATUS: "+ httpStatus);
+				
+				if( httpStatus == HttpStatus.SC_OK)
+				{
+					if (action.equals(HTTP_GET_MY_OFFERS_FILTER))
+					{
+						String responseStr = intent.getExtras().getString(HTTP_RESPONSE);
+						fillSearchResults(responseStr);
+						
+						Log.e(TAG, responseStr);
+							
+					}
+				
+				}
+				
+			}
+
+			/**
+			 * Used to fill the adapter with data
+			 * @param responseStr
+			 * 					Response String recieved from the server
+			 */
+			private void fillSearchResults(String responseStr) 
+			{
+				try {
+					
+					JSONArray jsonArray = new JSONArray(responseStr);
+					
+					Toast.makeText(getApplicationContext(), jsonArray.toString(),
+			    			Toast.LENGTH_SHORT).show();
+					
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+			}
+				
+	}
+		
+  
 
 }
