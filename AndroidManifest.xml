@@ -34,7 +34,7 @@
         <activity android:name=".MyOffersActivity"></activity>
 
 
-		<service android:name="SheelMaayaaService"/>
+		<service android:name=".SheelMaayaaService"/>
 	
 	</application>
 
