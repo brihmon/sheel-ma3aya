@@ -3,6 +3,7 @@ package com.sheel.app;
 import static com.sheel.utils.SheelMaayaaConstants.HTTP_RESPONSE;
 import static com.sheel.utils.SheelMaayaaConstants.HTTP_STATUS;
 import static com.sheel.utils.SheelMaayaaConstants.pathKey;
+import static com.sheel.utils.SheelMaayaaConstants.*;
 
 import java.util.ArrayList;
 
@@ -31,6 +32,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import com.sheel.adapters.SearchResultsListAdapter;
 import com.sheel.datastructures.OfferDisplay2;
 import com.sheel.listeners.InflateListener;
+import com.sheel.utils.HTTPManager;
 import com.sheel.utils.InternetManager;
 import com.sheel.webservices.SheelMaayaaService;
 
@@ -45,7 +47,6 @@ import com.sheel.webservices.SheelMaayaaService;
 public class MyOffersActivity extends UserSessionStateMaintainingActivity 
 {
 	private static final String TAG = MyOffersActivity.class.getName();
-	private static final String HTTP_GET_MY_OFFERS_FILTER = "HTTP_GET_MY_OFFERS";
 	
 	
 	/**
@@ -138,7 +139,8 @@ public class MyOffersActivity extends UserSessionStateMaintainingActivity
 			// hashas
 			path = "/getmyoffers/673780564";
 			
-			startHttpService(path);
+			dialog = ProgressDialog.show(MyOffersActivity.this, "", "Getting your Offers, Please wait..", true, false);
+			HTTPManager.startHttpService(path, HTTP_GET_MY_OFFERS_FILTER, getApplicationContext());
 		}
 		
 		
@@ -210,9 +212,6 @@ public class MyOffersActivity extends UserSessionStateMaintainingActivity
 	else		
 		noInternetConnectionHandler();
 	
-    		
-	
-
 		
 	}//end OnCreate
 
@@ -227,26 +226,10 @@ public class MyOffersActivity extends UserSessionStateMaintainingActivity
 		       
 		       });
 		 builder.create();
-		builder.show();
+		 builder.show();
 		
 	}
 
-	/**
-	 * Initiates the HTTP call to the server
-	 * @param path
-	 * 				Path to the server controller
-	 */
-	private void startHttpService(String path) {
-		
-		dialog = ProgressDialog.show(MyOffersActivity.this, "", "Getting your Offers, Please wait..", true, false);
-		serviceIntent = new Intent(this, SheelMaayaaService.class);
-    	serviceIntent.setAction(HTTP_GET_MY_OFFERS_FILTER);
-    	serviceIntent.putExtra(pathKey, path);
-    	
-    	Log.e(TAG, "Before Get My Offers HTTP Request: " + serviceIntent);
-	    startService(serviceIntent);
-    	
-	}
 
 	/**
 	 * Initializes the adapter of the list view.

@@ -20,7 +20,9 @@ public class InternetManager {
 	/**
 	 * 
 	 * @param mContext The current context of the activity
-	 * @note You can get mContext by getApplicationContext or getContext, notsure!
+	 * @note You can get mContext by getApplicationContext
+	 * @example
+	 * 			InternetManager.isInternetOn(getApplicationContext())
 	 * @return
 	 * 	true   Internet connection is available
 	 * 	false  Internet connection is not available
