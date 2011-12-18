@@ -21,4 +21,14 @@
         android:onClick="onClick_logOut"/>
     <TextView android:textAppearance="?android:attr/textAppearanceLarge" android:id="@+id/userID" android:text="TextView" android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_alignParentTop="true" android:layout_centerHorizontal="true" android:layout_marginTop="18dp"></TextView>
 
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/userID"
+        android:layout_below="@+id/imageButton1"
+        android:layout_marginTop="30dp"
+        android:text="Check Facebook Search"
+        android:onClick="onClick_checkFacebookSearch" />
+
 </RelativeLayout>
