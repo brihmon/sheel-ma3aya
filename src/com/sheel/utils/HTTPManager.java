@@ -20,6 +20,8 @@ public class HTTPManager
 	 * 				Filter used for the broadcastreceiver
 	 * @param mContext
 	 * 			Current context of the application (i.e: getApplicationContext())
+	 * 
+	 * @author Hossam_Amer
 	 */
 	public static void startHttpService(String path, String FILTER, Context mContext) {
 		
