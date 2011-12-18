@@ -41,6 +41,7 @@ import android.widget.Toast;
 
 import com.sheel.app.MyOffersActivity.SheelMaayaaBroadCastRec;
 import com.sheel.utils.HTTPManager;
+import com.sheel.utils.InternetManager;
 import com.sheel.webservices.FacebookWebservice;
 
 /**
@@ -78,7 +79,7 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
      ProgressDialog dialog;
 
 	/** Path string where the taken passport photo is saved */
-	String path;
+	String ImagePath;
 	/** Male Toggle Button. Not required to register */
 	RadioButton toggleMale;
 	/** Female Toggle Button. Not required to register */
@@ -310,12 +311,12 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 				+ NewUserActivity.this.getPackageName()+ "/PassportPhoto.jpg";
 		*/
 		
-		path =  Environment.getExternalStorageDirectory().getPath() 
+		ImagePath =  Environment.getExternalStorageDirectory().getPath() 
 				+ File.separatorChar+ "Android/data/"
 						+ NewUserActivity.this.getPackageName() +File.separatorChar+  "PassportPhoto.jpg";
-		System.out.println("Path: " + path.toString());
+		System.out.println("Path: " + ImagePath.toString());
 		/** The file containing the taken passport photo */
-		File file = new File(path);
+		File file = new File(ImagePath);
 
 		try {
 			// Create a file at the location specified in the path
@@ -327,7 +328,7 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 		} catch (IOException e) {
 			Log.e(TAG, "Could not create file.", e);
 		}
-		Log.i(TAG, path);
+		Log.i(TAG, ImagePath);
 
 		fileUri = Uri.fromFile(file);
 
@@ -346,7 +347,6 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
-			System.out.println(path);
 			
 			System.out.println("First IF");
 			// User done with capturing image
@@ -375,21 +375,21 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 	protected void onPhotoTaken() {
 
 		ImageView i = (ImageView) findViewById(R.id.pictureView);
-		Bitmap bitmap = BitmapFactory.decodeFile(path);
+		Bitmap bitmap = BitmapFactory.decodeFile(ImagePath);
+		//System.out.println(ImagePath);
 		//ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		//bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos); // bm is the
 																// bitmap object
 		//byte[] image = baos.toByteArray();
 
 		//passportImage = Base64.encodeBytes(image);
-		//System.out.println(passportImage);
 		i.setImageBitmap(bitmap);
 
 		// Intent mIntent = new Intent(this, NewUserActivity.class);
 		// Pass variable to detailed view activity using the intent
 		// putExtra(NewUserActivity.PASSPORT_IMAGE_KEY, encodedImage);
 		// getIntent().putExtra(NewUserActivity.PASSPORT_IMAGE_KEY, );
-		System.out.println("Greaaaaaaaat222");
+		System.out.println("Photo Success");
 		
 	}
 
@@ -432,8 +432,7 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 		
 		photoValidation(passportImage);
 
-		if (nationalityValid && codeValid && photoTaken && mobileNumber.length() > 2 && firstName.length() > 0
-				&& lastName.length() > 0 && email.length() > 0
+		if (nationalityValid && codeValid && photoTaken && mobileNumber.length() > 2
 				&& passportNumber.length() > 0)
 			allValid = true;
 		else
@@ -500,7 +499,9 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 		 return alertDialog;
 	 }
 	public void OnClick_register(View v) {
-		if(isInternetOn()) {
+		//if(isInternetOn())
+		if(InternetManager.isInternetOn(getApplicationContext()))
+		{
 			// INTERNET IS AVAILABLE, DO STUFF..
 			System.out.println("CONNECCTIVITY OK");
 			
@@ -629,7 +630,7 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 							Toast.makeText(NewUserActivity.this, responseStr, Toast.LENGTH_LONG).show();
 							if(responseStr.equals("false")){
 								System.out.println("Not found");
-								path = "/insertuser/" + faceBookID + "/" + email + "/"
+								String path = "/insertuser/" + faceBookID + "/" + email + "/"
 									+ firstName + "/" + middleName + "/" + lastName + "/"
 									+ mobileNumber + "/" + nationality + "/" + passportNumber
 									+ "/" + gender + "/" + passportImage;
@@ -684,7 +685,7 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 			String path = "/checkRegistered/" + faceBookID;
 			//sc.runHttpRequest("/checkRegistered/" + faceBookID);
 			HTTPManager.startHttpService(path, HTTP_CHECK_REGISTERED, getApplicationContext());
-			passportImage = "PassPortImage";
+			//passportImage = "PassPortImage";
 
 			System.out.println("/insertuser/" + faceBookID + "/" + email + "/"
 					+ firstName + "/" + middleName + "/" + lastName + "/"
