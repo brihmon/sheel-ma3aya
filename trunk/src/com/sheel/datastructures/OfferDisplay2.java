@@ -1,6 +1,8 @@
 package com.sheel.datastructures;
 
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import com.sheel.datastructures.enums.OfferWeightStatus;
 import com.sheel.datastructures.enums.OwnerFacebookStatus;
@@ -238,6 +240,59 @@ public class OfferDisplay2 {
 		else
 			return false;
 	}// end equals
+	
+	/**
+	 * Used for mapping the offer from JSONObject into a normal OfferDisplay2
+	 * 
+	 * @param
+	 * 		offerJSON JSON Object sent to be converted to a normal offer
+	 * @return OfferDisplay2 Object from the JSONObject
+	 * @author Hossam_Amer
+	 */
+	
+	public static OfferDisplay2 mapOffer(JSONObject offerJSON)
+	{
+		try {
+			
+			JSONObject userJSON = offerJSON.getJSONObject("user");
+			JSONObject flightJSON = offerJSON.getJSONObject("flight");
+			
+			String ownerId = userJSON.getString("facebookAccount");
+			String firstName = userJSON.getString("firstName");
+			String middleName = userJSON.getString("middleName");
+			String lastName = userJSON.getString("lastName");
+			String email = userJSON.getString("email");
+			String mobile = userJSON.getString("mobileNumber");
+			String gender = userJSON.getString("gender");
+			String nationality = userJSON.getString("nationality");
+			
+			User user = new User(ownerId, firstName, middleName, lastName, "", "", email, mobile, gender, nationality);
+			
+			Long offerId = offerJSON.getLong("id");
+			String offerstatus = offerJSON.getString("offerStatus");
+			int userstatus = offerJSON.getInt("userStatus");
+			int kgs = offerJSON.getInt("noOfKilograms");
+			int price = offerJSON.getInt("pricePerKilogram");
+			
+			Offer offer = new Offer(offerId, kgs, price, userstatus, offerstatus);
+			    
+			String flightNumber = flightJSON.getString("flightNumber");
+			String source = flightJSON.getString("source");
+			String destination = flightJSON.getString("destination");
+			String departureDate = flightJSON.getString("departureDate");
+				
+			Flight flight = new Flight(flightNumber, source, destination, departureDate);
+			
+				
+			return new OfferDisplay2(user, flight, offer);
+
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			
+			return null;
+		}
+	}
 	
 	
 }// end class
