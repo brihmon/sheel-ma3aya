@@ -42,5 +42,13 @@ public interface SheelMaayaaConstants {
 	final int OfferWeightStatus_LESS = 0;
 	final int OfferWeightStatus_MORE = 1;
 	
+	//======================================================================
+	
+	/**
+	 * Constants used for adding HTTP Filters
+	 * 
+	 */
+	final String HTTP_GET_MY_OFFERS_FILTER = "HTTP_GET_MY_OFFERS";
+	
 	
 }
