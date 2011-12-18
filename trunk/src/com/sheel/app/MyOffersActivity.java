@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import org.apache.http.HttpStatus;
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -27,6 +28,8 @@ import android.widget.AdapterView.OnItemClickListener;
 
 import com.sheel.adapters.SearchResultsListAdapter;
 import com.sheel.datastructures.OfferDisplay;
+import com.sheel.datastructures.OfferDisplay2;
+import com.sheel.datastructures.enums.OwnerFacebookStatus;
 import com.sheel.listeners.InflateListener;
 import com.sheel.webservices.SheelMaayaaService;
 
@@ -84,7 +87,7 @@ public class MyOffersActivity extends UserSessionStateMaintainingActivity
 	/**
 	 * Offers retrieved from the database.
 	 */
-	ArrayList<OfferDisplay> searchResults = new ArrayList<OfferDisplay>();
+	ArrayList<OfferDisplay2> searchResults = new ArrayList<OfferDisplay2>();
 	
 	
 	/**
@@ -104,6 +107,11 @@ public class MyOffersActivity extends UserSessionStateMaintainingActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.my_offers_main);
 		
+		//========Initialize the adapter======
+			initAdapter();
+		//=====================================
+
+		
 		//======Start the HTTP Request=========
 		path = "/getmyoffers/" + getFacebookService().getFacebookUser().getUserId();
 		path = "/getmyoffers/673780564";
@@ -111,7 +119,7 @@ public class MyOffersActivity extends UserSessionStateMaintainingActivity
 		startHttpService(path);
 		
     	
-		searchResults.add(new OfferDisplay("8", "13", "Hossam_Amer"));
+//		searchResults.add(new OfferDisplay2("8", "13", "Hossam_Amer"));
 //		searchResults.add(new OfferDisplay("8", "13", "Hossam_Amer"));
 //		searchResults.add(new OfferDisplay("8", "13", "Hossam_Amer"));
 //		searchResults.add(new OfferDisplay("8", "13", "Hossam_Amer"));
@@ -120,9 +128,6 @@ public class MyOffersActivity extends UserSessionStateMaintainingActivity
 		//=====================================
 		
 		
-		//========Initialize the adapter======
-			initAdapter();
-    	//=====================================
     	
     	//==========Item Click Listener========
     	
@@ -280,6 +285,8 @@ public class MyOffersActivity extends UserSessionStateMaintainingActivity
 	        @Override
 	        public void handleMessage(Message msg)
 	        {
+	        	Log.e(TAG, "Data Changed");
+	        	Log.e(TAG, adapter.toString());
 	            adapter.notifyDataSetChanged();
 	            super.handleMessage(msg);
 	        }
@@ -329,7 +336,7 @@ public class MyOffersActivity extends UserSessionStateMaintainingActivity
 					if (action.equals(HTTP_GET_MY_OFFERS_FILTER))
 					{
 						String responseStr = intent.getExtras().getString(HTTP_RESPONSE);
-						fillSearchResults(responseStr);
+						loadSearchResultsOnUI(responseStr);
 						
 						Log.e(TAG, responseStr);
 							
@@ -340,18 +347,30 @@ public class MyOffersActivity extends UserSessionStateMaintainingActivity
 			}
 
 			/**
-			 * Used to fill the adapter with data
+			 * Used to fill the adapter with data (Offers)
 			 * @param responseStr
 			 * 					Response String recieved from the server
 			 */
-			private void fillSearchResults(String responseStr) 
+			private void loadSearchResultsOnUI(String responseStr) 
 			{
 				try {
 					
 					JSONArray jsonArray = new JSONArray(responseStr);
-					
+                	
+               	 for (int i = 0; i < jsonArray.length(); i++) {
+               		 
+               		 OfferDisplay2 offerDisplay = OfferDisplay2.mapOffer(jsonArray.getJSONObject(i));
+               		 searchResults.add(offerDisplay);
+               		 
+               	 }// end for
+
 					Toast.makeText(getApplicationContext(), jsonArray.toString(),
 			    			Toast.LENGTH_SHORT).show();
+					// Notify the adapter
+					
+					Log.e(TAG, handler.toString());
+		            handler.sendEmptyMessage(1);
+		            
 					
 				} catch (JSONException e) {
 					// TODO Auto-generated catch block
