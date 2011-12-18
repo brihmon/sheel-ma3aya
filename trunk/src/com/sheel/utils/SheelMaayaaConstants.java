@@ -49,6 +49,8 @@ public interface SheelMaayaaConstants {
 	 * 
 	 */
 	final String HTTP_GET_MY_OFFERS_FILTER = "HTTP_GET_MY_OFFERS";
+	final String HTTP_CHECK_REGISTERED = "HTTP_CHECK_REGISTERED";
+	final String HTTP_REGISTER_USER = "HTTP_REGISTER_USER";
 	
 	
 }
