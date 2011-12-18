@@ -142,7 +142,7 @@ public class ViewSearchResultsActivity extends UserSessionStateMaintainingActivi
      */
     private void initListView(){    	
         	
-    	// Get list using its ID
+    /*	// Get list using its ID
     	ListView searchResultsList = (ListView)findViewById(R.id.listView_searchResults);
        	// Create adapter to control how list is displayed
     	adapter = new SearchResultsListAdapter(this, searchResults);
@@ -166,7 +166,7 @@ public class ViewSearchResultsActivity extends UserSessionStateMaintainingActivi
     	    	
     	    }// end onItemClick
     	  });
-    
+    */
     }// end initListView
     
     /**
@@ -297,7 +297,7 @@ public class ViewSearchResultsActivity extends UserSessionStateMaintainingActivi
     private void updateSearchResultsList(Hashtable<String,OfferDisplay> offersFromUsers,
     		boolean isAppend){
     	
-    	if (offersFromUsers != null){
+    /*	if (offersFromUsers != null){
     		if (!isAppend){
         		searchResults.clear();
         	}// end if : list not initialized or want to display new search result list
@@ -316,12 +316,12 @@ public class ViewSearchResultsActivity extends UserSessionStateMaintainingActivi
     	else{
     		Log.e("passant","list is empty");
     	}    	
-   
+   */
     }// end updateSearchResultsList
     
     private void updateSearchResultsList(ArrayList<OfferDisplay> offersFromUsers,
     		boolean isAppend){
-    	
+    	/*
     	if (offersFromUsers != null){
     		if (!isAppend){
         		searchResults.clear();
@@ -338,7 +338,8 @@ public class ViewSearchResultsActivity extends UserSessionStateMaintainingActivi
     	}// end if : list has something
     	else{
     		Log.e("passant","list is empty");
-    	}    	
+    	}  
+    	*/  	
    
     }// end updateSearchResultsList
     
@@ -349,7 +350,7 @@ public class ViewSearchResultsActivity extends UserSessionStateMaintainingActivi
      * 		returned search results from querying app database,  where:
 	 * 		<ul>
 	 * 			<li>the <code>key</code> is Facebook ID of requested offer owner</li>
-	 * 			<li>the <code>value</code> different offers from this offer owner</li>
+	 * 			<li>the <code>value</code> different offersWrappers from this offer owner</li>
 	 * 		</ul> 
 	 * 		<b>IMPORTANT: the minimum number of allowed elements in the list is 1,
 	 * 		i.e. the list must be checked that it is not empty before calling the 
@@ -359,9 +360,9 @@ public class ViewSearchResultsActivity extends UserSessionStateMaintainingActivi
      * 		more filtered levels. Available levels are ordered from most filtered level
      * 		on top to least filtered: 
      * 			<ol>
-	 * 				<li> {@link OwnerFacebookStatus#FRIEND} : filter offers from facebook
+	 * 				<li> {@link OwnerFacebookStatus#FRIEND} : filter offersWrappers from facebook
 	 * 				friends only</li>
-	 * 				<li> {@link OwnerFacebookStatus#FRIEND_OF_FRIEND} : filter offers from facebook
+	 * 				<li> {@link OwnerFacebookStatus#FRIEND_OF_FRIEND} : filter offersWrappers from facebook
 	 * 				friends or friends of friends</li>
 	 * 			</ol> 
 	 * @author 
@@ -381,22 +382,22 @@ public class ViewSearchResultsActivity extends UserSessionStateMaintainingActivi
     		ArrayList<ArrayList<?>> resultsFromFriends=null;
     		ArrayList<ArrayList<?>> resultsFromFriendsOfFriends=null;
     		
-    		// Search for offers with owners friends with the app user 
+    		// Search for offersWrappers with owners friends with the app user 
     		resultsFromFriends= getFacebookService().filterOffersFromFriends(remainingOffers);
-    		Log.e("passant",METHOD_NAME+": offers from friends are filtered");
+    		Log.e("passant",METHOD_NAME+": offersWrappers from friends are filtered");
     		
-    		// Filter remaining offers by removing offers from friends
+    		// Filter remaining offersWrappers by removing offersWrappers from friends
     		remainingOffers.keySet().removeAll((ArrayList<String>)resultsFromFriends.get(1));
-    		Log.e("passant",METHOD_NAME+": offers from NON friends are filtered");
+    		Log.e("passant",METHOD_NAME+": offersWrappers from NON friends are filtered");
     		
-    		// Search for offers with owners friends of user friends but not the user's friends
+    		// Search for offersWrappers with owners friends of user friends but not the user's friends
     		if (maximumOwnerFacebookStatus == OwnerFacebookStatus.FRIEND_OF_FRIEND || maximumOwnerFacebookStatus == OwnerFacebookStatus.COMMON_NETWORKS ){
     			resultsFromFriendsOfFriends = getFacebookService().filterOffersFromOwnersWithMutualFriends(remainingOffers);
-    			Log.e("passant","offers from  friends of friends are filtered");    	    	
-    			// Filter remaining offers by removing offers from friends of friends
+    			Log.e("passant","offersWrappers from  friends of friends are filtered");    	    	
+    			// Filter remaining offersWrappers by removing offersWrappers from friends of friends
         		remainingOffers.keySet().removeAll((ArrayList<String>)resultsFromFriendsOfFriends.get(1));
-    			Log.e("passant","unrelated offers are filtered");    	    	
-    		}// end if : user wants to see offers from indirect acquaintances
+    			Log.e("passant","unrelated offersWrappers are filtered");    	    	
+    		}// end if : user wants to see offersWrappers from indirect acquaintances
     		
     		// TODO next sprint add networks
     		Log.e("passant","search results will be displayed");
@@ -485,7 +486,7 @@ public class ViewSearchResultsActivity extends UserSessionStateMaintainingActivi
                                     	
                                     	ArrayList<OfferDisplay2> list = new ArrayList<OfferDisplay2>();
                                     	/**
-                                    	 * Map between each user and his/her corresponding offers retrieved
+                                    	 * Map between each user and his/her corresponding offersWrappers retrieved
                                     	 * from the database
                                     	 */
                                     	Hashtable<String,ArrayList<OfferDisplay2>> offersFromUsers = new Hashtable<String, ArrayList<OfferDisplay2>>();
@@ -516,11 +517,11 @@ public class ViewSearchResultsActivity extends UserSessionStateMaintainingActivi
                                /*    if(facebookStatus.equals(OwnerFacebookStatus.UNRELATED.name())) {
                                     	updateSearchResultsList(list, false);
 
-                                    }// end if: no facebook search enabled -> display offers
+                                    }// end if: no facebook search enabled -> display offersWrappers
                                     else if (offersFromUsers.size() > 0) {	
                                     	searchUsingFacebook(offersFromUsers, facebook);
 	
-                                    }// end else: offers list is not empty & facebook search required -> do	 
+                                    }// end else: offersWrappers list is not empty & facebook search required -> do	 
                                */
 									} catch (JSONException e) {
 										
@@ -654,7 +655,7 @@ public class ViewSearchResultsActivity extends UserSessionStateMaintainingActivi
     	
     	if (offersFromUsers.containsKey(ownerId)) {
     		offersFromUsers.get(ownerId).add(offer);
-    	}// end if : owner already has offers -> add this one to them
+    	}// end if : owner already has offersWrappers -> add this one to them
     	else {
     		ArrayList<OfferDisplay2> offersFromThisUser = new ArrayList<OfferDisplay2>();
     		offersFromThisUser.add(offer);
@@ -682,8 +683,8 @@ public void test_categorizeOffersUsingFacebook(){
 	ArrayList<OfferDisplay2> offers_usr6 = new ArrayList<OfferDisplay2>();
 	ArrayList<OfferDisplay2> offers_usr7 = new ArrayList<OfferDisplay2>();
 
-	// Friends offers: 1 (U1) , 2 (U1), 3 (U2), 4 (U3)
-	// Friends of friends offers: 5 (U6) , 6 (U6) , 7 (U6) , 8 (U7)
+	// Friends offersWrappers: 1 (U1) , 2 (U1), 3 (U2), 4 (U3)
+	// Friends of friends offersWrappers: 5 (U6) , 6 (U6) , 7 (U6) , 8 (U7)
 	// Strangers : 9 (U4) , 10 (U4) , 11 (U5)
 	
 	offers_usr4.add(new OfferDisplay2(usrId4, 9, name4));// stranger
