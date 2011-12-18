@@ -159,6 +159,8 @@ public class MyOffersActivity extends UserSessionStateMaintainingActivity
 		
 		try
 		{
+			//==============Showing and Hiding Effect===============
+			
 			if (v != null) 
 			{
 				stub = (ViewStub) v.findViewById(R.id.infoStub);
@@ -186,6 +188,8 @@ public class MyOffersActivity extends UserSessionStateMaintainingActivity
 					else
 						inflated.setVisibility(View.GONE);
 				}
+				
+				////===========================================
 					
 				}//end if
 		}
