@@ -87,7 +87,7 @@ public class SwypingHorizontalViewsActivity extends Activity {
     	ArrayList<OfferDisplay2> newOffers = new ArrayList<OfferDisplay2>();
     	newOffers.add(new OfferDisplay2("11", 1, "Passant"));
     	newOffers.add(new OfferDisplay2("22", 2, "Mohamed"));
-    	updateCategoryContent(newOffers, 1, true);    	
+    	updateCategoryContent(newOffers, 1, false);    	
     }
     
     /**
