@@ -2,19 +2,18 @@ package com.sheel.adapters;
 
 import java.util.ArrayList;
 
-import com.sheel.app.R;
-import com.sheel.datastructures.FacebookUser;
-import com.sheel.datastructures.OfferDisplay;
-import com.sheel.datastructures.enums.OfferWeightStatus;
-
 import android.content.Context;
-import android.database.DataSetObserver;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+
+import com.sheel.app.R;
+import com.sheel.datastructures.OfferDisplay2;
+
+import static com.sheel.utils.SheelMaayaaConstants.*;
 
 /**
  * This class is used as an adapter to control the behavior
@@ -35,7 +34,7 @@ public class SearchResultsListAdapter extends BaseAdapter {
 	 * List of hybrid object used to display data about the 
 	 * offer and its owner
 	 */
-	private ArrayList<OfferDisplay> searchResults;
+	private ArrayList<OfferDisplay2> searchResults;
 	
 	/**
 	 * Constructor to control the behaviour of a certain ListView
@@ -46,7 +45,7 @@ public class SearchResultsListAdapter extends BaseAdapter {
 	 * 		List of hybrid object used to display data about the 
 	 * 		offer and its owner
 	 */
-	public SearchResultsListAdapter(Context c, ArrayList<OfferDisplay> users ){
+	public SearchResultsListAdapter(Context c, ArrayList<OfferDisplay2> users ){
 		this.context = c;
 		this.searchResults = users;
 	}// end constructor
@@ -72,7 +71,7 @@ public class SearchResultsListAdapter extends BaseAdapter {
 		
 		if (convertView == null){
 			
-			OfferDisplay offerDisplay = searchResults.get(position);
+			OfferDisplay2 offerDisplay = searchResults.get(position);
 			
 			// Get the needed inflater to read the XML layout file
 			LayoutInflater inflater = (LayoutInflater) context
@@ -86,7 +85,7 @@ public class SearchResultsListAdapter extends BaseAdapter {
 			summary_name.setText(offerDisplay.getDisplayName());
 			
 			// Set (Gender) image according to user gender			
-			if (offerDisplay.isFemale()){
+			if (offerDisplay.getUser().gender.equals(female) ){
 				setIconForATextField(summary_name, R.drawable.gender_female, 0);
 			}// end if : user is female -> show female image
 			else{
@@ -95,12 +94,13 @@ public class SearchResultsListAdapter extends BaseAdapter {
 			
 			// Set (Number of Kilograms) according to offer			
 			TextView summary_kilos = (TextView) listItem.findViewById(R.id.summary_numberOfKilos);
-			if (offerDisplay.getWeightStatus() == OfferWeightStatus.LESS){
-				summary_kilos.setText("takes " + offerDisplay.getNumberOfKgs()+ " kilos");	
+			if (offerDisplay.getOffer().getUserStatus() == OfferWeightStatus_LESS){
+//				summary_kilos.setText("takes " + offerDisplay.getNumberOfKgs()+ " kilos");
+				summary_kilos.setText("takes " + offerDisplay.getOffer().getNoOfKilograms()+ " kilos");
 				
 			}// end if : offer owner has less weight, i.e. wants to carry luggage
-			else if (offerDisplay.getWeightStatus() == OfferWeightStatus.MORE){
-				summary_kilos.setText("gives " + offerDisplay.getNumberOfKgs()+ " Kgs");
+			else if (offerDisplay.getOffer().getUserStatus() == OfferWeightStatus_MORE){
+				summary_kilos.setText("gives " + offerDisplay.getOffer().getNoOfKilograms()+ " Kgs");
 				
 			}// end if : offer owner has more weight, i.e. wants to give luggage
 			else{
@@ -115,7 +115,7 @@ public class SearchResultsListAdapter extends BaseAdapter {
 		return listItem;
 	}// end getView
 	
-	public void setList(ArrayList<OfferDisplay> newResults){
+	public void setList(ArrayList<OfferDisplay2> newResults){
 		this.searchResults = newResults;
 		this.notifyDataSetChanged();
 	}
