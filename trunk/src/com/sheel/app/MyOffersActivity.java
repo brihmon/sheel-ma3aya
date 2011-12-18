@@ -10,9 +10,11 @@ import org.apache.http.HttpStatus;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
@@ -205,13 +207,29 @@ public class MyOffersActivity extends UserSessionStateMaintainingActivity
     	//=====================================
 	
 	}// end if (isInternet)
-	else
-		Toast.makeText(getApplicationContext(), "Internet is Down!", Toast.LENGTH_SHORT).show();
+	else		
+		noInternetConnectionHandler();
+	
     		
 	
 
 		
 	}//end OnCreate
+
+	private void noInternetConnectionHandler() {
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setMessage("Internet Connection is not available")
+		       .setCancelable(false)
+		       .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+		           public void onClick(DialogInterface dialog, int id) {
+		        	   dialog.cancel();
+		           }
+		       
+		       });
+		 builder.create();
+		builder.show();
+		
+	}
 
 	/**
 	 * Initiates the HTTP call to the server
