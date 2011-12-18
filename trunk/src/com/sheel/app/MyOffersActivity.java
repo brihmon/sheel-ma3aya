@@ -103,24 +103,39 @@ public class MyOffersActivity extends UserSessionStateMaintainingActivity
 	 */
 	ProgressDialog dialog;
 	
+	/**
+	 * Flag to indicate whether to load from the database or the activity resources
+	 */
+		
+	@SuppressWarnings("unchecked")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.my_offers_main);
 		
-		//========Initialize the adapter======
-			initAdapter();
+		//========Get the last state for my list========
+		searchResults = (ArrayList<OfferDisplay2>) getLastNonConfigurationInstance();		
 		//=====================================
 
 		
 		//======Start the HTTP Request=========
+			
+	if(searchResults == null)
+	{
+		// Create a new list
+		searchResults = new ArrayList<OfferDisplay2>();
+	
 		path = "/getmyoffers/" + getFacebookService().getFacebookUser().getUserId();
 		// hashas
 		path = "/getmyoffers/673780564";
 		
 		startHttpService(path);
-		
+	}	
+	
+	//========Initialize the adapter======
+	initAdapter();
+	//=====================================
     		
 		//=====================================
 		
@@ -271,11 +286,18 @@ public class MyOffersActivity extends UserSessionStateMaintainingActivity
 		super.onStop();
 	}
 
+	/**
+	 * Used for returning the <code>searchResults</code> just before onDestroy()
+	 */
 	@Override
 	public Object onRetainNonConfigurationInstance() {
-		// TODO Auto-generated method stub
-		return super.onRetainNonConfigurationInstance();
+
+		return searchResults;
 	}
+	
+	/**
+	 * Handler for notifiying the change of data to the adapter
+	 */
 	
 	 private Handler handler = new Handler()
 	  {
