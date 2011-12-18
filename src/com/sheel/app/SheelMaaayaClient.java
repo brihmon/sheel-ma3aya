@@ -33,7 +33,6 @@ public abstract class SheelMaaayaClient {
 	 */
 	public void runHttpPost(String path,String json){
 	 
-	 
 		PATH = path;
 		JSON = json;
 	    rspStr = "";
@@ -50,16 +49,11 @@ public abstract class SheelMaaayaClient {
              	HttpPost httpost = new HttpPost();
              	httpost.setURI(new URI(SERVER+PATH));
             	httpost.setEntity(new StringEntity(JSON));
-            	
-             	httpost.setHeader("Accept", "text/javascript");
-        		httpost.setHeader("Content-type", "text/javascript");
-
-                 RESPONSE = CLIENT.execute(httpost);
+                RESPONSE = CLIENT.execute(httpost);
                 
 	             if (RESPONSE.getStatusLine().getStatusCode() == HttpStatus.SC_OK)
 	                {
 	                 rspStr += EntityUtils.toString(RESPONSE.getEntity());
-	                 //rspStr+=RESPONSE.getStatusLine().getStatusCode();
 	                }
                 
             }
@@ -72,8 +66,6 @@ public abstract class SheelMaaayaClient {
     });
     
     THREAD.start();
-		JSON = "";
-		PATH = "";
 		
 	}
     
@@ -111,7 +103,7 @@ public abstract class SheelMaaayaClient {
 	    THREAD.start();
     }
     
-    //To be implemented according to the activity needs
+    /**To be implemented according to the activity needs**/
     public abstract void doSomething();
     	
 }
