@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import org.apache.http.HttpStatus;
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -27,9 +27,7 @@ import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
 import com.sheel.adapters.SearchResultsListAdapter;
-import com.sheel.datastructures.OfferDisplay;
 import com.sheel.datastructures.OfferDisplay2;
-import com.sheel.datastructures.enums.OwnerFacebookStatus;
 import com.sheel.listeners.InflateListener;
 import com.sheel.webservices.SheelMaayaaService;
 
@@ -100,6 +98,10 @@ public class MyOffersActivity extends UserSessionStateMaintainingActivity
 	 */
 	Intent serviceIntent;	
 	
+	/**
+	 * Dialog for displaying the loading pop-up for the user
+	 */
+	ProgressDialog dialog;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -114,17 +116,12 @@ public class MyOffersActivity extends UserSessionStateMaintainingActivity
 		
 		//======Start the HTTP Request=========
 		path = "/getmyoffers/" + getFacebookService().getFacebookUser().getUserId();
+		// hashas
 		path = "/getmyoffers/673780564";
 		
 		startHttpService(path);
 		
-    	
-//		searchResults.add(new OfferDisplay2("8", "13", "Hossam_Amer"));
-//		searchResults.add(new OfferDisplay("8", "13", "Hossam_Amer"));
-//		searchResults.add(new OfferDisplay("8", "13", "Hossam_Amer"));
-//		searchResults.add(new OfferDisplay("8", "13", "Hossam_Amer"));
-//		searchResults.add(new OfferDisplay("8", "13", "Hossam_Amer"));
-		
+    		
 		//=====================================
 		
 		
@@ -158,8 +155,6 @@ public class MyOffersActivity extends UserSessionStateMaintainingActivity
 						{
 							InflateListener	infListener = new InflateListener(mPos);
 							stub.setOnInflateListener(infListener);
-							
-							Toast.makeText(getApplicationContext(), "Registering BUtton", Toast.LENGTH_SHORT).show();
 							stub.setVisibility(View.VISIBLE);
 						}
 					else
@@ -170,7 +165,7 @@ public class MyOffersActivity extends UserSessionStateMaintainingActivity
 				{
 					if(inflated.getVisibility() == View.GONE)
 						{
-						Toast.makeText(getApplicationContext(), "Should Registering BUtton", Toast.LENGTH_SHORT).show();
+						
 							inflated.setVisibility(View.VISIBLE);
 						}
 					else
@@ -199,6 +194,7 @@ public class MyOffersActivity extends UserSessionStateMaintainingActivity
 	 */
 	private void startHttpService(String path) {
 		
+		dialog = ProgressDialog.show(MyOffersActivity.this, "", "Getting your Offers, Please wait..", true, false);
 		serviceIntent = new Intent(this, SheelMaayaaService.class);
     	serviceIntent.setAction(HTTP_GET_MY_OFFERS_FILTER);
     	serviceIntent.putExtra(pathKey, path);
@@ -235,6 +231,8 @@ public class MyOffersActivity extends UserSessionStateMaintainingActivity
 		// TODO Auto-generated method stub
 		super.onPause();
 		
+		// Cancel out the dialog
+		dialog = null;
 		// Unregister the receiver onPause
 		unregisterReceiver(receiver);
 	}
@@ -337,7 +335,9 @@ public class MyOffersActivity extends UserSessionStateMaintainingActivity
 					{
 						String responseStr = intent.getExtras().getString(HTTP_RESPONSE);
 						loadSearchResultsOnUI(responseStr);
-						
+						 
+						// Dialog dismissing
+						if(dialog != null) dialog.dismiss();
 						Log.e(TAG, responseStr);
 							
 					}
