@@ -208,7 +208,7 @@ public class MyOffersActivity extends UserSessionStateMaintainingActivity
 	 * Initializes the adapter of the list view.
 	 */
 	private void initAdapter() {
-
+		
 		adapter = new SearchResultsListAdapter(this, searchResults);		
 		searchResultsList = (ListView)findViewById(R.id.list);
 		
@@ -357,17 +357,14 @@ public class MyOffersActivity extends UserSessionStateMaintainingActivity
 					
 					JSONArray jsonArray = new JSONArray(responseStr);
                 	
-               	 for (int i = 0; i < jsonArray.length(); i++) {
-               		 
-               		 OfferDisplay2 offerDisplay = OfferDisplay2.mapOffer(jsonArray.getJSONObject(i));
-               		 searchResults.add(offerDisplay);
+               	 for (int i = 0; i < jsonArray.length(); i++) {               		 
+               		 searchResults.add(OfferDisplay2.mapOffer(jsonArray.getJSONObject(i)));
                		 
                	 }// end for
 
 					Toast.makeText(getApplicationContext(), jsonArray.toString(),
 			    			Toast.LENGTH_SHORT).show();
 					// Notify the adapter
-					
 					Log.e(TAG, handler.toString());
 		            handler.sendEmptyMessage(1);
 		            
