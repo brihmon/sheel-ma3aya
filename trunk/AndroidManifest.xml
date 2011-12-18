@@ -29,7 +29,6 @@
 		<activity android:name=".ViewSearchResultsActivity"></activity>
 
 		<activity android:name=".ConnectorUserActionsActivity"></activity>
-		<activity android:name=".ConnectorWelcomePageActivity"></activity>
         <activity android:name=".InsertFlightActivity"></activity>
         <activity android:name=".MyOffersActivity"></activity>
 
