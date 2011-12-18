@@ -1,5 +1,10 @@
 package com.sheel.app;
 
+import static com.sheel.utils.SheelMaayaaConstants.*;
+import static com.sheel.utils.SheelMaayaaConstants.HTTP_GET_MY_OFFERS_FILTER;
+import static com.sheel.utils.SheelMaayaaConstants.HTTP_RESPONSE;
+import static com.sheel.utils.SheelMaayaaConstants.HTTP_STATUS;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -7,11 +12,15 @@ import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.http.HttpStatus;
+
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
@@ -28,9 +37,10 @@ import android.widget.AutoCompleteTextView.Validator;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import com.sheel.app.MyOffersActivity.SheelMaayaaBroadCastRec;
+import com.sheel.utils.HTTPManager;
 import com.sheel.webservices.FacebookWebservice;
 
 /**
@@ -53,6 +63,16 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 	private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
 	private Uri fileUri;
 	private static final String TAG = "MyActivity";
+	
+	/**
+	 * Filter added for this activity to filter the actions received by the receiver
+	 */
+	IntentFilter filter;
+	
+	/**
+	 *  The receiver used for detecting the HTTP data arrival 
+	 */
+	private SheelMaayaaBroadCastRec receiver;
 
      
      ProgressDialog dialog;
@@ -85,7 +105,7 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 	String middleName; /* Declaration of middle name string */
 	String lastName; /* Declaration of last name string */
 	/** String containing the passport image encoded data string */
-	String passportImage = "";
+	String passportImage = "Image";
 	String passportNumber; /* Declaration of passport string */
 	String email; /* Declaration of email string */
 	String mobileNumber; /* Declaration of mobile number string */
@@ -330,7 +350,8 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 			
 			System.out.println("First IF");
 			// User done with capturing image
-			if (resultCode == -1) {
+			if (resultCode == RESULT_OK) {
+				System.out.println("Result OK");
 				// Image captured and saved to fileUri specified in the Intent
 				onPhotoTaken();
 				System.out.println("Greaaaaaaaat1111");
@@ -355,13 +376,13 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 
 		ImageView i = (ImageView) findViewById(R.id.pictureView);
 		Bitmap bitmap = BitmapFactory.decodeFile(path);
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos); // bm is the
+		//ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		//bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos); // bm is the
 																// bitmap object
-		byte[] image = baos.toByteArray();
+		//byte[] image = baos.toByteArray();
 
-		passportImage = Base64.encodeBytes(image);
-		System.out.println(passportImage);
+		//passportImage = Base64.encodeBytes(image);
+		//System.out.println(passportImage);
 		i.setImageBitmap(bitmap);
 
 		// Intent mIntent = new Intent(this, NewUserActivity.class);
@@ -421,7 +442,7 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 
 	public void GetUserFacebookID() {
 		String tempID = "";
-		getFacebookService().getUserInformation(true);
+		//getFacebookService().getUserInformation(true);
 		if (getFacebookService() != null) {
 
 			if (!getFacebookService().getFacebookUser()
@@ -448,6 +469,7 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 		}
 
 		System.out.println("FB ID: " + tempID);
+		System.out.println(email);
 	}
 	
 	public final boolean isInternetOn() {
@@ -586,9 +608,82 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 				}
 			};
 			
+			class SheelMaayaaBroadCastRec extends BroadcastReceiver {
+
+				@Override
+				public void onReceive(Context context, Intent intent) {
+					// TODO Auto-generated method stub
+					if(dialog != null)	
+                 		dialog.dismiss();
+					Log.e(TAG, intent.getAction());
+					String action = intent.getAction();
+					int httpStatus = intent.getExtras().getInt(HTTP_STATUS);
+					Log.e(TAG, "HTTPSTATUS: "+ httpStatus);
+					
+					if( httpStatus == HttpStatus.SC_OK)
+					{
+						if (action.equals(HTTP_CHECK_REGISTERED))
+						{
+							String responseStr = intent.getExtras().getString(HTTP_RESPONSE);
+							
+							Toast.makeText(NewUserActivity.this, responseStr, Toast.LENGTH_LONG).show();
+							if(responseStr.equals("false")){
+								System.out.println("Not found");
+								path = "/insertuser/" + faceBookID + "/" + email + "/"
+									+ firstName + "/" + middleName + "/" + lastName + "/"
+									+ mobileNumber + "/" + nationality + "/" + passportNumber
+									+ "/" + gender + "/" + passportImage;
+								HTTPManager.startHttpService(path, HTTP_REGISTER_USER, getApplicationContext());
+								Toast.makeText(NewUserActivity.this, "Successful Registration", Toast.LENGTH_LONG).show();
+								//LoggedID = faceBookID;
+								System.out.println("Done in DataBase");
+								System.out.println(passportImage.length());
+								//System.out.println("LogID " + LoggedID);
+								
+							}
+							else if(responseStr.equalsIgnoreCase("true")){
+								AlertDialog a = showAlert("Registration failed","Sorry you are already registered");
+								a.setButton("ok", new android.content.DialogInterface.OnClickListener() {
+									
+									@Override
+									public void onClick(DialogInterface dialog, int which) {
+										Intent statedIntent = setSessionInformationBetweenActivities(ConnectorUserActionsActivity.class);
+										statedIntent.putExtra(ConnectorUserActionsActivity.LOGGED_ID_KEY, faceBookID);
+										startActivity(statedIntent);
+									}
+								});
+								a.show();
+								System.out.println("Already Registered");
+							}
+							// Dialog dismissing
+							//if(dialog != null) dialog.dismiss();
+							Log.e(TAG, responseStr);
+								
+						}
+						else if (action.equals(HTTP_REGISTER_USER))
+						{
+							Intent statedIntent = setSessionInformationBetweenActivities(ConnectorUserActionsActivity.class);
+							statedIntent.putExtra(ConnectorUserActionsActivity.LOGGED_ID_KEY, faceBookID);
+							startActivity(statedIntent);
+						}
+					
+					}
+					
+				}
+			}
+			filter = new IntentFilter();
 			
-			sc.runHttpRequest("/checkRegistered/" + faceBookID);
+			// Add the filters of your activity
+			filter.addAction(HTTP_CHECK_REGISTERED);
+			filter.addAction(HTTP_REGISTER_USER);
+			SheelMaayaaBroadCastRec receiver = new SheelMaayaaBroadCastRec();
 			
+			Log.e(TAG, "Receiver Registered");
+			registerReceiver(receiver, filter);
+			
+			String path = "/checkRegistered/" + faceBookID;
+			//sc.runHttpRequest("/checkRegistered/" + faceBookID);
+			HTTPManager.startHttpService(path, HTTP_CHECK_REGISTERED, getApplicationContext());
 			passportImage = "PassPortImage";
 
 			System.out.println("/insertuser/" + faceBookID + "/" + email + "/"
