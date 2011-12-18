@@ -15,4 +15,17 @@
         android:layout_height="210dp"
         android:layout_alignBottom="@id/categoriesIndicator" 
         android:layout_gravity="bottom"/>
+    
+    <android:Button
+        android:id="@+id/swypingTetsingButton"
+        android:text="Click to update this view with new offers 1"
+        android:onClick="click_tester_updateWithOffers"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"></android:Button>
+    <android:Button
+        android:id="@+id/swypingTetsingButton2"
+        android:text="Click to update this view with new offers 2"
+        android:onClick="click_tester_updateWithOffers2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"></android:Button>
 </LinearLayout>
