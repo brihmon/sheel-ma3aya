@@ -38,20 +38,22 @@ public class InflateListener implements OnInflateListener {
 		// TODO Auto-generated method stub
 
 		// <=== List your buttons here ===>
-		
-		Button btn_call = (Button) inflated.findViewById(R.id.btn_call);
+	if(inflated == null)
+	{
+		Button btn_call = (Button) stub.findViewById(R.id.btn_call);
 		btn_call.setTag(mPos);
 		
-		Button btn_confirm = (Button) inflated.findViewById(R.id.btn_confirm);
+		Button btn_confirm = (Button) stub.findViewById(R.id.btn_confirm);
 		btn_confirm.setTag(mPos);
 		
 		
-		Button btn_send_sms = (Button) inflated.findViewById(R.id.btn_send_sms);
+		Button btn_send_sms = (Button) stub.findViewById(R.id.btn_send_sms);
 		btn_send_sms.setTag(mPos);
 		
 		
 		Log.e(TAG, mPos + "");
 		Log.e(TAG, "Buttons are now indexed!");
+	}	
 		
 	}
  
