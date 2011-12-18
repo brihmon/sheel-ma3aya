@@ -1,6 +1,5 @@
 package com.sheel.utils;
 
-import static com.sheel.utils.SheelMaayaaConstants.HTTP_GET_MY_OFFERS_FILTER;
 import static com.sheel.utils.SheelMaayaaConstants.pathKey;
 import android.content.Context;
 import android.content.Intent;
