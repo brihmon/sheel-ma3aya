@@ -362,8 +362,6 @@ public class MyOffersActivity extends UserSessionStateMaintainingActivity
                		 
                	 }// end for
 
-					Toast.makeText(getApplicationContext(), jsonArray.toString(),
-			    			Toast.LENGTH_SHORT).show();
 					// Notify the adapter
 					Log.e(TAG, handler.toString());
 		            handler.sendEmptyMessage(1);
