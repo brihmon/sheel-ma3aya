@@ -4,6 +4,9 @@
 package com.sheel.adapters;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
@@ -11,6 +14,7 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
 
 import com.sheel.app.R;
 import com.sheel.datastructures.Category;
@@ -28,6 +32,9 @@ public class HorizontalSwypingPagingAdapter extends PagerAdapter  implements Tit
 	 */
 	private ArrayList<Category> categories = new ArrayList<Category>();
 	
+	
+	private Context appContext;
+	
 	/**
 	 * Constructor for creating adapter to swap between set of 
 	 * views and update accordingly its indicator with the name 
@@ -41,8 +48,9 @@ public class HorizontalSwypingPagingAdapter extends PagerAdapter  implements Tit
 	 * @author 
 	 * 		Passant El.Agroudy (passant.elagroudy@gmail.com)
 	 */
-	public HorizontalSwypingPagingAdapter(ArrayList<Category> categories) {
+	public HorizontalSwypingPagingAdapter(ArrayList<Category> categories, Context appContext) {
 		this.categories = categories;
+		this.appContext = appContext;
 	}// end constructor
 	
 	/*
@@ -60,18 +68,70 @@ public class HorizontalSwypingPagingAdapter extends PagerAdapter  implements Tit
 	 */
 	@Override 
 	public Object instantiateItem(View container, int position) {
+		
+	/*	System.out.println("HorizontalSwypingPager: instantiateItem: HorizontalAdapterAddress: " + this);
 		// Prepare an inflater service to load the current view to be created
 		LayoutInflater inflater = (LayoutInflater) container.getContext()
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);		
 		
 		View view = inflater.inflate(categories.get(position).getResourceId(), null);
 		
-		//ListView displayList = (ListView)view.findViewById(R.id.list);
+		System.out.println("HorizontalSwypingPager: instantiateItem: offers: " + categories.get(position).getOffersDisplayed() );
+		
+		ListView displayList = (ListView)view.findViewById(R.id.list);
+		
+		
+		if (displayList != null) {
+			System.out.println("HorizontalSwypingPager: instantiateItem: List was retrieved successfully");
+			displayList.setAdapter(new SearchResultsListAdapter(appContext, categories.get(position).getOffersDisplayed()));
+			//((SearchResultsListAdapter)displayList.getAdapter()).notifyDataSetChanged();
+		}
+		else {
+			System.out.println("HorizontalSwypingPager: instantiateItem: List could not be retrieved ");
+		}
+		
+		System.out.println("HorizontalSwypingPager: instantiateItem: offers2: " + categories.get(position).getOffersDisplayed() );
+		
 		((ViewPager) container).addView(view, 0);
 		
 		
-        return view;		
+        return view;
+ */
+		
+		System.out.println("Inedx of category to be changed: " + position);
+		ListView v = new ListView( appContext );
+	    String[] from = new String[] { "str" };
+	    int[] to = new int[] { android.R.id.text1 };
+	    List<Map<String, String>> items =
+	        new ArrayList<Map<String, String>>();
+	    for ( int i = 0; i < categories.get(position).getOffersDisplayed().size(); i++ )//20
+	    {
+	        Map<String, String> map =
+	            new HashMap<String, String>();
+	        //map.put( "str", String.format( "Item %d", i + 1 ) );
+	        map.put( "str", categories.get(position).getOffersDisplayed().get(i).getDisplayName() );
+	        items.add( map );
+	    }
+	    
+	    System.out.println("Items : " + items);
+	    SimpleAdapter adapter = new SimpleAdapter( appContext, items,
+	        android.R.layout.simple_list_item_1, from, to ); 
+	    
+	    // SearchResultsListAdapter adapter = new SearchResultsListAdapter(appContext, offersWrappers)
+	    
+	    v.setAdapter( adapter );
+	    ( (ViewPager) container ).addView( v, 0 );
+	    return v;
+		
+		
+	
+		
 	}// end instantiateItem
+	
+	//@Override 
+	//public void startUpdate(android.view.ViewGroup container) {
+	//	System.out.println("startUpdate");
+	//}
 	
 	/*
 	 * (non-Javadoc)
@@ -101,5 +161,11 @@ public class HorizontalSwypingPagingAdapter extends PagerAdapter  implements Tit
 		return categories.get(position).getName();
 	}
 
-	
+	@Override
+	public int getItemPosition(Object object) {
+		/*COPIED ONLINE: essential for the notifyDataSetChanged to update correctly*/
+	    System.out.println("getItemPosition: "+object.getClass());	    
+	    
+		return POSITION_NONE;
+	}// end getItemPosition
 }// end class
