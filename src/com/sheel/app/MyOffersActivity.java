@@ -109,7 +109,7 @@ public class MyOffersActivity extends UserSessionStateMaintainingActivity
 		
 	@SuppressWarnings("unchecked")
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.my_offers_main);
