@@ -29,6 +29,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import com.sheel.adapters.SearchResultsListAdapter;
 import com.sheel.datastructures.OfferDisplay2;
 import com.sheel.listeners.InflateListener;
+import com.sheel.utils.InternetManager;
 import com.sheel.webservices.SheelMaayaaService;
 
 /**
@@ -114,30 +115,37 @@ public class MyOffersActivity extends UserSessionStateMaintainingActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.my_offers_main);
 		
+	//======================Checking Available Internet Connection=============	
+		
+	if(InternetManager.isInternetOn(getApplicationContext()))
+	{
 		//========Get the last state for my list========
 		searchResults = (ArrayList<OfferDisplay2>) getLastNonConfigurationInstance();		
 		//=====================================
 
 		
 		//======Start the HTTP Request=========
+				
+		if(searchResults == null)
+		{
+				
+			// Create a new list
+			searchResults = new ArrayList<OfferDisplay2>();
 			
-	if(searchResults == null)
-	{
-		// Create a new list
-		searchResults = new ArrayList<OfferDisplay2>();
-	
-		path = "/getmyoffers/" + getFacebookService().getFacebookUser().getUserId();
-		// hashas
-		path = "/getmyoffers/673780564";
+			path = "/getmyoffers/" + getFacebookService().getFacebookUser().getUserId();
+			// hashas
+			path = "/getmyoffers/673780564";
+			
+			startHttpService(path);
+		}
 		
-		startHttpService(path);
-	}	
+		
 	
 	//========Initialize the adapter======
 	initAdapter();
 	//=====================================
-    		
-		//=====================================
+	
+	//=====================================
 		
     	//==========Item Click Listener========
     	
@@ -155,8 +163,6 @@ public class MyOffersActivity extends UserSessionStateMaintainingActivity
 		mPos = position;
 		Log.e(TAG, "Pos: " + position);
 		
-		try
-		{
 			//==============Showing and Hiding Effect===============
 			
 			if (v != null) 
@@ -190,19 +196,22 @@ public class MyOffersActivity extends UserSessionStateMaintainingActivity
 				////===========================================
 					
 				}//end if
-		}
-		catch (Exception e) {
-			// TODO: handle exception
-				Log.e(TAG, e.getStackTrace().toString());
-			}
+		
 			
 			    	    	
 		}});// end onItemClick
 		    	
     	
     	//=====================================
+	
+	}// end if (isInternet)
+	else
+		Toast.makeText(getApplicationContext(), "Internet is Down!", Toast.LENGTH_SHORT).show();
+    		
+	
 
-	}
+		
+	}//end OnCreate
 
 	/**
 	 * Initiates the HTTP call to the server
