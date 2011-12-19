@@ -65,6 +65,9 @@ public class SwypingHorizontalViewsActivity extends UserSessionStateMaintainingA
      */
     public void setCategories (ArrayList<Category> categories) {
     	this.categories = categories;
+    	// Notify swyper that views had a data change
+    	swypeAdapter.notifyDataSetChanged();
+    	
     }// end setCategories
     
     public void updateCategoryContent (ArrayList<OfferDisplay2> newOffersWrappers , int categoryIndex , boolean isAppend) {
