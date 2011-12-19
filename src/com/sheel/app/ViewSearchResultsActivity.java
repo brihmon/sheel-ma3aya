@@ -33,6 +33,7 @@ import com.sheel.datastructures.User;
 import com.sheel.datastructures.Utils;
 import com.sheel.datastructures.enums.OfferWeightStatus;
 import com.sheel.datastructures.enums.OwnerFacebookStatus;
+import com.sheel.utils.GuiUtils;
 import com.sheel.webservices.FacebookWebservice;
 
 /**
@@ -198,7 +199,7 @@ public class ViewSearchResultsActivity extends SwypingHorizontalViewsActivity {
     }// end updateDetailsPane
     */
     
-    private void getMutualFriends(OfferDisplay current){
+    private String getMutualFriends(OfferDisplay2 current){
     	String mutualFriends="";
     	
     	JSONArray data = current.getFacebookExtraInfo();
@@ -211,41 +212,84 @@ public class ViewSearchResultsActivity extends SwypingHorizontalViewsActivity {
 				mutualFriendName = "";
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}
-    		
-    		mutualFriends += " , " + mutualFriendName;
-    		
-    	}// end for: get names of the mutual friends for displaying
+			}    		
+    		mutualFriends += " , " + mutualFriendName;    		
+    	}// end for: get names of the mutual friends for displaying 
     	
+    	return mutualFriends;
     }// end getMutualFriends    
     
+    /**
+     * Used to update the contents of the different available lists from 
+     * search results in their respective tabs
+     * 
+     * @param offersFromFriends
+     * 		Offers whose owners are friends of the user
+     * @param offersFromFriendsOfFriends
+     * 		Offers whose owners are friends of friends of the user
+     * @param offersFromStrangers
+     * 		Offers from strangers 
+     * 
+     * @author 
+     *		Passant El.Agroudy (passant.elagroudy@gmail.com)
+     */
     private void updateDisplayedSearchResults (ArrayList<OfferDisplay2> offersFromFriends , 
     		ArrayList<OfferDisplay2> offersFromFriendsOfFriends, ArrayList<OfferDisplay2> offersFromStrangers ) {
     	
+    	// Layout files used for displaying results
     	int layout_searchResultsFound = R.layout.my_offers_main;
     	int layout_searchResultsNotFound = R.layout.communicate;
     	
-    	if (offersFromFriends != null && offersFromFriends.size() > 0) {
-    		addCategory(new Category("Friends", layout_searchResultsFound, offersFromFriends));    		
-    	}// end if : there exists offers from facebook friends -> Add category
-    	
-    	if (offersFromFriendsOfFriends != null && offersFromFriendsOfFriends.size() > 0) {
-    		// Sort the results descendingly by number of mutual friends
-    		sortSearchResultsFromFacebook(offersFromFriendsOfFriends, null);
-    		// Add category
-    		addCategory(new Category("Friends of friends", layout_searchResultsFound, offersFromFriendsOfFriends));
-    	}// end if: there exists offers from facebook friends of friends -> add category
-    	
-    	if (offersFromStrangers != null && offersFromStrangers.size() > 0) {
-    		addCategory(new Category("Strangers", layout_searchResultsFound, offersFromStrangers));
-    		return;
-    	}// end if: there exists offers from strangers -> add category
-    	
-    	// No search results were found -> show different layout indicating that
-    	//setContentView(layout_searchResultsNotFound);
-    			
+    	/**
+    	 * The flags are used to avoid displaying a category for a an empty list
+    	 * Example: Assume you want filtering with facebook up to friends of friends
+    	 * All offers found were from either friends or strangers -> No need to 
+    	 * display friends of friends category and then tell user it is empty !
+    	 * Moreover they are used to give the user a prompt message when no results
+    	 * were found
+    	 */
+    	boolean hasResultsFromFriends = offersFromFriends != null && offersFromFriends.size() >0;
+    	boolean hasResultsFromFriendsOfFriends = offersFromFriendsOfFriends != null && offersFromFriendsOfFriends.size() >0;
+    	boolean hasResultsFromStrangers = offersFromStrangers != null && offersFromStrangers.size() >0;
+        
+    	if ((!hasResultsFromFriends)&&(!hasResultsFromFriendsOfFriends)&&(!hasResultsFromStrangers)) {
+     		GuiUtils.showAlertWhenNoResultsAreAvailable(
+     				this, 
+     				"No offers matching your criteria were found! ", 
+     				"Search again", GetUserInfoActivity.class, 
+     				"Change filters",FilterPreferencesActivity.class);
+    	}// end if: no results were found -> show message to divert to another view
+    	else {
+    		if (hasResultsFromFriends) {
+        		addCategory(new Category("Friends", layout_searchResultsFound, offersFromFriends));    		
+        	}// end if : there exists offers from facebook friends -> Add category
+        	
+        	if (hasResultsFromFriendsOfFriends) {
+        		// Sort the results descendingly by number of mutual friends
+        		sortSearchResultsFromFacebook(offersFromFriendsOfFriends, null);
+        		// Add category
+        		addCategory(new Category("Friends of friends", layout_searchResultsFound, offersFromFriendsOfFriends));
+        	}// end if: there exists offers from facebook friends of friends -> add category
+        	
+        	if (hasResultsFromStrangers) {
+        		addCategory(new Category("Strangers", layout_searchResultsFound, offersFromStrangers));
+          	}// end if: there exists offers from strangers -> add category        	
+    		
+    	}// end else: one or more of the lists contain results -> display    			
     }// end updateDisplayedSearchResults
     
+    /**
+     * Used to sort a list of offers (represented as {@link OfferDisplay2}) descendingly
+     * with respect to their extra facebook information. 
+     * @param offersFromFriendsOfFriends
+     * 		Offers whose owners are the user's friends of friends. The offers are sorted 
+     * 		according to the number of mutual friends between the offer owners and the user. 
+     * @param offersFromCommonNetworks
+     * 		Offers whose owners have common networks with the user. The offers are sorted 
+     * 		according to the number of mutual networks between the offer owners and the user.  
+     * @author 
+     *		Passant El.Agroudy (passant.elagroudy@gmail.com)
+     */
     private void sortSearchResultsFromFacebook( 
     		ArrayList<OfferDisplay2> offersFromFriendsOfFriends,
     		ArrayList<OfferDisplay2> offersFromCommonNetworks){
@@ -412,9 +456,7 @@ public class ViewSearchResultsActivity extends SwypingHorizontalViewsActivity {
                                     		
                                     		 if(facebookStatus.equals(OwnerFacebookStatus.UNRELATED.name())) {
                                     			 list.add(offerDisplay);
-                                    			 addOfferToMap(offersFromUsers, offerDisplay.getUser().getFacebookId(), offerDisplay);
-                                    			 
-                                    		 }                                    		 
+                                       		 }                                    		 
                                     		 else{
                                     			 
                                     			 addOfferToMap(offersFromUsers, offerDisplay.getUser().getFacebookId(), offerDisplay);
@@ -422,18 +464,18 @@ public class ViewSearchResultsActivity extends SwypingHorizontalViewsActivity {
                                           
                                     	 }// end for
                                     	 
-                                    	 System.out.println("Offers retrieved from maged's search: " + list);
-                                      	 System.out.println("Offers retrieved from maged's search in the hashTable: " + offersFromUsers);
-                                      	 
-                                    	 //	TO DO: REMOVE COMMENTS AFTER UPDATING -------- PASSANT
-                                   if(facebookStatus.equals(OwnerFacebookStatus.UNRELATED.name())) {
-                                	  // Display search results
-                                  	 addCategory(new Category("Strangers", R.layout.my_offers_main,list));
-                                    }// end if: no facebook search enabled -> display offersWrappers
-                                    else if (offersFromUsers.size() > 0) {	
-                                    	categorizeOffersUsingFacebook(offersFromUsers, facebook);
-                                    }// end else: offersWrappers list is not empty & facebook search required -> do	 
-                               
+                                    	/**
+                                    	 * If facebook search is required, do it
+                                    	 * Afterwards display the search results retrieved
+                                    	 * (Integration between search and facebook search and swiping list displaying) 
+                                    	 */
+                                       	if (offersFromUsers.size() > 0 && !facebookStatus.equals(OwnerFacebookStatus.UNRELATED.name())) {
+                                   			categorizeOffersUsingFacebook(offersFromUsers, facebook);
+                                   		}// end if: offersWrappers list is not empty & facebook search required -> do
+                                   		else {
+                                   			updateDisplayedSearchResults(null, null, list);
+                                   		}// end else: no facebook search is required or list is empty
+                                   
 									} catch (JSONException e) {
 										
 										e.printStackTrace();
