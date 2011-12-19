@@ -67,5 +67,18 @@ public final class Utils {
 		}// end if: of elements in main is in needsFiltering -> remove
 	}// end removeDuplicates
 	
+	
+	public static ArrayList<OfferDisplay2> getValuesOfHashTable (Hashtable<String, ArrayList<OfferDisplay2>> ht){
+		
+		ArrayList<OfferDisplay2> result = new ArrayList<OfferDisplay2>();
+		Iterator contentIt = ht.keySet().iterator();
+		
+		while(contentIt.hasNext()){
+			String key = (String)contentIt.next();
+			result.addAll(ht.get(key));			
+		}// end while: remove all elements in main from needsFiltering
+		
+		return result;
+	}// end getValuesOfHashTable
 
 }// end class
