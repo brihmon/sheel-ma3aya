@@ -27,9 +27,8 @@
 		<activity android:name=".TakePhotoActivity"></activity>
 		<activity android:name=".InsertOfferActivity"></activity>
 		<activity android:name=".ViewSearchResultsActivity"></activity>
-
+		<activity android:name=".ViewOfferActivity"></activity>
 		<activity android:name=".ConnectorUserActionsActivity"></activity>
-        <activity android:name=".InsertFlightActivity"></activity>
         <activity android:name=".MyOffersActivity"></activity>
 
 
