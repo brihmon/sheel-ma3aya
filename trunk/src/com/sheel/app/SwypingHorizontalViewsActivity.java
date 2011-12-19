@@ -90,7 +90,90 @@ public class SwypingHorizontalViewsActivity extends UserSessionStateMaintainingA
     public ArrayList<Category> getCategories()
     {
     	return this.categories;
-    }
+    }// end getCategories
+    
+    /**
+     * Used to add new categories to be displayed at any
+     * time in the code and notify the activity with the changes.
+     * 
+     * @param newCategories
+     * 		New categories that should be added to the swiping view
+     * @param location
+     * 		place to add the new categories (their order in the tabs).
+     * 		If out of bounds, it will add to the end of the categories 
+     * 		by default. Use -1 to append to the end
+     * @author 
+     *		Passant El.Agroudy (passant.elagroudy@gmail.com)
+     */
+    public void addCategory (ArrayList<Category> newCategories, int location) {
+    	
+    	// check location is within range and add
+    	if (location<0 || location>=this.categories.size()) {
+    		this.categories.addAll(newCategories);
+    	}// end if: range not within acceptable limits -> append to end
+    	else {
+    		this.categories.addAll(location, newCategories);
+    	}// end else: add in the requested location
+    	
+    	/* If adapter is null -> no need to notify -> it is in the onCreate ->
+    	 * Therefore the update will be detected*/
+    	if (swypeAdapter != null) {
+    		swypeAdapter.notifyDataSetChanged();
+    	}//end if : notify if adapter exists
+    	
+    }// end addCategory
+    
+    /**
+     * Used to add new categories to be displayed at any
+     * time in the code and notify the activity with the changes
+     * to the end of the swiping view.
+     * 
+     * @param newCategories
+     * 		New categories that should be added to the swiping view
+     * @author 
+     *		Passant El.Agroudy (passant.elagroudy@gmail.com)
+     */
+    public void addCategory (ArrayList<Category> newCategories) {
+    	addCategory(newCategories,-1);    	
+    }// end addCategories
+    
+    /**
+     * Used to add new category to be displayed at any
+     * time in the code and notify the activity with the changes
+     * to the end of the swiping view.
+     * 
+     * @param newCategory
+     * 		New category that should be added to the end of swiping view
+     * @author 
+     *		Passant El.Agroudy (passant.elagroudy@gmail.com)
+     */
+    public void addCategory (Category newCategory) {
+    	ArrayList<Category> newCategories = new ArrayList<Category>();
+    	newCategories.add(newCategory);
+    	addCategory(newCategories,-1);    	
+    }// end addCategories
+    
+    /**
+     * Used to add new category to be displayed at any
+     * time in the code and notify the activity with the changes
+     * to the end of the swiping view.
+     * 
+     * @param newCategory
+     * 		New category that should be added to the end of swiping view
+     * @param location
+     * 		place to add the new categories (their order in the tabs).
+     * 		If out of bounds, it will add to the end of the categories 
+     * 		by default. Use -1 to append to the end
+     * @author 
+     *		Passant El.Agroudy (passant.elagroudy@gmail.com)
+     */
+    public void addCategory (Category newCategory, int location) {
+    	ArrayList<Category> newCategories = new ArrayList<Category>();
+    	newCategories.add(newCategory);
+    	addCategory(newCategories,location);    	
+    }// end addCategories
+    
+    
     
     /**
      * Tester method for giving dummy data to categories
