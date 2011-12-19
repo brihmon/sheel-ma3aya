@@ -45,6 +45,24 @@ public class Category {
 	}// end constructor
 	
 	/**
+	 * Constructor for creating a new category
+	 * 
+	 * @param name
+	 * 		Name of the category that will appear in the indicator
+	 * 		on the top of the page
+	 * @param layoutId
+	 * 		Layout ID of the XML file used for inflating the category.
+	 * 		Use <code>R.layout.STH</code>
+	 * @return
+	 * 		List of components to be displayed. 
+	 */
+	public Category (String name , int layoutId , ArrayList<OfferDisplay2> offersWrappers) {
+		this.name = name;
+		this.layoutId = layoutId;
+		this.offersWrappers = offersWrappers;
+	}// end constructor
+	
+	/**
 	 * Returns name of the category that will appear in the indicator
 	 * @return
 	 * 		Empty list if not initialized
@@ -85,8 +103,7 @@ public class Category {
 	 * List of components to be displayed
 	 * 
 	 * @return
-	 * 		List of components to be displayed. If empty, it will
-	 * 		return empty list
+	 * 		List of components to be displayed. 
 	 * @author 
 	 *		Passant El.Agroudy (passant.elagroudy@gmail.com)
 	 */
