@@ -24,11 +24,13 @@ import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
 import com.sheel.adapters.SearchResultsListAdapter;
+import com.sheel.datastructures.Category;
 import com.sheel.datastructures.Flight;
 import com.sheel.datastructures.Offer;
 import com.sheel.datastructures.OfferDisplay;
 import com.sheel.datastructures.OfferDisplay2;
 import com.sheel.datastructures.User;
+import com.sheel.datastructures.Utils;
 import com.sheel.datastructures.enums.OfferWeightStatus;
 import com.sheel.datastructures.enums.OwnerFacebookStatus;
 import com.sheel.webservices.FacebookWebservice;
@@ -37,30 +39,25 @@ import com.sheel.webservices.FacebookWebservice;
  * This activity is used for displaying and interacting with
  * different search results
  * 
- * @author passant
+ * @author 
+ *		Passant El.Agroudy (passant.elagroudy@gmail.com)
+ * @author
+ * 		Magued
  *
  */
-public class ViewSearchResultsActivity extends UserSessionStateMaintainingActivity {
+public class ViewSearchResultsActivity extends SwypingHorizontalViewsActivity {
 	
-	SearchResultsListAdapter adapter;
 	ProgressDialog dialog;
 	String request;
 	OwnerFacebookStatus facebook=OwnerFacebookStatus.UNRELATED;
 	String facebookStatus;
 	
-	
-	// Hossam Amer add-on
-	static int selectedIndex;
-		
-	ArrayList<OfferDisplay> searchResults=new ArrayList<OfferDisplay>();
 
 	/** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);        
-       setContentView(R.layout.search_result_details);
-
-        
+          
         Bundle extras = getIntent().getExtras();
         
     	if(extras !=null){
@@ -76,30 +73,16 @@ public class ViewSearchResultsActivity extends UserSessionStateMaintainingActivi
     		Log.e("mm", facebookStatus);
     		}
     	
-    	filterOffers();
+    	filterOffers();   	
         
-    	if (getFacebookService() != null)
-        getFacebookService().getUserInformation(true);        
-
-        setIconsForDetailsItems();
-        initListView();
-    
-        
-       // test_categorizeOffersUsingFacebook();
-       
-        
+       // test_categorizeOffersUsingFacebook();        
     }// end onCreate
-    
-    @Override 
-    protected void onActivityResult(int requestCode, int resultCode, android.content.Intent data) {
-    	getFacebookService().authorizeCallback(requestCode, resultCode, data);
-    }// end onActivityResult
-        
+  
     /**
      * This method is used to set the default icons for the 
      * different details in the details pane
      */
-    private void setIconsForDetailsItems(){
+   /* private void setIconsForDetailsItems(){
     	    	
        	setIconForATextField(R.id.details_textView_price, R.drawable.details_money,1);
     	setIconForATextField(R.id.details_textView_facebookStatus, R.drawable.details_facebook,1);
@@ -108,7 +91,7 @@ public class ViewSearchResultsActivity extends UserSessionStateMaintainingActivi
     	
     	
     }// end setIconsForDetailsItem
-    
+    */
     /**
      * Used as a helper method to add an image to the left side of a text view.
      * @param textViewId 
@@ -123,7 +106,7 @@ public class ViewSearchResultsActivity extends UserSessionStateMaintainingActivi
      * 			<li>2: large    (80X80px)</li>
      * 		</ul>
      */
-    private void setIconForATextField(int textViewId , int imgId , int mode){
+   /* private void setIconForATextField(int textViewId , int imgId , int mode){
     	
     	Drawable img = getApplicationContext().getResources().getDrawable(imgId );
     	switch(mode){
@@ -136,39 +119,8 @@ public class ViewSearchResultsActivity extends UserSessionStateMaintainingActivi
     	TextView txtView = (TextView)findViewById(textViewId);
     	txtView.setCompoundDrawables( img, null, null, null );
     }// end SetIconForATextField
-    
-    /**
-     * used to initialize the values of the list view
-     */
-    private void initListView(){    	
-        	
-    /*	// Get list using its ID
-    	ListView searchResultsList = (ListView)findViewById(R.id.listView_searchResults);
-       	// Create adapter to control how list is displayed
-    	adapter = new SearchResultsListAdapter(this, searchResults);
-    	// Set adapter to the list view 	
-    	searchResultsList.setAdapter(adapter);
-    	    	
-    	// To enable filtering certain content of the method
-    	searchResultsList.setTextFilterEnabled(true);
-    	
-    	searchResultsList.setOnItemClickListener(new OnItemClickListener() {
-    	    public void onItemClick(AdapterView<?> parent, View view,
-    	        int position, long id) {
-    	     
-    	    	// update details pane with appropriate data
-    	    	updateDetailsPane(position);
-    	    	
-    	    	
-    	    	ViewSearchResultsActivity.selectedIndex = position;
-    	    	
-    	    	//test_searchUsingFacebook();
-    	    	
-    	    }// end onItemClick
-    	  });
     */
-    }// end initListView
-    
+  
     /**
      * Method used to update content of sliding drawer displaying 
      * different details about a certain offer
@@ -179,7 +131,7 @@ public class ViewSearchResultsActivity extends UserSessionStateMaintainingActivi
      * 		element
      * 
      */
-    private void updateDetailsPane(int position){
+    /*  private void updateDetailsPane(int position){
     	
     	// Hybrid Datastructure having owner/offer necessary info
     	OfferDisplay searchResult = searchResults.get(position);
@@ -241,7 +193,10 @@ public class ViewSearchResultsActivity extends UserSessionStateMaintainingActivi
     	    	
     	// Set email from facebook user
     	email.setText("   "+searchResult.getEmail());
+    	
+    	
     }// end updateDetailsPane
+    */
     
     private void getMutualFriends(OfferDisplay current){
     	String mutualFriends="";
@@ -260,88 +215,80 @@ public class ViewSearchResultsActivity extends UserSessionStateMaintainingActivi
     		
     		mutualFriends += " , " + mutualFriendName;
     		
+    	}// end for: get names of the mutual friends for displaying
+    	
+    }// end getMutualFriends    
+    
+    private void updateDisplayedSearchResults (ArrayList<OfferDisplay2> offersFromFriends , 
+    		ArrayList<OfferDisplay2> offersFromFriendsOfFriends, ArrayList<OfferDisplay2> offersFromStrangers ) {
+    	
+    	int layout_searchResultsFound = R.layout.my_offers_main;
+    	int layout_searchResultsNotFound = R.layout.communicate;
+    	
+    	if (offersFromFriends != null && offersFromFriends.size() > 0) {
+    		addCategory(new Category("Friends", layout_searchResultsFound, offersFromFriends));    		
+    	}// end if : there exists offers from facebook friends -> Add category
+    	
+    	if (offersFromFriendsOfFriends != null && offersFromFriendsOfFriends.size() > 0) {
+    		// Sort the results descendingly by number of mutual friends
+    		sortSearchResultsFromFacebook(offersFromFriendsOfFriends, null);
+    		// Add category
+    		addCategory(new Category("Friends of friends", layout_searchResultsFound, offersFromFriendsOfFriends));
+    	}// end if: there exists offers from facebook friends of friends -> add category
+    	
+    	if (offersFromStrangers != null && offersFromStrangers.size() > 0) {
+    		addCategory(new Category("Strangers", layout_searchResultsFound, offersFromStrangers));
+    		return;
+    	}// end if: there exists offers from strangers -> add category
+    	
+    	// No search results were found -> show different layout indicating that
+    	//setContentView(layout_searchResultsNotFound);
+    			
+    }// end updateDisplayedSearchResults
+    
+    private void sortSearchResultsFromFacebook( 
+    		ArrayList<OfferDisplay2> offersFromFriendsOfFriends,
+    		ArrayList<OfferDisplay2> offersFromCommonNetworks){
+    	
+    	/**
+    	 * Inner class used for sorting the contents of an array list
+    	 * of (OfferDisplay) object DESCENDINGLY 
+    	 * @author passant
+    	 *
+    	 */
+    	class FacebookPriorityComparator implements Comparator<OfferDisplay2>{
+
+			//@Override
+			public int compare(OfferDisplay2 object1, OfferDisplay2 object2) {
+				JSONArray facebookExtraInfo1 = object1.getFacebookExtraInfo();
+				JSONArray facebookExtraInfo2 = object2.getFacebookExtraInfo();
+				
+				/**
+				 * NOTE: normally, the returned results should be swapped.
+				 * However it leads to ascending sorting. Thus, such swap is
+				 * for descending order
+				 */
+				if (facebookExtraInfo1 != null && facebookExtraInfo2 != null){
+					if (facebookExtraInfo1.length() < facebookExtraInfo2.length())
+						return 1;
+					else if (facebookExtraInfo1.length() > facebookExtraInfo2.length())
+						return -1;
+				}// end if : double check to avoid exceptions				
+				return 0;
+			}// end compare    		
+    	}// end class
+    	
+    	
+    	// Create comparator
+    	FacebookPriorityComparator comparator = new FacebookPriorityComparator();
+    	if (offersFromFriendsOfFriends != null){
+    		Collections.sort(offersFromFriendsOfFriends,comparator );
     	}
     	
-    }// end getMutualFriends
-    
-    private void updateSearchResultsList(Hashtable<String,OfferDisplay> offersFromFriends, 
-    		Hashtable<String,OfferDisplay> offersFromFriendsOfFriends, 
-    		Hashtable<String,OfferDisplay> offersFromCommonNetworks,
-    		Hashtable<String, OfferDisplay> offersFromUnRelatedOwners){
-    	
-    	// Get list of Friends Of Friends and common networks
-    	ArrayList<OfferDisplay> list_offersFromFriendsOfFriends = null;
-    	ArrayList<OfferDisplay> list_offersFromCommonNetworks=null;
-    	
-    	if (offersFromFriendsOfFriends != null){
-    		list_offersFromFriendsOfFriends=new ArrayList<OfferDisplay>();
-        	list_offersFromFriendsOfFriends.addAll(offersFromFriendsOfFriends.values());	
-    	}// end if : check if not null -> transform to an array list
-
     	if (offersFromCommonNetworks != null){
-    		list_offersFromCommonNetworks=new ArrayList<OfferDisplay>();
-    		list_offersFromCommonNetworks.addAll(offersFromCommonNetworks.values());
-    	}// end if : check if not null -> transform to an array list
-    	 	
-    	// Sort list of friends of friends (ones with highest number of mutual friends on top)
-      	// Sort list of common networks (ones with highest number of common networks on top)
-    	sortSearchResultsFromFacebook(list_offersFromFriendsOfFriends, list_offersFromCommonNetworks);
-    	
-    	// Display each list in order( friends, mutual sorted , network sorted , unrelated)
-    	updateSearchResultsList(offersFromFriends,false);
-    	updateSearchResultsList(list_offersFromFriendsOfFriends, true);
-    	updateSearchResultsList(list_offersFromCommonNetworks, true);
-    	updateSearchResultsList(offersFromUnRelatedOwners, true);
-    }// end updateSearchResultsList
-    
-    private void updateSearchResultsList(Hashtable<String,OfferDisplay> offersFromUsers,
-    		boolean isAppend){
-    	
-    /*	if (offersFromUsers != null){
-    		if (!isAppend){
-        		searchResults.clear();
-        	}// end if : list not initialized or want to display new search result list
-        	
-    		System.out.println("updateSearchResultsList: content searchResults before adding: " + searchResults);
-        	searchResults.addAll(offersFromUsers.values());  
-        	Log.e("passant", "list size: " + offersFromUsers.size() + " list content: " + offersFromUsers);
-        	Log.e("Final list: " , searchResults.toString() + "  list size: " + searchResults.size());
-        	
-        	// Get list using its ID
-        	//adapter.setList(searchResults);
-        	ListView searchResultsList = (ListView)findViewById(R.id.listView_searchResults);
-        	//searchResultsList.invalidateViews();
-        	searchResultsList.setAdapter(new SearchResultsListAdapter(this, searchResults));
-    	}// end if : list has something
-    	else{
-    		Log.e("passant","list is empty");
-    	}    	
-   */
-    }// end updateSearchResultsList
-    
-    private void updateSearchResultsList(ArrayList<OfferDisplay> offersFromUsers,
-    		boolean isAppend){
-    	/*
-    	if (offersFromUsers != null){
-    		if (!isAppend){
-        		searchResults.clear();
-        	}// end if : list not initialized or want to display new search result list
-        	
-    		System.out.println("updateSearchResultsList: content searchResults before adding: " + searchResults);
-        	searchResults.addAll(offersFromUsers);  
-        	Log.e("passant", "list size: " + offersFromUsers.size() + " list content: " + offersFromUsers);
-        	Log.e("Final list: " , searchResults.toString() + "  list size: " + searchResults.size());
-        	
-        	// Get list using its ID
-        	ListView searchResultsList = (ListView)findViewById(R.id.listView_searchResults);
-        	searchResultsList.setAdapter(new SearchResultsListAdapter(this, searchResults));
-    	}// end if : list has something
-    	else{
-    		Log.e("passant","list is empty");
-    	}  
-    	*/  	
-   
-    }// end updateSearchResultsList
+    		Collections.sort(offersFromCommonNetworks,comparator);
+    	}
+    }// end sortSearchResultsFromFacebook
     
     /**
      * Used to filter results using information from facebook account of user
@@ -400,65 +347,27 @@ public class ViewSearchResultsActivity extends UserSessionStateMaintainingActivi
     		}// end if : user wants to see offersWrappers from indirect acquaintances
     		
     		// TODO next sprint add networks
-    		Log.e("passant","search results will be displayed");
+    		Log.e("passant","search results will be displayed"); 
     		
-    		// TODO remove commenting on displaying of results after finishing
+    		System.out.println("Facebook search results: friends: " + resultsFromFriends);
+    		System.out.println("Facebook search results: friends of friends: " + resultsFromFriendsOfFriends);
+    		System.out.println("Facebook search results: strangers: " + remainingOffers);    		
+    		
+    		ArrayList<OfferDisplay2> resultsFromStrangers = Utils.getValuesOfHashTable(remainingOffers);
+    		System.out.println("Facebook search results: strangers: " + resultsFromStrangers);    		
+        	
     		// Display results
-    		//updateSearchResultsList(offersFromFriends, offersFromFriendsOfFriends, offersFromCommonNetworks, remainingOffers);
-    	   
+    		updateDisplayedSearchResults((ArrayList<OfferDisplay2>)resultsFromFriends.get(0), (ArrayList<OfferDisplay2>)resultsFromFriendsOfFriends.get(0),resultsFromStrangers);
     	}// end if : if user does not care -> why waste internet data on searching
     	else {
+    		ArrayList<OfferDisplay2> resultsFromStrangers = Utils.getValuesOfHashTable(remainingOffers);
     		// Display results
-    		//updateSearchResultsList(offersFromFriends, offersFromFriendsOfFriends, offersFromCommonNetworks, remainingOffers);
-    	   
-    	}// end else: facebook search should not be enabled -> display results
-    	
+    		updateDisplayedSearchResults(null, null,resultsFromStrangers);
+      	}// end else: facebook search should not be enabled -> display results    	
     	
     }// end searchUsingFacebook
     
-    private void sortSearchResultsFromFacebook( 
-    		ArrayList<OfferDisplay> offersFromFriendsOfFriends,
-    		ArrayList<OfferDisplay> offersFromCommonNetworks){
-    	
-    	/**
-    	 * Inner class used for sorting the contents of an array list
-    	 * of (OfferDisplay) object DESCENDINGLY 
-    	 * @author passant
-    	 *
-    	 */
-    	class FacebookPriorityComparator implements Comparator<OfferDisplay>{
-
-			//@Override
-			public int compare(OfferDisplay object1, OfferDisplay object2) {
-				JSONArray facebookExtraInfo1 = object1.getFacebookExtraInfo();
-				JSONArray facebookExtraInfo2 = object2.getFacebookExtraInfo();
-				
-				/**
-				 * NOTE: normally, the returned results should be swapped.
-				 * However it leads to ascending sorting. Thus, such swap is
-				 * for descending order
-				 */
-				if (facebookExtraInfo1 != null && facebookExtraInfo2 != null){
-					if (facebookExtraInfo1.length() < facebookExtraInfo2.length())
-						return 1;
-					else if (facebookExtraInfo1.length() > facebookExtraInfo2.length())
-						return -1;
-				}// end if : double check to avoid exceptions				
-				return 0;
-			}// end compare    		
-    	}// end class
-    	
-    	
-    	// Create comparator
-    	FacebookPriorityComparator comparator = new FacebookPriorityComparator();
-    	if (offersFromFriendsOfFriends != null){
-    		Collections.sort(offersFromFriendsOfFriends,comparator );
-    	}
-    	
-    	if (offersFromCommonNetworks != null){
-    		Collections.sort(offersFromCommonNetworks,comparator);
-    	}
-    }// end sortSearchResultsFromFacebook
+   
       
     public void filterOffers(){
     	
@@ -501,28 +410,30 @@ public class ViewSearchResultsActivity extends UserSessionStateMaintainingActivi
                         
                                     		 offerDisplay = mapOffer(offer);
                                     		
-                                    		 if(facebookStatus.equals(OwnerFacebookStatus.UNRELATED.name()))
+                                    		 if(facebookStatus.equals(OwnerFacebookStatus.UNRELATED.name())) {
                                     			 list.add(offerDisplay);
-                                    		 
+                                    			 addOfferToMap(offersFromUsers, offerDisplay.getUser().getFacebookId(), offerDisplay);
+                                    			 
+                                    		 }                                    		 
                                     		 else{
                                     			 
                                     			 addOfferToMap(offersFromUsers, offerDisplay.getUser().getFacebookId(), offerDisplay);
                                     	     }
-                                    		 
-                                    		 System.out.println("Testing : size=" + searchResults.size()+" hashtable values: " + searchResults);
-                   
+                                          
                                     	 }// end for
-                                    
+                                    	 
+                                    	 System.out.println("Offers retrieved from maged's search: " + list);
+                                      	 System.out.println("Offers retrieved from maged's search in the hashTable: " + offersFromUsers);
+                                      	 
                                     	 //	TO DO: REMOVE COMMENTS AFTER UPDATING -------- PASSANT
-                               /*    if(facebookStatus.equals(OwnerFacebookStatus.UNRELATED.name())) {
-                                    	updateSearchResultsList(list, false);
-
+                                   if(facebookStatus.equals(OwnerFacebookStatus.UNRELATED.name())) {
+                                	  // Display search results
+                                  	 addCategory(new Category("Strangers", R.layout.my_offers_main,list));
                                     }// end if: no facebook search enabled -> display offersWrappers
                                     else if (offersFromUsers.size() > 0) {	
-                                    	searchUsingFacebook(offersFromUsers, facebook);
-	
+                                    	categorizeOffersUsingFacebook(offersFromUsers, facebook);
                                     }// end else: offersWrappers list is not empty & facebook search required -> do	 
-                               */
+                               
 									} catch (JSONException e) {
 										
 										e.printStackTrace();
@@ -598,7 +509,7 @@ public class ViewSearchResultsActivity extends UserSessionStateMaintainingActivi
     	 * make your class extend UserSessionStateMaintainingActivity not just activity
     	 */
     	// Parameters sent in intent    	
-    	int status = searchResults.get(selectedIndex).getUserStatus();
+    /*	int status = searchResults.get(selectedIndex).getUserStatus();
     	status = (status==0)? 1:0;
     	
     	String mobile = searchResults.get(selectedIndex).getMobile();
@@ -632,7 +543,7 @@ public class ViewSearchResultsActivity extends UserSessionStateMaintainingActivi
     	
     	// navigate to new activity
     	startActivity(intent);
-    	
+    	*/
     }// end onClick_communicate
 
     /**
