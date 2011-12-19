@@ -24,7 +24,7 @@ import com.viewpagerindicator.TitlePageIndicator;
  *		Passant El.Agroudy (passant.elagroudy@gmail.com)
  *
  */
-public class SwypingHorizontalViewsActivity extends Activity {
+public class SwypingHorizontalViewsActivity extends UserSessionStateMaintainingActivity {
 	
 	/**
 	 * Different categories of offers to be displayed
@@ -52,6 +52,20 @@ public class SwypingHorizontalViewsActivity extends Activity {
        titleIndicator.setViewPager(swypePager);
      
     }// end onCreate
+    
+    /**
+     * Sets the input categories (data models) used for displaying 
+     * the different categories contents
+     * 
+     * @param categories
+     * 		Different categories representing the tabs
+     * 
+     * @author 
+     *		Passant El.Agroudy (passant.elagroudy@gmail.com)
+     */
+    public void setCategories (ArrayList<Category> categories) {
+    	this.categories = categories;
+    }// end setCategories
     
     public void updateCategoryContent (ArrayList<OfferDisplay2> newOffersWrappers , int categoryIndex , boolean isAppend) {
     	
