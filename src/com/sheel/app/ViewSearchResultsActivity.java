@@ -5,36 +5,24 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Hashtable;
-import java.util.Set;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.ProgressDialog;
-import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.AdapterView.OnItemClickListener;
 
-import com.sheel.adapters.SearchResultsListAdapter;
 import com.sheel.datastructures.Category;
 import com.sheel.datastructures.Flight;
 import com.sheel.datastructures.Offer;
-import com.sheel.datastructures.OfferDisplay;
 import com.sheel.datastructures.OfferDisplay2;
 import com.sheel.datastructures.User;
 import com.sheel.datastructures.Utils;
-import com.sheel.datastructures.enums.OfferWeightStatus;
 import com.sheel.datastructures.enums.OwnerFacebookStatus;
 import com.sheel.utils.GuiUtils;
-import com.sheel.webservices.FacebookWebservice;
 
 /**
  * This activity is used for displaying and interacting with
