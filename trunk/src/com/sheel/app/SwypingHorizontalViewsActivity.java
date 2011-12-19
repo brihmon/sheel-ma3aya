@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -29,7 +31,7 @@ public class SwypingHorizontalViewsActivity extends UserSessionStateMaintainingA
 	/**
 	 * Different categories of offers to be displayed
 	 */
-	private ArrayList<Category> categories = new ArrayList<Category>();
+	 private ArrayList<Category> categories = new ArrayList<Category>();
 	/**
 	 * Adapter using for handling pages swiping 
 	 */
@@ -39,13 +41,13 @@ public class SwypingHorizontalViewsActivity extends UserSessionStateMaintainingA
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
-       setContentView(R.layout.sheel_offers_list);
-       initializeContent();
+        setContentView(R.layout.sheel_offers_list);
+//       initializeContent();
        
         swypeAdapter = new HorizontalSwypingPagingAdapter(this.categories,this.getApplicationContext());
         ViewPager swypePager = (ViewPager)findViewById(R.id.swypeView);
         swypePager.setAdapter(swypeAdapter);
+       
         
         //Bind the title indicator to the adapter        
        TitlePageIndicator titleIndicator = (TitlePageIndicator)findViewById(R.id.categoriesIndicator);
@@ -79,6 +81,17 @@ public class SwypingHorizontalViewsActivity extends UserSessionStateMaintainingA
     	
     }// end updateCategoryContent
    
+    
+    /**
+     * Get the categories of this class
+     * 
+     *  @author Hossam_Amer
+     */
+    public ArrayList<Category> getCategories()
+    {
+    	return this.categories;
+    }
+    
     /**
      * Tester method for giving dummy data to categories
      * 
