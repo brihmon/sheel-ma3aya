@@ -11,13 +11,18 @@ import java.util.Map;
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewStub;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.AdapterView.OnItemClickListener;
 
 import com.sheel.app.R;
 import com.sheel.datastructures.Category;
+import com.sheel.listeners.InflateListener;
 import com.viewpagerindicator.TitleProvider;
 
 /**
@@ -69,7 +74,7 @@ public class HorizontalSwypingPagingAdapter extends PagerAdapter  implements Tit
 	@Override 
 	public Object instantiateItem(View container, int position) {
 		
-	/*	System.out.println("HorizontalSwypingPager: instantiateItem: HorizontalAdapterAddress: " + this);
+		System.out.println("HorizontalSwypingPager: instantiateItem: HorizontalAdapterAddress: " + this);
 		// Prepare an inflater service to load the current view to be created
 		LayoutInflater inflater = (LayoutInflater) container.getContext()
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);		
@@ -84,7 +89,60 @@ public class HorizontalSwypingPagingAdapter extends PagerAdapter  implements Tit
 		if (displayList != null) {
 			System.out.println("HorizontalSwypingPager: instantiateItem: List was retrieved successfully");
 			displayList.setAdapter(new SearchResultsListAdapter(appContext, categories.get(position).getOffersDisplayed()));
-			//((SearchResultsListAdapter)displayList.getAdapter()).notifyDataSetChanged();
+			((SearchResultsListAdapter)displayList.getAdapter()).notifyDataSetChanged();
+			
+			displayList.setOnItemClickListener(new OnItemClickListener() {
+			    public void onItemClick(AdapterView<?> parent, View v,
+			        int position, long id) {
+			    	
+			    	
+			    	// It gets the clicked position
+			int mPos = position;
+//			Log.e(TAG, "Pos: " + position);
+			
+				//==============Showing and Hiding Effect===============
+				
+				if (v != null) 
+				{
+					ViewStub stub = (ViewStub) v.findViewById(R.id.infoStub);
+					View inflated = (View) v.findViewById(R.id.infoStubInflated);
+						 
+					if(stub != null)
+					{
+						if(stub.getVisibility() == View.GONE)
+							{
+//								Log.e(TAG, "Error Inflating");
+								InflateListener infListener = new InflateListener(mPos);
+								stub.setOnInflateListener(infListener);
+								stub.setVisibility(View.VISIBLE);
+								
+							}
+						else
+							stub.setVisibility(View.GONE);
+					}
+					
+					if(inflated != null)
+					{
+						if(inflated.getVisibility() == View.GONE)
+							{
+							
+								inflated.setVisibility(View.VISIBLE);
+							}
+						else
+							inflated.setVisibility(View.GONE);
+					}
+					
+					////===========================================
+						
+					}//end if
+			
+				
+				    	    	
+			}});// end onItemClick
+			    	
+	    	
+	    	//=====================================
+
 		}
 		else {
 			System.out.println("HorizontalSwypingPager: instantiateItem: List could not be retrieved ");
@@ -96,8 +154,8 @@ public class HorizontalSwypingPagingAdapter extends PagerAdapter  implements Tit
 		
 		
         return view;
- */
-		
+ 
+		/*
 		System.out.println("Inedx of category to be changed: " + position);
 		ListView v = new ListView( appContext );
 	    String[] from = new String[] { "str" };
@@ -123,7 +181,7 @@ public class HorizontalSwypingPagingAdapter extends PagerAdapter  implements Tit
 	    ( (ViewPager) container ).addView( v, 0 );
 	    return v;
 		
-		
+		*/
 	
 		
 	}// end instantiateItem
@@ -156,7 +214,7 @@ public class HorizontalSwypingPagingAdapter extends PagerAdapter  implements Tit
 	/* (non-Javadoc)
 	 * @see com.viewpagerindicator.TitleProvider#getTitle(int)
 	 */
-	@Override
+	//@Override
 	public String getTitle(int position) {
 		return categories.get(position).getName();
 	}
