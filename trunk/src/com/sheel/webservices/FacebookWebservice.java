@@ -1,8 +1,5 @@
 package com.sheel.webservices;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Iterator;
@@ -19,16 +16,10 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.facebook.android.AsyncFacebookRunner;
-import com.facebook.android.AsyncFacebookRunner.RequestListener;
-import com.facebook.android.DialogError;
 import com.facebook.android.Facebook;
-import com.facebook.android.Facebook.DialogListener;
-import com.facebook.android.FacebookError;
 import com.sheel.datastructures.FacebookUser;
-import com.sheel.datastructures.OfferDisplay;
 import com.sheel.datastructures.OfferDisplay2;
 import com.sheel.datastructures.enums.OwnerFacebookStatus;
-import com.sheel.datastructures.enums.SharedValuesBetweenActivities;
 import com.sheel.listeners.AppDialogListener;
 import com.sheel.listeners.AppRequestListener;
 import com.sheel.listeners.OffersFilterListener;
