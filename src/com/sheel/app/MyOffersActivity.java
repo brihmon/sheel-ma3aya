@@ -25,17 +25,20 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewStub;
 import android.widget.AdapterView;
+import android.widget.HorizontalScrollView;
 import android.widget.ListView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
 import com.sheel.adapters.SearchResultsListAdapter;
+import com.sheel.datastructures.Category;
 import com.sheel.datastructures.OfferDisplay2;
 import com.sheel.listeners.InflateListener;
 import com.sheel.utils.HTTPManager;
 import com.sheel.utils.InternetManager;
 import com.sheel.webservices.SheelMaayaaService;
 
+import com.sheel.datastructures.Category;
 /**
  * This activity is used for displaying and interacting with
  * the offers of the logged-in user.
@@ -44,7 +47,7 @@ import com.sheel.webservices.SheelMaayaaService;
  *
  */
 
-public class MyOffersActivity extends UserSessionStateMaintainingActivity 
+public class MyOffersActivity extends SwypingHorizontalViewsActivity 
 {
 	private static final String TAG = MyOffersActivity.class.getName();
 	
@@ -110,13 +113,15 @@ public class MyOffersActivity extends UserSessionStateMaintainingActivity
 	/**
 	 * Flag to indicate whether to load from the database or the activity resources
 	 */
+	
+	InflateListener	infListener;
 		
 	@SuppressWarnings("unchecked")
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.my_offers_main);
+//		setContentView(R.layout.my_offers_main);
 		
 	//======================Checking Available Internet Connection=============	
 		
@@ -125,7 +130,11 @@ public class MyOffersActivity extends UserSessionStateMaintainingActivity
 		//========Get the last state for my list========
 		searchResults = (ArrayList<OfferDisplay2>) getLastNonConfigurationInstance();		
 		//=====================================
-
+//		ArrayList<Category> categories = new ArrayList<Category>();
+		
+		super.getCategories().add(new Category("Full Confirmed", R.layout.my_offers_main));
+		super.getCategories().add(new Category("Half-Confirmed", R.layout.my_offers_main));
+//		super.setCategories(categories);
 		
 		//======Start the HTTP Request=========
 				
@@ -136,7 +145,7 @@ public class MyOffersActivity extends UserSessionStateMaintainingActivity
 			searchResults = new ArrayList<OfferDisplay2>();
 			
 			path = "/getmyoffers/" + getFacebookService().getFacebookUser().getUserId();
-			// hashas
+			// XXXXhashas
 			path = "/getmyoffers/673780564";
 			
 			dialog = ProgressDialog.show(MyOffersActivity.this, "", "Getting your Offers, Please wait..", true, false);
@@ -146,7 +155,7 @@ public class MyOffersActivity extends UserSessionStateMaintainingActivity
 		
 	
 	//========Initialize the adapter======
-	initAdapter();
+//	initAdapter();
 	//=====================================
 	
 	//=====================================
@@ -158,52 +167,54 @@ public class MyOffersActivity extends UserSessionStateMaintainingActivity
 		 * Saves the indices of the buttons inside their tags
 		 */
 		
-		searchResultsList.setOnItemClickListener(new OnItemClickListener() {
-		    public void onItemClick(AdapterView<?> parent, View v,
-		        int position, long id) {
-		    	
-		    	
-		    	// It gets the clicked position
-		mPos = position;
-		Log.e(TAG, "Pos: " + position);
-		
-			//==============Showing and Hiding Effect===============
-			
-			if (v != null) 
-			{
-				stub = (ViewStub) v.findViewById(R.id.infoStub);
-				inflated = (View) v.findViewById(R.id.infoStubInflated);
-					 
-				if(stub != null)
-				{
-					if(stub.getVisibility() == View.GONE)
-						{
-							InflateListener	infListener = new InflateListener(mPos);
-							stub.setOnInflateListener(infListener);
-							stub.setVisibility(View.VISIBLE);
-						}
-					else
-						stub.setVisibility(View.GONE);
-				}
-				
-				if(inflated != null)
-				{
-					if(inflated.getVisibility() == View.GONE)
-						{
-						
-							inflated.setVisibility(View.VISIBLE);
-						}
-					else
-						inflated.setVisibility(View.GONE);
-				}
-				
-				////===========================================
-					
-				}//end if
-		
-			
-			    	    	
-		}});// end onItemClick
+//		searchResultsList.setOnItemClickListener(new OnItemClickListener() {
+//		    public void onItemClick(AdapterView<?> parent, View v,
+//		        int position, long id) {
+//		    	
+//		    	
+//		    	// It gets the clicked position
+//		mPos = position;
+//		Log.e(TAG, "Pos: " + position);
+//		
+//			//==============Showing and Hiding Effect===============
+//			
+//			if (v != null) 
+//			{
+//				stub = (ViewStub) v.findViewById(R.id.infoStub);
+//				inflated = (View) v.findViewById(R.id.infoStubInflated);
+//					 
+//				if(stub != null)
+//				{
+//					if(stub.getVisibility() == View.GONE)
+//						{
+//							Log.e(TAG, "Error Inflating");
+//							infListener = new InflateListener(mPos);
+//							stub.setOnInflateListener(infListener);
+//							stub.setVisibility(View.VISIBLE);
+//							
+//						}
+//					else
+//						stub.setVisibility(View.GONE);
+//				}
+//				
+//				if(inflated != null)
+//				{
+//					if(inflated.getVisibility() == View.GONE)
+//						{
+//						
+//							inflated.setVisibility(View.VISIBLE);
+//						}
+//					else
+//						inflated.setVisibility(View.GONE);
+//				}
+//				
+//				////===========================================
+//					
+//				}//end if
+//		
+//			
+//			    	    	
+//		}});// end onItemClick
 		    	
     	
     	//=====================================
@@ -327,6 +338,8 @@ public class MyOffersActivity extends UserSessionStateMaintainingActivity
 	   
 	   
 	   public void onClick(View view) {
+		   
+		   Log.e(TAG, "Button: " + view.getId());
 	    	Toast.makeText(getApplicationContext(), "Button Position: " +
 	    			view.getTag(), Toast.LENGTH_SHORT).show();
 	    		    	
@@ -337,10 +350,10 @@ public class MyOffersActivity extends UserSessionStateMaintainingActivity
 	    	serviceIntent.setAction(HTTP_GET_MY_OFFERS_FILTER);
 	    	serviceIntent.putExtra(pathKey, path);
 	    	
-	    	Toast.makeText(getApplicationContext(), "Before Intent Service",
-	    			Toast.LENGTH_SHORT).show();
+//	    	Toast.makeText(getApplicationContext(), "Before Intent Service",
+//	    			Toast.LENGTH_SHORT).show();
 	    	
-	    	startService(serviceIntent);
+//	    	startService(serviceIntent);
 	    	
 	    	
 	    }
@@ -395,10 +408,13 @@ public class MyOffersActivity extends UserSessionStateMaintainingActivity
                		 searchResults.add(OfferDisplay2.mapOffer(jsonArray.getJSONObject(i)));
                		 
                	 }// end for
-
+               	 
+               	 
+               	 updateCategoryContent(searchResults, 0, false);
+               	updateCategoryContent(searchResults, 1, false);
 					// Notify the adapter
 					Log.e(TAG, handler.toString());
-		            handler.sendEmptyMessage(1);
+//		            handler.sendEmptyMessage(1);
 		            
 					
 				} catch (JSONException e) {
