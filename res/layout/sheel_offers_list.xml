@@ -12,7 +12,7 @@
     <android.support.v4.view.ViewPager
         android:id = "@+id/swypeView"
         android:layout_width="fill_parent"
-        android:layout_height="210dp"
+        android:layout_height="fill_parent"
         android:layout_alignBottom="@id/categoriesIndicator" 
         android:layout_gravity="bottom"/>
     
