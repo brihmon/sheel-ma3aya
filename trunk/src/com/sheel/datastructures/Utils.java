@@ -31,7 +31,7 @@ public final class Utils {
 	 * @author 
 	 * 		Passant El.Agroudy (passant.elagroudy@gmail.com)
 	 */
-	public static void removeDuplicates(Hashtable<String, OfferDisplay> main , Hashtable<String, OfferDisplay> needsFiltering){
+	public static void removeDuplicates(Hashtable<String, OfferDisplay2> main , Hashtable<String, OfferDisplay2> needsFiltering){
 		
 		Iterator contentIt = main.keySet().iterator();
 		
