@@ -1,18 +1,18 @@
 package com.sheel.listeners;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewStub;
+import android.view.View.OnClickListener;
 import android.view.ViewStub.OnInflateListener;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.sheel.app.R;
-import com.sheel.datastructures.Flight;
 import com.sheel.datastructures.OfferDisplay2;
 import com.sheel.datastructures.enums.OwnerFacebookStatus;
 import com.sheel.utils.GuiUtils;
@@ -61,6 +61,11 @@ public class InflateListener implements OnInflateListener, OnClickListener {
 	private int [] buttonIDs = new int [numButtons];
 	
 	/**
+	 * Activity to launch the operations on
+	 */
+	private Activity mActivity;
+	
+	/**
 	 * 
 	 * @param position
 	 * 		Clicked position
@@ -76,13 +81,16 @@ public class InflateListener implements OnInflateListener, OnClickListener {
 	 * 		Passant El.Agroudy (passant.elagroudy@gmail.com)
 	 *  
 	 */
-	public InflateListener(int position, Context mContext, OfferDisplay2 offerDisplay)
+	public InflateListener(int position, Context mContext, OfferDisplay2 offerDisplay,
+			Activity activity)
 	{
 		mPos = position;
 
 		this.offerDisplay = offerDisplay;
 
 		this.mContext = mContext;
+		
+		this.mActivity = activity;
 		
 		// <=== List your buttons here ===>
 		buttonIDs[0] = R.id.details_button_call; 
@@ -167,7 +175,8 @@ public class InflateListener implements OnInflateListener, OnClickListener {
 		switch (v.getId()) {
 		case R.id.details_button_call:
 			
-			Log.e("Call button", "Hello");
+			Log.e("Call button", this.offerDisplay.getUser().mobileNumber);
+			call(this.offerDisplay.getUser().mobileNumber);
 			
 			
 			break;
@@ -177,7 +186,7 @@ public class InflateListener implements OnInflateListener, OnClickListener {
 		break;
 		case R.id.details_button_sendSms:
 			
-			Log.e("SMS button", "Hello");
+			Log.e("SMS button", this.offerDisplay.getUser().mobileNumber);
 			
 			break;
 		default:
@@ -191,14 +200,14 @@ public class InflateListener implements OnInflateListener, OnClickListener {
 	{
 		Intent sendIntent = new Intent(Intent.ACTION_VIEW, Uri.fromParts("sms", number, null));
 		sendIntent.putExtra("sms_body", sms_content);
-		mContext.startActivity(sendIntent);
+		mActivity.startActivity(sendIntent);
 	}
 	
 	private void call(String number) {
 		
 		Intent callIntent = new Intent(Intent.ACTION_DIAL);
 		callIntent.setData(Uri.parse("tel: " + number));
-		mContext.startActivity(callIntent);
+		mActivity.startActivity(callIntent);
 	}
 	
 	private void confirmOffer() {
@@ -206,6 +215,52 @@ public class InflateListener implements OnInflateListener, OnClickListener {
 		HTTPManager.startHttpService("", "", mContext);
 		
 	}
- 
+	
+//	private String getSMSMessage() {
+//		
+//		String sms_content = "";
+//		String sms_content1 = "";
+//		String sms_content2 = "";
+//		String sms_content3 = "";
+//		String sms_content4 = "";
+//		String sms_content5 = "";
+//		String sms_content6 = "";
+////		String number = mobile;
+//		
+//	if(this.offerDisplay.getOffer().userStatus == 0)
+//	{
+//		sms_content1 = "Hello " + this.offerDisplay.getDisplayName() +",";
+//		sms_content2 = "I have seen your offer on Sheel M3aaya app that you " +
+//				"have an extra space ("+ this.offerDisplay.getOffer().noOfKilograms +  "Kilograms) in your bags." +
+//				" So, I would like to inform you that " +
+//				"I am interested in putting some of my stuff in your bags.";
+//		sms_content3 = "Please contact me at this number if your space is still available.";
+//		sms_content6 = "Best Regards,\n" + ;
+//		
+//		
+//	}	
+//	
+//	else
+//	{
+//		
+//		sms_content1 = "Hello "+ fullName +",";
+//		sms_content2 = "I have seen your request on Sheel M3aaya app that you " +
+//				"need an extra space ("+ kgs + " Kilograms) in your bags." +
+//				" So, I would like to inform you that " +
+//				"I am interested in offering you some of my space in my bags.";
+//		sms_content3 = "Please contact me at this number if you are still intrested.";
+//		sms_content6 = "Best Regards,\nUser2";
+//	}
+//	
+//	sms_content4 = "Thanks in advance :)";
+//	sms_content5 = "Wish you a nice flight.";
+//	sms_content = sms_content1 
+//				+ "\n" + "\n" + sms_content2
+//				+ "\n" + "\n" + sms_content3
+//				+ "\n" + "\n" + sms_content4
+//				+ "\n" + "\n" + sms_content5
+//				+ "\n" + "\n" + sms_content6;
+//		
+//	}
 
 }
