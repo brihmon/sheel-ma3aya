@@ -57,6 +57,24 @@
             android:textSize="15dp">
         </EditText>
     </TableRow>
+    <TableRow >
+        <Button
+            android:id="@+id/sendValidation"
+            android:layout_width="fill_parent"
+            android:layout_height="35dp"
+            android:onClick="OnClick_mobileValidate"
+            android:text="Send Validation">
+            </Button>
+            
+              <EditText
+            android:id="@+id/validationCode"
+            android:inputType="number"
+            android:layout_width="100dp"
+            android:layout_height="35dp" 
+            android:textSize="15dp">
+        </EditText>
+        
+    </TableRow>
 
     <!-- Email 
 
