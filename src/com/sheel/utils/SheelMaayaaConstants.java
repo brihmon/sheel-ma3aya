@@ -27,6 +27,7 @@ public interface SheelMaayaaConstants {
 	 * SERVER: SheelMa3aya Server URL
 	 */
 	final String pathKey = "path";
+	final String jsonObject = "json";
 	final String HTTP_RESPONSE = "HTTP_RESPONSE";
 	final String HTTP_STATUS = "HTTP_STATUS";
 	final String SERVER  = "http://sheelmaaayaa.appspot.com";

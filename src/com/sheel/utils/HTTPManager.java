@@ -1,10 +1,11 @@
 package com.sheel.utils;
 
-import static com.sheel.utils.SheelMaayaaConstants.pathKey;
+import static com.sheel.utils.SheelMaayaaConstants.*;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
+import com.google.gson.JsonObject;
 import com.sheel.webservices.SheelMaayaaService;
 
 public class HTTPManager
@@ -33,6 +34,17 @@ public class HTTPManager
     	
 	}
 
+	public static void startHttpService(String path, String json, String FILTER, Context mContext) {
+		
+		Intent serviceIntent = new Intent(mContext, SheelMaayaaService.class);
+    	serviceIntent.setAction(FILTER);
+    	serviceIntent.putExtra(pathKey, path);
+    	serviceIntent.putExtra(jsonObject, json);
+    	
+    	Log.e(TAG, "Before Get HTTP Request: " + serviceIntent);
+	    mContext.startService(serviceIntent);
+    	
+	}
 	
 }
 		

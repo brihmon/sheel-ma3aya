@@ -5,6 +5,7 @@ import static com.sheel.utils.SheelMaayaaConstants.HTTP_REGISTER_USER;
 import static com.sheel.utils.SheelMaayaaConstants.HTTP_RESPONSE;
 import static com.sheel.utils.SheelMaayaaConstants.HTTP_STATUS;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
@@ -41,7 +42,9 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.sheel.app.MyOffersActivity.SheelMaayaaBroadCastRec;
+import com.sheel.datastructures.User;
 import com.sheel.utils.HTTPManager;
 import com.sheel.utils.InternetManager;
 import com.sheel.webservices.FacebookWebservice;
@@ -110,7 +113,7 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 	String middleName; /* Declaration of middle name string */
 	String lastName; /* Declaration of last name string */
 	/** String containing the passport image encoded data string */
-	String passportImage = "Image";
+	String passportImage;
 	String passportNumber; /* Declaration of passport string */
 	String email; /* Declaration of email string */
 	String mobileNumber; /* Declaration of mobile number string */
@@ -131,8 +134,8 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 	boolean codeValid = false;
 	boolean nationalityValid = false;
 	boolean gotResponse = false;
-	boolean photoTaken = false;
-	boolean mobileValid = false;
+	boolean photoTaken = true;
+	boolean mobileValid = true;
 
 	/*
 	 * public void NewUser() { String gender = ""; String firstName = ""; String
@@ -389,12 +392,13 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 		ImageView i = (ImageView) findViewById(R.id.pictureView);
 		Bitmap bitmap = BitmapFactory.decodeFile(ImagePath);
 		//System.out.println(ImagePath);
-		//ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		//bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos); // bm is the
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos); // bm is the
 																// bitmap object
-		//byte[] image = baos.toByteArray();
+		byte[] image = baos.toByteArray();
 
-		//passportImage = Base64.encodeBytes(image);
+		passportImage = Base64.encodeBytes(image);
+		System.out.println("Photo: "+ passportImage);
 		i.setImageBitmap(bitmap);
 
 		// Intent mIntent = new Intent(this, NewUserActivity.class);
@@ -671,11 +675,19 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 							Toast.makeText(NewUserActivity.this, responseStr, Toast.LENGTH_LONG).show();
 							if(responseStr.equals("false")){
 								System.out.println("Not found");
-								String path = "/insertuser/" + faceBookID + "/" + email + "/"
+								String path = "/registeruser";/*" + faceBookID + "/" + email + "/"
 									+ firstName + "/" + middleName + "/" + lastName + "/"
 									+ mobileNumber + "/" + nationality + "/" + passportNumber
-									+ "/" + gender + "/" + passportImage;
-								HTTPManager.startHttpService(path, HTTP_REGISTER_USER, getApplicationContext());
+									+ "/" + gender + "/" + passportImage;*/
+
+								User user = new User("", firstName, middleName, lastName, passportImage, passportNumber, 
+										email, mobileNumber, faceBookID, gender, nationality);
+								
+								Gson gson = new Gson();
+								String input = gson.toJson(user);
+								System.out.println("GSONSTRING: " + input);
+								
+								HTTPManager.startHttpService(path, input, HTTP_REGISTER_USER, getApplicationContext());
 								Toast.makeText(NewUserActivity.this, "Successful Registration", Toast.LENGTH_LONG).show();
 								//LoggedID = faceBookID;
 								System.out.println("Done in DataBase");
@@ -724,6 +736,8 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 			registerReceiver(receiver, filter);
 			
 			String path = "/checkRegistered/" + faceBookID;
+			
+			
 			//sc.runHttpRequest("/checkRegistered/" + faceBookID);
 			HTTPManager.startHttpService(path, HTTP_CHECK_REGISTERED, getApplicationContext());
 			//passportImage = "PassPortImage";
@@ -734,13 +748,40 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 					+ "/" + gender + "/" + passportImage);
 			
 			
-			//User user = new User("", firstName, middleName, lastName, passportImage, passportNumber, 
-			//		email, mobileNumber, faceBookID, gender, nationality);
+/*			SheelMaaayaClient sc = new SheelMaaayaClient() {
+
+				@Override
+				public void doSomething() {
+					final String str = this.rspStr;
+
+					runOnUiThread(new Runnable() {
+
+						@Override
+						public void run() {
+							if(dialog != null)
+								
+                         		dialog.dismiss();
+							
+							
+								Toast.makeText(NewUserActivity.this, "Successful Registration", Toast.LENGTH_LONG).show();
+								//LoggedID = faceBookID;
+								System.out.println("Done in DataBase");
+								System.out.println(passportImage.length());
+						
+								System.out.println("Already Registered");
+						}
+					});
+
+				}
+			};
 			
-			//Gson gson = new Gson();
-			//String input = gson.toJson(user);
-			//System.out.println("GSONSTRING: " + input);
-			//sc.runHttpPost("/registeruser", input);
+			User user = new User("", firstName, middleName, lastName, passportImage, passportNumber, 
+					email, mobileNumber, faceBookID, gender, nationality);
+			
+			Gson gson = new Gson();
+			String input = gson.toJson(user);
+			System.out.println("GSONSTRING: " + input);
+			sc.runHttpPost("/registeruser", input);*/
 			
 
 			/*
