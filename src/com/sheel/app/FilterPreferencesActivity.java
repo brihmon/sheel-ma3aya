@@ -3,6 +3,7 @@ package com.sheel.app;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -234,7 +235,10 @@ public class FilterPreferencesActivity extends UserSessionStateMaintainingActivi
 		intent.putExtra("facebook", facebook.name());
 	
 		startActivity(intent);
-		
-		
+	}
+	
+	@Override
+	public void onConfigurationChanged(Configuration newConfig){
+	    super.onConfigurationChanged(newConfig);
 	}
 }
