@@ -25,6 +25,7 @@ import com.viewpagerindicator.TitleProvider;
 /**
  * @author 
  *		Passant El.Agroudy (passant.elagroudy@gmail.com)
+ *		Hossam_Amer
  *
  */
 public class HorizontalSwypingPagingAdapter extends PagerAdapter  implements TitleProvider{
