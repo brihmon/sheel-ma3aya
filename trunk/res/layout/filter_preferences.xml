@@ -93,7 +93,8 @@
         android:layout_alignBottom="@+id/textView15_maged"
         android:layout_marginRight="14dp"
         android:layout_toLeftOf="@+id/price"
-        android:background="@drawable/gender_male"
+        android:onClick = "onClick_male_gender"
+        android:background="@drawable/gender_male_xml"
         android:textOff=""
         android:textOn="" />
 
@@ -104,7 +105,8 @@
         android:layout_alignBaseline="@+id/male"
         android:layout_alignBottom="@+id/male"
         android:layout_alignLeft="@+id/price"
-        android:background="@drawable/gender_female"
+        android:onClick = "onClick_female_gender"
+        android:background="@drawable/gender_female_xml"
         android:textOff=""
         android:textOn="" />
 
