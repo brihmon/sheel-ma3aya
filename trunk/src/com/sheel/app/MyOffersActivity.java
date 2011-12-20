@@ -1,9 +1,8 @@
 package com.sheel.app;
 
+import static com.sheel.utils.SheelMaayaaConstants.HTTP_GET_MY_OFFERS_FILTER;
 import static com.sheel.utils.SheelMaayaaConstants.HTTP_RESPONSE;
 import static com.sheel.utils.SheelMaayaaConstants.HTTP_STATUS;
-import static com.sheel.utils.SheelMaayaaConstants.pathKey;
-import static com.sheel.utils.SheelMaayaaConstants.*;
 
 import java.util.ArrayList;
 
@@ -19,26 +18,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.util.Log;
-import android.view.View;
-import android.view.ViewStub;
-import android.widget.AdapterView;
-import android.widget.HorizontalScrollView;
-import android.widget.ListView;
-import android.widget.Toast;
-import android.widget.AdapterView.OnItemClickListener;
 
-import com.sheel.adapters.SearchResultsListAdapter;
 import com.sheel.datastructures.Category;
 import com.sheel.datastructures.OfferDisplay2;
-import com.sheel.listeners.InflateListener;
 import com.sheel.utils.HTTPManager;
 import com.sheel.utils.InternetManager;
-import com.sheel.webservices.SheelMaayaaService;
-
-import com.sheel.datastructures.Category;
 /**
  * This activity is used for displaying and interacting with
  * the offers of the logged-in user.
@@ -67,27 +52,6 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity
 	 */
 	private SheelMaayaaBroadCastRec receiver;
 	
-	/**
-	 *  Last position clicked in the listView, used for saving the  
-	 */
-	int mPos;
-	
-	/**
-	 *  View stub that has our controls (buttons..etc) inside
-	 */
-	ViewStub stub;
-	
-	/**
-	 *  Inflated view from the stub
-	 */
-	View inflated;
-	
-	
-	/**
-	 *  Adapter used for populating the offers list
-	 */
-	SearchResultsListAdapter adapter;
-
 	
 	/**
 	 * Offers half-confirmed retrieved from the database.
@@ -98,27 +62,12 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity
 	 * Offers full-confirmed retrieved from the database.
 	 */
 	ArrayList<OfferDisplay2> searchResults_full = new ArrayList<OfferDisplay2>();
-	
-	/**
-	 * SearchResults listView to be found by Id
-	 */
-	ListView searchResultsList;
-	
-	/**
-	 * Intent used to pass the path for SheelMaayaService for handling HTTP Requests
-	 */
-	Intent serviceIntent;	
-	
+		
 	/**
 	 * Dialog for displaying the loading pop-up for the user
 	 */
 	ProgressDialog dialog;
 	
-	/**
-	 * Flag to indicate whether to load from the database or the activity resources
-	 */
-	
-	InflateListener	infListener;
 		
 	@SuppressWarnings("unchecked")
 	@Override
