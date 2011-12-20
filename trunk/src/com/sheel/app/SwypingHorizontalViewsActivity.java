@@ -1,8 +1,12 @@
 package com.sheel.app;
 
+import static com.sheel.utils.SheelMaayaaConstants.HTTP_GET_MY_OFFERS_FILTER;
+import static com.sheel.utils.SheelMaayaaConstants.pathKey;
+
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 
@@ -13,6 +17,7 @@ import android.widget.Toast;
 import com.sheel.adapters.HorizontalSwypingPagingAdapter;
 import com.sheel.datastructures.Category;
 import com.sheel.datastructures.OfferDisplay2;
+import com.sheel.webservices.SheelMaayaaService;
 import com.viewpagerindicator.TitlePageIndicator;
 
 /**
@@ -31,31 +36,45 @@ public class SwypingHorizontalViewsActivity extends UserSessionStateMaintainingA
 	/**
 	 * Different categories of offers to be displayed
 	 */
-	 private ArrayList<Category> categories = new ArrayList<Category>();
+	 private ArrayList<Category> categories;
 	/**
 	 * Adapter using for handling pages swiping 
 	 */
 	private  HorizontalSwypingPagingAdapter swypeAdapter;
 	
     /** Called when the activity is first created. */
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sheel_offers_list);
-//       initializeContent();
-       
-        swypeAdapter = new HorizontalSwypingPagingAdapter(this.categories,this.getApplicationContext());
-        ViewPager swypePager = (ViewPager)findViewById(R.id.swypeView);
-        swypePager.setAdapter(swypeAdapter);
-       
         
-        //Bind the title indicator to the adapter        
-       TitlePageIndicator titleIndicator = (TitlePageIndicator)findViewById(R.id.categoriesIndicator);
-       titleIndicator.setViewPager(swypePager);
-     
+        ViewPager swypePager = (ViewPager)findViewById(R.id.swypeView);
+        swypeAdapter = new HorizontalSwypingPagingAdapter(new ArrayList<Category>(), getApplicationContext());
+        
+        categories = (ArrayList<Category>) getLastNonConfigurationInstance();
+        
+        if(categories == null)
+        {
+//          initializeContent();
+        	categories = new ArrayList<Category>();
+        	swypeAdapter = new HorizontalSwypingPagingAdapter(categories, getApplicationContext());
+        	
+        }
+        else
+        {        	
+        	swypeAdapter.setCatagories(categories);
+        	swypeAdapter.notifyDataSetChanged();        
+        }
+        
+    	swypePager.setAdapter(swypeAdapter);
+
+        TitlePageIndicator titleIndicator = (TitlePageIndicator)findViewById(R.id.categoriesIndicator);
+        titleIndicator.setViewPager(swypePager);
+
     }// end onCreate
     
-    /**
+	/**
      * Sets the input categories (data models) used for displaying 
      * the different categories contents
      * 
@@ -193,7 +212,7 @@ public class SwypingHorizontalViewsActivity extends UserSessionStateMaintainingA
      * @param v
      * @author 
      *		Passant El.Agroudy (passant.elagroudy@gmail.com)
-     */
+     */    
     public void click_tester_updateWithOffers(View v) {
     	System.out.println("The tester button is working");
     	
@@ -218,4 +237,46 @@ public class SwypingHorizontalViewsActivity extends UserSessionStateMaintainingA
     	updateCategoryContent(newOffers, 2, true);   	
     	
     }
+
+	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+	}
+
+	@Override
+	protected void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+	}
+
+	@Override
+	protected void onRestart() {
+		// TODO Auto-generated method stub
+		super.onRestart();
+	}
+
+	@Override
+	protected void onStart() {
+		// TODO Auto-generated method stub
+		super.onStart();
+	}
+
+	@Override
+	protected void onStop() {
+		// TODO Auto-generated method stub
+		super.onStop();
+	}
+
+	
+	/**
+	 * Used for returning the <code>categories</code> just before onDestroy()
+	 * 
+	 * @author Hossam_Amer
+	 */
+	@Override
+	public Object onRetainNonConfigurationInstance() {
+		return this.categories;
+	}
+	
 }// end class
