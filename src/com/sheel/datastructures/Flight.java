@@ -74,7 +74,21 @@ public class Flight
 	    }
 	    */
 
-
+	    /**
+	     * Used to didsplay flight data in the details view of the offers.
+	     * 
+	     * @return
+	     * 		String with the format: 
+	     * 		The format is: Flight (x) From src to destination on departureDate 
+	     * 
+	     * @author 
+	     *		Passant El.Agroudy (passant.elagroudy@gmail.com)
+	     */
+	    public String displayFlight() {
+	    	return "Flight (" + flightNumber + ") from " + source + " to " + destination +
+	    				" on " + departureDate ;
+	    }// end displayFlight
+	    
 		@Override
 		public String toString() {
 			return "Flight {id=" + id + ", flightNumber=" + flightNumber

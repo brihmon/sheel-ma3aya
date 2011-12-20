@@ -9,10 +9,15 @@ import android.view.View.OnClickListener;
 import android.view.ViewStub;
 import android.view.ViewStub.OnInflateListener;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.sheel.app.R;
+import com.sheel.datastructures.Flight;
 import com.sheel.datastructures.OfferDisplay2;
+import com.sheel.datastructures.enums.OwnerFacebookStatus;
+import com.sheel.utils.GuiUtils;
 import com.sheel.utils.HTTPManager;
+import com.sheel.utils.SheelMaayaaConstants;
 
 
 
@@ -91,6 +96,56 @@ public class InflateListener implements OnInflateListener, OnClickListener {
 	 */
 	public void onInflate(ViewStub stub, View inflated) {
 			
+		/**
+		 * Initialize the summary (nationality + gender + facebook extra info)
+		 */
+		TextView details_summary = (TextView)inflated.findViewById(R.id.sheel_details_textView_summary);
+		String detailsSummary = offerDisplay.getUser().nationality ;		
+	
+		if (offerDisplay.getOwnerFacebookRelationWithUser() == OwnerFacebookStatus.FRIEND) {
+			detailsSummary += " Friend";
+		}// end if: offer owner is the user's friend
+		else if (offerDisplay.getOwnerFacebookRelationWithUser() == OwnerFacebookStatus.FRIEND_OF_FRIEND) {
+			detailsSummary += " Friend of friend";
+		}// end if: offer owner is the user's friend of friend
+		else if (offerDisplay.getOwnerFacebookRelationWithUser() == OwnerFacebookStatus.UNRELATED) {
+			detailsSummary += " Stranger";
+		}// end if: offer owner is a stranger
+		details_summary.setText(detailsSummary);
+		
+		if (offerDisplay.getUser().gender.equals(SheelMaayaaConstants.GENDER_FEMALE)) {
+			GuiUtils.setIconForATextField(mContext, inflated, details_summary, R.drawable.sheel_gender_female, 3);
+		}// end if : offer owner is a female
+		else {
+			GuiUtils.setIconForATextField(mContext, inflated, details_summary, R.drawable.sheel_gender_male, 3);
+		}// end if:offer owner is a male or unknown -> show icon
+		
+		
+		/**
+		 * Initialize email
+		 */
+		TextView details_email = (TextView)inflated.findViewById(R.id.sheel_details_textView_email);
+		details_email.setText(offerDisplay.getUser().email);
+		GuiUtils.setIconForATextField(mContext, inflated, details_email, R.drawable.sheel_result_email, 3);
+		
+		/**
+		 * Initialize telephone
+		 */
+		TextView details_telephone = (TextView)inflated.findViewById(R.id.sheel_details_textView_telephone);
+		details_telephone.setText(offerDisplay.getUser().mobileNumber);
+		GuiUtils.setIconForATextField(mContext, inflated, details_telephone, R.drawable.sheel_result_phone, 3);
+			
+		/**
+		 * Initialize flight
+		 */
+		TextView details_flight = (TextView)inflated.findViewById(R.id.sheel_details_textView_flight);
+		details_flight.setText(offerDisplay.getFlight().displayFlight());
+		GuiUtils.setIconForATextField(mContext, inflated, details_flight, R.drawable.sheel_result_flight, 0);
+		
+		
+		/**
+		 * Initialize the buttons
+		 */
 		for(int i=0; i<buttonIDs.length;i++)
 		{
 			Button btn = (Button) inflated.findViewById(buttonIDs[i]);
@@ -102,7 +157,7 @@ public class InflateListener implements OnInflateListener, OnClickListener {
 			Log.e(TAG, "Button Listener done: " + btn.getId());
 		}
 				
-	}
+	}// end onInflate
 
 	/**
 	 * 

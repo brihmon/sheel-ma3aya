@@ -8,25 +8,30 @@
 	
     
     <TextView
-                    android:id="@+id/details_textView_price"
+                    android:id="@+id/sheel_details_textView_summary"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="N/A"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
+    <TextView
+                    android:id="@+id/sheel_details_textView_email"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" N/A"                 />
+    <TextView
+                    android:id="@+id/sheel_details_textView_telephone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" N/A"                 />
     
     <TextView
-                    android:id="@+id/details_textView_price"
+                    android:id="@+id/sheel_details_textView_flight"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="N/A"
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
+                    />
     
-     <TextView
-                    android:id="@+id/details_textView_email"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=" N/A"
-                  />
+     
     
      
       <LinearLayout
