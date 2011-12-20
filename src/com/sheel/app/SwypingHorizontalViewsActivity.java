@@ -50,7 +50,10 @@ public class SwypingHorizontalViewsActivity extends UserSessionStateMaintainingA
         setContentView(R.layout.sheel_offers_list);
         
         ViewPager swypePager = (ViewPager)findViewById(R.id.swypeView);
-        swypeAdapter = new HorizontalSwypingPagingAdapter(new ArrayList<Category>(), getApplicationContext());
+        swypeAdapter = new HorizontalSwypingPagingAdapter(new ArrayList<Category>(), getApplicationContext(), SwypingHorizontalViewsActivity.this);
+        
+//        swypePager.setOnPageChangeListener(new MyPageChangeListener());
+        Log.e("Swype Pager Listen Please: ", "Inside Swype Activity");
         
         categories = (ArrayList<Category>) getLastNonConfigurationInstance();
         
@@ -58,7 +61,7 @@ public class SwypingHorizontalViewsActivity extends UserSessionStateMaintainingA
         {
 //          initializeContent();
         	categories = new ArrayList<Category>();
-        	swypeAdapter = new HorizontalSwypingPagingAdapter(categories, getApplicationContext());
+        	swypeAdapter = new HorizontalSwypingPagingAdapter(categories, getApplicationContext(), SwypingHorizontalViewsActivity.this);
         	
         }
         else
