@@ -1,23 +1,15 @@
 package com.sheel.app;
 
-import static com.sheel.utils.SheelMaayaaConstants.HTTP_GET_MY_OFFERS_FILTER;
-import static com.sheel.utils.SheelMaayaaConstants.pathKey;
-
 import java.util.ArrayList;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
-
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 import com.sheel.adapters.HorizontalSwypingPagingAdapter;
 import com.sheel.datastructures.Category;
 import com.sheel.datastructures.OfferDisplay2;
-import com.sheel.webservices.SheelMaayaaService;
 import com.viewpagerindicator.TitlePageIndicator;
 
 /**
