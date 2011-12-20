@@ -13,12 +13,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewStub;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
+import android.widget.AdapterView.OnItemClickListener;
 
 import com.sheel.app.R;
 import com.sheel.datastructures.Category;
+import com.sheel.datastructures.FacebookUser;
 import com.sheel.datastructures.OfferDisplay2;
+import com.sheel.datastructures.User;
 import com.sheel.listeners.InflateListener;
 import com.viewpagerindicator.TitleProvider;
 
@@ -42,6 +44,12 @@ public class HorizontalSwypingPagingAdapter extends PagerAdapter  implements Tit
 	 * Current running Activity using the adapter
 	 */
 	Activity mActivity;
+	
+	/**
+	 * Current user logged in User
+	 */
+	FacebookUser mUser;
+	
 	/**
 	 * Constructor for creating adapter to swap between set of 
 	 * views and update accordingly its indicator with the name 
@@ -56,10 +64,11 @@ public class HorizontalSwypingPagingAdapter extends PagerAdapter  implements Tit
 	 * 		Passant El.Agroudy (passant.elagroudy@gmail.com)
 	 */
 	
-	public HorizontalSwypingPagingAdapter(ArrayList<Category> categories, Context appContext, Activity mActivity) {
+	public HorizontalSwypingPagingAdapter(ArrayList<Category> categories, Context appContext, Activity mActivity, FacebookUser mUser) {
 		this.categories = categories;
 		this.appContext = appContext;
 		this.mActivity = mActivity;
+		this.mUser  = mUser;
 	}// end constructor
 	
 	/*
@@ -131,7 +140,7 @@ public class HorizontalSwypingPagingAdapter extends PagerAdapter  implements Tit
 			private void toggleVisibilityOfStub(ViewStub stub, int position) {
 				if (stub != null) {
 					if (stub.getVisibility() == View.GONE) {
-						InflateListener infListener =  new InflateListener(position, appContext, this.offersInList.get(position), mActivity);
+						InflateListener infListener =  new InflateListener(position, appContext, this.offersInList.get(position), mActivity, mUser);
 						stub.setOnInflateListener(infListener);
 						stub.setVisibility(View.VISIBLE);
 

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewStub;
@@ -13,7 +14,9 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.sheel.app.R;
+import com.sheel.datastructures.FacebookUser;
 import com.sheel.datastructures.OfferDisplay2;
+import com.sheel.datastructures.User;
 import com.sheel.datastructures.enums.OwnerFacebookStatus;
 import com.sheel.utils.GuiUtils;
 import com.sheel.utils.HTTPManager;
@@ -67,6 +70,11 @@ public class InflateListener implements OnInflateListener, OnClickListener {
 	private Activity mActivity;
 	
 	/**
+	 * Current user logged In
+	 */
+	private FacebookUser mUser;
+	
+	/**
 	 * 
 	 * @param position
 	 * 		Clicked position
@@ -83,7 +91,7 @@ public class InflateListener implements OnInflateListener, OnClickListener {
 	 *  
 	 */
 	public InflateListener(int position, Context mContext, OfferDisplay2 offerDisplay,
-			Activity activity)
+			Activity activity, FacebookUser mUser)
 	{
 		mPos = position;
 
@@ -92,6 +100,8 @@ public class InflateListener implements OnInflateListener, OnClickListener {
 		this.mContext = mContext;
 		
 		this.mActivity = activity;
+		
+		this.mUser = mUser;
 		
 		// <=== List your buttons here ===>
 		buttonIDs[0] = R.id.details_button_call; 
@@ -169,7 +179,8 @@ public class InflateListener implements OnInflateListener, OnClickListener {
 	}// end onInflate
 
 	/**
-	 * 
+	 * Click Action listener for the buttons inside the view stub
+	 * @author Hossam_Amer
 	 */
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
@@ -186,8 +197,8 @@ public class InflateListener implements OnInflateListener, OnClickListener {
 			Log.e("Confirm button", "Hello");
 		break;
 		case R.id.details_button_sendSms:
-			
 			Log.e("SMS button", this.offerDisplay.getUser().mobileNumber);
+			sendSMS(getSMSMessage(), this.offerDisplay.getUser().mobileNumber);
 			
 			break;
 		default:
@@ -197,13 +208,29 @@ public class InflateListener implements OnInflateListener, OnClickListener {
 		
 	}
 	
+	/**
+	 * Launches the activity of sending SMS
+	 * @param sms_content The template form of the SMS
+	 * @param number The destination number the SMS will be sent to
+	 * @author Hossam_Amer
+	 */
 	private void sendSMS(String sms_content, String number)
 	{
-		Intent sendIntent = new Intent(Intent.ACTION_VIEW, Uri.fromParts("sms", number, null));
-		sendIntent.putExtra("sms_body", sms_content);
-		mActivity.startActivity(sendIntent);
+//		Intent sendIntent = new Intent(Intent.ACTION_VIEW, Uri.fromParts("sms", number, null));
+//		sendIntent.putExtra("sms_body", sms_content);
+//		mActivity.startActivity(sendIntent);
+		
+		Uri uri = Uri.parse("smsto:"+ number);  
+		Intent intent = new Intent(Intent.ACTION_SENDTO, uri);  
+		intent.putExtra("sms_body", sms_content); 
+		mActivity.startActivity(intent);
 	}
 	
+	/**
+	 * Starts the activity for calling
+	 * @param number The phone number the user will contact
+	 * @author Hossam_Amer
+	 */
 	private void call(String number) {
 		
 		Intent callIntent = new Intent(Intent.ACTION_DIAL);
@@ -217,51 +244,60 @@ public class InflateListener implements OnInflateListener, OnClickListener {
 		
 	}
 	
-//	private String getSMSMessage() {
-//		
-//		String sms_content = "";
-//		String sms_content1 = "";
-//		String sms_content2 = "";
-//		String sms_content3 = "";
-//		String sms_content4 = "";
-//		String sms_content5 = "";
-//		String sms_content6 = "";
-////		String number = mobile;
-//		
-//	if(this.offerDisplay.getOffer().userStatus == 0)
-//	{
-//		sms_content1 = "Hello " + this.offerDisplay.getDisplayName() +",";
-//		sms_content2 = "I have seen your offer on Sheel M3aaya app that you " +
-//				"have an extra space ("+ this.offerDisplay.getOffer().noOfKilograms +  "Kilograms) in your bags." +
-//				" So, I would like to inform you that " +
-//				"I am interested in putting some of my stuff in your bags.";
-//		sms_content3 = "Please contact me at this number if your space is still available.";
-//		sms_content6 = "Best Regards,\n" + ;
-//		
-//		
-//	}	
-//	
-//	else
-//	{
-//		
-//		sms_content1 = "Hello "+ fullName +",";
-//		sms_content2 = "I have seen your request on Sheel M3aaya app that you " +
-//				"need an extra space ("+ kgs + " Kilograms) in your bags." +
-//				" So, I would like to inform you that " +
-//				"I am interested in offering you some of my space in my bags.";
-//		sms_content3 = "Please contact me at this number if you are still intrested.";
-//		sms_content6 = "Best Regards,\nUser2";
-//	}
-//	
-//	sms_content4 = "Thanks in advance :)";
-//	sms_content5 = "Wish you a nice flight.";
-//	sms_content = sms_content1 
-//				+ "\n" + "\n" + sms_content2
-//				+ "\n" + "\n" + sms_content3
-//				+ "\n" + "\n" + sms_content4
-//				+ "\n" + "\n" + sms_content5
-//				+ "\n" + "\n" + sms_content6;
-//		
-//	}
+	/**
+	 * Gets the SMS template form depending on the offer status either less weight or extra weight
+	 * @return the SMS template form
+	 * @author Hossam_Amer
+	 */
+	private String getSMSMessage() {
+		
+		String sms_content = "";
+		String sms_content1 = "";
+		String sms_content2 = "";
+		String sms_content3 = "";
+		String sms_content4 = "";
+		String sms_content5 = "";
+		String sms_content6 = "";
+		
+		/**XXXXXXNeed to check how to get the name
+		 *XXXXXhashas
+		 */
+		
+	if(this.offerDisplay.getOffer().userStatus == 0)
+	{
+		sms_content1 = "Hello " + this.offerDisplay.getDisplayName() +",";
+		sms_content2 = "I have seen your offer on Sheel M3aaya app that you " +
+				"have an extra space ("+ this.offerDisplay.getOffer().noOfKilograms +  "Kilograms) in your bags." +
+				" So, I would like to inform you that " +
+				"I am interested in putting some of my stuff in your bags.";
+		sms_content3 = "Please contact me at this number if your space is still available.";
+		sms_content6 = "Best Regards,\n" + mUser.getFirstName() ;
+		
+		
+	}	
+	
+	else
+	{
+		
+		sms_content1 = "Hello "+ this.offerDisplay.getDisplayName() +",";
+		sms_content2 = "I have seen your request on Sheel M3aaya app that you " +
+				"need an extra space ("+ this.offerDisplay.getOffer().noOfKilograms + " Kilograms) in your bags." +
+				" So, I would like to inform you that " +
+				"I am interested in offering you some of my space in my bags.";
+		sms_content3 = "Please contact me at this number if you are still intrested.";
+		sms_content6 = "Best Regards,\n" + mUser.getFirstName();
+	}
+	
+	sms_content4 = "Thanks in advance :)";
+	sms_content5 = "Wish you a nice flight.";
+	sms_content = sms_content1 
+				+ "\n" + "\n" + sms_content2
+				+ "\n" + "\n" + sms_content3
+				+ "\n" + "\n" + sms_content4
+				+ "\n" + "\n" + sms_content5
+				+ "\n" + "\n" + sms_content6;
+	
+		return sms_content;
+	}
 
 }
