@@ -3,8 +3,12 @@ package com.sheel.webservices;
 
 import static com.sheel.utils.SheelMaayaaConstants.*;
 
+import java.net.URI;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 
@@ -53,13 +57,16 @@ public class SheelMaayaaService extends IntentService
 		// Stage One: Retrieving the path
 		
 		String PATH = intent.getExtras().getString(pathKey);
+		String JSON = intent.getExtras().getString(jsonObject);
 		intent.removeExtra(pathKey);
 		Log.e(TAG, SERVER + PATH);
 		
 		//================================================
 		
 		DefaultHttpClient CLIENT = new DefaultHttpClient();   
-     	
+		////   
+		
+     	/////
      // This is the action or the filter to distinguish between different
 	// activities 
 		String action = intent.getAction();		
@@ -70,7 +77,15 @@ public class SheelMaayaaService extends IntentService
 		// Stage Two: Executing the HTTP Request
 		try
 		{
+			if(JSON != null){
+				intent.removeExtra(jsonObject);
+		     	HttpPost httpost = new HttpPost();
+		     	httpost.setURI(new URI(SERVER+PATH));
+		    	httpost.setEntity(new StringEntity(JSON));
+		    	httpResponse = CLIENT.execute(httpost);
+	        }else{
 			httpResponse = CLIENT.execute(new HttpGet(SERVER + PATH));
+	        }
 			String responseString = EntityUtils.toString(httpResponse.getEntity());
 			
 			broadCastIntent.putExtra(HTTP_RESPONSE, responseString);
