@@ -1,13 +1,17 @@
 package com.sheel.app;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
-import android.widget.Toast;
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.ToggleButton;
 
 import com.sheel.datastructures.enums.OwnerFacebookStatus;
@@ -23,8 +27,6 @@ public class FilterPreferencesActivity extends UserSessionStateMaintainingActivi
 	
 	ToggleButton male; 
 	ToggleButton female;
-	ToggleButton friends;
-	ToggleButton friends_of_friends;
 
 	EditText numOfKgsText;
 	EditText priceText;
@@ -43,7 +45,7 @@ public class FilterPreferencesActivity extends UserSessionStateMaintainingActivi
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.filter_preferences);
+        setContentView(R.layout.filter_preferences_scroll);
         
         Bundle extras = getIntent().getExtras();
         
@@ -66,24 +68,23 @@ public class FilterPreferencesActivity extends UserSessionStateMaintainingActivi
         
         gender = "both";
        	nationality  = "none";
+       	facebook = OwnerFacebookStatus.UNRELATED;
        	
     	kgs = 0;
     	price = 0;
 		allValid = true;
         	
-        numOfKgsText = (EditText) findViewById(R.id.autoCompleteTextView1);
-       	priceText = (EditText) findViewById(R.id.autoCompleteTextView2);
+        numOfKgsText = (EditText) findViewById(R.id.kgs);
+       	priceText = (EditText) findViewById(R.id.price);
         male = (ToggleButton) findViewById(R.id.male);
         female = (ToggleButton) findViewById(R.id.female);
-        friends = (ToggleButton) findViewById(R.id.toggleButton1);
-        friends_of_friends = (ToggleButton) findViewById(R.id.toggleButton2);
         	
         setNationalityAdaptor();
      }
 	
 	public void setNationalityAdaptor(){
 	
-        nationalityView = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView3);
+        nationalityView = (AutoCompleteTextView) findViewById(R.id.nationality);
   
         String[] nationalities = getResources().getStringArray(R.array.nationalities_array);
         ArrayAdapter<String> nationalityAdapter = new ArrayAdapter<String>(this, R.layout.list_item, nationalities);
@@ -93,12 +94,73 @@ public class FilterPreferencesActivity extends UserSessionStateMaintainingActivi
 		
 	}
 	
+	public void onClick_facebook(View v){
+		
+		AlertDialog.Builder alert = new AlertDialog.Builder(this);                 
+		alert.setTitle("Owner Facebook Status");                 
+
+		LinearLayout layout = new LinearLayout(this);
+		layout.setOrientation(1);
+		final RadioButton friends = new RadioButton(this);
+		final RadioButton friendsOfFriends = new RadioButton(this);
+		
+		friends.setText("Facebook Friends");	
+		layout.addView(friends); 
+		
+		friends.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				friendsOfFriends.setChecked(false);
+				facebook = OwnerFacebookStatus.FRIEND;	
+			}
+		});
+		friendsOfFriends.setText("Friends Of Friends");
+		layout.addView(friendsOfFriends);
+		
+		friendsOfFriends.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				friends.setChecked(false);
+				facebook = OwnerFacebookStatus.FRIEND_OF_FRIEND;
+			}
+		});
+		
+		if(facebook == OwnerFacebookStatus.FRIEND)
+			friends.setChecked(true);
+		else if(facebook == OwnerFacebookStatus.FRIEND_OF_FRIEND)
+			friendsOfFriends.setChecked(true);
+		
+		alert.setView(layout);
+		
+		alert.setPositiveButton("Confirm Selection", new DialogInterface.OnClickListener() {  
+		    public void onClick(DialogInterface dialog, int whichButton) {  
+		       	 return;	          
+		      }  
+	  }); 
+		
+		alert.setNegativeButton("Cancel Selection", new DialogInterface.OnClickListener() {  
+		    public void onClick(DialogInterface dialog, int whichButton) { 
+		    	 friends.setChecked(false);
+		    	 friendsOfFriends.setChecked(false);
+		    	 facebook = OwnerFacebookStatus.UNRELATED;
+		       	 return;	          
+		      }  
+	  }); 
+		alert.show();
+	}
+	
+	public void showErrors(String title, String message){
+		 
+		 AlertDialog alertDialog;
+		 alertDialog = new AlertDialog.Builder(this).create();
+		 alertDialog.setTitle(title);
+		 alertDialog.setMessage(message);
+		 alertDialog.show();
+	 }
+	
 	public String removeSpaces(String str){
-		
 		str = str.trim();
-		
 		str = str.replaceAll(" ", "%20");
-		
 		return str;
 	}
 	
@@ -114,28 +176,14 @@ public class FilterPreferencesActivity extends UserSessionStateMaintainingActivi
 		male.setChecked(false);
 		gender = "female";
 	}
-	
-	public void onClick_friends_of_friends(View v) 
-	{
-		friends.setChecked(false);
-		facebook = OwnerFacebookStatus.FRIEND_OF_FRIEND;
-	}
-	
-	public void onClick_friends(View v) 
-	{
-		friends_of_friends.setChecked(false);
-		facebook = OwnerFacebookStatus.FRIEND;
-	}
+
 	
 	public void onClick_search_offers(View v) 
 	{
 		
 		if(!male.isChecked() && !female.isChecked())
 			gender = "both";
-		
-		if(!friends.isChecked() && !friends_of_friends.isChecked())
-			facebook = OwnerFacebookStatus.UNRELATED;
-		
+
 		availableKgs = numOfKgsText.getText().toString();
 		pricePerKg = priceText.getText().toString();
 		
@@ -146,8 +194,8 @@ public class FilterPreferencesActivity extends UserSessionStateMaintainingActivi
 			kgs = Integer.parseInt(availableKgs);
 			
 			if(kgs > 30){
-				 Toast.makeText(FilterPreferencesActivity.this, "Available Kgs should not exceed 30 kgs", 
-						 											Toast.LENGTH_LONG).show();
+				 showErrors("Invalid Input", "Weight should be from 1 to 30 kgs");
+				 
 				 allValid = false;
 			}	
 		}
@@ -155,20 +203,15 @@ public class FilterPreferencesActivity extends UserSessionStateMaintainingActivi
 		if(!pricePerKg.equals("")){
 			price = Integer.parseInt(pricePerKg);
 			
-			if(price > 30){
-				 Toast.makeText(FilterPreferencesActivity.this, "Price per Kg should not exceed 30 euros", 
-						 											Toast.LENGTH_LONG).show();
-				 allValid = false;
+			if(price > 30 && kgs <=30){
+				showErrors("Invalid Input", "Price should be from 1 to 30 euros");
+				
+				allValid = false;
 			}
 		}
 		
 		if(nationality.equals(""))
 			nationality = "none";
-		
-		Log.e("mm", kgs + " ");
-		Log.e("mm", price + " ");
-		Log.e("mm", gender);
-		Log.e("mm", nationality);
 		
 		if(allValid)
 			startViewResultsActivity();
@@ -186,95 +229,12 @@ public class FilterPreferencesActivity extends UserSessionStateMaintainingActivi
 			request = "/filterairportsoffers/" + srcAirport + "/" + desAirport + "/" + selectedDate 
 					+ "/" + searchStatus + "/" + kgs + "/" + price + "/" + gender + "/" + nationality;
 		
-		//Intent intent = new Intent(getBaseContext(), ViewSearchResultsActivity.class);
-		Intent intent = setSessionInformationBetweenActivities(ViewSearchResultsActivity.class);
+		Intent intent = new Intent(getBaseContext(), ViewSearchResultsActivity.class);
 		intent.putExtra("request", request);
 		intent.putExtra("facebook", facebook.name());
-		
-//		Bundle extras = getIntent().getExtras();
-//		long userId = extras.getLong("userId");
-//		intent.putExtra("userId", userId);
-//		Toast.makeText(getApplicationContext(),"" + userId, Toast.LENGTH_SHORT).show();
-		
+	
 		startActivity(intent);
 		
 		
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	/*
-	public void filterOffers(){
-		
-		HTTPClient sc = new HTTPClient() {
-	           
-			@Override
-			public void doSomething() {
-				final String str = this.rspStr;
-				 
-							 runOnUiThread(new Runnable()
-                             {
-                                 @Override
-                                 public void run()
-                                 {
-                                     Toast.makeText(FilterPreferencesActivity.this, str, Toast.LENGTH_LONG).show();
-                                   //  startActivity(new Intent(SearchByFlightNoActivity.this, PhoneCommunication.class));
-                                     
-                                     try {
-                                    	 
-                                    	JSONArray jsonArray = new JSONArray(builder.toString());
-                                    	
-                                    	JSONObject offer;
-                                    	JSONObject user;
-                                    	JSONObject flight;
-                                    	
-                                    	int kgs; 
-                                    	String username = "";
-                                    	
-                                    	String source = "";
-                                    	
-                                    	 for (int i = 0; i < jsonArray.length(); i++) {
-                                    		 
-                                    		 offer = jsonArray.getJSONObject(i);
-
-                                    		 kgs = offer.getInt("noOfKilograms");
-                                    		 
-                                    		 user = offer.getJSONObject("user");
-                                    		 username = user.getString("username");
-                                    		 
-                                    		 flight = offer.getJSONObject("flight");
-                                    		 source = flight.getString("source");
-										
-                                    		 Log.e("mmm", username + "");
-                                    		 Log.e("mmm", source + "");
-                                    		 Log.e("mmm", kgs + "");
-                                    		 
-                                    	 }
-										
-									} catch (JSONException e) {
-										
-										e.printStackTrace();
-									}
-                                 }
-                             });
-				}
-        
-			};
-	        
-			if(searchMethod == 0)
-				sc.runHttpRequest("/filterflightnumberoffers/" + flightNumber + "/" + selectedDate + "/" + searchStatus +
-															"/" + kgs + "/" + price + "/" + gender + "/" + nationality); 
-			
-			else
-				sc.runHttpRequest("/filterairportsoffers/" + srcAirport + "/" + desAirport + "/" + selectedDate 
-						+ "/" + searchStatus + "/" + kgs + "/" + price + "/" + gender + "/" + nationality);
-				
-		 	
-	}*/
-	
 }
