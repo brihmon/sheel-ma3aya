@@ -1,24 +1,19 @@
 package com.sheel.listeners;
 
-import static com.sheel.utils.SheelMaayaaConstants.HTTP_GET_MY_OFFERS_FILTER;
-import static com.sheel.utils.SheelMaayaaConstants.pathKey;
-
-import java.util.ArrayList;
-
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewStub;
 import android.view.View.OnClickListener;
+import android.view.ViewStub;
 import android.view.ViewStub.OnInflateListener;
 import android.widget.Button;
 
-import com.sheel.app.MyOffersActivity;
 import com.sheel.app.R;
+import com.sheel.datastructures.OfferDisplay2;
 import com.sheel.utils.HTTPManager;
-import com.sheel.webservices.SheelMaayaaService;
+
 
 
 /**
@@ -39,6 +34,11 @@ public class InflateListener implements OnInflateListener, OnClickListener {
 	 *  Position Clicked
 	 */
 	int mPos;
+	/**
+	 * Wrapper representing data of an offer and other data that should
+	 * be displayed in the view stub
+	 */
+	OfferDisplay2 offerDisplay;
 	
 	/**
 	 * Current context of the Activity
@@ -60,17 +60,21 @@ public class InflateListener implements OnInflateListener, OnClickListener {
 	 * @param position
 	 * @param mContext
 	 */
-	public InflateListener(int position, Context mContext)
+	public InflateListener(int position, Context mContext, OfferDisplay2 offerDisplay)
 	{
 		mPos = position;
+
+		this.offerDisplay = offerDisplay;
+
 		this.mContext = mContext;
 		
 		// <=== List your buttons here ===>
 		buttonIDs[0] = R.id.details_button_call; 
 		buttonIDs[1] = R.id.details_button_confirm;
 		buttonIDs[2] = R.id.details_button_sendSms;
+
 	}
-	
+
 	/**
 	 * 
 	 */

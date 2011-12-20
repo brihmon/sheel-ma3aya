@@ -4,24 +4,20 @@
 package com.sheel.adapters;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewStub;
 import android.widget.AdapterView;
-import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ListView;
 
 import com.sheel.app.R;
 import com.sheel.datastructures.Category;
+import com.sheel.datastructures.OfferDisplay2;
 import com.sheel.listeners.InflateListener;
 import com.viewpagerindicator.TitleProvider;
 
@@ -74,6 +70,80 @@ public class HorizontalSwypingPagingAdapter extends PagerAdapter  implements Tit
 	@Override 
 	public Object instantiateItem(View container, int position) {
 		
+		/**
+		 * Listener for one row inside the list
+		 * 		  		 
+		 * @author 
+		 * 		Hossam Amer
+		 * @author 
+		 *		Passant El.Agroudy (passant.elagroudy@gmail.com)		 * 
+		 *
+		 */
+		 class ListItemClickListener implements OnItemClickListener{
+
+			 /**
+			  * Represents data displayed inside a row of the list
+			  */
+			 private ArrayList<OfferDisplay2> offersInList;
+			 
+			 private Context appContext;
+			 
+			 /**
+			  * Constructor of listener
+			  * 
+			  * @param data
+			  * 	Data representing the row adn attached to it
+			  */
+			 public ListItemClickListener(Context appContext, ArrayList<OfferDisplay2> data) {
+				 this.offersInList = data;
+				 this.appContext = appContext;
+			 }// end constructor
+			 
+			/* (non-Javadoc)
+			 * @see android.widget.AdapterView.OnItemClickListener#onItemClick(android.widget.AdapterView, android.view.View, int, long)
+			 */
+			@Override
+			public void onItemClick(AdapterView<?> parent, View v,
+			        int position, long id)  {
+		    	//==============Showing and Hiding Effect===============
+				System.out.println("Offer currently expanded: " + this.offersInList.get(position) );
+				
+					if (v != null) 
+					{
+						ViewStub stub = (ViewStub) v.findViewById(R.id.infoStub);
+						View inflated = (View) v.findViewById(R.id.infoStubInflated);
+						
+						toggleVisibilityOfStub(stub, position);
+						toggleVisibilityOfStubInfo(inflated);
+					}//end if
+				
+				
+			}// end onItemClick
+			
+			private void toggleVisibilityOfStub(ViewStub stub, int position) {
+				if (stub != null) {
+					if (stub.getVisibility() == View.GONE) {
+						InflateListener infListener =  new InflateListener(position, appContext, this.offersInList.get(position));
+						stub.setOnInflateListener(infListener);
+						stub.setVisibility(View.VISIBLE);
+
+					} else
+						stub.setVisibility(View.GONE);
+				}
+			}// end toggleVisibilityOfStub
+			
+			private void toggleVisibilityOfStubInfo(View inflated) {
+				if (inflated != null) {
+					if (inflated.getVisibility() == View.GONE) {
+
+						inflated.setVisibility(View.VISIBLE);
+					} else
+						inflated.setVisibility(View.GONE);
+				}
+			}// end toggleVisibilityOfStub
+				
+		 }// end class
+		
 		System.out.println("HorizontalSwypingPager: instantiateItem: HorizontalAdapterAddress: " + this);
 		// Prepare an inflater service to load the current view to be created
 		LayoutInflater inflater = (LayoutInflater) container.getContext()
@@ -91,112 +161,21 @@ public class HorizontalSwypingPagingAdapter extends PagerAdapter  implements Tit
 			displayList.setAdapter(new SearchResultsListAdapter(appContext, categories.get(position).getOffersDisplayed()));
 			((SearchResultsListAdapter)displayList.getAdapter()).notifyDataSetChanged();
 
-			
-			//==========Item Click Listener========
-	    	
-			/**
-			 * Item Click listener that the gets the selected Index
-			 * Saves the indices of the buttons inside their tags
-			 */
-			displayList.setOnItemClickListener(new OnItemClickListener() {
-			    public void onItemClick(AdapterView<?> parent, View v,
-			        int position, long id) {
-			    	
-			    	
-			    	// It gets the clicked position
-			int mPos = position;
-//			Log.e(TAG, "Pos: " + position);
-			
-				//==============Showing and Hiding Effect===============
-				
-				if (v != null) 
-				{
-					ViewStub stub = (ViewStub) v.findViewById(R.id.infoStub);
-					View inflated = (View) v.findViewById(R.id.infoStubInflated);
-						 
-					if(stub != null)
-					{
-						if(stub.getVisibility() == View.GONE)
-							{
-//								Log.e(TAG, "Error Inflating");
-								InflateListener infListener = new InflateListener(mPos, appContext);
-								stub.setOnInflateListener(infListener);
-								stub.setVisibility(View.VISIBLE);
-								
-							}
-						else
-							stub.setVisibility(View.GONE);
-					}
-					
-					if(inflated != null)
-					{
-						if(inflated.getVisibility() == View.GONE)
-							{
-							
-								inflated.setVisibility(View.VISIBLE);
-							}
-						else
-							inflated.setVisibility(View.GONE);
-					}
-					
-					////===========================================
-						
-					}//end if
-			
-				
-				    	    	
-			}});// end onItemClick
-			    	
-	    	
-	    	//=====================================
+			displayList.setOnItemClickListener(new ListItemClickListener(appContext,this.categories.get(position).getOffersDisplayed()));
 
 		}
 		else {
 			System.out.println("HorizontalSwypingPager: instantiateItem: List could not be retrieved ");
 		}
 		
-		System.out.println("HorizontalSwypingPager: instantiateItem: offers2: " + categories.get(position).getOffersDisplayed() );
+		//System.out.println("HorizontalSwypingPager: instantiateItem: offers2: " + categories.get(position).getOffersDisplayed() );
 		
 		((ViewPager) container).addView(view, 0);
 		
 		
         return view;
  
-		/*
-		System.out.println("Inedx of category to be changed: " + position);
-		ListView v = new ListView( appContext );
-	    String[] from = new String[] { "str" };
-	    int[] to = new int[] { android.R.id.text1 };
-	    List<Map<String, String>> items =
-	        new ArrayList<Map<String, String>>();
-	    for ( int i = 0; i < categories.get(position).getOffersDisplayed().size(); i++ )//20
-	    {
-	        Map<String, String> map =
-	            new HashMap<String, String>();
-	        //map.put( "str", String.format( "Item %d", i + 1 ) );
-	        map.put( "str", categories.get(position).getOffersDisplayed().get(i).getDisplayName() );
-	        items.add( map );
-	    }
-	    
-	    System.out.println("Items : " + items);
-	    SimpleAdapter adapter = new SimpleAdapter( appContext, items,
-	        android.R.layout.simple_list_item_1, from, to ); 
-	    
-	    // SearchResultsListAdapter adapter = new SearchResultsListAdapter(appContext, offersWrappers)
-	    
-	    v.setAdapter( adapter );
-	    ( (ViewPager) container ).addView( v, 0 );
-	    return v;
-		
-		*/
-	
-		
 	}// end instantiateItem
-	
-	//@Override 
-	//public void startUpdate(android.view.ViewGroup container) {
-	//	System.out.println("startUpdate");
-	//}
 	
 	/*
 	 * (non-Javadoc)
