@@ -39,9 +39,11 @@ public interface SheelMaayaaConstants {
 	 * 
 	 */
 	
-	final String female = "female";
 	final int OfferWeightStatus_LESS = 0;
 	final int OfferWeightStatus_MORE = 1;
+	
+	//======================================================================
+	final String GENDER_FEMALE = "female";
 	
 	//======================================================================
 	
