@@ -2,14 +2,22 @@ package com.sheel.app;
 
 import java.util.Calendar;
 
+import com.sheel.datastructures.enums.OwnerFacebookStatus;
+
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.ToggleButton;
@@ -31,6 +39,11 @@ public class GetUserInfoActivity extends UserSessionStateMaintainingActivity {
     int year;
     int month;
     int day;
+    
+    String flightNumber;
+    String source;
+    String destination;
+    String request;
    
     static final int DATE_DIALOG_ID = 0;	
     static Calendar datePicked = Calendar.getInstance();
@@ -48,7 +61,6 @@ public class GetUserInfoActivity extends UserSessionStateMaintainingActivity {
         dateDisplay = (TextView) findViewById(R.id.dateDisplay);
         pickDate = (Button) findViewById(R.id.changeDate);
 
-        // add a click listener to the button
         pickDate.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 showDialog(DATE_DIALOG_ID);
@@ -59,6 +71,7 @@ public class GetUserInfoActivity extends UserSessionStateMaintainingActivity {
         month = datePicked.get(Calendar.MONTH);
         day = datePicked.get(Calendar.DAY_OF_MONTH);
 
+        datePicked.set(year, month, day, 23, 59, 59);
         // display the current date (this method is below)
         updateDisplay();
     }
@@ -82,7 +95,7 @@ public class GetUserInfoActivity extends UserSessionStateMaintainingActivity {
             public void onDateSet(DatePicker view, int selectedYear, 
                                   int monthOfYear, int dayOfMonth) {
             	
-            	GetUserInfoActivity.datePicked.set(selectedYear, monthOfYear, dayOfMonth);
+            	GetUserInfoActivity.datePicked.set(selectedYear, monthOfYear, dayOfMonth, 23, 59, 59);
                 year = selectedYear;
                 month = monthOfYear;
                 day = dayOfMonth;
@@ -112,40 +125,28 @@ public class GetUserInfoActivity extends UserSessionStateMaintainingActivity {
 		lessWeight.setChecked(false);
 	}
 	
-	public void onClick_srcDes(View v) 
-	{
+	public void onClick_srcDes(View v) {
 		flightNo.setChecked(false);
 		if(!isValidInput())
 			return;
 		
 		searchMethod = 1;
-		Intent intent = setSessionInformationBetweenActivities(SearchBySrcDesActivity.class);
-		intent.putExtra("searchStatus", searchStatus);
-		intent.putExtra("selectedDate", selectedDate);
-		intent.putExtra("searchMethod", searchMethod);
-		
-		startActivity(intent);
-		
+		enterSourceAndDestination();
 	}
 	
-	public void onClick_flightNo(View v) 
-	{
+	public void onClick_flightNo(View v) {
 		srcDes.setChecked(false);
-		
 		if(!isValidInput())
 			return;
 		
 		searchMethod = 0;
-		Intent intent = setSessionInformationBetweenActivities(SearchByFlightNoActivity.class);
-		intent.putExtra("searchStatus", searchStatus);
-		intent.putExtra("selectedDate", selectedDate);
-		intent.putExtra("searchMethod", searchMethod);
-		
-		startActivity(intent);
-			
+		enterFlightNumber();			
 	}
 	
 	 public void showErrors(String title, String message){
+		 srcDes.setChecked(false);
+		 flightNo.setChecked(false);
+		 
 		 AlertDialog alertDialog;
 		 alertDialog = new AlertDialog.Builder(this).create();
 		 alertDialog.setTitle(title);
@@ -157,35 +158,206 @@ public class GetUserInfoActivity extends UserSessionStateMaintainingActivity {
 		 
 		 if(!lessWeight.isChecked() && !extraWeight.isChecked()){
 				showErrors("Missing Input", "Please select the user status you're searching for");
-				srcDes.setChecked(false);
-		    	flightNo.setChecked(false);
 				return false;
 		}
 		 
-		/*if(datePicked.before(Calendar.getInstance())){
-	    	showErrors("Invalid Input", "Please enter a valid date");
-	    	srcDes.setChecked(false);
-	    	flightNo.setChecked(false);
-	    	return false;
-	    }*/
+		//if(datePicked.before(Calendar.getInstance())){
+	    	//showErrors("Invalid Input", "Please enter a valid date");
+	    	//return false;
+	   // }
 		 
-		 if(lessWeight.isChecked())
-				searchStatus = 0;
+		if(lessWeight.isChecked())
+			searchStatus = 0;
 			
-			else if(extraWeight.isChecked())
-				searchStatus = 1;
+		else if(extraWeight.isChecked())
+			searchStatus = 1;
 		 
 		 return true;
 	 }
 	 
-		@Override
-		protected void onResume() {
-			
-			super.onResume();
-			
-			srcDes.setChecked(false);
-	    	flightNo.setChecked(false);
-			
-			
+	 public String removeSpaces(String str){
+			str = str.trim();			
+			str = str.replaceAll(" ", "%20");
+			return str;
+	}
+	 
+	 public void enterFlightNumber(){
+		 
+		 AlertDialog.Builder alert = new AlertDialog.Builder(this);                 
+		 alert.setTitle("Flight Details");  
+		 alert.setMessage("Enter flight number");                
+  
+		 final EditText flight = new EditText(this); 
+		 flight.setSingleLine();
+		 alert.setView(flight);
+		  
+		  alert.setPositiveButton("Search", new DialogInterface.OnClickListener() {  
+			    public void onClick(DialogInterface dialog, int whichButton) {  
+			         flightNumber = removeSpaces(flight.getText().toString());
+			         
+			         if(flightNumber.equals(""))
+			        	 showErrors("Missing Input", "Please enter the flight number");
+			         
+			         else
+			        	 startViewResultsActivity();
+			         
+			         Log.e("maged", flightNumber);
+			       	 return;	          
+			      }  
+		  }); 
+		  
+		  alert.setNeutralButton("Filter More", new DialogInterface.OnClickListener() {  
+			    public void onClick(DialogInterface dialog, int whichButton) {  
+			    	flightNumber = removeSpaces(flight.getText().toString());
+			    	
+			    	if(flightNumber.equals(""))
+			        	 showErrors("Missing Input", "Please enter the flight number");
+			    	else
+			    		startFilterOffersActivity();
+			    	
+			         Log.e("maged", flightNumber);	          
+			       	 return;  	          
+			    }  
+		  });  
+		  
+		  alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
+		         public void onClick(DialogInterface dialog, int which) {
+		        	 srcDes.setChecked(false);
+		    		 flightNo.setChecked(false);
+		             return;   
+		         }
+		  });
+		  
+		  alert.show();
+	 }
+	 
+	 
+	 public void enterSourceAndDestination(){
+		 
+		 AlertDialog.Builder alert = new AlertDialog.Builder(this);                 
+		 alert.setTitle("Flight Details");  
+		 alert.setMessage("Enter source and destination airports");                
+  
+		 String[] airports = getResources().getStringArray(R.array.airports_array);
+		 ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.list_item, airports);
+		 
+		 LinearLayout layout = new LinearLayout(this);
+		 layout.setOrientation(1);
+		 
+		 final TextView enterSource = new TextView(this);
+		 enterSource.setText("Source:");
+		 layout.addView(enterSource);
+		 
+		 final AutoCompleteTextView sourceAirport = new AutoCompleteTextView(this);
+		 sourceAirport.setSingleLine();
+		 sourceAirport.setAdapter(adapter);
+		 layout.addView(sourceAirport);
+		 
+		 final TextView enterDestination = new TextView(this);
+		 enterDestination.setText("Destination:");
+		 layout.addView(enterDestination);
+		 
+		 final AutoCompleteTextView desAirport = new AutoCompleteTextView(this);
+		 desAirport.setSingleLine();
+		 desAirport.setAdapter(adapter);
+		 layout.addView(desAirport);
+		  
+		 alert.setView(layout);
+		 
+		 alert.setPositiveButton("Search", new DialogInterface.OnClickListener() {  
+			    public void onClick(DialogInterface dialog, int whichButton) {  
+			         source = removeSpaces(sourceAirport.getText().toString());
+			         destination = removeSpaces(desAirport.getText().toString());
+			         
+			         if(source.equals(""))
+			        	 showErrors("Missing Input", "Please enter the source airport");
+			         else if(destination.equals(""))
+			        	 showErrors("Missing Input", "Please enter the destination airport");
+			         else if(source.equalsIgnoreCase(destination))
+			        	 showErrors("Invalid Input", "Source and destination airports must not be the same");
+			         else
+			        	 startViewResultsActivity();
+			         
+			         Log.e("maged", source);
+			         Log.e("maged", destination);
+			       	 return;	          
+			      }  
+		  }); 
+		  
+		  alert.setNeutralButton("Filter More", new DialogInterface.OnClickListener() {  
+			    public void onClick(DialogInterface dialog, int whichButton) {  
+			    	source = removeSpaces(sourceAirport.getText().toString());
+			         destination = removeSpaces(desAirport.getText().toString());
+			         
+			         if(source.equals(""))
+			        	 showErrors("Missing Input", "Please enter the source airport");
+			         else if(destination.equals(""))
+			        	 showErrors("Missing Input", "Please enter the destination airport");
+			         else if(source.equalsIgnoreCase(destination))
+			        	 showErrors("Invalid Input", "Source and destination airports must not be the same");
+			         else
+			        	 startFilterOffersActivity();
+
+			         Log.e("maged", source);
+			         Log.e("maged", destination);
+			       	 return;   	          
+			    }  
+		  });  
+		  
+		  alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
+		         public void onClick(DialogInterface dialog, int which) {
+		        	 srcDes.setChecked(false);
+		    		 flightNo.setChecked(false);
+		             return;   
+		         }
+		  });
+		  
+		  alert.show();
+	 }
+	 
+	 public void startViewResultsActivity(){
+		 
+		 if(searchMethod == 0)
+			 request = "/filterflightnumberoffers/" + flightNumber + "/" + selectedDate + "/" + searchStatus +
+				 	"/0/0/both/none";
+		 
+		 else
+			 request =  "/filterairportsoffers/" + source + "/" + destination + "/" + selectedDate 
+				+ "/" + searchStatus + "/0/0/both/none";
+			 
+		Intent intent = new Intent(getBaseContext(), ViewSearchResultsActivity.class);
+		intent.putExtra("request", request);
+		intent.putExtra("facebook", OwnerFacebookStatus.UNRELATED.name());
+
+		startActivity(intent);
+		 
+	 }
+	 
+
+	 public void startFilterOffersActivity(){
+		 
+		Intent intent = new Intent(getBaseContext(), FilterPreferencesActivity.class);
+		intent.putExtra("searchStatus", searchStatus);
+		intent.putExtra("selectedDate", selectedDate);
+		intent.putExtra("searchMethod", searchMethod);
+		
+		if(searchMethod == 0)
+			intent.putExtra("flightNo", flightNumber);
+		
+		else{
+			intent.putExtra("srcAirport", source);
+			intent.putExtra("desAirport", destination);
 		}
+		
+		startActivity(intent);
+	 }
+
+	@Override
+	protected void onResume() {
+			
+		super.onResume();
+			
+		srcDes.setChecked(false);
+    	flightNo.setChecked(false);		
+	}
 }
