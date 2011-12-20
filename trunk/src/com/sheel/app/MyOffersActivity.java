@@ -294,8 +294,9 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity
                		 
                	 }// end for
                	 
-               	 updateCategoryContent(searchResults_half, 0, false);
-               	 updateCategoryContent(searchResults_full, 1, false);
+               	 updateCategoryContent(searchResults_full, 0, false);
+               	 updateCategoryContent(searchResults_half, 1, false);
+               	 
 		            
 					
 				} catch (JSONException e) {
