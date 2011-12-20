@@ -22,6 +22,7 @@ import android.util.Log;
 
 import com.sheel.datastructures.Category;
 import com.sheel.datastructures.OfferDisplay2;
+import com.sheel.utils.GuiUtils;
 import com.sheel.utils.HTTPManager;
 import com.sheel.utils.InternetManager;
 /**
@@ -87,8 +88,8 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity
 		{
 			//=================Add Categories====================
 			
-			super.getCategories().add(new Category("Half-Confirmed", R.layout.my_offers_main));
-			super.getCategories().add(new Category("Full-Confirmed", R.layout.my_offers_main));
+//			super.getCategories().add(new Category("Half-Confirmed", R.layout.my_offers_main));
+//			super.getCategories().add(new Category("Full-Confirmed", R.layout.my_offers_main));
 			
 				
 			// Create a new list
@@ -100,7 +101,7 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity
 			path = "/getmyoffers/" + getFacebookService().getFacebookUser().getUserId();
 			// XXXXhashas
 			path = "/getmyoffers/673780564";
-			
+
 			dialog = ProgressDialog.show(MyOffersActivity.this, "", "Getting your Offers, Please wait..", true, false);
 			HTTPManager.startHttpService(path, HTTP_GET_MY_OFFERS_FILTER, getApplicationContext());
 		}
@@ -238,14 +239,29 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity
                		if(offer.getOffer().offerStatus.equals("half-confirmed"))
                			searchResults_half.add(OfferDisplay2.mapOffer(jsonArray.getJSONObject(i)));
                		
-               		else if(offer.getOffer().offerStatus.equals("confirmed"))
+               		else if(offer.getOffer().offerStatus.equals("new"))
                			searchResults_full.add(OfferDisplay2.mapOffer(jsonArray.getJSONObject(i)));
 
                		 
                	 }// end for
-               	 
-               	updateCategoryContent(searchResults_half, 0, false);
-               	updateCategoryContent(searchResults_full, 1, false);
+              
+               	if(searchResults_full.isEmpty() && searchResults_half.isEmpty())
+               		showAlert();
+               	else 
+               		{
+               			int index = 0;
+               			if(!searchResults_half.isEmpty())
+               			{
+                     	   getCategories().add(new Category("Half-Confirmed", R.layout.my_offers_main));
+                    	   updateCategoryContent(searchResults_half, index++, false);	
+               			}
+               			
+               			if(!searchResults_full.isEmpty())
+               			{
+                			getCategories().add(new Category("Not-Confirmed", R.layout.my_offers_main));
+                			updateCategoryContent(searchResults_full, index, false);	
+               			}
+               		}
                	 
 				} catch (JSONException e) {
 					// TODO Auto-generated catch block
@@ -256,6 +272,16 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity
 				
 	}
 		
+		public void showAlert()
+		{
+			GuiUtils.showAlertWhenNoResultsAreAvailable(
+     				this, 
+     				"You do not have any offers yet! ", 
+     				"Declare new offer", InsertOfferActivity.class, 
+     				"Change filters", FilterPreferencesActivity.class);
+			
+//			MyOffersActivity.this.finish();
+		}
   
 
 }
