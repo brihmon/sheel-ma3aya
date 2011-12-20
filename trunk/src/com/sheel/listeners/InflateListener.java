@@ -58,7 +58,18 @@ public class InflateListener implements OnInflateListener, OnClickListener {
 	/**
 	 * 
 	 * @param position
+	 * 		Clicked position
 	 * @param mContext
+	 * 
+	 * @param offerDisplay
+	 * 		Data wrapper representing offer, flight and user used
+	 * 		for displaying data in the stub
+	 * 
+	 * @author
+	 * 		Hossam Amer 
+	 * @author 
+	 * 		Passant El.Agroudy (passant.elagroudy@gmail.com)
+	 *  
 	 */
 	public InflateListener(int position, Context mContext, OfferDisplay2 offerDisplay)
 	{
