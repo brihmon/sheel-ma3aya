@@ -12,8 +12,8 @@ import android.widget.TextView;
 
 import com.sheel.app.R;
 import com.sheel.datastructures.OfferDisplay2;
-
-import static com.sheel.utils.SheelMaayaaConstants.*;
+import com.sheel.utils.GuiUtils;
+import com.sheel.utils.SheelMaayaaConstants;
 
 /**
  * This class is used as an adapter to control the behavior
@@ -84,29 +84,29 @@ public class SearchResultsListAdapter extends BaseAdapter {
 			TextView summary_name = (TextView) listItem.findViewById(R.id.summary_name);
 			summary_name.setText(offerDisplay.getDisplayName());
 			
-			// Set (Gender) image according to user gender			
-			if (offerDisplay.getUser().gender.equals(female) ){
-				setIconForATextField(summary_name, R.drawable.gender_female, 0);
-			}// end if : user is female -> show female image
-			else{
-				setIconForATextField(summary_name, R.drawable.gender_male, 0);
-			}// end if : user is male or N/A -> show male image			
-			
+	
 			// Set (Number of Kilograms) according to offer			
 			TextView summary_kilos = (TextView) listItem.findViewById(R.id.summary_numberOfKilos);
-			if (offerDisplay.getOffer().getUserStatus() == OfferWeightStatus_LESS){
-//				summary_kilos.setText("takes " + offerDisplay.getNumberOfKgs()+ " kilos");
-				summary_kilos.setText("takes " + offerDisplay.getOffer().getNoOfKilograms()+ " kilos");
-				
-			}// end if : offer owner has less weight, i.e. wants to carry luggage
-			else if (offerDisplay.getOffer().getUserStatus() == OfferWeightStatus_MORE){
-				summary_kilos.setText("gives " + offerDisplay.getOffer().getNoOfKilograms()+ " Kgs");
-				
-			}// end if : offer owner has more weight, i.e. wants to give luggage
-			else{
-				summary_kilos.setText("N/A");				
-			}// end if : offer status is unknown		
-
+			int numberOfKilos = offerDisplay.getOffer().noOfKilograms;
+			if (numberOfKilos <=9) {
+				summary_kilos.setText("0"+numberOfKilos+ " Kg");
+			}// end if: add extra space for alignment
+			else {
+				summary_kilos.setText(numberOfKilos+ " Kg");
+			}// end else: number of kilos is 2 digits -> just show
+			
+			if (offerDisplay.getOffer().userStatus == SheelMaayaaConstants.OfferWeightStatus_LESS) {
+				GuiUtils.setIconForATextField(context,listItem,R.id.summary_numberOfKilos,R.drawable.sheel_result_arrow_down,0);
+			}// end if: put image indicating status -> Offer has less weight -> wants users with extra weight
+			else {
+				GuiUtils.setIconForATextField(context,listItem,R.id.summary_numberOfKilos,R.drawable.sheel_result_arrow_up,0);
+			}// end else:  put image indicating status -> Offer has more weight -> wants users with less weight
+			
+			// Set (Price) according to the offer
+			TextView summary_price = (TextView) listItem.findViewById(R.id.summary_price);
+			summary_price.setText(offerDisplay.getOffer().pricePerKilogram + " €/Kg");
+			// Add image
+			GuiUtils.setIconForATextField(context,listItem,R.id.summary_price,R.drawable.sheel_result_money,0);
 		}// end if : first time to initialize
 		else{
 			listItem = convertView;

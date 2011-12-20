@@ -5,8 +5,12 @@ package com.sheel.utils;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.view.View;
+import android.widget.TextView;
 
 /**
  * Class used to contain common methods relevant to UI
@@ -67,6 +71,91 @@ public final class GuiUtils {
 		 builder.create();
 		 builder.show();
 	}// end showAlertWhenNoResultsAreAvailable
+	
+	/**
+     * Used to add an image to the left side of a text view.
+     * 
+     * @param activity
+     * 		Activity containing the text view
+     * @param textViewId 
+     * 		ID of the text view from (R.id) collection
+     * @param imgId
+     * 		ID of the resource image used from (R.drawable) collection
+     * @param mode 
+     * 		indicates size of icon.
+     * 		<ul>
+     * 			<li>0: small    (40X40px)</li>
+     * 			<li>1: medium   (50X50px)</li>
+     * 			<li>2: large    (80X80px)</li>
+     * 		</ul>
+     * @author 
+     * 		Passant El.Agroudy (passant.elagroudy@gmail.com)
+     */
+    public static void setIconForATextField(Activity activity, int textViewId , int imgId , int mode){
+    	Drawable img = activity.getApplicationContext().getResources().getDrawable(imgId );
+    	TextView textView = (TextView)activity.findViewById(textViewId);
+    	setIconForATextField(img, textView, mode);
+    }// end SetIconForATextField
+    
+    /**
+     * Used to add an image to the left side of a text view.
+     * 
+     * @param appContext
+     * 		Application context. It can be retrieved from the activity by 
+     * 		<code>activity.getApplicationContext()</code>
+     * @param parent
+     * 		Component (View) containing the text view. Example: the row in
+     * 		list containing the text view
+     * @param textViewId 
+     * 		ID of the text view from (R.id) collection
+     * @param imgId
+     * 		ID of the resource image used from (R.drawable) collection
+     * @param mode 
+     * 		indicates size of icon.
+     * 		<ul>
+     * 			<li>0: small    (40X40px)</li>
+     * 			<li>1: medium   (50X50px)</li>
+     * 			<li>2: large    (80X80px)</li>
+     * 		</ul>
+     * 
+     * @author 
+     *		Passant El.Agroudy (passant.elagroudy@gmail.com)
+     */
+    public static void setIconForATextField(Context appContext, View parent,  int textViewId , int imgId , int mode){
+    	
+    	Drawable img = appContext.getResources().getDrawable(imgId );
+    	TextView textView = (TextView)parent.findViewById(textViewId);
+    	setIconForATextField(img, textView, mode);
+    	
+    }// end SetIconForATextField
+	
+	/**
+	 * Used to add an image to the left side of a text view.
+	 * 
+	 * @param img
+	 * 		Image to be added to the text view
+	 * @param textView
+	 * 		Text view that that image will be added to its left
+	 * @param mode 
+     * 		indicates size of icon.
+     * 		<ul>
+     * 			<li>0: small    (40X40px)</li>
+     * 			<li>1: medium   (50X50px)</li>
+     * 			<li>2: large    (80X80px)</li>
+     * 		</ul>
+     * 
+	 * @author 
+	 *		Passant El.Agroudy (passant.elagroudy@gmail.com)
+	 */
+    public static void setIconForATextField(Drawable img , TextView textView , int mode) {
+    	switch(mode){
+    	case 0:img.setBounds( 0, 0, 40, 40 ); break;
+    	case 1:img.setBounds( 0, 0, 50, 50 ); break;
+    	case 2:img.setBounds( 0, 0, 80, 80 ); break;
+    	default:img.setBounds( 0, 0, 50, 50 ); break;
+    	}// end switch : specify size according to mode
+    	textView.setCompoundDrawables(img, null, null, null);
+    }// end setIconForATextField
 
 
 }// end class

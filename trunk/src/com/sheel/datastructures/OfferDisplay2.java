@@ -140,7 +140,7 @@ public class OfferDisplay2 {
 	 * 		Passant El.Agroudy (passant.elagroudy@gmail.com)
 	 */
 	public String getDisplayName() {
-		return user.firstName + user.middleName + user.lastName;
+		return user.firstName + " "+ user.middleName + " "+user.lastName;
 	}// end getDisplayName
 	
 	/**
