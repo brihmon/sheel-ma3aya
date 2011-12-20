@@ -90,7 +90,14 @@ public class HorizontalSwypingPagingAdapter extends PagerAdapter  implements Tit
 			System.out.println("HorizontalSwypingPager: instantiateItem: List was retrieved successfully");
 			displayList.setAdapter(new SearchResultsListAdapter(appContext, categories.get(position).getOffersDisplayed()));
 			((SearchResultsListAdapter)displayList.getAdapter()).notifyDataSetChanged();
+
 			
+			//==========Item Click Listener========
+	    	
+			/**
+			 * Item Click listener that the gets the selected Index
+			 * Saves the indices of the buttons inside their tags
+			 */
 			displayList.setOnItemClickListener(new OnItemClickListener() {
 			    public void onItemClick(AdapterView<?> parent, View v,
 			        int position, long id) {
@@ -112,7 +119,7 @@ public class HorizontalSwypingPagingAdapter extends PagerAdapter  implements Tit
 						if(stub.getVisibility() == View.GONE)
 							{
 //								Log.e(TAG, "Error Inflating");
-								InflateListener infListener = new InflateListener(mPos);
+								InflateListener infListener = new InflateListener(mPos, appContext);
 								stub.setOnInflateListener(infListener);
 								stub.setVisibility(View.VISIBLE);
 								
@@ -226,4 +233,18 @@ public class HorizontalSwypingPagingAdapter extends PagerAdapter  implements Tit
 	    
 		return POSITION_NONE;
 	}// end getItemPosition
+	
+	
+	/**
+	 * Set the list of categories with the new set of categories.
+	 * 
+	 * @param categories
+	 * 				New categories to be set
+	 * @author Hossam_Amer
+	 */
+	public void setCatagories(ArrayList<Category> categories)
+	{
+		this.categories = categories;
+	}
+	
 }// end class
