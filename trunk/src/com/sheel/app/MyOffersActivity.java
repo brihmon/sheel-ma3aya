@@ -138,8 +138,9 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity
 		{
 			//=================Add Categories====================
 			
-			super.getCategories().add(new Category("Full-Confirmed", R.layout.my_offers_main));
 			super.getCategories().add(new Category("Half-Confirmed", R.layout.my_offers_main));
+			super.getCategories().add(new Category("Full-Confirmed", R.layout.my_offers_main));
+			
 				
 			// Create a new list
 			searchResults_half = new ArrayList<OfferDisplay2>();
@@ -294,11 +295,9 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity
                		 
                	 }// end for
                	 
-               	 updateCategoryContent(searchResults_full, 0, false);
-               	 updateCategoryContent(searchResults_half, 1, false);
+               	updateCategoryContent(searchResults_half, 0, false);
+               	updateCategoryContent(searchResults_full, 1, false);
                	 
-		            
-					
 				} catch (JSONException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
