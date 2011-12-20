@@ -138,7 +138,7 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity
 		{
 			//=================Add Categories====================
 			
-			super.getCategories().add(new Category("Full Confirmed", R.layout.my_offers_main));
+			super.getCategories().add(new Category("Full-Confirmed", R.layout.my_offers_main));
 			super.getCategories().add(new Category("Half-Confirmed", R.layout.my_offers_main));
 				
 			// Create a new list
