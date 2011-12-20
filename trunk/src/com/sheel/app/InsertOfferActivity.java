@@ -178,7 +178,7 @@ static Flight flight = new Flight("","","","");
   private void updateDisplay() {
 	    	
 	        mDateDisplay.setText(
-	            new StringBuilder()
+	            new StringBuilder()//
 	                    // Month is 0 based so add 1
 	                    .append(mMonth + 1).append("-")
 	                    .append(mDay).append("-")
