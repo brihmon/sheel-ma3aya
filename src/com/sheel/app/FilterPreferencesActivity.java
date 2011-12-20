@@ -45,7 +45,7 @@ public class FilterPreferencesActivity extends UserSessionStateMaintainingActivi
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.filter_preferences_scroll);
+        setContentView(R.layout.filter_preferences);
         
         Bundle extras = getIntent().getExtras();
         
