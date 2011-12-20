@@ -9,6 +9,7 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -19,7 +20,9 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
+import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 public class GetUserInfoActivity extends UserSessionStateMaintainingActivity {
@@ -44,7 +47,7 @@ public class GetUserInfoActivity extends UserSessionStateMaintainingActivity {
     String source;
     String destination;
     String request;
-   
+
     static final int DATE_DIALOG_ID = 0;	
     static Calendar datePicked = Calendar.getInstance();
 	
@@ -75,8 +78,8 @@ public class GetUserInfoActivity extends UserSessionStateMaintainingActivity {
        
         updateDisplay();
     }
-    
-    private void updateDisplay() {
+
+	private void updateDisplay() {
     	
         dateDisplay.setText(
             new StringBuilder()
@@ -86,7 +89,6 @@ public class GetUserInfoActivity extends UserSessionStateMaintainingActivity {
                     .append(year));
         
         selectedDate = (String) dateDisplay.getText();
-
     }
     
     private DatePickerDialog.OnDateSetListener mDateSetListener =
@@ -166,11 +168,13 @@ public class GetUserInfoActivity extends UserSessionStateMaintainingActivity {
 	    	//return false;
 	   // }
 		 
-		if(lessWeight.isChecked())
+		if(lessWeight.isChecked()){
 			searchStatus = 0;
+		}
 			
-		else if(extraWeight.isChecked())
+		else if(extraWeight.isChecked()){
 			searchStatus = 1;
+		}
 		 
 		 return true;
 	 }
@@ -188,7 +192,7 @@ public class GetUserInfoActivity extends UserSessionStateMaintainingActivity {
 		 alert.setMessage("Enter flight number");                
   
 		 final EditText flight = new EditText(this); 
-		 flight.setSingleLine();
+		 flight.setSingleLine(true);
 		 alert.setView(flight);
 		  
 		  alert.setPositiveButton("Search", new DialogInterface.OnClickListener() {  
@@ -237,10 +241,11 @@ public class GetUserInfoActivity extends UserSessionStateMaintainingActivity {
 		 AlertDialog.Builder alert = new AlertDialog.Builder(this);                 
 		 alert.setTitle("Flight Details");  
 		 alert.setMessage("Enter source and destination airports");                
-  
+		 
 		 String[] airports = getResources().getStringArray(R.array.airports_array);
 		 ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.list_item, airports);
 		 
+		 ScrollView view = new ScrollView(this);
 		 LinearLayout layout = new LinearLayout(this);
 		 layout.setOrientation(1);
 		 
@@ -249,7 +254,7 @@ public class GetUserInfoActivity extends UserSessionStateMaintainingActivity {
 		 layout.addView(enterSource);
 		 
 		 final AutoCompleteTextView sourceAirport = new AutoCompleteTextView(this);
-		 sourceAirport.setSingleLine();
+		 sourceAirport.setSingleLine(true);
 		 sourceAirport.setAdapter(adapter);
 		 layout.addView(sourceAirport);
 		 
@@ -258,12 +263,13 @@ public class GetUserInfoActivity extends UserSessionStateMaintainingActivity {
 		 layout.addView(enterDestination);
 		 
 		 final AutoCompleteTextView desAirport = new AutoCompleteTextView(this);
-		 desAirport.setSingleLine();
+		 desAirport.setSingleLine(true);
 		 desAirport.setAdapter(adapter);
 		 layout.addView(desAirport);
 		  
-		 alert.setView(layout);
-		 
+		 view.addView(layout);
+		 alert.setView(view);
+
 		 alert.setPositiveButton("Search", new DialogInterface.OnClickListener() {  
 			    public void onClick(DialogInterface dialog, int whichButton) {  
 			         source = removeSpaces(sourceAirport.getText().toString());
@@ -360,4 +366,10 @@ public class GetUserInfoActivity extends UserSessionStateMaintainingActivity {
 		srcDes.setChecked(false);
     	flightNo.setChecked(false);		
 	}
+	
+	@Override
+	public void onConfigurationChanged(Configuration newConfig){
+	    super.onConfigurationChanged(newConfig);
+	}
+
 }
