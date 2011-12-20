@@ -26,6 +26,13 @@
         android:layout_margin="5dp"
         android:text="give 5 Kg" />
 	
+	<TextView
+        android:id="@+id/summary_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:text="5 €/Kg" />
+	
 	</LinearLayout>
 	
 	 <ViewStub android:id="@+id/infoStub" android:inflatedId="@+id/infoStubInflated"
