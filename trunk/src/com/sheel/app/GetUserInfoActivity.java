@@ -72,7 +72,7 @@ public class GetUserInfoActivity extends UserSessionStateMaintainingActivity {
         day = datePicked.get(Calendar.DAY_OF_MONTH);
 
         datePicked.set(year, month, day, 23, 59, 59);
-        // display the current date (this method is below)
+       
         updateDisplay();
     }
     
