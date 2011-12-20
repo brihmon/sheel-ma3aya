@@ -1,124 +1,99 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" 
+    android:scrollbars="vertical"
+    android:background="#004D79"
+    
+    >
+ 
+<RelativeLayout
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="#004D79"
     android:orientation="vertical" >
 
     <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="18dp"
-        android:text="I want users with"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
-    <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/textView12_maged"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/textView1"
-        android:layout_marginLeft="22dp"
-        android:layout_marginTop="22dp"
-        android:text="Weight in Kgs:"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="15dp"
+        android:text="Weight in Kgs"
         android:textAppearance="?android:attr/textAppearanceMedium" />
-
-    <EditText
-        android:id="@+id/autoCompleteTextView1"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/textView1"
-        android:layout_alignTop="@+id/textView2"
-        android:layout_toRightOf="@+id/textView2"
-        android:inputType="number"
-        android:singleLine="true" >
-
-        <requestFocus />
-    </EditText>
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/textView13_maged"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textView2"
-        android:layout_below="@+id/autoCompleteTextView1"
-        android:layout_marginTop="23dp"
-        android:text="Price per Kg:"
+        android:layout_alignBaseline="@+id/textView12_maged"
+        android:layout_alignBottom="@+id/textView12_maged"
+        android:layout_marginLeft="42dp"
+        android:layout_toRightOf="@+id/textView12_maged"
+        android:text="Price per Kg"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <EditText
-        android:id="@+id/autoCompleteTextView2"
+        android:id="@+id/kgs"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/autoCompleteTextView1"
-        android:layout_alignTop="@+id/textView3"
-        android:layout_toRightOf="@+id/textView2"
+        android:layout_alignLeft="@+id/textView12_maged"
+        android:layout_below="@+id/textView12_maged"
+        android:layout_toLeftOf="@+id/textView13_maged"
+        android:inputType="number"
+        android:singleLine="true" >
+         <requestFocus />
+    </EditText>
+
+    <EditText
+        android:id="@+id/price"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/kgs"
+        android:layout_alignBottom="@+id/kgs"
+        android:layout_alignLeft="@+id/textView13_maged"
+        android:layout_alignRight="@+id/textView13_maged"
         android:inputType="number"
         android:singleLine="true" />
 
     <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/autoCompleteTextView2"
-        android:layout_toRightOf="@+id/autoCompleteTextView2"
-        android:text="€"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
-
-    <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/textView14_maged"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/autoCompleteTextView2"
-        android:layout_marginTop="18dp"
-        android:text="--------------------------------------------------------------------" />
-    
-    <Button
-        android:id="@+id/button1"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/female"
-        android:layout_below="@+id/textView5"
-        android:text="Search using Facebook"
-        android:visibility="invisible" />
-
-    <TextView
-        android:id="@+id/textView6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/button1"
-        android:text="--------------------------------------------------------------------" />
-
-    <TextView
-        android:id="@+id/textView7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textView3"
-        android:layout_below="@+id/textView6"
-        android:text="Gender"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:layout_below="@+id/kgs"
+        android:text="Weight and price should be from 1 to 30, price is in euros"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
 
     <Button
-        android:id="@+id/button2"
-        android:layout_width="fill_parent"
+        android:id="@+id/facebook"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:onClick="onClick_search_offers"
-        android:text="Search for Offers ..." />
+        android:layout_below="@+id/textView14_maged"
+        android:layout_centerHorizontal="true"
+        android:onClick="onClick_facebook"
+        android:text="Search Using Facebook" />
+
+    <TextView
+        android:id="@+id/textView15_maged"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/kgs"
+        android:layout_below="@+id/facebook"
+        android:layout_marginTop="14dp"
+        android:text="Gender:"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <ToggleButton
         android:id="@+id/male"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/textView3"
-        android:layout_below="@+id/textView7"
-        android:background="@drawable/male_gender"
-        android:onClick="onClick_male_gender"
+        android:layout_alignBaseline="@+id/textView15_maged"
+        android:layout_alignBottom="@+id/textView15_maged"
+        android:layout_marginRight="14dp"
+        android:layout_toLeftOf="@+id/price"
+        android:background="@drawable/gender_male"
         android:textOff=""
         android:textOn="" />
 
@@ -126,81 +101,41 @@
         android:id="@+id/female"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textView7"
-        android:layout_centerHorizontal="true"
-        android:background="@drawable/female_gender"
-        android:onClick="onClick_female_gender"
+        android:layout_alignBaseline="@+id/male"
+        android:layout_alignBottom="@+id/male"
+        android:layout_alignLeft="@+id/price"
+        android:background="@drawable/gender_female"
         android:textOff=""
         android:textOn="" />
 
     <TextView
-        android:id="@+id/textView8"
+        android:id="@+id/textView16_maged"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textView7"
+        android:layout_alignLeft="@+id/textView15_maged"
         android:layout_below="@+id/male"
-        android:text="Nationality"
+        android:layout_marginTop="19dp"
+        android:text="Nationality:"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <AutoCompleteTextView
-        android:id="@+id/autoCompleteTextView3"
+        android:id="@+id/nationality"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/male"
-        android:layout_alignRight="@+id/textView4"
-        android:layout_below="@+id/textView8"
-        android:singleLine="true" />
+        android:layout_alignRight="@+id/facebook"
+        android:layout_below="@+id/textView16_maged"
+        android:layout_toRightOf="@+id/textView15_maged"
+        android:text="" />
 
-    <TextView
-        android:id="@+id/textView9"
-        android:layout_width="wrap_content"
+    <Button
+        android:id="@+id/search"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textView2"
-        android:layout_toLeftOf="@+id/male"
-        android:text="(1 → 30)"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
-
-    <TextView
-        android:id="@+id/textView10"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textView3"
-        android:layout_toLeftOf="@+id/male"
-        android:text="(1 → 30)"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
-
-    <ToggleButton
-        android:id="@+id/toggleButton1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/button1"
-        android:layout_alignBottom="@+id/button1"
         android:layout_alignParentLeft="true"
-        android:layout_toLeftOf="@+id/autoCompleteTextView2"
-        android:textOff="Facebook Friends"
-        android:textOn="Facebook Friends" 
-        android:onClick="onClick_friends"
-        android:textSize="10dp"/>
-
-    <ToggleButton
-        android:id="@+id/toggleButton2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/button1"
-        android:layout_alignBottom="@+id/button1"
-        android:layout_alignLeft="@+id/button1"
-        android:layout_alignRight="@+id/textView6"
-        android:textOff="Facebook Friends of Friends"
-        android:textOn="Facebook Friends of Friends"
-        android:onClick="onClick_friends_of_friends"
-        android:textSize="10dp" />
-
-    <TextView
-        android:id="@+id/textView11"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/toggleButton1"
-        android:layout_alignParentLeft="true"
-        android:text="Search offers owners from" />
+        android:layout_below="@+id/nationality"
+        android:onClick="onClick_search_offers"
+        android:text="Search for Offers" />
 
 </RelativeLayout>
+
+ </ScrollView>   
