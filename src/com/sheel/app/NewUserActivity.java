@@ -1,11 +1,10 @@
 package com.sheel.app;
 
-import static com.sheel.utils.SheelMaayaaConstants.*;
-import static com.sheel.utils.SheelMaayaaConstants.HTTP_GET_MY_OFFERS_FILTER;
+import static com.sheel.utils.SheelMaayaaConstants.HTTP_CHECK_REGISTERED;
+import static com.sheel.utils.SheelMaayaaConstants.HTTP_REGISTER_USER;
 import static com.sheel.utils.SheelMaayaaConstants.HTTP_RESPONSE;
 import static com.sheel.utils.SheelMaayaaConstants.HTTP_STATUS;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
@@ -14,7 +13,9 @@ import java.util.regex.Pattern;
 
 import org.apache.http.HttpStatus;
 
+import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -29,6 +30,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -100,6 +102,8 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 	EditText emailField;
 	/** Passport number field. Required to register */
 	EditText passportNumberField;
+	
+	EditText validationCodeField;
 
 	String gender = ""; /* Declaration of gender string */
 	String firstName; /* Declaration of first name string */
@@ -116,6 +120,8 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 	
 	String LoggedID;
 
+	int code;
+	String userValidationCode;
 	/**
 	 * Boolean variable to check that all the required fields are filled and in
 	 * the right format. True if everything is valid. False otherwise
@@ -126,6 +132,7 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 	boolean nationalityValid = false;
 	boolean gotResponse = false;
 	boolean photoTaken = false;
+	boolean mobileValid = false;
 
 	/*
 	 * public void NewUser() { String gender = ""; String firstName = ""; String
@@ -271,7 +278,7 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 
 		/* Passport number field */
 		passportNumberField = (EditText) findViewById(R.id.passNum);
-		
+		validationCodeField = (EditText) findViewById(R.id.validationCode);
 
 	} // end setVariables
 
@@ -341,7 +348,12 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 		startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
 		
 		
+
+			  
+		 
+		       
 		} // end onClick_takePhoto
+	
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -393,6 +405,85 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 		
 	}
 
+	public void OnClick_mobileValidate(View v){
+		mobileNumber = (mobileNumberField.getText().toString());
+		String countryCode = countryCodes.getText().toString();
+		if(mobileNumber.length() < 1 && countryCode.length()<1){
+			 Toast.makeText(getBaseContext(), "Please insert the mobile code and number", 
+                    Toast.LENGTH_SHORT).show();
+		}else{
+		double code1 = Math.random()*12345;
+		code = (int)code1;
+		
+		String SENT = "SMS_SENT";
+        String DELIVERED = "SMS_DELIVERED";
+        
+        String phoneCode = countryCode.toString().split(" ")[1];
+		mobileNumber =  phoneCode + mobileNumber;
+
+		mobileNumber = mobileNumber.trim();
+		mobileNumber = mobileNumber.replace("(", "");
+		mobileNumber = mobileNumber.replace(")", "");
+		mobileNumber = mobileNumber.replace(" ", "");
+		System.out.println("MOB: "+mobileNumber+" Code: "+code);
+		
+		 PendingIntent sent = PendingIntent.getActivity(this, 0, new Intent(SENT), 0);
+		 PendingIntent delivered = PendingIntent.getActivity(this, 0, new Intent(DELIVERED), 0);
+		        System.out.println("Message sent");
+		       
+		       //---when the SMS has been sent---
+		        registerReceiver(new BroadcastReceiver(){
+		            @Override
+		            public void onReceive(Context arg0, Intent arg1) {
+		                switch (getResultCode())
+		                {
+		                    case Activity.RESULT_OK:
+		                        Toast.makeText(getBaseContext(), "SMS sent", 
+		                                Toast.LENGTH_SHORT).show();
+		                        break;
+		                    case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
+		                        Toast.makeText(getBaseContext(), "Generic failure", 
+		                                Toast.LENGTH_SHORT).show();
+		                        break;
+		                    case SmsManager.RESULT_ERROR_NO_SERVICE:
+		                        Toast.makeText(getBaseContext(), "No service", 
+		                                Toast.LENGTH_SHORT).show();
+		                        break;
+		                    case SmsManager.RESULT_ERROR_NULL_PDU:
+		                        Toast.makeText(getBaseContext(), "Null PDU", 
+		                                Toast.LENGTH_SHORT).show();
+		                        break;
+		                    case SmsManager.RESULT_ERROR_RADIO_OFF:
+		                        Toast.makeText(getBaseContext(), "Radio off", 
+		                                Toast.LENGTH_SHORT).show();
+		                        break;
+		                }
+		            }
+		        }, new IntentFilter(SENT));
+		 
+		        //---when the SMS has been delivered---
+		        registerReceiver(new BroadcastReceiver(){
+		            @Override
+		            public void onReceive(Context arg0, Intent arg1) {
+		                switch (getResultCode())
+		                {
+		                    case Activity.RESULT_OK:
+		                        Toast.makeText(getBaseContext(), "SMS delivered", 
+		                                Toast.LENGTH_SHORT).show();
+		                        break;
+		                    case Activity.RESULT_CANCELED:
+		                        Toast.makeText(getBaseContext(), "SMS not delivered", 
+		                                Toast.LENGTH_SHORT).show();
+		                        break;                        
+		                }
+		            }
+		        }, new IntentFilter(DELIVERED));  
+		        SmsManager sms = SmsManager.getDefault();
+			       sms.sendTextMessage(mobileNumber,mobileNumber, ("This is a message from SheelMaaya /n Validation Code:" + code), null,null);        
+			       Toast.makeText(this, "SMS SENT", Toast.LENGTH_LONG)
+					.show();
+		}
+	}
 	public void emailValidation(String emailstring) {
 		Pattern emailPattern = Pattern.compile(".+@.+\\.[a-z]+");
 		Matcher emailMatcher = emailPattern.matcher(emailstring);
@@ -419,20 +510,28 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 	public void validate() {
 		String countryCode = countryCodes.getText().toString();
 		countryCodes.getValidator().isValid(countryCode);
-
+		System.out.println("Went to validator");
 		//nationality = nationalityField.getText().toString();
 		if(!nationality.equals("%20")){
 			nationalityField.getValidator().isValid(nationality);
-			System.out.println("Went to validator");
+			
 		}
 		else{
 			nationalityValid = true;
+		}
+		
+		if(userValidationCode.length()>0 && code == Integer.parseInt(userValidationCode)){
+			System.out.println(code + " " + userValidationCode);
+			mobileValid = true;
+		}
+		else{
+			Toast.makeText(this, "Validation code mismatch", 0).show();
 		}
 		emailValidation(email);
 		
 		photoValidation(passportImage);
 
-		if (nationalityValid && codeValid && photoTaken && mobileNumber.length() > 2
+		if (nationalityValid && codeValid && photoTaken && mobileValid && mobileNumber.length() > 2
 				&& passportNumber.length() > 0)
 			allValid = true;
 		else
@@ -509,10 +608,10 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 		GetUserFacebookID();
 		//faceBookID = Session.facebookUserId;
 		faceBookID = getFacebookService().getFacebookUser().getUserId();
-		String countryCode = countryCodes.getText().toString();
+		
 
-		mobileNumber = (mobileNumberField.getText().toString());
-		mobileNumber = mobileNumber.trim();
+	//	mobileNumber = (mobileNumberField.getText().toString());
+		//mobileNumber = mobileNumber.trim();
 		
 		//firstName = firstNameField.getText().toString();
 		//firstName = firstName.trim();
@@ -536,78 +635,20 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 		nationality = nationalityField.getText().toString();
 		nationality = nationality.trim();
 		if(nationality.length() == 0) {nationality = "%20";}
-		System.out.println("Before check gender length");
 		if(gender.length() == 0) gender = "%20";
 		
-		
-		
-		System.out.println("Before Validate");
+		userValidationCode = validationCodeField.getText().toString();
 
+		System.out.println("Before Validate " + allValid);
 		validate();
-		System.out.println("After Validate");
-		
+		System.out.println("After Validate " + allValid);
 		if (allValid == false)
 			Toast.makeText(this, "Please fill all the data", 0).show();
 		else {
 
-			String phoneCode = countryCode.toString().split(" ")[1];
-			mobileNumber =  phoneCode + mobileNumber;
-
-			System.out.println("After mobile");
-
 			dialog = ProgressDialog.show(NewUserActivity.this, "", "Registering, Please wait..", true, false);
 			dialog.setCancelable(false);
-			SheelMaaayaClient sc = new SheelMaaayaClient() {
 
-				@Override
-				public void doSomething() {
-					final String str = this.rspStr;
-
-					runOnUiThread(new Runnable() {
-
-						@Override
-						public void run() {
-							if(dialog != null)
-								
-                         		dialog.dismiss();
-							
-							if(str.equals("false")){
-								System.out.println("Not found");
-								runHttpRequest("/insertuser/" + faceBookID + "/" + email + "/"
-										+ firstName + "/" + middleName + "/" + lastName + "/"
-										+ mobileNumber + "/" + nationality + "/" + passportNumber
-										+ "/" + gender + "/" + passportImage);
-								Toast.makeText(NewUserActivity.this, "Successful Registration", Toast.LENGTH_LONG).show();
-								//LoggedID = faceBookID;
-								System.out.println("Done in DataBase");
-								System.out.println(passportImage.length());
-								//System.out.println("LogID " + LoggedID);
-								Intent statedIntent = setSessionInformationBetweenActivities(ConnectorUserActionsActivity.class);
-								statedIntent.putExtra(ConnectorUserActionsActivity.LOGGED_ID_KEY, faceBookID);
-								startActivity(statedIntent);
-							}
-							else if(str.equalsIgnoreCase("true")){
-								AlertDialog a = showAlert("Registration failed","Sorry you are already registered");
-								a.setButton("ok", new android.content.DialogInterface.OnClickListener() {
-									
-									@Override
-									public void onClick(DialogInterface dialog, int which) {
-										Intent statedIntent = setSessionInformationBetweenActivities(ConnectorUserActionsActivity.class);
-										statedIntent.putExtra(ConnectorUserActionsActivity.LOGGED_ID_KEY, faceBookID);
-										startActivity(statedIntent);
-									}
-								});
-								a.show();
-								System.out.println("Already Registered");
-							}
-							
-							
-							
-						}
-					});
-
-				}
-			};
 			
 			class SheelMaayaaBroadCastRec extends BroadcastReceiver {
 
