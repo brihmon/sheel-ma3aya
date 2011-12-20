@@ -140,7 +140,6 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity
 			
 			super.getCategories().add(new Category("Full Confirmed", R.layout.my_offers_main));
 			super.getCategories().add(new Category("Half-Confirmed", R.layout.my_offers_main));
-			Toast.makeText(getApplicationContext(), "Adding Cats Done", Toast.LENGTH_SHORT).show();
 				
 			// Create a new list
 			searchResults_half = new ArrayList<OfferDisplay2>();
