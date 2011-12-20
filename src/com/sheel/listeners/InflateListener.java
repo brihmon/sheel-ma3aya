@@ -189,18 +189,19 @@ public class InflateListener implements OnInflateListener, OnClickListener {
 			
 			Log.e("Call button", this.offerDisplay.getUser().mobileNumber);
 			call(this.offerDisplay.getUser().mobileNumber);
-			
-			
 			break;
+			
+		case R.id.details_button_sendSms:
+			
+			Log.e("SMS button", this.offerDisplay.getUser().mobileNumber);
+			sendSMS(getSMSMessage(), this.offerDisplay.getUser().mobileNumber);
+			break;
+			
 		case R.id.details_button_confirm:
 			
 			Log.e("Confirm button", "Hello");
-		break;
-		case R.id.details_button_sendSms:
-			Log.e("SMS button", this.offerDisplay.getUser().mobileNumber);
-			sendSMS(getSMSMessage(), this.offerDisplay.getUser().mobileNumber);
-			
 			break;
+	
 		default:
 			break;
 		}

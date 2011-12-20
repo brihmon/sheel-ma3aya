@@ -20,7 +20,6 @@ import com.sheel.app.R;
 import com.sheel.datastructures.Category;
 import com.sheel.datastructures.FacebookUser;
 import com.sheel.datastructures.OfferDisplay2;
-import com.sheel.datastructures.User;
 import com.sheel.listeners.InflateListener;
 import com.viewpagerindicator.TitleProvider;
 
