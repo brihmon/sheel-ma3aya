@@ -90,10 +90,14 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity
 
 	
 	/**
-	 * Offers retrieved from the database.
+	 * Offers half-confirmed retrieved from the database.
 	 */
-	ArrayList<OfferDisplay2> searchResults = new ArrayList<OfferDisplay2>();
+	ArrayList<OfferDisplay2> searchResults_half = new ArrayList<OfferDisplay2>();
 	
+	/**
+	 * Offers full-confirmed retrieved from the database.
+	 */
+	ArrayList<OfferDisplay2> searchResults_full = new ArrayList<OfferDisplay2>();
 	
 	/**
 	 * SearchResults listView to be found by Id
@@ -119,31 +123,31 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity
 	@SuppressWarnings("unchecked")
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
+
 		super.onCreate(savedInstanceState);
-//		setContentView(R.layout.my_offers_main);
 		
 	//======================Checking Available Internet Connection=============	
 		
 	if(InternetManager.isInternetOn(getApplicationContext()))
 	{
+
+		
 		//========Get the last state for my list========
-		searchResults = (ArrayList<OfferDisplay2>) getLastNonConfigurationInstance();		
-		//=====================================
-//		ArrayList<Category> categories = new ArrayList<Category>();
 		
-		super.getCategories().add(new Category("Full Confirmed", R.layout.my_offers_main));
-		super.getCategories().add(new Category("Half-Confirmed", R.layout.my_offers_main));
-//		super.setCategories(categories);
-		
-		//======Start the HTTP Request=========
-				
-		if(searchResults == null)
+		if((ArrayList<Category>) super.getLastNonConfigurationInstance() == null)
 		{
+			//=================Add Categories====================
+			
+			super.getCategories().add(new Category("Full Confirmed", R.layout.my_offers_main));
+			super.getCategories().add(new Category("Half-Confirmed", R.layout.my_offers_main));
+			Toast.makeText(getApplicationContext(), "Adding Cats Done", Toast.LENGTH_SHORT).show();
 				
 			// Create a new list
-			searchResults = new ArrayList<OfferDisplay2>();
+			searchResults_half = new ArrayList<OfferDisplay2>();
 			
+			searchResults_full = new ArrayList<OfferDisplay2>();
+			
+			//======Start the HTTP Request=========
 			path = "/getmyoffers/" + getFacebookService().getFacebookUser().getUserId();
 			// XXXXhashas
 			path = "/getmyoffers/673780564";
@@ -152,73 +156,6 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity
 			HTTPManager.startHttpService(path, HTTP_GET_MY_OFFERS_FILTER, getApplicationContext());
 		}
 		
-		
-	
-	//========Initialize the adapter======
-//	initAdapter();
-	//=====================================
-	
-	//=====================================
-		
-    	//==========Item Click Listener========
-    	
-		/**
-		 * Item Click listener that the gets the selected Index
-		 * Saves the indices of the buttons inside their tags
-		 */
-		
-//		searchResultsList.setOnItemClickListener(new OnItemClickListener() {
-//		    public void onItemClick(AdapterView<?> parent, View v,
-//		        int position, long id) {
-//		    	
-//		    	
-//		    	// It gets the clicked position
-//		mPos = position;
-//		Log.e(TAG, "Pos: " + position);
-//		
-//			//==============Showing and Hiding Effect===============
-//			
-//			if (v != null) 
-//			{
-//				stub = (ViewStub) v.findViewById(R.id.infoStub);
-//				inflated = (View) v.findViewById(R.id.infoStubInflated);
-//					 
-//				if(stub != null)
-//				{
-//					if(stub.getVisibility() == View.GONE)
-//						{
-//							Log.e(TAG, "Error Inflating");
-//							infListener = new InflateListener(mPos);
-//							stub.setOnInflateListener(infListener);
-//							stub.setVisibility(View.VISIBLE);
-//							
-//						}
-//					else
-//						stub.setVisibility(View.GONE);
-//				}
-//				
-//				if(inflated != null)
-//				{
-//					if(inflated.getVisibility() == View.GONE)
-//						{
-//						
-//							inflated.setVisibility(View.VISIBLE);
-//						}
-//					else
-//						inflated.setVisibility(View.GONE);
-//				}
-//				
-//				////===========================================
-//					
-//				}//end if
-//		
-//			
-//			    	    	
-//		}});// end onItemClick
-		    	
-    	
-    	//=====================================
-	
 	}// end if (isInternet)
 	else		
 		noInternetConnectionHandler();
@@ -238,23 +175,6 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity
 		       });
 		 builder.create();
 		 builder.show();
-		
-	}
-
-
-	/**
-	 * Initializes the adapter of the list view.
-	 */
-	private void initAdapter() {
-		
-		adapter = new SearchResultsListAdapter(this, searchResults);		
-		searchResultsList = (ListView)findViewById(R.id.list);
-		
-    	// Set adapter to the list view 	
-    	searchResultsList.setAdapter(adapter);
-    	    	
-    	// To enable filtering certain content of the method
-    	searchResultsList.setTextFilterEnabled(true);
 		
 	}
 
@@ -290,6 +210,7 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity
 		
 		// Add the filters of your activity
 		filter.addAction(HTTP_GET_MY_OFFERS_FILTER);
+		filter.addAction("test");
 		
 		receiver = new SheelMaayaaBroadCastRec();
 		
@@ -308,57 +229,7 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity
 		// TODO Auto-generated method stub
 		super.onStop();
 	}
-
-	/**
-	 * Used for returning the <code>searchResults</code> just before onDestroy()
-	 */
-	@Override
-	public Object onRetainNonConfigurationInstance() {
-
-		return searchResults;
-	}
-	
-	/**
-	 * Handler for notifying the change of data to the adapter
-	 */
-	
-	 private Handler handler = new Handler()
-	  {
-
-	        @Override
-	        public void handleMessage(Message msg)
-	        {
-	        	Log.e(TAG, "Data Changed");
-	        	Log.e(TAG, adapter.toString());
-	            adapter.notifyDataSetChanged();
-	            super.handleMessage(msg);
-	        }
-
-	   };
-	   
-	   
-	   public void onClick(View view) {
 		   
-		   Log.e(TAG, "Button: " + view.getId());
-	    	Toast.makeText(getApplicationContext(), "Button Position: " +
-	    			view.getTag(), Toast.LENGTH_SHORT).show();
-	    		    	
-	    	String path = "/getmyoffers/673780564";
-	    	
-	    	    	
-	    	Intent serviceIntent = new Intent(this, SheelMaayaaService.class);
-	    	serviceIntent.setAction(HTTP_GET_MY_OFFERS_FILTER);
-	    	serviceIntent.putExtra(pathKey, path);
-	    	
-//	    	Toast.makeText(getApplicationContext(), "Before Intent Service",
-//	    			Toast.LENGTH_SHORT).show();
-	    	
-//	    	startService(serviceIntent);
-	    	
-	    	
-	    }
-	   
-	   
 	   /**
 	    * {@link SheelMaayaaBroadCastRec} Class for Broadcast receiver i.e to receive the result from the HTTP request
 	    * @author Hossam_Amer
@@ -370,9 +241,15 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity
 			@Override
 			public void onReceive(Context context, Intent intent) {
 				// TODO Auto-generated method stub
+			
 				
 				Log.e(TAG, intent.getAction());
 				String action = intent.getAction();
+			
+			if(action.equals("test"))
+				dialog = ProgressDialog.show(MyOffersActivity.this, "", "Please wait..", true, false);
+			else
+			{
 				int httpStatus = intent.getExtras().getInt(HTTP_STATUS);
 				Log.e(TAG, "HTTPSTATUS: "+ httpStatus);
 				
@@ -390,13 +267,13 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity
 					}
 				
 				}
-				
+			}	
 			}
 
 			/**
 			 * Used to fill the adapter with data (Offers)
 			 * @param responseStr
-			 * 					Response String recieved from the server
+			 * 					Response String received from the server
 			 */
 			private void loadSearchResultsOnUI(String responseStr) 
 			{
@@ -405,16 +282,21 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity
 					JSONArray jsonArray = new JSONArray(responseStr);
                 	
                	 for (int i = 0; i < jsonArray.length(); i++) {               		 
-               		 searchResults.add(OfferDisplay2.mapOffer(jsonArray.getJSONObject(i)));
+               		 
+               		 OfferDisplay2 offer = OfferDisplay2.mapOffer(jsonArray.getJSONObject(i));
+               		 
+               		 //XXXXbad for localization
+               		if(offer.getOffer().offerStatus.equals("half-confirmed"))
+               			searchResults_half.add(OfferDisplay2.mapOffer(jsonArray.getJSONObject(i)));
+               		
+               		else if(offer.getOffer().offerStatus.equals("confirmed"))
+               			searchResults_full.add(OfferDisplay2.mapOffer(jsonArray.getJSONObject(i)));
+
                		 
                	 }// end for
                	 
-               	 
-               	 updateCategoryContent(searchResults, 0, false);
-               	updateCategoryContent(searchResults, 1, false);
-					// Notify the adapter
-					Log.e(TAG, handler.toString());
-//		            handler.sendEmptyMessage(1);
+               	 updateCategoryContent(searchResults_half, 0, false);
+               	 updateCategoryContent(searchResults_full, 1, false);
 		            
 					
 				} catch (JSONException e) {
