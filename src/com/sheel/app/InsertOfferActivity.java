@@ -182,7 +182,7 @@ static Flight flight = new Flight("","","","");
 	                    // Month is 0 based so add 1
 	                    .append(mMonth + 1).append("-")
 	                    .append(mDay).append("-")
-	                    .append(mYear).append(" "));
+	                    .append(mYear));
 	        
 	/*        mTimeDisplay.setText(
 	                new StringBuilder()
@@ -250,7 +250,7 @@ static Flight flight = new Flight("","","","");
 		Gson gson = new Gson();
 		String input = gson.toJson(flight);
 		input+= "<>"+gson.toJson(offer);
-		
+
 		try{
 			sc.runHttpPost("/insertnewoffer/"+getIntent().getExtras().getLong("userId"), input);
 		}catch(Exception e){
