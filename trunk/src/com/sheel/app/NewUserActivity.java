@@ -1,6 +1,7 @@
 package com.sheel.app;
 
 import static com.sheel.utils.SheelMaayaaConstants.HTTP_CHECK_REGISTERED;
+import static com.sheel.utils.SheelMaayaaConstants.HTTP_GET_MY_OFFERS_FILTER;
 import static com.sheel.utils.SheelMaayaaConstants.HTTP_REGISTER_USER;
 import static com.sheel.utils.SheelMaayaaConstants.HTTP_RESPONSE;
 import static com.sheel.utils.SheelMaayaaConstants.HTTP_STATUS;
@@ -43,7 +44,7 @@ import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.sheel.app.MyOffersActivity.SheelMaayaaBroadCastRec;
+
 import com.sheel.datastructures.User;
 import com.sheel.utils.HTTPManager;
 import com.sheel.utils.InternetManager;
@@ -113,7 +114,7 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 	String middleName; /* Declaration of middle name string */
 	String lastName; /* Declaration of last name string */
 	/** String containing the passport image encoded data string */
-	String passportImage;
+	String passportImage="image";
 	String passportNumber; /* Declaration of passport string */
 	String email; /* Declaration of email string */
 	String mobileNumber; /* Declaration of mobile number string */
@@ -180,6 +181,44 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 		super.onPause();
 	}
 	*/
+	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+	}
+
+	@Override
+	protected void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		
+		// Cancel out the dialog
+		dialog = null;
+		// Unregister the receiver onPause
+		unregisterReceiver(receiver);
+	}
+
+	@Override
+	protected void onRestart() {
+		// TODO Auto-generated method stub
+		super.onRestart();
+	}
+
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		
+		filter = new IntentFilter();
+		
+		// Add the filters of your activity
+		filter.addAction(HTTP_CHECK_REGISTERED);
+		filter.addAction(HTTP_REGISTER_USER);
+		receiver = new SheelMaayaaBroadCastRec();
+		
+		Log.e(TAG, "Receiver Registered");
+		registerReceiver(receiver, filter);
+	}
 
 	/**
 	 * This method is called to create all the UI components and create and set
@@ -601,6 +640,80 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 		 //alertDialog.show();
 		 return alertDialog;
 	 }
+	
+	class SheelMaayaaBroadCastRec extends BroadcastReceiver {
+
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			// TODO Auto-generated method stub
+			if(dialog != null)	
+         		dialog.dismiss();
+			Log.e(TAG, intent.getAction());
+			String action = intent.getAction();
+			int httpStatus = intent.getExtras().getInt(HTTP_STATUS);
+			Log.e(TAG, "HTTPSTATUS: "+ httpStatus);
+			
+			if( httpStatus == HttpStatus.SC_OK)
+			{
+				if (action.equals(HTTP_CHECK_REGISTERED))
+				{
+					String responseStr = intent.getExtras().getString(HTTP_RESPONSE);
+					
+					Toast.makeText(NewUserActivity.this, responseStr, Toast.LENGTH_LONG).show();
+					if(responseStr.equals("false")){
+						System.out.println("Not found");
+						String path = "/registeruser";/*" + faceBookID + "/" + email + "/"
+							+ firstName + "/" + middleName + "/" + lastName + "/"
+							+ mobileNumber + "/" + nationality + "/" + passportNumber
+							+ "/" + gender + "/" + passportImage;*/
+
+						User user = new User("", firstName, middleName, lastName, passportImage, passportNumber, 
+								email, mobileNumber, faceBookID, gender, nationality);
+						
+						Gson gson = new Gson();
+						String input = gson.toJson(user);
+						System.out.println("GSONSTRING: " + input);
+						
+						HTTPManager.startHttpService(path, input, HTTP_REGISTER_USER, getApplicationContext());
+						Toast.makeText(NewUserActivity.this, "Successful Registration", Toast.LENGTH_LONG).show();
+						//LoggedID = faceBookID;
+						System.out.println("Done in DataBase");
+						System.out.println(passportImage.length());
+						//System.out.println("LogID " + LoggedID);
+						
+					}
+					else if(responseStr.equalsIgnoreCase("true")){
+						AlertDialog a = showAlert("Registration failed","Sorry you are already registered");
+						a.setButton("ok", new android.content.DialogInterface.OnClickListener() {
+							
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								Intent statedIntent = setSessionInformationBetweenActivities(ConnectorUserActionsActivity.class);
+								statedIntent.putExtra(ConnectorUserActionsActivity.LOGGED_ID_KEY, faceBookID);
+								startActivity(statedIntent);
+							}
+						});
+						a.show();
+						System.out.println("Already Registered");
+					}
+					// Dialog dismissing
+					//if(dialog != null) dialog.dismiss();
+					Log.e(TAG, responseStr);
+						
+				}
+				else if (action.equals(HTTP_REGISTER_USER))
+				{
+					Intent statedIntent = setSessionInformationBetweenActivities(ConnectorUserActionsActivity.class);
+					statedIntent.putExtra(ConnectorUserActionsActivity.LOGGED_ID_KEY, faceBookID);
+					startActivity(statedIntent);
+					finish();
+				}
+			
+			}
+			
+		}
+	}
+	
 	public void OnClick_register(View v) {
 		//if(isInternetOn())
 		if(InternetManager.isInternetOn(getApplicationContext()))
@@ -654,86 +767,8 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 			dialog.setCancelable(false);
 
 			
-			class SheelMaayaaBroadCastRec extends BroadcastReceiver {
-
-				@Override
-				public void onReceive(Context context, Intent intent) {
-					// TODO Auto-generated method stub
-					if(dialog != null)	
-                 		dialog.dismiss();
-					Log.e(TAG, intent.getAction());
-					String action = intent.getAction();
-					int httpStatus = intent.getExtras().getInt(HTTP_STATUS);
-					Log.e(TAG, "HTTPSTATUS: "+ httpStatus);
-					
-					if( httpStatus == HttpStatus.SC_OK)
-					{
-						if (action.equals(HTTP_CHECK_REGISTERED))
-						{
-							String responseStr = intent.getExtras().getString(HTTP_RESPONSE);
-							
-							Toast.makeText(NewUserActivity.this, responseStr, Toast.LENGTH_LONG).show();
-							if(responseStr.equals("false")){
-								System.out.println("Not found");
-								String path = "/registeruser";/*" + faceBookID + "/" + email + "/"
-									+ firstName + "/" + middleName + "/" + lastName + "/"
-									+ mobileNumber + "/" + nationality + "/" + passportNumber
-									+ "/" + gender + "/" + passportImage;*/
-
-								User user = new User("", firstName, middleName, lastName, passportImage, passportNumber, 
-										email, mobileNumber, faceBookID, gender, nationality);
-								
-								Gson gson = new Gson();
-								String input = gson.toJson(user);
-								System.out.println("GSONSTRING: " + input);
-								
-								HTTPManager.startHttpService(path, input, HTTP_REGISTER_USER, getApplicationContext());
-								Toast.makeText(NewUserActivity.this, "Successful Registration", Toast.LENGTH_LONG).show();
-								//LoggedID = faceBookID;
-								System.out.println("Done in DataBase");
-								System.out.println(passportImage.length());
-								//System.out.println("LogID " + LoggedID);
-								
-							}
-							else if(responseStr.equalsIgnoreCase("true")){
-								AlertDialog a = showAlert("Registration failed","Sorry you are already registered");
-								a.setButton("ok", new android.content.DialogInterface.OnClickListener() {
-									
-									@Override
-									public void onClick(DialogInterface dialog, int which) {
-										Intent statedIntent = setSessionInformationBetweenActivities(ConnectorUserActionsActivity.class);
-										statedIntent.putExtra(ConnectorUserActionsActivity.LOGGED_ID_KEY, faceBookID);
-										startActivity(statedIntent);
-									}
-								});
-								a.show();
-								System.out.println("Already Registered");
-							}
-							// Dialog dismissing
-							//if(dialog != null) dialog.dismiss();
-							Log.e(TAG, responseStr);
-								
-						}
-						else if (action.equals(HTTP_REGISTER_USER))
-						{
-							Intent statedIntent = setSessionInformationBetweenActivities(ConnectorUserActionsActivity.class);
-							statedIntent.putExtra(ConnectorUserActionsActivity.LOGGED_ID_KEY, faceBookID);
-							startActivity(statedIntent);
-						}
-					
-					}
-					
-				}
-			}
-			filter = new IntentFilter();
+////////////////////////
 			
-			// Add the filters of your activity
-			filter.addAction(HTTP_CHECK_REGISTERED);
-			filter.addAction(HTTP_REGISTER_USER);
-			SheelMaayaaBroadCastRec receiver = new SheelMaayaaBroadCastRec();
-			
-			Log.e(TAG, "Receiver Registered");
-			registerReceiver(receiver, filter);
 			
 			String path = "/checkRegistered/" + faceBookID;
 			
