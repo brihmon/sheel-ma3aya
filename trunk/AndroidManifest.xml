@@ -19,11 +19,9 @@
 
 		<activity android:name=".PhoneCommunication"></activity>
 		<activity android:name=".SearchFacebookActivity"></activity>
-		<activity android:name=".GetUserInfoActivity"></activity>
-		<activity android:name=".SearchByFlightNoActivity"></activity>
-		<activity android:name=".SearchBySrcDesActivity"></activity>
+		<activity android:name=".GetUserInfoActivity" android:configChanges="keyboardHidden|orientation"></activity>
 		<activity android:name=".NewUserActivity"></activity>
-		<activity android:name=".FilterPreferencesActivity"></activity>
+		<activity android:name=".FilterPreferencesActivity" android:configChanges="keyboardHidden|orientation"></activity>
 		<activity android:name=".TakePhotoActivity"></activity>
 		<activity android:name=".InsertOfferActivity"></activity>
 		<activity android:name=".ViewSearchResultsActivity"></activity>
