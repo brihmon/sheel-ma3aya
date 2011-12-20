@@ -1,6 +1,5 @@
 package com.sheel.utils;
 
-import com.sheel.datastructures.enums.OfferWeightStatus;
 
 /**
  * Interface for inserting all the constants of SheelMaayaa
