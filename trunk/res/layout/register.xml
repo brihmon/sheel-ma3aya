@@ -9,7 +9,7 @@
          android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="8dip"
-            android:text="* Required for Registering"
+            android:text="@string/required"
             android:textColor="#FF0000"
             android:textSize="13dp">
         
@@ -24,7 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="8dip"
-            android:text="Mobile Code* " >
+            android:text="@string/mobile_code" >
         </TextView>
 
         <AutoCompleteTextView
@@ -46,7 +46,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="8dip"
-            android:text="Mobile Number* " >
+            android:text="@string/mobile_number" >
         </TextView>
 
         <EditText
@@ -57,13 +57,14 @@
             android:textSize="15dp">
         </EditText>
     </TableRow>
-    <TableRow >
+    
+        <TableRow >
         <Button
             android:id="@+id/sendValidation"
             android:layout_width="fill_parent"
             android:layout_height="35dp"
             android:onClick="OnClick_mobileValidate"
-            android:text="Send Validation">
+            android:text="@+id/send_validation">
             </Button>
             
               <EditText
@@ -75,6 +76,7 @@
         </EditText>
         
     </TableRow>
+        
 
     <!-- Email 
 
@@ -189,7 +191,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="8dip"
-            android:text="Nationality " >
+            android:text="@string/nationality_nada" >
         </TextView>
 
         <AutoCompleteTextView
@@ -211,7 +213,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="8dip"
-            android:text="Passport Number* " >
+            android:text="@string/passport_number" >
         </TextView>
 
         <EditText
@@ -231,7 +233,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="8dip"
-            android:text="Passport Photo* "
+            android:text="@string/passport_photo"
              >
         </TextView>
 
@@ -264,7 +266,7 @@
             android:layout_width="fill_parent"
             android:layout_height="40dp"
             android:onClick="OnClick_register"
-            android:text="Register"
+            android:text="@string/register"
             android:layout_marginTop="10dp">
         </Button>
     
