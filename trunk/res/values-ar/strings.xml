@@ -476,6 +476,442 @@
 <item>جزر آلاند</item>
 </string-array>
 
+<string-array name="airports_array">
+<item>أبردين </item>
+<item>أبيدجان </item>
+<item>أبوجا </item>
+<item>أبو ظبي </item>
+<item>أكرا </item>
+<item>أديس أبابا </item>
+<item>اجاكسيو </item>
+<item>العين </item>
+<item>(الباني (نيويورك  </item>
+<item>ألبوري </item>
+<item>حلب </item>
+<item>ألغيرو </item>
+<item>الجزائر </item>
+<item>الميريا </item>
+<item>عمان </item>
+<item>امريتسار </item>
+<item>أمستردام </item>
+<item>أنقرة </item>
+<item>أثينا </item>
+<item>أتلانتيك سيتي </item>
+<item>أوكلاند </item>
+<item>أوستن </item>
+<item>بغداد </item>
+<item>البحرين </item>
+<item>(بانكوك (سوفارنابومي </item>
+<item>(بانكوك (دون موانج </item>
+<item>برشلونة </item>
+<item>(برشلونة (فنزويلا </item>
+<item>بازل </item>
+<item>بكين </item>
+<item>بيروت </item>
+<item>بنغازي </item>
+<item>برلين تيجيل </item>
+<item>برلين شونيفيلد </item>
+<item>تمبلهوف في برلين </item>
+<item>برمودا </item>
+<item>برن </item>
+<item>بوبانسوار </item>
+<item>بياريتز </item>
+<item>بلباو </item>
+<item>بيلوند </item>
+<item>(برمنغهام (المملكة المتحدة </item>
+<item>(برمنغهام (الولايات المتحدة </item>
+<item>بيشكيك </item>
+<item>بلاكبول </item>
+<item>بلانتير </item>
+<item>بلومفونتين </item>
+<item>بلومينغتون </item>
+<item>بوكاس ديل تورو </item>
+<item>بودو </item>
+<item>بودروم </item>
+<item>بوجوتا </item>
+<item>بويز </item>
+<item>بولونيا ماركوني </item>
+<item>بولونيا فورلي </item>
+<item>(بومباي (مومباي </item>
+<item>بوردو </item>
+<item>برج العرب </item>
+<item>لوغان بوسطن </item>
+<item>بورجاس </item>
+<item>بورنموث </item>
+<item>برازيليا </item>
+<item>براتيسلافا </item>
+<item>بريمن </item>
+<item>بريشيا </item>
+<item>بريدجتاون </item>
+<item>برينديزي </item>
+<item>بريسبان </item>
+<item>بريستول </item>
+<item>بروم  </item>
+<item>بروكسل زافنتم </item>
+<item>بروكسل شارلروا </item>
+<item>بوخارست </item>
+<item>بودابست </item>
+<item>بوينس آيرس </item>
+<item>بوجومبورا </item>
+<item>كالياري </item>
+<item>كيرنز </item>
+<item>القاهرة </item>
+<item>كالجاري </item>
+<item>(كالكوتا (كلكتا </item>
+<item>كانكون </item>
+<item>كانبيرا </item>
+<item>كيب تاون </item>
+<item>كاراكاس </item>
+<item>كاركاسون </item>
+<item>كارديف </item>
+<item>قرطاجنة </item>
+<item>الدار البيضاء </item>
+<item>كاتانيا </item>
+<item>شيانغ ماي </item>
+<item>شيانغ راي </item>
+<item>شيكاغو أوهير  </item>
+<item> شيكاغو ميدواي </item>
+<item>شيسيناو </item>
+<item>كليرمون فيران </item>
+<item>كليفلاند </item>
+<item>كلوج نابوكا </item>
+<item>كوتشابامبا </item>
+<item>كوشين </item>
+<item>كوفس هاربر </item>
+<item>كويمباتور </item>
+<item>كولومبو </item>
+<item>كولونيا وبون </item>
+<item>كولورادو سبرينغز </item>
+<item>(كولومبوس (أوهايو </item>
+<item>كووما - الثلجية جبال </item>
+<item>كوبنهاغن </item>
+<item>داكار </item>
+<item>دالامان </item>
+<item>لاف فيلد دالاس </item>
+<item>دالاس فورت وورث </item>
+<item>دمشق </item>
+<item>داليان </item>
+<item>الدمام </item>
+<item>دا نانغ </item>
+<item>دار السلام </item>
+<item>دلهي </item>
+<item>دينباسار بالي </item>
+<item>دنفر </item>
+<item>ديترويت </item>
+<item>دكا </item>
+<item>دينار </item>
+<item>جيبوتي </item>
+<item>الدوحة </item>
+<item>دونيتسك </item>
+<item>دورتموند </item>
+<item>دريسدن </item>
+<item>دبي </item>
+<item>دبلن </item>
+<item>دوبروفنيك </item>
+<item>دندي </item>
+<item>دنيدن </item>
+<item>ديربان </item>
+<item>دورهام / تيز فالي </item>
+<item>دوشانبي </item>
+<item>دوسلدورف </item>
+<item>شرق ميدلاندز </item>
+<item>أدنبره </item>
+<item>ادمونتون  </item>
+<item>ايلات </item>
+<item>ايندهوفن </item>
+<item>ايكاترينبرغ </item>
+<item>ش Calafate </item>
+<item>الباسو </item>
+<item>السلفادور </item>
+<item>فارو </item>
+<item>فلورنسا </item>
+<item>فورتاليزا </item>
+<item>فورت لودرديل </item>
+<item>فورت مايرز </item>
+<item>فرانكفورت الرئيسية </item>
+<item>فرانكفورت هان </item>
+<item>فريتاون </item>
+<item>اثنائهم </item>
+<item>جنيف </item>
+<item>جنوى </item>
+<item>جبل طارق </item>
+<item>جيمهي </item>
+<item>جيرونا </item>
+<item>الجليدى بارك </item>
+<item>غلاسكو </item>
+<item>غلاسكو بريستويك </item>
+<item>غوا </item>
+<item>غويانيا سانتا  </item>
+<item>جولد كوست </item>
+<item>غوتنبرغ </item>
+<item>جوتنبرج المدينة </item>
+<item>غرناطة </item>
+<item>غراند رابيدز </item>
+<item>غراتس </item>
+<item> روتشستر الكبري </item>
+<item>بنجهامتون الكبري </item>
+<item>غرونوبل </item>
+<item>غريفيث </item>
+<item>غوادالاخارا </item>
+<item>قوانغتشو </item>
+<item>غواتيمالا </item>
+<item>غواياكيل </item>
+<item>غيرنسي </item>
+<item>قويلين </item>
+<item>جولفبورت </item>
+<item>حيفا </item>
+<item>هايكو </item>
+<item>هاكوداته </item>
+<item>هاليفاكس </item>
+<item>هامبورغ </item>
+<item>هامبورغ لوبك</item>
+<item>هاميلتون </item>
+<item>هانغتشو </item>
+<item>هانوي </item>
+<item>هانوفر </item>
+<item>هراري </item>
+<item>هارتفورد </item>
+<item>هاتاي </item>
+<item>هات ياي </item>
+<item>هافانا </item>
+<item>هلسنكي </item>
+<item>هونج كونج </item>
+<item>هونيارا </item>
+<item>هونولولو </item>
+<item>الغردقة </item>
+<item>حيدر أباد </item>
+<item>إيبيزا </item>
+<item>ايلويلو </item>
+<item>الإيلهيوسي </item>
+<item>انديانابوليس </item>
+<item>انسبروك </item>
+<item>انفرنيس </item>
+<item>ايرلندا الغربية مطار نوك </item>
+<item>اركوتسك </item>
+<item>اسلام اباد </item>
+<item>جزيرة آيل أوف مان </item>
+<item>اسطنبول </item>
+<item>اسطنبول صبيحة كوكجن </item>
+<item>أزمير </item>
+<item>جاكسون هول </item>
+<item>جاكسونفيل  </item>
+<item>جاكرتا </item>
+<item>جدة </item>
+<item>خيريز </item>
+<item>جيرسي </item>
+<item>جوهانسبرج </item>
+<item>كابول </item>
+<item>كاهولوي</item>
+<item>كالينينجراد </item>
+<item>كارلسروه / بادن بادن </item>
+<item>كازان </item>
+<item>الخرطوم </item>
+<item>كييف </item>
+<item>كييف </item>
+<item>(كينغستون (جامايكا </item>
+<item>(كينغستون (اونتاريو </item>
+<item>كلكتا </item>
+<item>الكويت  </item>
+<item>لاغوس </item>
+<item>لاس فيغاس </item>
+<item>ليدز برادفورد </item>
+<item>ايبزيغ </item>
+<item>ليون / غواناخواتو </item>
+<item>ليما </item>
+<item>ينز </item>
+<item>لشبونة </item>
+<item>يزمور </item>
+<item>ليتل روك </item>
+<item>ليفربول </item>
+<item>يفينغستون </item>
+<item>ليوبليانا </item>
+<item>لندن سيتي </item>
+<item>لندن جاتويك </item>
+<item>لندن هيثرو </item>
+<item>لندن ستانستيد </item>
+<item>لوس انجليس </item>
+<item>لواندا </item>
+<item>لوساكا </item>
+<item>لوكسمبورج </item>
+<item>الأقصر </item>
+<item>لفيف </item>
+<item>ليون </item>
+<item>ماكاو </item>
+<item>ماك آرثر </item>
+<item>مدراس </item>
+<item>مدريد </item>
+<item>ماهون </item>
+<item>ملقة </item>
+<item>مالطا </item>
+<item>مانشستر </item>
+<item>مرسى علم </item>
+<item>مرسيليا </item>
+<item>مشهد </item>
+<item>موريشيوس </item>
+<item>ملبورن </item>
+<item>(ملبورن (الولايات المتحدة </item>
+<item>أفالون ملبورن </item>
+<item>ممنجن</item>
+<item>ممفيس </item>
+<item>مكسيكو سيتي </item>
+<item>ميامي </item>
+<item>ميلان يناتيه </item>
+<item>ميلان مالبينسا </item>
+<item>ميلان اوريو آل سيريو </item>
+<item>ميلووكي </item>
+<item>مينيابوليس سانت بول </item>
+<item>دورفال مونتريال </item>
+<item>موسكو شيريميتيفو </item>
+<item>موسكو دوموديدوفو </item>
+<item>(مومباي (بومباي </item>
+<item>ميونيخ </item>
+<item>نيروبي </item>
+<item>نانت </item>
+<item>نابولي </item>
+<item>(نيوكاسل (المملكة المتحدة </item>
+<item>(نيوكاسل (نيو ساوث ويلز </item>
+<item>نيو أورليانز </item>
+<item>نيوكواي </item>
+<item>نيويورك </item>
+<item>نيويورك ، لاغوارديا </item>
+<item>نيس </item>
+<item>نورمبرغ </item>
+<item>أوكلاند </item>
+<item>أوكلاهوما سيتي </item>
+<item>اورلاندو  </item>
+<item>اورلاندو سانفورد </item>
+<item>اوساكا </item>
+<item>أوسلو </item>
+<item>أوسلو ، تورب </item>
+<item>أوتاوا  </item>
+<item>بالما دي مايوركا </item>
+<item>بالم سبرينغز </item>
+<item>بنما </item>
+<item>بنما سيتي </item>
+<item>آلبروك </item>
+<item>بابيت </item>
+<item>بافوس </item>
+<item>باريس شارل دي جول </item>
+<item>باريس أورلي </item>
+<item>فيلادلفيا  </item>
+<item>بنوم بنه </item>
+<item>فينيكس </item>
+<item>فوكيت </item>
+<item>بياركو  </item>
+<item>بورتو </item>
+<item>بوزنان </item>
+<item>براغ </item>
+<item>مدينة كيبيك </item>
+<item>كوينجداو</item>
+<item>كيتو </item>
+<item>رايبور </item>
+<item>ريو دي جانيرو </item>
+<item>الرياض </item>
+<item>روكهامبتون </item>
+<item>روديز </item>
+<item>روما فيوميتشينو </item>
+<item>روما تشامبينو </item>
+<item>روستوف </item>
+<item>روتردام </item>
+<item>روفانيمي </item>
+<item>سكرامنتو </item>
+<item>سانت لوسيا </item>
+<item>سال الدولية </item>
+<item>سولت لايك سيتي </item>
+<item>سلفادور </item>
+<item>سالزبورغ </item>
+<item>صنعاء </item>
+<item>سان دييغو </item>
+<item>سان فرانسيسكو </item>
+<item>(سان خوسيه (كاليفورنيا </item>
+<item>(سان خوسيه (كوستاريكا </item>
+<item>سان خوان </item>
+<item>سان لويس بوتوسي </item>
+<item>سان سيباستيان </item>
+<item>سانتاندر </item>
+<item>سانتياغو </item>
+<item>سانتو دومينغو </item>
+<item>سانتوريني </item>
+<item>سانيا </item>
+<item>ساو باولو </item>
+<item>ساو باولو كونجونهاس </item>
+<item>سيول إنشون </item>
+<item>سيول جيمبو </item>
+<item>إشبيلية </item>
+<item>سيشيل  </item>
+<item>شانغهاى </item>
+<item>شانغهاي بودونغ </item>
+<item>شانون </item>
+<item>الشارقة </item>
+<item>شرم الشيخ </item>
+<item>سييم ريب </item>
+<item>شنيانغ </item>
+<item>سيمفيروبول </item>
+<item>شنتشن </item>
+<item>شانغي سنغافورة </item>
+<item>سنغافورة  </item>
+<item>صوفيا </item>
+<item>ساوثامبتون </item>
+<item>سان بطرسبرج </item>
+<item>ستوكهولم أرلاندا </item>
+<item>استكهولم بروما </item>
+<item>ستوكهولم </item>
+<item>ستوكهولم فاستيراس </item>
+<item>ستراسبورغ </item>
+<item>شتوتغارت </item>
+<item>سيدني </item>
+<item>طابا الدولي </item>
+<item>تايبيه </item>
+<item>طهران مهرأباد </item>
+<item>طهران الإمام </item>
+<item>تل أبيب </item>
+<item>تينيريفي </item>
+<item>طوكيو هانيدا </item>
+<item>طوكيو ناريتا </item>
+<item>تورونتو </item>
+<item>تورونتو سيتي سنتر </item>
+<item>تولوز </item>
+<item>تاونسفيل </item>
+<item>تراباني بيرجي - </item>
+<item>تريستا </item>
+<item>طرابلس </item>
+<item>تريفاندروم </item>
+<item>تونس </item>
+<item>تورينو </item>
+<item>اودايبور </item>
+<item>أودون ثاني </item>
+<item>أولانباتار </item>
+<item>أوشوايا </item>
+<item>(فالنسيا (اسبانيا </item>
+<item>(فالنسيا (فنزويلا </item>
+<item>بلد الوليد </item>
+<item>فانكوفر </item>
+<item>فارنا </item>
+<item>قية ماركو بولو </item>
+<item>فيينا </item>
+<item>فينتيان </item>
+<item>وارسو </item>
+<item>ريغان واشنطن </item>
+<item>اشنطن دالاس </item>
+<item>ولينغتون </item>
+<item>ستشستر </item>
+<item> سيلت </item>
+<item>شيامن </item>
+<item> شيانيانغ </item>
+<item>يانغون </item>
+<item>ياوندي </item>
+<item>يريفان </item>
+<item>يوجياكارتا </item>
+<item>يوجنو ساخالينسك </item>
+<item>زغرب </item>
+<item>زاكينثوس </item>
+<item>زنجبار </item>
+<item>سرقسطة </item>
+<item>تشنغتشو </item>
+<item>تشوهاى </item>
+<item>زيوريخ </item>
+</string-array>
+
 	<string name="extra_weight">وزن زائد</string>
 	<string name="less_weight">وزن ناقص</string>
 	<string name="searching_for_users">ابحث عن مستخدمين لديهم</string>
