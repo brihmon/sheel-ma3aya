@@ -1,14 +1,30 @@
 package com.sheel.app;
 
+import static com.sheel.utils.SheelMaayaaConstants.HTTP_CONFIRM_OFFER;
+import static com.sheel.utils.SheelMaayaaConstants.HTTP_GET_MY_OFFERS_FILTER;
+import static com.sheel.utils.SheelMaayaaConstants.HTTP_RESPONSE;
+import static com.sheel.utils.SheelMaayaaConstants.HTTP_STATUS;
+
 import java.util.ArrayList;
 
+import org.apache.http.HttpStatus;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.sheel.adapters.HorizontalSwypingPagingAdapter;
+import com.sheel.app.MyOffersActivity.SheelMaayaaBroadCastRec;
 import com.sheel.datastructures.Category;
+import com.sheel.datastructures.Confirmation;
 import com.sheel.datastructures.OfferDisplay2;
 import com.viewpagerindicator.TitlePageIndicator;
 
@@ -25,6 +41,10 @@ import com.viewpagerindicator.TitlePageIndicator;
  */
 public class SwypingHorizontalViewsActivity extends UserSessionStateMaintainingActivity {
 	
+	private static final String TAG = MyOffersActivity.class.getName();
+	
+	
+	
 	/**
 	 * Different categories of offers to be displayed
 	 */
@@ -33,6 +53,12 @@ public class SwypingHorizontalViewsActivity extends UserSessionStateMaintainingA
 	 * Adapter using for handling pages swiping 
 	 */
 	private  HorizontalSwypingPagingAdapter swypeAdapter;
+	
+	
+	/**
+	 *  The receiver used for detecting the HTTP data arrival 
+	 */
+	private SheelMaayaaBroadCastRec receiver;
 	
     /** Called when the activity is first created. */
     @SuppressWarnings("unchecked")
@@ -243,6 +269,12 @@ public class SwypingHorizontalViewsActivity extends UserSessionStateMaintainingA
 	protected void onPause() {
 		// TODO Auto-generated method stub
 		super.onPause();
+		
+		// Cancel out the dialog
+//		dialog = null;
+		// Unregister the receiver onPause
+		unregisterReceiver(receiver);
+
 	}
 
 	@Override
@@ -251,6 +283,28 @@ public class SwypingHorizontalViewsActivity extends UserSessionStateMaintainingA
 		super.onRestart();
 	}
 
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		
+		/**
+		 * Filter added for this activity to filter the actions received by the receiver
+		 */
+		IntentFilter filter2;
+		
+		filter2 = new IntentFilter();
+		
+		// Add the filters of your activity
+		filter2.addAction(HTTP_CONFIRM_OFFER);
+		
+		receiver = new SheelMaayaaBroadCastRec();
+		
+		Log.e(TAG, "Receiver Registered: " + "SwypeActivity");
+		registerReceiver(receiver, filter2);
+	}
+
+	
 	@Override
 	protected void onStart() {
 		// TODO Auto-generated method stub
@@ -273,5 +327,104 @@ public class SwypingHorizontalViewsActivity extends UserSessionStateMaintainingA
 	public Object onRetainNonConfigurationInstance() {
 		return this.categories;
 	}
+	
+	
+	   /**
+	    * {@link SheelMaayaaBroadCastRec} Class for Broadcast receiver i.e to receive the result from the HTTP request
+	    * @author Hossam_Amer
+	    *
+	    */
+	   
+		class SheelMaayaaBroadCastRec extends BroadcastReceiver {
+
+			@Override
+			public void onReceive(Context context, Intent intent) {
+				// TODO Auto-generated method stub
+			
+				
+				Log.e(TAG, intent.getAction());
+				String action = intent.getAction();
+			
+				int httpStatus = intent.getExtras().getInt(HTTP_STATUS);
+				Log.e(TAG, "HTTPSTATUS: "+ httpStatus);
+				
+				String responseStr;
+				if( httpStatus == HttpStatus.SC_OK)
+				{
+					responseStr = intent.getExtras().getString(HTTP_RESPONSE);
+					if(action.equals(HTTP_CONFIRM_OFFER))
+					{
+						Log.e(TAG, responseStr);
+						
+						if(responseStr.equals(Confirmation.alreadyConfirmed))
+							Toast.makeText(getApplicationContext(), "This Offer is already confirmed by two users.", Toast.LENGTH_SHORT).show();
+						else if(responseStr.equals(Confirmation.confirmedByAnotherPerson))
+							Toast.makeText(getApplicationContext(), "Sorry, this offer is already confirmed by another user.", Toast.LENGTH_SHORT).show();
+						else
+						{
+							Log.e("updateConfirmedOffersOnUI(responseStr)", TAG);
+							Log.e("hashas: ", responseStr + "");
+							updateConfirmedOffersOnUI(responseStr);
+							
+						}
+					}	
+						/**
+						 * if(half-confirmed by another user)
+						 * Sorry!
+						t * if(confirmed success)
+						 * You confirmed the user + 7abashtakaanaat fel view lw fi!
+						 * 
+						 * if(offerOwner is confirming the offer)
+						 * it should not re-appear, it is fetching again
+						 * 
+						 */
+/*                        if(str.contains("12") || str.contains("13"))
+                     {
+                     sendMail
+                    	 Toast.makeText(PhoneCommunication.this, "Offer has been confirmed!", Toast.LENGTH_LONG).show(); 
+                     }
+                     else if(str.contains("Success"))
+                    	 Toast.makeText(PhoneCommunication.this, "You have confirmed the offer!", Toast.LENGTH_LONG).show();
+                     else if(str.contains("Failure"))
+                         Toast.makeText(PhoneCommunication.this, "You could not confirm this offer anymore!", Toast.LENGTH_LONG).show();
+*/						
+				
+				}
+			}
+
+			private void updateConfirmedOffersOnUI(String responseStr) {
+				// TODO Auto-generated method stub
+				
+				try {
+					
+					JSONObject confirmationJSON = new JSONObject(responseStr);
+					Log.e("hashas confirmationJSON: ", confirmationJSON + "");
+					
+					Confirmation confirmation = Confirmation.mapConfirmation(confirmationJSON);
+					Log.e("hashas confirmation", confirmation + "");
+					
+					if(confirmation.isStatusTransactionUser1() && confirmation.isStatusTransactionUser2())
+					{
+						Toast.makeText(getApplicationContext(), "Offer confirmed by two users", Toast.LENGTH_SHORT).show();
+						
+					}
+					else if(confirmation.isStatusTransactionUser1())
+					{
+						Toast.makeText(getApplicationContext(), "Hello offer Owner, you have confirmed this offer", Toast.LENGTH_SHORT).show();
+					}
+					else if(confirmation.isStatusTransactionUser2())
+					{
+						Toast.makeText(getApplicationContext(), "Hello offer other, you have confirmed this offer", Toast.LENGTH_SHORT).show();
+					}
+					
+					
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+			}
+		}
+
 	
 }// end class
