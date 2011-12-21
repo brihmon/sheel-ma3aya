@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" 
+    android:scrollbars="vertical"
+    android:background="#004D79"
+    
+    >
+ 
+<RelativeLayout
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/textView12_maged"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="46dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/weight_in_kgs"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+    
+     <TextView
+        android:id="@+id/textView13_maged"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/textView12_maged"
+        android:layout_alignBottom="@+id/textView12_maged"
+        android:layout_marginLeft="42dp"
+        android:text="@string/price_per_kg"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+     
+      <EditText
+          android:id="@+id/kgs"
+          android:layout_width="fill_parent"
+          android:layout_height="wrap_content"
+          android:layout_alignLeft="@+id/textView12_maged"
+          android:layout_alignRight="@+id/textView12_maged"
+          android:layout_below="@+id/textView12_maged"
+          android:inputType="number"
+          android:singleLine="true" >
+
+         <requestFocus />
+    </EditText>
+    
+  	<EditText
+        android:id="@+id/price"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/kgs"
+        android:layout_alignBottom="@+id/kgs"
+        android:layout_alignLeft="@+id/textView13_maged"
+        android:layout_alignRight="@+id/textView13_maged"
+        android:inputType="number"
+        android:singleLine="true" />
+
+  	 <TextView
+  	     android:id="@+id/textView14_maged"
+  	     android:layout_width="wrap_content"
+  	     android:layout_height="wrap_content"
+  	     android:layout_alignLeft="@+id/price"
+  	     android:layout_below="@+id/kgs"
+  	     android:layout_alignParentRight="true"
+  	     android:text="@string/weight_and_price"
+  	     android:textAppearance="?android:attr/textAppearanceSmall" />
+  	 
+  	 <Button
+        android:id="@+id/facebook"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView14_maged"
+        android:layout_centerHorizontal="true"
+        android:onClick="onClick_facebook"
+        android:text="@string/facebook_search" />
+
+  	 <TextView
+  	     android:id="@+id/textView15_maged"
+  	     android:layout_width="wrap_content"
+  	     android:layout_height="wrap_content"
+  	     android:layout_alignRight="@+id/kgs"
+  	     android:layout_below="@+id/facebook"
+  	     android:layout_marginTop="16dp"
+  	     android:text="@string/gender"
+  	     android:textAppearance="?android:attr/textAppearanceMedium" />
+
+  	 <ToggleButton
+  	     android:id="@+id/male"
+  	     android:layout_width="wrap_content"
+  	     android:layout_height="wrap_content"
+  	     android:layout_alignLeft="@+id/kgs"
+  	     android:layout_alignTop="@+id/textView15_maged"
+  	     android:layout_marginLeft="14dp"
+  	     android:background="@drawable/gender_male_xml"
+  	     android:onClick="onClick_male_gender"
+  	     android:textOff=""
+         android:textOn="" />
+
+  	 <ToggleButton
+  	     android:id="@+id/female"
+  	     android:layout_width="wrap_content"
+  	     android:layout_height="wrap_content"
+  	     android:layout_alignBaseline="@+id/male"
+  	     android:layout_alignBottom="@+id/male"
+  	     android:layout_toLeftOf="@+id/male"
+  	     android:background="@drawable/gender_female_xml"
+  	     android:onClick="onClick_female_gender"
+  	     android:textOff=""
+         android:textOn="" />
+
+  	  <TextView
+  	      android:id="@+id/textView16_maged"
+  	      android:layout_width="wrap_content"
+  	      android:layout_height="wrap_content"
+  	      android:layout_below="@+id/male"
+  	      android:layout_marginTop="15dp"
+  	      android:layout_toRightOf="@+id/male"
+  	      android:text="@string/nationality"
+  	      android:textAppearance="?android:attr/textAppearanceMedium" />
+  	  
+  	  <AutoCompleteTextView
+  	      android:id="@+id/nationality"
+  	      android:layout_width="fill_parent"
+  	      android:layout_height="wrap_content"
+  	      android:layout_alignLeft="@+id/facebook"
+  	      android:layout_alignRight="@+id/facebook"
+  	      android:layout_below="@+id/textView16_maged"
+  	      android:singleLine="true"
+  	      android:text="" />
+  	  
+  	   <Button
+        android:id="@+id/search"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/nationality"
+        android:onClick="onClick_search_offers"
+        android:text="@string/search_offers" />
+    
+</RelativeLayout>
+
+ </ScrollView>   
