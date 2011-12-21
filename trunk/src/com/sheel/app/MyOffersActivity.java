@@ -102,6 +102,7 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity
 			//======Start the HTTP Request=========
 			path = "/getmyoffers/" + getFacebookService().getFacebookUser().getUserId();
 			// XXXXhashas
+//			path = "/getmyoffers/626740322";
 			path = "/getmyoffers/673780564";
 
 			dialog = ProgressDialog.show(MyOffersActivity.this, "", "Getting your Offers, Please wait..", true, false);
@@ -162,7 +163,7 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity
 		
 		// Add the filters of your activity
 		filter.addAction(HTTP_GET_MY_OFFERS_FILTER);
-		filter.addAction("test");
+		filter.addAction(HTTP_CONFIRM_OFFER);
 		
 		receiver = new SheelMaayaaBroadCastRec();
 		
@@ -216,7 +217,7 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity
 					}
 					else if(action.equals(HTTP_CONFIRM_OFFER))
 					{
-						Toast.makeText(getApplicationContext(), responseStr, Toast.LENGTH_SHORT).show();
+						Log.e(TAG, responseStr);
 						
 						/**
 						 * if(half-confirmed by another user)
@@ -224,7 +225,8 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity
 						 * if(confirmed success)
 						 * You confirmed the user + 7abashtakaanaat fel view lw fi!
 						 * 
-						 * 
+						 * if(offerOwner is confirming the offer)
+						 * it should not re-appear, it is fetching again
 						 * 
 						 */
 /*                        if(str.contains("12") || str.contains("13"))
