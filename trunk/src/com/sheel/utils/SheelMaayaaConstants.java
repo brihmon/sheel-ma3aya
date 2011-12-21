@@ -56,4 +56,14 @@ public interface SheelMaayaaConstants {
 	final String HTTP_CONFIRM_OFFER = "HTTP_CONFIRM_OFFER";
 	
 	
+	/**
+	 * Confirmation Statuses
+	 */
+	
+	final String alreadyConfirmed = "alreadyConfirmed";
+	final String notFromOfferOwner = "notFromOfferOwner";
+	final String notSameUser = "notSameUser";
+	final String confirmedByAnotherPerson = "confirmedByAnotherPerson";
+
+	
 }
