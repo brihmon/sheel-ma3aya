@@ -950,7 +950,7 @@
 	<string name="des_valid_missing">الرجاء إدخال مطار الوجهة</string>
 	<string name="source_valid">الرجاء إدخال مصدر صحيح</string>
 	<string name="des_valid">الرجاء إدخال وجهة صحيحة</string>
-	<string name="src_des_valid">مطارى المصدر والوجهة يجب أن يكون مختلفين</string>
+	<string name="src_des_valid">مطارى المصدر والوجهة يجب أن يكونا مختلفين</string>
 	<string name="kgs_valid">الوزن يجب أن يكون من ١ إلى ٣٠ كيلو</string>
 	<string name="price_valid">السعر يجب أن يكون من ١ إلى ٣٠ يورو</string>
 	<string name="nationality_valid">الرجاء إدخل جنسية صحيحة</string>
