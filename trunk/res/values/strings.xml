@@ -925,5 +925,19 @@ Hossam Amer
 	<string name="menu_main_search">Search Offers</string>
 	<string name="menu_main_declare">Declare New Offer</string>
 	<string name="menu_main_myOffers">My Offers</string>
-	<string name="menu_main_logout">Logout</string>    
+	<string name="menu_main_logout">Logout</string> 
+	
+	<string name="weight_in_kgs">Weight in Kgs</string>
+	<string name="price_per_kg">Price per Kg</string>
+	<string name="extra_weight">Extra weight</string>
+	<string name="less_weight">Less weight</string>
+	<string name="searching_for_users">I\'m searching for users with</string>
+	<string name="on">On</string>
+	<string name="change_date">Change Date</string>
+	<string name="current_date">Current Date</string>
+	<string name="using">Using</string>
+	<string name="flight_number">Flight Number</string>
+	<string name="src_and_des">Source &amp; Destination</string>
+	
+	
 </resources>
