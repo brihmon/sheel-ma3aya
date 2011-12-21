@@ -97,55 +97,34 @@ public class Confirmation {
 		JSONObject offerJSON = null;
 		JSONObject flightJSON = null;
 
-
 		try {
-			
-			Log.e("hashas mapConfirmation",  "mapConfirmation");
+					
+				try
+				{
+					user1JSON = confirmationJSON.getJSONObject("user1");
+				}
+				catch (Exception e) {
+					// TODO: handle exception
+					user1JSON = null;
+					Log.e("hashas mapConfirmation1",  "mapConfirmation catch");
+				}
+				try
+				{
+					user2JSON = confirmationJSON.getJSONObject("user2");
+				}
+				catch (Exception e) {
+					// TODO: handle exception
+					user2JSON = null;
+					Log.e("hashas mapConfirmation2",  "mapConfirmation catch");
+				}
 		
-		try
-		{
-			user1JSON = confirmationJSON.getJSONObject("user1");
-		}
-		catch (Exception e) {
-			// TODO: handle exception
-			user1JSON = null;
-			Log.e("hashas mapConfirmation1",  "mapConfirmation catch");
-		}
-		try
-		{
-			user2JSON = confirmationJSON.getJSONObject("user2");
-		}
-		catch (Exception e) {
-			// TODO: handle exception
-			user2JSON = null;
-			Log.e("hashas mapConfirmation2",  "mapConfirmation catch");
-		}
-		try
-		{
 			offerJSON = confirmationJSON.getJSONObject("offer");
-		}
-		catch (Exception e) {
-			// TODO: handle exception
-			offerJSON = null;
-			
-			Log.e("hashas mapConfirmation3",  "mapConfirmation catch");
-		}
-		
-		try
-		{
 			flightJSON = offerJSON.getJSONObject("flight");
-		}
-		catch (Exception e) {
-			// TODO: handle exception
-			Log.e("hashas mapConfirmation4",  "mapConfirmation catch");
-		}
+		
 			//Get the statuses of transaction of confirmation
 			boolean statusTransactionUser1 = confirmationJSON.getBoolean("statusTransactionUser1");
 			boolean statusTransactionUser2 = confirmationJSON.getBoolean("statusTransactionUser2");
-			
-			Log.e("hashas12", statusTransactionUser1 + "");
-			Log.e("hashas12", statusTransactionUser2 + "");
-			
+						
 			// Create User1
 		if(user1JSON != null)
 		{
@@ -160,7 +139,7 @@ public class Confirmation {
 			
 			user1 = new User(ownerId, firstName, middleName, lastName, "", "", email, mobile, gender, nationality);
 			
-			Log.e("hashas12", user1 + "");
+			Log.e(TAG, user1 + "");
 		}	
 			
 			// Create User2	
@@ -177,11 +156,10 @@ public class Confirmation {
 			
 			user2 = new User(ownerId, firstName, middleName, lastName, "", "", email, mobile, gender, nationality);
 			
-			Log.e("hashas12", user2 + "");
+			Log.e(TAG, user2 + "");
 		}	
 			//Create offer
-		if(offerJSON != null)
-		{
+		
 			offerId = offerJSON.getLong("id");
 			offerstatus = offerJSON.getString("offerStatus");
 			userstatus = offerJSON.getInt("userStatus");
@@ -190,12 +168,10 @@ public class Confirmation {
 			
 			offer = new Offer(offerId, kgs, price, userstatus, offerstatus);
 			
-			Log.e("hashas12", offer + "");
-		}	
+			Log.e(TAG, offer + "");
+			
 			//Create flight
 		
-		if(flightJSON != null)
-		{
 			flightNumber = flightJSON.getString("flightNumber");
 			source = flightJSON.getString("source");
 			destination = flightJSON.getString("destination");
@@ -203,10 +179,10 @@ public class Confirmation {
 				
 			flight = new Flight(flightNumber, source, destination, departureDate);
 			
-			Log.e("hashas12", flight + "");
-		}	
+			Log.e(TAG, flight + "");
+			
 			Confirmation confirmation = new Confirmation(user1, user2, flight, offer, statusTransactionUser1, statusTransactionUser2);
-			Log.e("hashas12", confirmation + "");
+			Log.e(TAG, confirmation + "");
 			return confirmation;
 
 			
