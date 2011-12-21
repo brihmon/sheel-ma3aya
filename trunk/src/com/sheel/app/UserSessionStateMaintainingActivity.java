@@ -36,9 +36,10 @@ public class UserSessionStateMaintainingActivity extends Activity {
 /*	private final  NavigationItem[] NAVIGATION_ITEMS = new NavigationItem[] {
 		
 		new NavigationItem(getResources().getString(R.id.menu_main_search), R.drawable.sheel_menu_main_search, R.drawable.sheel_menu_main_search, GetUserInfoActivity.class),
-		//new NavigationItem(name, rscIdForMenu, rscIdForDashBoard, nextActivityType),
-		//new NavigationItem(name, rscIdForMenu, rscIdForDashBoard, nextActivityType),
-		//new NavigationItem(name, rscIdForMenu, rscIdForDashBoard, nextActivityType)			
+		new NavigationItem(getResources().getString(R.id.menu_main_declare), R.drawable.sheel_menu_main_declare, R.drawable.sheel_menu_main_declare, InsertOfferActivity.class),
+		new NavigationItem(getResources().getString(R.id.menu_main_myoffers), R.drawable.sheel_menu_main_myoffers, R.drawable.sheel_menu_main_myoffers, MyOffersActivity.class),
+		new NavigationItem(getResources().getString(R.id.menu_main_logout), R.drawable.sheel_menu_main_logout, R.drawable.sheel_menu_main_logout, SheelMaayaaActivity.class),
+			
 	};
 	*/
 	/**
@@ -120,6 +121,16 @@ public class UserSessionStateMaintainingActivity extends Activity {
 		Intent intent = new Intent(this, typeOfNextActivity);
 		startActivity(intent);
 		return true;
+		
+//		if (item.getItemId() == R.id.menu_main_logout) {
+//			if (getFacebookService() != null)
+//				getFacebookService().logout(this);
+//				/* because the session is static, if not set to null, the app
+//				 * will never login again until it is closed then re-opened*/
+//			setFacebookService(null);
+//		}// end if : user wants to logout
+//		
+		
 	}// end onOptionsItemSelected
 	
 	/**
