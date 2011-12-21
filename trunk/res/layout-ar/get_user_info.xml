@@ -10,7 +10,7 @@
  
 <RelativeLayout
     android:layout_width="fill_parent"
-    android:layout_height="359dp"
+    android:layout_height="fill_parent"
     android:orientation="vertical" >
 
     <TextView
@@ -22,7 +22,7 @@
         android:layout_marginTop="34dp"
         android:text="@string/searching_for_users"
         android:textAppearance="?android:attr/textAppearanceLarge" />
-    
+
     <RadioButton
         android:id="@+id/lessWeight"
         android:layout_width="wrap_content"
@@ -89,9 +89,8 @@
         android:id="@+id/flightNo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/extraWeight"
         android:layout_below="@+id/textView3_maged"
-        android:layout_marginTop="26dp"
-        android:layout_toLeftOf="@+id/textView2_maged"
         android:background="@drawable/flight_xml"
         android:onClick="onClick_flightNo"
         android:textOff=""
@@ -103,7 +102,7 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/flightNo"
         android:layout_alignLeft="@+id/textView1_maged"
-        android:layout_alignTop="@+id/flightNo"
+        android:layout_below="@+id/textView3_maged"
         android:background="@drawable/src_des_xml"
         android:onClick="onClick_srcDes"
         android:textOff=""
@@ -113,8 +112,9 @@
         android:id="@+id/textView4_maged"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignRight="@+id/flightNo"
+        android:layout_below="@+id/flightNo"
+        android:layout_marginTop="14dp"
+        android:layout_toLeftOf="@+id/textView2_maged"
         android:text="@string/flight_number"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
@@ -122,8 +122,9 @@
         android:id="@+id/textView5_maged"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignRight="@+id/srcDes"
+        android:layout_alignBaseline="@+id/textView4_maged"
+        android:layout_alignBottom="@+id/textView4_maged"
+        android:layout_alignLeft="@+id/changeDate"
         android:text="@string/src_and_des"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
