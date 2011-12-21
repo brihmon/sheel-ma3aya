@@ -483,7 +483,7 @@
 	<string name="change_date">تاريخ أخر</string>
 	<string name="current_date">تاريخ اليوم</string>
 	<string name="using">عن طريق</string>
-	<string name="flight_number">رقم الطائرة</string>
+	<string name="flight_number">رقم الرحلة</string>
 	<string name="src_and_des">المصدر والوجهة</string>
 	<string name="weight_in_kgs">الوزن بالكيلو </string>
 	<string name="price_per_kg">سعر الكيلو</string>
@@ -492,6 +492,32 @@
 	<string name="gender">النوع</string>
 	<string name="nationality">الجنسية</string>
 	<string name="search_offers">ابحث العروض</string>
+	<string name="flight_details">تفاصيل الرحلة</string>
+	<string name="enter_flight">أدخل رقم الرحلة</string>
+	<string name="enter_airports">أدخل مطارى المصدر والوجهة</string>
+	<string name="source">:المصدر</string>
+	<string name="destination">:الوجهة</string>
+	<string name="search">ابحث العروض</string>
+	<string name="filter">تصفية المزيد</string>
+	<string name="cancel">إلغاء</string>
+	<string name="owner_status">درجة قرابة صاحب العرض</string>
+	<string name="friends">أصدقاء</string>
+	<string name="friends_of_friends">أصدقاء الأصدقاء</string>
+	<string name="confirm_selection">تأكيد الاختيار</string>
+	<string name="cancel_selection">إلغاء الاختيار</string>
+	<string name="missing_input">معلومات ناقصة</string>
+	<string name="invalid_input">معلومات غير صحيحة</string>
+	<string name="status_valid">الرجاء إختيار حالة المستخدم الذي تبحث عنه</string>
+	<string name="date_valid">الرجاء إدخال تاريخ صحيح</string>
+	<string name="flight_valid">الرجاء إدخال رقم الرحلة</string>
+	<string name="source_valid_missing">الرجاء إدخال مطار المصدر</string>
+	<string name="des_valid_missing">الرجاء إدخال مطار الوجهة</string>
+	<string name="source_valid">الرجاء إدخال مصدر صحيح</string>
+	<string name="des_valid">الرجاء إدخال وجهة صحيحة</string>
+	<string name="src_des_valid">مطارى المصدر والوجهة يجب أن يكون مختلفين</string>
+	<string name="kgs_valid">الوزن يجب أن يكون من ١ إلى ٣٠ كيلو</string>
+	<string name="price_valid">السعر يجب أن يكون من ١ إلى ٣٠ يورو</string>
+	<string name="nationality_valid">الرجاء إدخل جنسية صحيحة</string>
     
 
 </resources>
