@@ -272,7 +272,11 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity
                	 }// end for
               
                	if(searchResults_full.isEmpty() && searchResults_half.isEmpty())
-               		showAlert();
+        			GuiUtils.showAlertWhenNoResultsAreAvailable(
+             				this, 
+             				"You do not have any offers yet! ", 
+             				"Declare new offer", InsertOfferActivity.class, 
+             				"Change filters", FilterPreferencesActivity.class);
                	else 
                		{
                			int index = 0;
@@ -294,20 +298,6 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity
 					e.printStackTrace();
 				}
 				
-			}
-				
-	
-		
-		public void showAlert()
-		{
-			GuiUtils.showAlertWhenNoResultsAreAvailable(
-     				this, 
-     				"You do not have any offers yet! ", 
-     				"Declare new offer", InsertOfferActivity.class, 
-     				"Change filters", FilterPreferencesActivity.class);
-			
-//			MyOffersActivity.this.finish();
-		}
-  
+			}  
 
 }
