@@ -206,13 +206,18 @@ public class UserSessionStateMaintainingActivity extends Activity {
 	 *		Passant El.Agroudy (passant.elagroudy@gmail.com)
 	 */
 	public void goToActivity(Class<?> typeOfNextActivity) {
-		Intent intent = new Intent(this, typeOfNextActivity);
+		Intent intent = new Intent(this.getApplicationContext(), typeOfNextActivity);
 		startActivity(intent);
 	}// end goToActivity
 	
 
 	public void onClick_dashBoardItem(int position){
 		System.out.println("onClick_dashBoardItem");
+		System.out.println("onClick_dashBoardItem: " + getFacebookService() );
+		
+		if (fbService == null)
+			fbService = new FacebookWebservice();
+		
 	if(!getFacebookService().getFacebookUser().isRequestedBeforeSuccessfully()){
 		CheckUserLoginStatusFromDbListener dbListener = new CheckUserLoginStatusFromDbListener(filter);
 		registerReceiver(dbListener, filter);
@@ -234,7 +239,7 @@ public class UserSessionStateMaintainingActivity extends Activity {
 		public void doActionUserIsRegistered() {
 			System.out.println("doActionUserIsRegistered from UserSessionMaintainingActivity");
 			Toast.makeText(getApplicationContext(), "The user is logging in", Toast.LENGTH_LONG).show();
-			
+			goToActivity(ConnectorUserActionsActivity.class);
 		}// end doActionUserIsRegistered
 
 		public void doActionUserIsNotRegistered() {
