@@ -3,6 +3,7 @@ package com.sheel.app;
 import static com.sheel.utils.SheelMaayaaConstants.HTTP_GET_MY_OFFERS_FILTER;
 import static com.sheel.utils.SheelMaayaaConstants.HTTP_RESPONSE;
 import static com.sheel.utils.SheelMaayaaConstants.HTTP_STATUS;
+import static com.sheel.utils.SheelMaayaaConstants.HTTP_CONFIRM_OFFER;
 
 import java.util.ArrayList;
 
@@ -19,6 +20,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.sheel.datastructures.Category;
 import com.sheel.datastructures.OfferDisplay2;
@@ -196,18 +198,15 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity
 				Log.e(TAG, intent.getAction());
 				String action = intent.getAction();
 			
-			if(action.equals("test"))
-				dialog = ProgressDialog.show(MyOffersActivity.this, "", "Please wait..", true, false);
-			else
-			{
 				int httpStatus = intent.getExtras().getInt(HTTP_STATUS);
 				Log.e(TAG, "HTTPSTATUS: "+ httpStatus);
 				
+				String responseStr;
 				if( httpStatus == HttpStatus.SC_OK)
 				{
+					responseStr = intent.getExtras().getString(HTTP_RESPONSE);
 					if (action.equals(HTTP_GET_MY_OFFERS_FILTER))
 					{
-						String responseStr = intent.getExtras().getString(HTTP_RESPONSE);
 						loadSearchResultsOnUI(responseStr);
 						 
 						// Dialog dismissing
@@ -215,10 +214,35 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity
 						Log.e(TAG, responseStr);
 							
 					}
+					else if(action.equals(HTTP_CONFIRM_OFFER))
+					{
+						Toast.makeText(getApplicationContext(), responseStr, Toast.LENGTH_SHORT).show();
+						
+						/**
+						 * if(half-confirmed by another user)
+						 * Sorry!
+						 * if(confirmed success)
+						 * You confirmed the user + 7abashtakaanaat fel view lw fi!
+						 * 
+						 * 
+						 * 
+						 */
+/*                        if(str.contains("12") || str.contains("13"))
+                        {
+                        sendMail
+                       	 Toast.makeText(PhoneCommunication.this, "Offer has been confirmed!", Toast.LENGTH_LONG).show(); 
+                        }
+                        else if(str.contains("Success"))
+                       	 Toast.makeText(PhoneCommunication.this, "You have confirmed the offer!", Toast.LENGTH_LONG).show();
+                        else if(str.contains("Failure"))
+                            Toast.makeText(PhoneCommunication.this, "You could not confirm this offer anymore!", Toast.LENGTH_LONG).show();
+*/
+					}
+						
 				
 				}
-			}	
 			}
+		}
 
 			/**
 			 * Used to fill the adapter with data (Offers)
@@ -270,7 +294,7 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity
 				
 			}
 				
-	}
+	
 		
 		public void showAlert()
 		{
