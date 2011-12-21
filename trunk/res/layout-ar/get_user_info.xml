@@ -96,12 +96,21 @@
         android:textOff=""
         android:textOn="" />
 
+    <TextView
+        android:id="@+id/textView4_maged"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/flightNo"
+        android:layout_toLeftOf="@+id/textView2_maged"
+        android:text="@string/flight_number"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
     <ToggleButton
         android:id="@+id/srcDes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/flightNo"
-        android:layout_alignLeft="@+id/textView1_maged"
+        android:layout_alignRight="@+id/changeDate"
         android:layout_below="@+id/textView3_maged"
         android:background="@drawable/src_des_xml"
         android:onClick="onClick_srcDes"
@@ -109,22 +118,11 @@
         android:textOn="" />
 
     <TextView
-        android:id="@+id/textView4_maged"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/flightNo"
-        android:layout_marginTop="14dp"
-        android:layout_toLeftOf="@+id/textView2_maged"
-        android:text="@string/flight_number"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
-
-    <TextView
         android:id="@+id/textView5_maged"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/textView4_maged"
-        android:layout_alignBottom="@+id/textView4_maged"
-        android:layout_alignLeft="@+id/changeDate"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/srcDes"
         android:text="@string/src_and_des"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
