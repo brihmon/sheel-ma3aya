@@ -10,7 +10,7 @@
  
 <RelativeLayout
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_height="359dp"
     android:orientation="vertical" >
 
     <TextView
@@ -24,27 +24,27 @@
         android:textAppearance="?android:attr/textAppearanceLarge" />
     
     <RadioButton
-        android:id="@+id/extraWeight"
+        android:id="@+id/lessWeight"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/textView1_maged"
         android:layout_marginLeft="19dp"
         android:layout_marginTop="16dp"
-        android:onClick="onClick_extraWeight"
-        android:text="@string/extra_weight"
+        android:onClick="onClick_lessWeight"
+        android:text="@string/less_weight"
         android:textSize="16dp" />
 
     <RadioButton
-        android:id="@+id/lessWeight"
+        android:id="@+id/extraWeight"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/extraWeight"
-        android:layout_alignBottom="@+id/extraWeight"
+        android:layout_alignBaseline="@+id/lessWeight"
+        android:layout_alignBottom="@+id/lessWeight"
         android:layout_alignRight="@+id/textView1_maged"
         android:layout_marginRight="17dp"
-        android:onClick="onClick_lessWeight"
-        android:text="@string/less_weight"
+        android:onClick="onClick_extraWeight"
+        android:text="@string/extra_weight"
         android:textSize="16dp" />
 
     <TextView
@@ -52,7 +52,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignRight="@+id/textView1_maged"
-        android:layout_below="@+id/lessWeight"
+        android:layout_below="@+id/extraWeight"
         android:layout_marginTop="30dp"
         android:text="@string/on"
         android:textAppearance="?android:attr/textAppearanceLarge" />
@@ -71,7 +71,7 @@
         android:id="@+id/changeDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/extraWeight"
+        android:layout_alignRight="@+id/lessWeight"
         android:layout_alignTop="@+id/dateDisplay"
         android:onClick="onClick_datePicker"
         android:text="@string/change_date" />
