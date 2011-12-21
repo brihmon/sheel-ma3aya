@@ -943,6 +943,34 @@ Hossam Amer
 	<string name="gender">Gender</string>
 	<string name="nationality">Nationality</string>
 	<string name="search_offers">Search Offers</string>
+	<string name="flight_details">Flight Details</string>
+	<string name="enter_flight">Enter flight number</string>
+	<string name="enter_airports">Enter source and destination airports</string>
+	<string name="source">Source:</string>
+	<string name="destination">Destination:</string>
+	<string name="search">Search</string>
+	<string name="filter">Filter more</string>
+	<string name="cancel">Cancel</string>
+	<string name="owner_status">Owner Facebook Status</string>
+	<string name="friends">Facebook Friends</string>
+	<string name="friends_of_friends">Friends Of Friends</string>
+	<string name="confirm_selection">Confirm Selection</string>
+	<string name="cancel_selection">Cancel Selection</string>
+	<string name="missing_input">Missing Input</string>
+	<string name="invalid_input">Invalid Input</string>
+	<string name="status_valid">Please select the user status you\'re searching for</string>
+	<string name="date_valid">Please enter a valid date</string>
+	<string name="flight_valid">Please enter the flight number</string>
+	<string name="source_valid_missing">Please enter the source airport</string>
+	<string name="des_valid_missing">Please enter the destination airport</string>
+	<string name="source_valid">Please enter a valid source aiport</string>
+	<string name="des_valid">Please enter a valid destination aiport</string>
+	<string name="src_des_valid">Source and destination airports must not be the same</string>
+	<string name="kgs_valid">Weight should be from 1 to 30 kgs</string>
+	<string name="price_valid">Price should be from 1 to 30 euros</string>
+	<string name="nationality_valid">Please enter a valid nationality</string>
+	
+	
 	
 	
 </resources>
