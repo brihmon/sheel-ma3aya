@@ -916,7 +916,7 @@
 	<string name="less_weight">وزن ناقص</string>
 	<string name="searching_for_users">ابحث عن مستخدمين لديهم</string>
 	<string name="on">يوم</string>
-	<string name="change_date">تاريخ أخر</string>
+	<string name="change_date">تاريخ آخر</string>
 	<string name="current_date">تاريخ اليوم</string>
 	<string name="using">عن طريق</string>
 	<string name="flight_number">رقم الرحلة</string>
@@ -931,8 +931,8 @@
 	<string name="flight_details">تفاصيل الرحلة</string>
 	<string name="enter_flight">أدخل رقم الرحلة</string>
 	<string name="enter_airports">أدخل مطارى المصدر والوجهة</string>
-	<string name="source">:المصدر</string>
-	<string name="destination">:الوجهة</string>
+	<string name="source">المصدر</string>
+	<string name="destination">الوجهة</string>
 	<string name="search">ابحث العروض</string>
 	<string name="filter">تصفية المزيد</string>
 	<string name="cancel">إلغاء</string>
