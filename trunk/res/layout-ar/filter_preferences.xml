@@ -10,7 +10,7 @@
  
 <RelativeLayout
     android:layout_width="fill_parent"
-    android:layout_height="339dp"
+    android:layout_height="fill_parent"
     android:orientation="vertical" >
 
     <TextView
@@ -97,18 +97,30 @@
   	     android:onClick="onClick_male_gender"
   	     android:textOff=""
          android:textOn="" />
-  	 
-  	   	  <TextView
-  	      android:id="@+id/textView16_maged"
+
+  	   <ToggleButton
+  	      android:id="@+id/female"
   	      android:layout_width="wrap_content"
   	      android:layout_height="wrap_content"
-  	      android:layout_below="@+id/male"
-  	      android:layout_marginTop="15dp"
-  	      android:layout_toRightOf="@+id/male"
-  	      android:text="@string/nationality"
-  	      android:textAppearance="?android:attr/textAppearanceMedium" />
-  	  
-  	  <AutoCompleteTextView
+  	      android:layout_alignBaseline="@+id/male"
+  	      android:layout_alignBottom="@+id/male"
+  		  android:layout_alignLeft="@+id/facebook"
+  	      android:background="@drawable/gender_female_xml"
+  	      android:onClick="onClick_female_gender"
+  	      android:textOff=""
+          android:textOn="" />
+
+  	   <TextView
+  	       android:id="@+id/textView16_maged"
+  	       android:layout_width="wrap_content"
+  	       android:layout_height="wrap_content"
+  	       android:layout_alignRight="@+id/textView15_maged"
+  	       android:layout_below="@+id/male"
+  	       android:layout_marginTop="15dp"
+  	       android:text="@string/nationality"
+  	       android:textAppearance="?android:attr/textAppearanceMedium" />
+  	   
+  	    <AutoCompleteTextView
   	      android:id="@+id/nationality"
   	      android:layout_width="fill_parent"
   	      android:layout_height="wrap_content"
@@ -126,18 +138,6 @@
         android:layout_below="@+id/nationality"
         android:onClick="onClick_search_offers"
         android:text="@string/search_offers" />
-
-  	   <ToggleButton
-  	      android:id="@+id/female"
-  	      android:layout_width="wrap_content"
-  	      android:layout_height="wrap_content"
-  	      android:layout_alignBaseline="@+id/male"
-  	      android:layout_alignBottom="@+id/male"
-  		  android:layout_alignLeft="@+id/facebook"
-  	      android:background="@drawable/gender_female_xml"
-  	      android:onClick="onClick_female_gender"
-  	      android:textOff=""
-          android:textOn="" />
     
 </RelativeLayout>
 
