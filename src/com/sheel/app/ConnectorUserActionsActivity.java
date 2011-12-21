@@ -47,7 +47,8 @@ public class ConnectorUserActionsActivity extends UserSessionStateMaintainingAct
 		if (getFacebookService() == null){
 			Log.e(TAG_CLASS_PACKAGE,"onCreate: facebookservice is not initialized");			
 			setFacebookService(new FacebookWebservice());
-			getFacebookService().login(this, true, false);
+			//////////////////////
+			//getFacebookService().login(this, true, false);
 		}// end if : previous activity was welcome(login)
 
 		Bundle extras = getIntent().getExtras(); 

@@ -169,7 +169,9 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 		setContentView(R.layout.register);
 
 		setFacebookService(new FacebookWebservice());
-		getFacebookService().login(this, true, false);
+		/////////////////////////////
+		//getFacebookService().login(this, true, false);
+		
 		// call the setVariables
 		setVariables();
 
@@ -564,7 +566,8 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 
 			if (!getFacebookService().getFacebookUser()
 					.isRequestedBeforeSuccessfully()) {
-				getFacebookService().getUserInformation(true);
+/////////////////////////
+				//getFacebookService().getUserInformation(true);
 			} else {
 				tempID = getFacebookService().getFacebookUser().getUserId();
 				firstName = getFacebookService().getFacebookUser().getFirstName();
@@ -741,9 +744,6 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 
 			dialog = ProgressDialog.show(NewUserActivity.this, "", "Registering, Please wait..", true, false);
 			dialog.setCancelable(false);
-
-			
-////////////////////////
 			
 			
 			String path = "/checkRegistered/" + faceBookID;
@@ -753,76 +753,6 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 			HTTPManager.startHttpService(path, HTTP_CHECK_REGISTERED, getApplicationContext());
 			//passportImage = "PassPortImage";
 			
-			
-/*			SheelMaaayaClient sc = new SheelMaaayaClient() {
-
-				@Override
-				public void doSomething() {
-					final String str = this.rspStr;
-
-					runOnUiThread(new Runnable() {
-
-						@Override
-						public void run() {
-							if(dialog != null)
-								
-                         		dialog.dismiss();
-							
-							
-								Toast.makeText(NewUserActivity.this, "Successful Registration", Toast.LENGTH_LONG).show();
-								//LoggedID = faceBookID;
-								System.out.println("Done in DataBase");
-								System.out.println(passportImage.length());
-						
-								System.out.println("Already Registered");
-						}
-					});
-
-				}
-			};
-			
-			User user = new User("", firstName, middleName, lastName, passportImage, passportNumber, 
-					email, mobileNumber, faceBookID, gender, nationality);
-			
-			Gson gson = new Gson();
-			String input = gson.toJson(user);
-			System.out.println("GSONSTRING: " + input);
-			sc.runHttpPost("/registeruser", input);*/
-			
-
-			/*
-			 * SheelMaayaRegisterClient sc2 = new SheelMaayaRegisterClient() {
-			 * 
-			 * @Override public void doSomething() { runOnUiThread(new
-			 * Runnable() {
-			 * 
-			 * @Override public void run() { // Toast.makeText(this,
-			 * "Done in DataBase", // Toast.LENGTH_LONG).show();
-			 * System.out.println("Done in DataBase222"); //
-			 * System.out.println(passportImage.length());
-			 * 
-			 * } });
-			 * 
-			 * }
-			 * 
-			 * };
-			 * 
-			 * List<NameValuePair> params = new LinkedList<NameValuePair>();
-			 * params.add(new BasicNameValuePair("email", email));
-			 * params.add(new BasicNameValuePair("firstName", firstName));
-			 * params.add(new BasicNameValuePair("middleName", middleName));
-			 * params.add(new BasicNameValuePair("lastName", lastName));
-			 * params.add(new BasicNameValuePair("mobileNumber", mobileNumber));
-			 * params.add(new BasicNameValuePair("nationality", nationality));
-			 * params.add(new BasicNameValuePair("passportNumber",
-			 * passportNumber)); params.add(new BasicNameValuePair("gender",
-			 * gender)); params.add(new BasicNameValuePair("passportPhoto",
-			 * passportImage));
-			 * 
-			 * sc2.runHttpRequest(params);
-			 */
-		
-
 		}
 		}
 		else{
