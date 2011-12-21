@@ -2,6 +2,8 @@ package com.sheel.datastructures;
 
 import org.json.JSONObject;
 
+import android.util.Log;
+
 /**
  * Confirmation class to map the JSONObject into a normal confirmation as in the database.
  * @author Hossam_Amer
@@ -14,7 +16,7 @@ public class Confirmation {
 	/**
 	 * Constant used for tracing purposes "class name (package name)"
 	 */
-	private final String TAG = Confirmation.class.getName();
+	private final static String TAG = Confirmation.class.getName();
 	
 	
 	private User user1;
@@ -63,32 +65,107 @@ public class Confirmation {
 	
 	public static Confirmation mapConfirmation(JSONObject confirmationJSON)
 	{
+		String ownerId;
+		String firstName;
+		String middleName;
+		String lastName;
+		String email;
+		String mobile;
+		String gender;
+		String nationality;
+		
+		User user1 = new User("13", "hashas");
+		User user2 = new User("13", "hashas");
+		
+		Long offerId;
+		String offerstatus;
+		int userstatus;
+		int kgs;
+		int price;
+		
+		String flightNumber;
+		String source;
+		String destination;
+		String departureDate;
+	
+		Flight flight = new Flight("", "", "", "");
+		
+		Offer offer = new Offer(12, 12, 12, "12");
+		
+		JSONObject user1JSON = null;
+		JSONObject user2JSON = null;
+		JSONObject offerJSON = null;
+		JSONObject flightJSON = null;
+
+
 		try {
 			
-			JSONObject user1JSON = confirmationJSON.getJSONObject("user1");
-			JSONObject user2JSON = confirmationJSON.getJSONObject("user2");
-			JSONObject offerJSON = confirmationJSON.getJSONObject("offer");
-			JSONObject flightJSON = confirmationJSON.getJSONObject("flight");
+			Log.e("hashas mapConfirmation",  "mapConfirmation");
+		
+		try
+		{
+			user1JSON = confirmationJSON.getJSONObject("user1");
+		}
+		catch (Exception e) {
+			// TODO: handle exception
+			user1JSON = null;
+			Log.e("hashas mapConfirmation1",  "mapConfirmation catch");
+		}
+		try
+		{
+			user2JSON = confirmationJSON.getJSONObject("user2");
+		}
+		catch (Exception e) {
+			// TODO: handle exception
+			user2JSON = null;
+			Log.e("hashas mapConfirmation2",  "mapConfirmation catch");
+		}
+		try
+		{
+			offerJSON = confirmationJSON.getJSONObject("offer");
+		}
+		catch (Exception e) {
+			// TODO: handle exception
+			offerJSON = null;
 			
+			Log.e("hashas mapConfirmation3",  "mapConfirmation catch");
+		}
+		
+		try
+		{
+			flightJSON = offerJSON.getJSONObject("flight");
+		}
+		catch (Exception e) {
+			// TODO: handle exception
+			Log.e("hashas mapConfirmation4",  "mapConfirmation catch");
+		}
 			//Get the statuses of transaction of confirmation
 			boolean statusTransactionUser1 = confirmationJSON.getBoolean("statusTransactionUser1");
 			boolean statusTransactionUser2 = confirmationJSON.getBoolean("statusTransactionUser2");
 			
+			Log.e("hashas12", statusTransactionUser1 + "");
+			Log.e("hashas12", statusTransactionUser2 + "");
+			
 			// Create User1
+		if(user1JSON != null)
+		{
+			ownerId = user1JSON.getString("facebookAccount");
+			firstName = user1JSON.getString("firstName");
+			middleName = user1JSON.getString("middleName");
+			lastName = user1JSON.getString("lastName");
+			email = user1JSON.getString("email");
+			mobile = user1JSON.getString("mobileNumber");
+			gender = user1JSON.getString("gender");
+			nationality = user1JSON.getString("nationality");
 			
-			String ownerId = user1JSON.getString("facebookAccount");
-			String firstName = user1JSON.getString("firstName");
-			String middleName = user1JSON.getString("middleName");
-			String lastName = user1JSON.getString("lastName");
-			String email = user1JSON.getString("email");
-			String mobile = user1JSON.getString("mobileNumber");
-			String gender = user1JSON.getString("gender");
-			String nationality = user1JSON.getString("nationality");
+			user1 = new User(ownerId, firstName, middleName, lastName, "", "", email, mobile, gender, nationality);
 			
-			User user1 = new User(ownerId, firstName, middleName, lastName, "", "", email, mobile, gender, nationality);
+			Log.e("hashas12", user1 + "");
+		}	
 			
 			// Create User2	
-			
+		if(user2JSON != null)
+		{
 			ownerId = user2JSON.getString("facebookAccount");
 			firstName = user2JSON.getString("firstName");
 			middleName = user2JSON.getString("middleName");
@@ -98,34 +175,45 @@ public class Confirmation {
 			gender = user2JSON.getString("gender");
 			nationality = user2JSON.getString("nationality");
 			
-			User user2 = new User(ownerId, firstName, middleName, lastName, "", "", email, mobile, gender, nationality);
+			user2 = new User(ownerId, firstName, middleName, lastName, "", "", email, mobile, gender, nationality);
 			
+			Log.e("hashas12", user2 + "");
+		}	
 			//Create offer
+		if(offerJSON != null)
+		{
+			offerId = offerJSON.getLong("id");
+			offerstatus = offerJSON.getString("offerStatus");
+			userstatus = offerJSON.getInt("userStatus");
+			kgs = offerJSON.getInt("noOfKilograms");
+			price = offerJSON.getInt("pricePerKilogram");
 			
-			Long offerId = offerJSON.getLong("id");
-			String offerstatus = offerJSON.getString("offerStatus");
-			int userstatus = offerJSON.getInt("userStatus");
-			int kgs = offerJSON.getInt("noOfKilograms");
-			int price = offerJSON.getInt("pricePerKilogram");
+			offer = new Offer(offerId, kgs, price, userstatus, offerstatus);
 			
-			Offer offer = new Offer(offerId, kgs, price, userstatus, offerstatus);
-			
-			//Create flight			    
-			String flightNumber = flightJSON.getString("flightNumber");
-			String source = flightJSON.getString("source");
-			String destination = flightJSON.getString("destination");
-			String departureDate = flightJSON.getString("departureDate");
+			Log.e("hashas12", offer + "");
+		}	
+			//Create flight
+		
+		if(flightJSON != null)
+		{
+			flightNumber = flightJSON.getString("flightNumber");
+			source = flightJSON.getString("source");
+			destination = flightJSON.getString("destination");
+			departureDate = flightJSON.getString("departureDate");
 				
-			Flight flight = new Flight(flightNumber, source, destination, departureDate);
+			flight = new Flight(flightNumber, source, destination, departureDate);
 			
-				
-			return new Confirmation(user1, user2, flight, offer, statusTransactionUser1, statusTransactionUser2);
+			Log.e("hashas12", flight + "");
+		}	
+			Confirmation confirmation = new Confirmation(user1, user2, flight, offer, statusTransactionUser1, statusTransactionUser2);
+			Log.e("hashas12", confirmation + "");
+			return confirmation;
 
 			
 		} catch (Exception e) {
 			// TODO: handle exception
 			
-			return null;
+			return new Confirmation(user1, user2, flight, offer, false, false);
 		}
 	}
 
