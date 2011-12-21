@@ -225,9 +225,6 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 	 * the adaptors to the AutoComplete fields
 	 */
 	public void setVariables() {
-		/* Gender Toggle Buttons */
-		//toggleMale = (RadioButton) findViewById(R.id.toggleMale);
-		//toggleFemale = (RadioButton) findViewById(R.id.toggleFemale);
 
 		/* Nationality field, its adaptor, its validator */
 		nationalityField = (AutoCompleteTextView) findViewById(R.id.autoNationality);
@@ -285,10 +282,6 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 				Arrays.sort(codeStrings);
 				if (Arrays.binarySearch(codeStrings, text.toString()) > 0) {
 					codeValid = true;
-
-					// Toast toast = Toast.makeText(NewUserActivity.this,
-					// "Valid", 0);
-					// toast.show();
 					return true;
 				}
 				codeValid = false;
@@ -387,13 +380,7 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 		// set the image file name
 		intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
 		// start the image capture Intent
-		startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
-		
-		
-
-			  
-		 
-		       
+		startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE); 
 		} // end onClick_takePhoto
 	
 
@@ -402,21 +389,14 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 		super.onActivityResult(requestCode, resultCode, data);
 		if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
 			
-			System.out.println("First IF");
 			// User done with capturing image
 			if (resultCode == RESULT_OK) {
 				System.out.println("Result OK");
 				// Image captured and saved to fileUri specified in the Intent
 				onPhotoTaken();
-				System.out.println("Greaaaaaaaat1111");
-				
-				// System.out.println(data.getData().toString());
-
-				// Toast.makeText(this, "Image saved to:\n" +
-				// data.getData(), Toast.LENGTH_LONG).show();
 			} else if (resultCode == RESULT_CANCELED) {
 				// User cancelled the image capture
-				System.out.println("Cancell");
+				System.out.println("Cancel");
 				Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show();
 			} else {
 				// Image capture failed, advise user
@@ -424,26 +404,22 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 						.show();
 			}
 		}
+		
+		
 	}
 
 	protected void onPhotoTaken() {
 
 		ImageView i = (ImageView) findViewById(R.id.pictureView);
 		Bitmap bitmap = BitmapFactory.decodeFile(ImagePath);
-		//System.out.println(ImagePath);
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos); // bm is the
+	//	bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos); // bm is the
 																// bitmap object
 		byte[] image = baos.toByteArray();
 
 		passportImage = Base64.encodeBytes(image);
 		System.out.println("Photo: "+ passportImage);
 		i.setImageBitmap(bitmap);
-
-		// Intent mIntent = new Intent(this, NewUserActivity.class);
-		// Pass variable to detailed view activity using the intent
-		// putExtra(NewUserActivity.PASSPORT_IMAGE_KEY, encodedImage);
-		// getIntent().putExtra(NewUserActivity.PASSPORT_IMAGE_KEY, );
 		System.out.println("Photo Success");
 		
 	}
@@ -776,11 +752,6 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 			//sc.runHttpRequest("/checkRegistered/" + faceBookID);
 			HTTPManager.startHttpService(path, HTTP_CHECK_REGISTERED, getApplicationContext());
 			//passportImage = "PassPortImage";
-
-			System.out.println("/insertuser/" + faceBookID + "/" + email + "/"
-					+ firstName + "/" + middleName + "/" + lastName + "/"
-					+ mobileNumber + "/" + nationality + "/" + passportNumber
-					+ "/" + gender + "/" + passportImage);
 			
 			
 /*			SheelMaaayaClient sc = new SheelMaaayaClient() {
