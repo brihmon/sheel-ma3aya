@@ -165,9 +165,7 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity
 		filter = new IntentFilter();
 		
 		// Add the filters of your activity
-		filter.addAction(HTTP_GET_MY_OFFERS_FILTER);
-		filter.addAction(HTTP_CONFIRM_OFFER);
-		
+		filter.addAction(HTTP_GET_MY_OFFERS_FILTER);		
 		receiver = new SheelMaayaaBroadCastRec();
 		
 		Log.e(TAG, "Receiver Registered");
@@ -218,24 +216,10 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity
 						Log.e(TAG, responseStr);
 							
 					}
-					else if(action.equals(HTTP_CONFIRM_OFFER))
-					{
-						Log.e(TAG, responseStr);
-						
-						if(responseStr.equals(Confirmation.alreadyConfirmed))
-							Toast.makeText(getApplicationContext(), "This Offer is already confirmed by two users.", Toast.LENGTH_SHORT).show();
-						else if(responseStr.equals(Confirmation.confirmedByAnotherPerson))
-							Toast.makeText(getApplicationContext(), "Sorry, this offer is already confirmed by another user.", Toast.LENGTH_SHORT).show();
-						else
-						{
-							updateConfirmedOffersOnUI(responseStr);
-							
-						}
-						
 						/**
 						 * if(half-confirmed by another user)
 						 * Sorry!
-						 * if(confirmed success)
+						t * if(confirmed success)
 						 * You confirmed the user + 7abashtakaanaat fel view lw fi!
 						 * 
 						 * if(offerOwner is confirming the offer)
@@ -258,25 +242,6 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity
 				}
 			}
 
-			private void updateConfirmedOffersOnUI(String responseStr) {
-				// TODO Auto-generated method stub
-				
-				try {
-					
-					JSONObject confirmationJSON = new JSONObject(responseStr);
-					Log.e(TAG, confirmationJSON + "");
-					
-//					Confirmation confirmation = Confirmation.mapConfirmation(confirmationJSON);
-//					if()
-					
-					
-				} catch (JSONException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				
-			}
-		}
 
 			/**
 			 * Used to fill the adapter with data (Offers)
