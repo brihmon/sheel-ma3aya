@@ -14,7 +14,7 @@ import android.widget.Toast;
  * @author passant
  *
  */
-public class SheelMaayaaActivity extends Activity {
+public class SheelMaayaaActivity extends UserSessionStateMaintainingActivity {
 
 	/**
 	 * It handles all requests to facebook API. Moreover, it has
@@ -40,9 +40,10 @@ public class SheelMaayaaActivity extends Activity {
 	 * 		Clicked button
 	 */
 	public void onClick_button_register(View v){
-		Toast.makeText(this, "Hello Register", Toast.LENGTH_SHORT).show();
-		startActivity(new Intent(this, NewUserActivity.class));
+		/*Toast.makeText(this, "Hello Register", Toast.LENGTH_SHORT).show();
+		startActivity(new Intent(this, NewUserActivity.class));*/
 		
+		onClick_dashBoardItem(0);
 	}// end onClick_button_register
 	
 	/**
