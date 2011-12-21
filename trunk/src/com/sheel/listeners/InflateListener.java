@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewStub;
@@ -16,13 +15,12 @@ import android.widget.TextView;
 import com.sheel.app.R;
 import com.sheel.datastructures.FacebookUser;
 import com.sheel.datastructures.OfferDisplay2;
-import com.sheel.datastructures.User;
 import com.sheel.datastructures.enums.OwnerFacebookStatus;
 import com.sheel.utils.GuiUtils;
 import com.sheel.utils.HTTPManager;
 import com.sheel.utils.SheelMaayaaConstants;
 
-
+import static com.sheel.utils.SheelMaayaaConstants.HTTP_CONFIRM_OFFER;;
 
 /**
  * InflateListener is the listener used when the Stub is inflated
@@ -198,8 +196,8 @@ public class InflateListener implements OnInflateListener, OnClickListener {
 			break;
 			
 		case R.id.details_button_confirm:
-			
 			Log.e("Confirm button", "Hello");
+			confirmOffer();
 			break;
 	
 		default:
@@ -220,7 +218,7 @@ public class InflateListener implements OnInflateListener, OnClickListener {
 //		Intent sendIntent = new Intent(Intent.ACTION_VIEW, Uri.fromParts("sms", number, null));
 //		sendIntent.putExtra("sms_body", sms_content);
 //		mActivity.startActivity(sendIntent);
-		
+		Log.e("SMS button", number);
 		Uri uri = Uri.parse("smsto:"+ number);  
 		Intent intent = new Intent(Intent.ACTION_SENDTO, uri);  
 		intent.putExtra("sms_body", sms_content); 
@@ -241,7 +239,10 @@ public class InflateListener implements OnInflateListener, OnClickListener {
 	
 	private void confirmOffer() {
 		
-		HTTPManager.startHttpService("", "", mContext);
+		String path = "/insertconfirmation/" + mUser.getUserId()+"/"+this.offerDisplay.getOffer().id+"/"+this.offerDisplay.getOffer().userStatus;
+		Log.e("Confirm offer path: ", path);
+		HTTPManager.startHttpService(path, HTTP_CONFIRM_OFFER, mContext);
+		
 		
 	}
 	
@@ -249,6 +250,10 @@ public class InflateListener implements OnInflateListener, OnClickListener {
 	 * Gets the SMS template form depending on the offer status either less weight or extra weight
 	 * @return the SMS template form
 	 * @author Hossam_Amer
+	 */
+
+	/**XXXXXXNeed to check how to get the name
+	 *XXXXXhashas
 	 */
 	private String getSMSMessage() {
 		
