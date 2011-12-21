@@ -224,10 +224,6 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity
 						
 						if(responseStr.equals(Confirmation.alreadyConfirmed))
 							Toast.makeText(getApplicationContext(), "This Offer is already confirmed by two users.", Toast.LENGTH_SHORT).show();
-						else if(responseStr.equals(Confirmation.notSameUser))
-							Toast.makeText(getApplicationContext(), "You already confirmed this offer.", Toast.LENGTH_SHORT).show();
-						else if(responseStr.equals(Confirmation.notFromOfferOwner))
-							Toast.makeText(getApplicationContext(), "An offer owner should confirm this offer.", Toast.LENGTH_SHORT).show();
 						else if(responseStr.equals(Confirmation.confirmedByAnotherPerson))
 							Toast.makeText(getApplicationContext(), "Sorry, this offer is already confirmed by another user.", Toast.LENGTH_SHORT).show();
 						else
@@ -267,8 +263,10 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity
 				
 				try {
 					
-					JSONObject confirmationJSon = new JSONObject(responseStr);
+					JSONObject confirmationJSON = new JSONObject(responseStr);
+					Log.e(TAG, confirmationJSON + "");
 					
+//					Confirmation confirmation = Confirmation.mapConfirmation(confirmationJSON);
 //					if()
 					
 					

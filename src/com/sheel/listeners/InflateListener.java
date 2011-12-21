@@ -239,8 +239,8 @@ public class InflateListener implements OnInflateListener, OnClickListener {
 	
 	private void confirmOffer() {
 		
-//		String path = "/insertconfirmation/" + mUser.getUserId()+"/"+this.offerDisplay.getOffer().id+"/"+this.offerDisplay.getOffer().userStatus;
-		String path = "/insertconfirmation/" + 673780564+"/"+this.offerDisplay.getOffer().id+"/"+this.offerDisplay.getOffer().userStatus;
+//		String path = "/insertconfirmation/" + mUser.getUserId()+"/"+this.offerDisplay.getOffer().id;
+		String path = "/insertconfirmation/" + 673780564+"/"+this.offerDisplay.getOffer().id;
 		Log.e("Confirm offer path: ", path);
 		HTTPManager.startHttpService(path, HTTP_CONFIRM_OFFER, mContext);
 		
