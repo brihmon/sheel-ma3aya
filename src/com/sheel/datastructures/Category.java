@@ -53,6 +53,8 @@ public class Category {
 	 * @param layoutId
 	 * 		Layout ID of the XML file used for inflating the category.
 	 * 		Use <code>R.layout.STH</code>
+	 * @param offersWrappers
+	 * 		Offers to be displayed 		
 	 * @return
 	 * 		List of components to be displayed. 
 	 */
@@ -60,6 +62,27 @@ public class Category {
 		this.name = name;
 		this.layoutId = layoutId;
 		this.offersWrappers = offersWrappers;
+	}// end constructor
+	
+	/**
+	 * Constructor for creating a new category
+	 * 
+	 * @param name
+	 * 		Name of the category that will appear in the indicator
+	 * 		on the top of the page
+	 * @param layoutId
+	 * 		Layout ID of the XML file used for inflating the category.
+	 * 		Use <code>R.layout.STH</code>
+	 * @param
+	 * 		new offer to be added
+	 * @return
+	 * 		List of components to be displayed. 
+	 */
+	public Category (String name , int layoutId , OfferDisplay2 offerWrapper) {
+		this.name = name;
+		this.layoutId = layoutId;
+		this.offersWrappers = new ArrayList<OfferDisplay2>();
+		this.offersWrappers.add(offerWrapper);
 	}// end constructor
 	
 	/**
@@ -115,5 +138,13 @@ public class Category {
 			this.offersWrappers = newOffersWrappers;
 		}// end else: refresh the whole list
 	}// end getOffersDisplayed
+	
+	public void addOffer(OfferDisplay2 newOffer) {
+		this.offersWrappers.add(newOffer);
+	}// end addOffer
+	
+	public void deleteOffer(OfferDisplay2 offer) {
+		this.offersWrappers.remove(offer);
+	}
 	
 }// end class
