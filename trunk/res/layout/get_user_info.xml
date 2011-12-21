@@ -20,7 +20,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="34dp"
-        android:text="I&apos;m searching for users with"
+        android:text="@string/searching_for_users"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <RadioButton
@@ -32,7 +32,7 @@
         android:layout_marginLeft="19dp"
         android:layout_marginTop="16dp"
         android:onClick="onClick_extraWeight"
-        android:text="Extra weight"
+        android:text="@string/extra_weight"
         android:textSize="16dp" />
 
     <RadioButton
@@ -44,7 +44,7 @@
         android:layout_alignRight="@+id/textView1_maged"
         android:layout_marginRight="17dp"
         android:onClick="onClick_lessWeight"
-        android:text="Less weight"
+        android:text="@string/less_weight"
         android:textSize="16dp" />
 
     <TextView
@@ -54,7 +54,7 @@
         android:layout_alignLeft="@+id/extraWeight"
         android:layout_below="@+id/extraWeight"
         android:layout_marginTop="20dp"
-        android:text="On"
+        android:text="@string/on"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
@@ -63,7 +63,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/textView2_maged"
         android:layout_toLeftOf="@+id/lessWeight"
-        android:text="Current Date"
+        android:text="@string/current_date"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <Button
@@ -73,7 +73,7 @@
         android:layout_alignRight="@+id/lessWeight"
         android:layout_alignTop="@+id/dateDisplay"
         android:onClick="onClick_datePicker"
-        android:text="Change Date" />
+        android:text="@string/change_date" />
 
     <TextView
         android:id="@+id/textView3_maged"
@@ -82,7 +82,7 @@
         android:layout_alignLeft="@+id/textView2_maged"
         android:layout_below="@+id/changeDate"
         android:layout_marginTop="15dp"
-        android:text="Using"
+        android:text="@string/using"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <ToggleButton
@@ -116,7 +116,7 @@
         android:layout_below="@+id/flightNo"
         android:layout_marginTop="18dp"
         android:layout_toRightOf="@+id/textView3_maged"
-        android:text="Flight Number"
+        android:text="@string/flight_number"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
     <TextView
@@ -126,7 +126,7 @@
         android:layout_alignBaseline="@+id/textView4_maged"
         android:layout_alignBottom="@+id/textView4_maged"
         android:layout_alignLeft="@+id/changeDate"
-        android:text="Source &amp; Destination"
+        android:text="@string/src_and_des"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
 </RelativeLayout>
