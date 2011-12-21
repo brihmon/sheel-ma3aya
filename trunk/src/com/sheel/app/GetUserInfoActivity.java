@@ -1,5 +1,6 @@
 package com.sheel.app;
 
+import java.util.Arrays;
 import java.util.Calendar;
 
 import com.sheel.datastructures.enums.OwnerFacebookStatus;
@@ -24,6 +25,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
+import android.widget.AutoCompleteTextView.Validator;
 
 public class GetUserInfoActivity extends UserSessionStateMaintainingActivity {
     /** Called when the activity is first created. */
@@ -159,12 +161,13 @@ public class GetUserInfoActivity extends UserSessionStateMaintainingActivity {
 	 public boolean isValidInput(){
 		 
 		 if(!lessWeight.isChecked() && !extraWeight.isChecked()){
-				showErrors("Missing Input", "Please select the user status you're searching for");
+				showErrors(getResources().getString(R.string.missing_input), 
+						getResources().getString(R.string.status_valid));
 				return false;
 		}
 		 
 		//if(datePicked.before(Calendar.getInstance())){
-	    	//showErrors("Invalid Input", "Please enter a valid date");
+	    	//showErrors(getResources().getString(R.string.invalid_input), getResources().getString(R.string.date_valid));
 	    	//return false;
 	   // }
 		 
@@ -188,19 +191,20 @@ public class GetUserInfoActivity extends UserSessionStateMaintainingActivity {
 	 public void enterFlightNumber(){
 		 
 		 AlertDialog.Builder alert = new AlertDialog.Builder(this);                 
-		 alert.setTitle("Flight Details");  
-		 alert.setMessage("Enter flight number");                
+		 alert.setTitle(getResources().getString(R.string.flight_details));  
+		 alert.setMessage(getResources().getString(R.string.enter_flight));                
   
 		 final EditText flight = new EditText(this); 
 		 flight.setSingleLine(true);
 		 alert.setView(flight);
 		  
-		  alert.setPositiveButton("Search", new DialogInterface.OnClickListener() {  
+		  alert.setPositiveButton(getResources().getString(R.string.search), new DialogInterface.OnClickListener() {  
 			    public void onClick(DialogInterface dialog, int whichButton) {  
 			         flightNumber = removeSpaces(flight.getText().toString());
 			         
 			         if(flightNumber.equals(""))
-			        	 showErrors("Missing Input", "Please enter the flight number");
+			        	 showErrors(getResources().getString(R.string.missing_input), 
+			        			 getResources().getString(R.string.flight_valid));
 			         
 			         else
 			        	 startViewResultsActivity();
@@ -210,12 +214,13 @@ public class GetUserInfoActivity extends UserSessionStateMaintainingActivity {
 			      }  
 		  }); 
 		  
-		  alert.setNeutralButton("Filter More", new DialogInterface.OnClickListener() {  
+		  alert.setNeutralButton(getResources().getString(R.string.filter), new DialogInterface.OnClickListener() {  
 			    public void onClick(DialogInterface dialog, int whichButton) {  
 			    	flightNumber = removeSpaces(flight.getText().toString());
 			    	
 			    	if(flightNumber.equals(""))
-			        	 showErrors("Missing Input", "Please enter the flight number");
+			        	 showErrors(getResources().getString(R.string.missing_input), 
+			        			 getResources().getString(R.string.flight_valid));
 			    	else
 			    		startFilterOffersActivity();
 			    	
@@ -224,7 +229,7 @@ public class GetUserInfoActivity extends UserSessionStateMaintainingActivity {
 			    }  
 		  });  
 		  
-		  alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
+		  alert.setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener(){
 		         public void onClick(DialogInterface dialog, int which) {
 		        	 srcDes.setChecked(false);
 		    		 flightNo.setChecked(false);
@@ -235,14 +240,14 @@ public class GetUserInfoActivity extends UserSessionStateMaintainingActivity {
 		  alert.show();
 	 }
 	 
-	 
+	
 	 public void enterSourceAndDestination(){
 		 
 		 AlertDialog.Builder alert = new AlertDialog.Builder(this);                 
-		 alert.setTitle("Flight Details");  
-		 alert.setMessage("Enter source and destination airports");                
+		 alert.setTitle(getResources().getString(R.string.flight_details));  
+		 alert.setMessage(getResources().getString(R.string.enter_airports));                
 		 
-		 String[] airports = getResources().getStringArray(R.array.airports_array);
+		 final String[] airports = getResources().getStringArray(R.array.airports_array);
 		 ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.list_item, airports);
 		 
 		 ScrollView view = new ScrollView(this);
@@ -250,37 +255,69 @@ public class GetUserInfoActivity extends UserSessionStateMaintainingActivity {
 		 layout.setOrientation(1);
 		 
 		 final TextView enterSource = new TextView(this);
-		 enterSource.setText("Source:");
+		 enterSource.setText(getResources().getString(R.string.source));
 		 layout.addView(enterSource);
 		 
 		 final AutoCompleteTextView sourceAirport = new AutoCompleteTextView(this);
 		 sourceAirport.setSingleLine(true);
-		 sourceAirport.setAdapter(adapter);
 		 layout.addView(sourceAirport);
 		 
 		 final TextView enterDestination = new TextView(this);
-		 enterDestination.setText("Destination:");
+		 enterDestination.setText(getResources().getString(R.string.destination));
 		 layout.addView(enterDestination);
 		 
 		 final AutoCompleteTextView desAirport = new AutoCompleteTextView(this);
 		 desAirport.setSingleLine(true);
-		 desAirport.setAdapter(adapter);
 		 layout.addView(desAirport);
 		  
-		 view.addView(layout);
-		 alert.setView(view);
+		 Validator AirportValidator = new Validator() {
+				@Override
+				public boolean isValid(CharSequence text) {
 
-		 alert.setPositiveButton("Search", new DialogInterface.OnClickListener() {  
+					String stringText = text.toString();
+					stringText = stringText.trim();
+					Arrays.sort(airports);
+					if ((Arrays.binarySearch(airports, stringText) > 0)) {
+						return true;
+					}
+					return false;
+				}
+				@Override
+				public CharSequence fixText(CharSequence invalidText) {
+
+					return invalidText;
+				}
+
+			};
+		sourceAirport.setAdapter(adapter);	
+		desAirport.setAdapter(adapter);
+		
+		sourceAirport.setValidator(AirportValidator);
+		desAirport.setValidator(AirportValidator);
+		
+		view.addView(layout);
+		alert.setView(view);
+
+		 alert.setPositiveButton(getResources().getString(R.string.search), new DialogInterface.OnClickListener() {  
 			    public void onClick(DialogInterface dialog, int whichButton) {  
 			         source = removeSpaces(sourceAirport.getText().toString());
 			         destination = removeSpaces(desAirport.getText().toString());
 			         
 			         if(source.equals(""))
-			        	 showErrors("Missing Input", "Please enter the source airport");
+			        	 showErrors(getResources().getString(R.string.missing_input), 
+			        			 getResources().getString(R.string.source_valid_missing));
 			         else if(destination.equals(""))
-			        	 showErrors("Missing Input", "Please enter the destination airport");
+			        	 showErrors(getResources().getString(R.string.missing_input), 
+			        			 getResources().getString(R.string.des_valid_missing));
+			         else if(!sourceAirport.getValidator().isValid(source))
+			        	 showErrors(getResources().getString(R.string.invalid_input), 
+			        			 getResources().getString(R.string.source_valid));
+			         else if(!desAirport.getValidator().isValid(destination))
+			        	 showErrors(getResources().getString(R.string.invalid_input), 
+			        			 getResources().getString(R.string.des_valid));
 			         else if(source.equalsIgnoreCase(destination))
-			        	 showErrors("Invalid Input", "Source and destination airports must not be the same");
+			        	 showErrors(getResources().getString(R.string.invalid_input), 
+			        			 getResources().getString(R.string.src_des_valid));
 			         else
 			        	 startViewResultsActivity();
 			         
@@ -290,17 +327,26 @@ public class GetUserInfoActivity extends UserSessionStateMaintainingActivity {
 			      }  
 		  }); 
 		  
-		  alert.setNeutralButton("Filter More", new DialogInterface.OnClickListener() {  
+		  alert.setNeutralButton(getResources().getString(R.string.filter), new DialogInterface.OnClickListener() {  
 			    public void onClick(DialogInterface dialog, int whichButton) {  
 			    	source = removeSpaces(sourceAirport.getText().toString());
 			         destination = removeSpaces(desAirport.getText().toString());
 			         
 			         if(source.equals(""))
-			        	 showErrors("Missing Input", "Please enter the source airport");
+			        	 showErrors(getResources().getString(R.string.missing_input), 
+			        			 getResources().getString(R.string.source_valid_missing));
 			         else if(destination.equals(""))
-			        	 showErrors("Missing Input", "Please enter the destination airport");
+			        	 showErrors(getResources().getString(R.string.missing_input), 
+			        			 getResources().getString(R.string.des_valid_missing));
+			         else if(!sourceAirport.getValidator().isValid(source))
+			        	 showErrors(getResources().getString(R.string.invalid_input), 
+			        			 getResources().getString(R.string.source_valid));
+			         else if(!desAirport.getValidator().isValid(destination))
+			        	 showErrors(getResources().getString(R.string.invalid_input), 
+			        			 getResources().getString(R.string.des_valid));
 			         else if(source.equalsIgnoreCase(destination))
-			        	 showErrors("Invalid Input", "Source and destination airports must not be the same");
+			        	 showErrors(getResources().getString(R.string.invalid_input), 
+			        			 getResources().getString(R.string.src_des_valid));
 			         else
 			        	 startFilterOffersActivity();
 
@@ -310,7 +356,7 @@ public class GetUserInfoActivity extends UserSessionStateMaintainingActivity {
 			    }  
 		  });  
 		  
-		  alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
+		  alert.setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener(){
 		         public void onClick(DialogInterface dialog, int which) {
 		        	 srcDes.setChecked(false);
 		    		 flightNo.setChecked(false);
