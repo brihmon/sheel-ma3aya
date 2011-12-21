@@ -2,6 +2,7 @@ package com.sheel.app;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -9,9 +10,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.sheel.app.NewUserActivity.SheelMaayaaBroadCastRec;
 import com.sheel.datastructures.FacebookUser;
 import com.sheel.datastructures.NavigationItem;
 import com.sheel.datastructures.enums.SharedValuesBetweenActivities;
+import com.sheel.listeners.LoginDataBaseListener;
 import com.sheel.webservices.FacebookWebservice;
 
 /**
@@ -30,21 +33,26 @@ public class UserSessionStateMaintainingActivity extends Activity {
 	 */
 	private final String TAG_CLASS_PACKAGE = "UserSessionStateMaintainingActivity (com.sheel.app): ";
 	
-	private final  NavigationItem[] NAVIGATION_ITEMS = new NavigationItem[] {
+/*	private final  NavigationItem[] NAVIGATION_ITEMS = new NavigationItem[] {
 		
 		new NavigationItem(getResources().getString(R.id.menu_main_search), R.drawable.sheel_menu_main_search, R.drawable.sheel_menu_main_search, GetUserInfoActivity.class),
 		//new NavigationItem(name, rscIdForMenu, rscIdForDashBoard, nextActivityType),
 		//new NavigationItem(name, rscIdForMenu, rscIdForDashBoard, nextActivityType),
 		//new NavigationItem(name, rscIdForMenu, rscIdForDashBoard, nextActivityType)			
 	};
-	
+	*/
 	/**
 	 * It handles all requests to facebook API. Moreover, it has
 	 * all related info to logged in user and session
 	 */
 	private  static FacebookWebservice fbService = null;
 	
+	/**
+	 * Filter added for this activity to filter the actions received by the receiver
+	 */
+	private IntentFilter filter = new IntentFilter();
 	
+		
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -191,5 +199,40 @@ public class UserSessionStateMaintainingActivity extends Activity {
 		startActivity(intent);
 	}// end goToActivity
 	
+
+	public void onClick_dashBoardItem(int position){
+		System.out.println("onClick_dashBoardItem");
+	if(!getFacebookService().getFacebookUser().isRequestedBeforeSuccessfully()){
+		CheckUserLoginStatusFromDbListener dbListener = new CheckUserLoginStatusFromDbListener(filter);
+		registerReceiver(dbListener, filter);
+		getFacebookService().login(this, true, true, dbListener, getApplicationContext());
+		System.out.println("First time to register receiver");
+	}
+	else{
+		System.out.println("already registered receiver");
+	}
+		
+	}// end onClick_dashBoardItem
 	
+	class CheckUserLoginStatusFromDbListener extends LoginDataBaseListener{
+
+		public CheckUserLoginStatusFromDbListener(IntentFilter filterToAddActionTo){
+			super(filterToAddActionTo);			
+		}// end constructor
+		
+		public void doActionUserIsRegistered() {
+			System.out.println("doActionUserIsRegistered from UserSessionMaintainingActivity");
+			Toast.makeText(getApplicationContext(), "The user is logging in", Toast.LENGTH_LONG).show();
+			
+		}// end doActionUserIsRegistered
+
+		public void doActionUserIsNotRegistered() {
+			System.out.println("doActionUserIsNotRegistered from UserSessionMaintainingActivity");	
+			Toast.makeText(getApplicationContext(), "The user needs to register", Toast.LENGTH_LONG).show();
+			goToActivity(NewUserActivity.class);
+		}// end doActionUserIsNotRegistered
+		
+	}// end CheckUserLoginStatusFromDbListener
+	
+
 }// end class
