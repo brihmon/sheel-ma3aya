@@ -1,5 +1,7 @@
 package com.sheel.app;
 
+import java.util.Arrays;
+
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -14,6 +16,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.ToggleButton;
+import android.widget.AutoCompleteTextView.Validator;
 
 import com.sheel.datastructures.enums.OwnerFacebookStatus;
 
@@ -87,10 +90,33 @@ public class FilterPreferencesActivity extends UserSessionStateMaintainingActivi
 	
         nationalityView = (AutoCompleteTextView) findViewById(R.id.nationality);
   
-        String[] nationalities = getResources().getStringArray(R.array.nationalities_array);
+        final String[] nationalities = getResources().getStringArray(R.array.nationalities_array);
         ArrayAdapter<String> nationalityAdapter = new ArrayAdapter<String>(this, R.layout.list_item, nationalities);
         
         nationalityView.setAdapter(nationalityAdapter);
+        Validator NationalityValidator = new Validator() {
+
+			@Override
+			public boolean isValid(CharSequence text) {
+
+				String stringText = text.toString();
+				stringText = stringText.trim();
+				
+				Arrays.sort(nationalities);
+				if ((Arrays.binarySearch(nationalities, stringText) > 0)) {
+					return true;
+				}
+				return false;
+			}
+
+			@Override
+			public CharSequence fixText(CharSequence invalidText) {
+
+				return invalidText;
+			}
+
+		};
+		nationalityView.setValidator(NationalityValidator);
         
 		
 	}
@@ -98,14 +124,14 @@ public class FilterPreferencesActivity extends UserSessionStateMaintainingActivi
 	public void onClick_facebook(View v){
 		
 		AlertDialog.Builder alert = new AlertDialog.Builder(this);                 
-		alert.setTitle("Owner Facebook Status");                 
+		alert.setTitle(getResources().getString(R.string.owner_status));                 
 
 		LinearLayout layout = new LinearLayout(this);
 		layout.setOrientation(1);
 		final RadioButton friends = new RadioButton(this);
 		final RadioButton friendsOfFriends = new RadioButton(this);
 		
-		friends.setText("Facebook Friends");	
+		friends.setText(getResources().getString(R.string.friends));	
 		layout.addView(friends); 
 		
 		friends.setOnClickListener(new OnClickListener() {
@@ -115,7 +141,7 @@ public class FilterPreferencesActivity extends UserSessionStateMaintainingActivi
 				facebook = OwnerFacebookStatus.FRIEND;	
 			}
 		});
-		friendsOfFriends.setText("Friends Of Friends");
+		friendsOfFriends.setText(getResources().getString(R.string.friends_of_friends));
 		layout.addView(friendsOfFriends);
 		
 		friendsOfFriends.setOnClickListener(new OnClickListener() {
@@ -133,13 +159,15 @@ public class FilterPreferencesActivity extends UserSessionStateMaintainingActivi
 		
 		alert.setView(layout);
 		
-		alert.setPositiveButton("Confirm Selection", new DialogInterface.OnClickListener() {  
+		alert.setPositiveButton(getResources().getString(R.string.confirm_selection), 
+															new DialogInterface.OnClickListener() {  
 		    public void onClick(DialogInterface dialog, int whichButton) {  
 		       	 return;	          
 		      }  
 	  }); 
 		
-		alert.setNegativeButton("Cancel Selection", new DialogInterface.OnClickListener() {  
+		alert.setNegativeButton(getResources().getString(R.string.cancel_selection), 
+													new DialogInterface.OnClickListener() {  
 		    public void onClick(DialogInterface dialog, int whichButton) { 
 		    	 friends.setChecked(false);
 		    	 friendsOfFriends.setChecked(false);
@@ -181,6 +209,7 @@ public class FilterPreferencesActivity extends UserSessionStateMaintainingActivi
 	
 	public void onClick_search_offers(View v) 
 	{
+		allValid = true;
 		
 		if(!male.isChecked() && !female.isChecked())
 			gender = "both";
@@ -195,7 +224,8 @@ public class FilterPreferencesActivity extends UserSessionStateMaintainingActivi
 			kgs = Integer.parseInt(availableKgs);
 			
 			if(kgs > 30){
-				 showErrors("Invalid Input", "Weight should be from 1 to 30 kgs");
+				 showErrors(getResources().getString(R.string.invalid_input), 
+						 getResources().getString(R.string.kgs_valid));
 				 
 				 allValid = false;
 			}	
@@ -204,8 +234,9 @@ public class FilterPreferencesActivity extends UserSessionStateMaintainingActivi
 		if(!pricePerKg.equals("")){
 			price = Integer.parseInt(pricePerKg);
 			
-			if(price > 30 && kgs <=30){
-				showErrors("Invalid Input", "Price should be from 1 to 30 euros");
+			if(price > 30 && allValid){
+				showErrors(getResources().getString(R.string.invalid_input), 
+						getResources().getString(R.string.price_valid));
 				
 				allValid = false;
 			}
@@ -213,6 +244,12 @@ public class FilterPreferencesActivity extends UserSessionStateMaintainingActivi
 		
 		if(nationality.equals(""))
 			nationality = "none";
+		
+		else if(!nationalityView.getValidator().isValid(nationality) && allValid){
+			showErrors(getResources().getString(R.string.invalid_input), 
+					getResources().getString(R.string.nationality_valid));
+			allValid = false;
+		}
 		
 		if(allValid)
 			startViewResultsActivity();
