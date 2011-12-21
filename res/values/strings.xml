@@ -946,8 +946,8 @@ Hossam Amer
 	<string name="flight_details">Flight Details</string>
 	<string name="enter_flight">Enter flight number</string>
 	<string name="enter_airports">Enter source and destination airports</string>
-	<string name="source">Source:</string>
-	<string name="destination">Destination:</string>
+	<string name="source">Source</string>
+	<string name="destination">Destination</string>
 	<string name="search">Search</string>
 	<string name="filter">Filter more</string>
 	<string name="cancel">Cancel</string>
