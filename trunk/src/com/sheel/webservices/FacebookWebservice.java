@@ -352,7 +352,7 @@ public class FacebookWebservice {
 		}// end class
 		
 		if (facebook.isSessionValid()){
-		
+			fields="";
 			Log.e(TAG_CLASS_PACKAGE,"getUserInformation: Requested fields: " + fields);
 			BasicInfoListener listener = new BasicInfoListener();
 			asyncFacebookRunner.request("me"+fields, listener);
