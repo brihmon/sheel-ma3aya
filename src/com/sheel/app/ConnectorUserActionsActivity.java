@@ -55,7 +55,7 @@ public class ConnectorUserActionsActivity extends UserSessionStateMaintainingAct
 		if (extras != null) LoggedID = extras.getString(LOGGED_ID_KEY);
 		
 		LoggedUserField = (TextView) findViewById(R.id.userID);
-		LoggedUserField.setText("User ID: " + LoggedID);
+		LoggedUserField.setText("User ID: " + getFacebookService().getFacebookUser().getUserId());
 	}// end onCreate
 
 	/**
