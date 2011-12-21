@@ -20,7 +20,7 @@
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="24dp"
         android:layout_marginTop="15dp"
-        android:text="Weight in Kgs"
+        android:text="@string/weight_in_kgs"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
@@ -31,7 +31,7 @@
         android:layout_alignBottom="@+id/textView12_maged"
         android:layout_marginLeft="42dp"
         android:layout_toRightOf="@+id/textView12_maged"
-        android:text="Price per Kg"
+        android:text="@string/price_per_kg"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <EditText
@@ -63,7 +63,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/kgs"
-        android:text="Weight and price should be from 1 to 30, price is in euros"
+        android:text="@string/weight_and_price"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
     <Button
@@ -73,7 +73,7 @@
         android:layout_below="@+id/textView14_maged"
         android:layout_centerHorizontal="true"
         android:onClick="onClick_facebook"
-        android:text="Search Using Facebook" />
+        android:text="@string/facebook_search" />
 
     <TextView
         android:id="@+id/textView15_maged"
@@ -82,7 +82,7 @@
         android:layout_alignLeft="@+id/kgs"
         android:layout_below="@+id/facebook"
         android:layout_marginTop="14dp"
-        android:text="Gender:"
+        android:text="@string/gender"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <ToggleButton
@@ -117,7 +117,7 @@
         android:layout_alignLeft="@+id/textView15_maged"
         android:layout_below="@+id/male"
         android:layout_marginTop="19dp"
-        android:text="Nationality:"
+        android:text="@string/nationality"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <AutoCompleteTextView
@@ -127,8 +127,9 @@
         android:layout_alignRight="@+id/facebook"
         android:layout_below="@+id/textView16_maged"
         android:layout_toRightOf="@+id/textView15_maged"
-        android:text="" />
-
+        android:text=""
+        android:singleLine="true"/>
+    
     <Button
         android:id="@+id/search"
         android:layout_width="fill_parent"
@@ -136,7 +137,7 @@
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/nationality"
         android:onClick="onClick_search_offers"
-        android:text="Search for Offers" />
+        android:text="@string/search_offers" />
 
 </RelativeLayout>
 
