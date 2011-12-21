@@ -1,14 +1,12 @@
 package com.sheel.app;
 
 import static com.sheel.utils.SheelMaayaaConstants.HTTP_CONFIRM_OFFER;
-import static com.sheel.utils.SheelMaayaaConstants.HTTP_GET_MY_OFFERS_FILTER;
 import static com.sheel.utils.SheelMaayaaConstants.HTTP_RESPONSE;
 import static com.sheel.utils.SheelMaayaaConstants.HTTP_STATUS;
 
 import java.util.ArrayList;
 
 import org.apache.http.HttpStatus;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.BroadcastReceiver;
@@ -22,7 +20,6 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.sheel.adapters.HorizontalSwypingPagingAdapter;
-import com.sheel.app.MyOffersActivity.SheelMaayaaBroadCastRec;
 import com.sheel.datastructures.Category;
 import com.sheel.datastructures.Confirmation;
 import com.sheel.datastructures.OfferDisplay2;
@@ -213,7 +210,51 @@ public class SwypingHorizontalViewsActivity extends UserSessionStateMaintainingA
     	addCategory(newCategories,location);    	
     }// end addCategories
     
+    /**
+     * Checks if a category already exists in the swiping views or not
+     * to ensure uniqueness
+     * 
+     * @param categoryName
+     * 		Name of the category. It is not case sensitive
+     * @return
+     * 		index of category if existing, -1 otherwise
+     * @author 
+     *		Passant El.Agroudy (passant.elagroudy@gmail.com)
+     */
+    public int findCategoryBy(String categoryName) {
+    	
+    	for (int i=0 ; i< this.categories.size() ; i++) {
+    		if (this.categories.get(i).getName().equalsIgnoreCase(categoryName)) {
+    			return i;
+    		}// end if: category is found
+    	}// end for: search in categories
+    	
+    	return -1;
+    }// end isExistingCategory
     
+    /**
+     * Adds an offer to a certain category. If the category is existing, 
+     * it appends to its offers. otherwise, it creates the new category
+     * and adds the offer
+     * 
+     * @param categoryName
+     * 		Name of the category. It is not case sensitive
+     * @param newOffer
+     * 		Offer to be added
+     * @author 
+     *		Passant El.Agroudy (passant.elagroudy@gmail.com)
+     */
+    public void addOfferInCategory(String categoryName, OfferDisplay2 newOffer) {
+    	int categoryIndex = findCategoryBy(categoryName);
+    	
+    	if (categoryIndex == -1) {
+    		addCategory(new Category(categoryName, R.layout.my_offers_main, newOffer));
+    	}// end if: category is not found-> create new one and add offer
+    	else {
+    		this.categories.get(categoryIndex).addOffer(newOffer); 
+    		swypeAdapter.notifyDataSetChanged();    		
+    	}// end else: category is found -> append offer to it
+    }// end addOfferInCategory
     
     /**
      * Tester method for giving dummy data to categories
