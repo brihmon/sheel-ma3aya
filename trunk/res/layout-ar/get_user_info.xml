@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" 
+    android:scrollbars="vertical"
+    android:background="#004D79"
+    
+    >
+ 
+<RelativeLayout
+    android:layout_width="fill_parent"
+    android:layout_height="365dp"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/textView1_maged"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="34dp"
+        android:text="@string/searching_for_users"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+    
+    <RadioButton
+        android:id="@+id/extraWeight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/textView1_maged"
+        android:layout_marginLeft="19dp"
+        android:layout_marginTop="16dp"
+        android:onClick="onClick_extraWeight"
+        android:text="@string/extra_weight"
+        android:textSize="16dp" />
+
+    <RadioButton
+        android:id="@+id/lessWeight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/extraWeight"
+        android:layout_alignBottom="@+id/extraWeight"
+        android:layout_alignRight="@+id/textView1_maged"
+        android:layout_marginRight="17dp"
+        android:onClick="onClick_lessWeight"
+        android:text="@string/less_weight"
+        android:textSize="16dp" />
+
+    <TextView
+        android:id="@+id/textView2_maged"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/textView1_maged"
+        android:layout_below="@+id/lessWeight"
+        android:layout_marginTop="30dp"
+        android:text="@string/on"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/dateDisplay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView2_maged"
+        android:layout_marginRight="14dp"
+        android:layout_toLeftOf="@+id/textView2_maged"
+        android:text="@string/current_date"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <Button
+        android:id="@+id/changeDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/extraWeight"
+        android:layout_alignTop="@+id/dateDisplay"
+        android:onClick="onClick_datePicker"
+        android:text="@string/change_date" />
+
+    <TextView
+        android:id="@+id/textView3_maged"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/textView2_maged"
+        android:layout_below="@+id/changeDate"
+        android:text="@string/using"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <ToggleButton
+        android:id="@+id/flightNo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView3_maged"
+        android:layout_marginTop="26dp"
+        android:layout_toLeftOf="@+id/textView2_maged"
+        android:background="@drawable/flight_xml"
+        android:onClick="onClick_flightNo"
+        android:textOff=""
+        android:textOn="" />
+
+    <ToggleButton
+        android:id="@+id/srcDes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/flightNo"
+        android:layout_alignLeft="@+id/textView1_maged"
+        android:layout_alignTop="@+id/flightNo"
+        android:background="@drawable/src_des_xml"
+        android:onClick="onClick_srcDes"
+        android:textOff=""
+        android:textOn="" />
+
+    <TextView
+        android:id="@+id/textView4_maged"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/flightNo"
+        android:text="@string/flight_number"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <TextView
+        android:id="@+id/textView5_maged"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/srcDes"
+        android:text="@string/src_and_des"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+</RelativeLayout>
+
+ </ScrollView>   
