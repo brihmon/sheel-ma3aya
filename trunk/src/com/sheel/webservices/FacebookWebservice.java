@@ -22,7 +22,9 @@ import com.sheel.datastructures.OfferDisplay2;
 import com.sheel.datastructures.enums.OwnerFacebookStatus;
 import com.sheel.listeners.AppDialogListener;
 import com.sheel.listeners.AppRequestListener;
+import com.sheel.listeners.LoginDataBaseListener;
 import com.sheel.listeners.OffersFilterListener;
+import com.sheel.utils.InternetManager;
 
 
 /**
@@ -176,7 +178,7 @@ public class FacebookWebservice {
 	 * @author 
 	 * 		Passant El.Agroudy (passant.elagroudy@gmail.com)
 	 */
-	public void login(Activity parentActivity ,final boolean getUserInfo , final boolean isInfoForApp){
+	public void login(Activity parentActivity ,final boolean getUserInfo , final boolean isInfoForApp, final LoginDataBaseListener dbListener, final Context appContext){
 		
 		/**
 		 * Inner class for listening to different 
@@ -194,7 +196,7 @@ public class FacebookWebservice {
 			
 				if (getUserInfo){
 					Log.e(TAG_CLASS_PACKAGE, "login: onComplete: getUserInformation for app");
-					getUserInformation(isInfoForApp);					
+					getUserInformation(isInfoForApp,dbListener,appContext);						
 				}// end if : 1st time to log in -> get user data relevant for app
 				else {
 					Log.e(TAG_CLASS_PACKAGE, "login: onComplete: getUserId");
@@ -260,16 +262,18 @@ public class FacebookWebservice {
 	 * @author 
 	 *		Passant El.Agroudy (passant.elagroudy@gmail.com)
 	 */
-	public void getUserInformation(boolean isForApp){
+	public void getUserInformation(boolean isForApp,final LoginDataBaseListener dbListener, final Context appContext){
 			
 		if (facebook.isSessionValid()){
 			String fields="";
 			
 			if (isForApp){
 				fields="?fields=id,first_name,middle_name,last_name,gender,verified,email&";
+				getUserInformation(fields, true, dbListener, appContext);
 			}// end if: get only needed parameters for the app
-			
-			getUserInformation(fields);
+			else{
+				getUserInformation(fields);				
+			}// end else: get all possible info about the user		
 	
 		}// end if : get information if session is valid
 		
@@ -296,6 +300,36 @@ public class FacebookWebservice {
 	 */
 	public void getUserInformation(String fields){
 		
+		/*class BasicInfoListener extends AppRequestListener{
+			
+			Semaphore dataIsReceived = new Semaphore(0);
+			
+			@Override
+			public void onComplete(String response, Object state) {
+				Log.e(TAG_CLASS_PACKAGE,"getUserInformation: onComplete: LoggedIn user response=" + response);
+				fbUser = new FacebookUser(response,true);
+				Log.e(TAG_CLASS_PACKAGE,"getUserInformation: onComplete: LoggedIn user=" + fbUser);
+				dataIsReceived.release();
+			}// end onComplete
+			
+			public Semaphore getSemaphore(){
+				return this.dataIsReceived;
+			}
+		}// end class
+		
+		if (facebook.isSessionValid()){
+		
+			Log.e(TAG_CLASS_PACKAGE,"getUserInformation: Requested fields: " + fields);
+			BasicInfoListener listener = new BasicInfoListener();
+			asyncFacebookRunner.request("me"+fields, listener);
+			blockThreadUntilAllOffersAreProcessed(listener.getSemaphore());
+		}// end if : get information if session is valid
+		*/
+		getUserInformation(fields, false, null, null);
+	}// end getUserInformationForApp
+	
+	public void getUserInformation(String fields,final boolean checkLoginStatusFromDb , final LoginDataBaseListener dbListener,final Context appContext ){
+		
 		class BasicInfoListener extends AppRequestListener{
 			
 			Semaphore dataIsReceived = new Semaphore(0);
@@ -305,6 +339,10 @@ public class FacebookWebservice {
 				Log.e(TAG_CLASS_PACKAGE,"getUserInformation: onComplete: LoggedIn user response=" + response);
 				fbUser = new FacebookUser(response,true);
 				Log.e(TAG_CLASS_PACKAGE,"getUserInformation: onComplete: LoggedIn user=" + fbUser);
+				
+				if (checkLoginStatusFromDb){
+					InternetManager.isRegisteredUser(appContext, fbUser.getUserId(),dbListener);
+				}// end if: check if the user is registered or not
 				dataIsReceived.release();
 			}// end onComplete
 			
