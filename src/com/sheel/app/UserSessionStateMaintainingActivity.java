@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.sheel.datastructures.FacebookUser;
+import com.sheel.datastructures.NavigationItem;
 import com.sheel.datastructures.enums.SharedValuesBetweenActivities;
 import com.sheel.webservices.FacebookWebservice;
 
@@ -29,6 +30,13 @@ public class UserSessionStateMaintainingActivity extends Activity {
 	 */
 	private final String TAG_CLASS_PACKAGE = "UserSessionStateMaintainingActivity (com.sheel.app): ";
 	
+	private final  NavigationItem[] NAVIGATION_ITEMS = new NavigationItem[] {
+		
+		new NavigationItem(getResources().getString(R.id.menu_main_search), R.drawable.sheel_menu_main_search, R.drawable.sheel_menu_main_search, GetUserInfoActivity.class),
+		//new NavigationItem(name, rscIdForMenu, rscIdForDashBoard, nextActivityType),
+		//new NavigationItem(name, rscIdForMenu, rscIdForDashBoard, nextActivityType),
+		//new NavigationItem(name, rscIdForMenu, rscIdForDashBoard, nextActivityType)			
+	};
 	
 	/**
 	 * It handles all requests to facebook API. Moreover, it has
@@ -168,6 +176,20 @@ public class UserSessionStateMaintainingActivity extends Activity {
 	public void setFacebookService(FacebookWebservice fbServ){
 		fbService = fbServ;
 	}
+	
+	/**
+	 * Used to move to next activity 
+	 * 
+	 * @param typeOfNextActivity
+	 * 		Class of the new activity. You can get it using 
+	 * 		<code>ActivityName.class</code>
+	 * @author 
+	 *		Passant El.Agroudy (passant.elagroudy@gmail.com)
+	 */
+	public void goToActivity(Class<?> typeOfNextActivity) {
+		Intent intent = new Intent(this, typeOfNextActivity);
+		startActivity(intent);
+	}// end goToActivity
 	
 	
 }// end class
