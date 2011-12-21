@@ -927,8 +927,6 @@ Hossam Amer
 	<string name="menu_main_myOffers">My Offers</string>
 	<string name="menu_main_logout">Logout</string> 
 	
-	<string name="weight_in_kgs">Weight in Kgs</string>
-	<string name="price_per_kg">Price per Kg</string>
 	<string name="extra_weight">Extra weight</string>
 	<string name="less_weight">Less weight</string>
 	<string name="searching_for_users">I\'m searching for users with</string>
@@ -938,6 +936,13 @@ Hossam Amer
 	<string name="using">Using</string>
 	<string name="flight_number">Flight Number</string>
 	<string name="src_and_des">Source &amp; Destination</string>
+	<string name="weight_in_kgs">Weight in Kgs</string>
+	<string name="price_per_kg">Price per Kg</string>
+	<string name="weight_and_price">Weight and price should be from 1 to 30, price is in euros</string>
+	<string name="facebook_search">Search Using Facebook</string>
+	<string name="gender">Gender</string>
+	<string name="nationality">Nationality</string>
+	<string name="search_offers">Search Offers</string>
 	
 	
 </resources>
