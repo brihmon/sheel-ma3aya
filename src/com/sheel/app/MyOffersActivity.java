@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import org.apache.http.HttpStatus;
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -23,10 +24,12 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.sheel.datastructures.Category;
+import com.sheel.datastructures.Confirmation;
 import com.sheel.datastructures.OfferDisplay2;
 import com.sheel.utils.GuiUtils;
 import com.sheel.utils.HTTPManager;
 import com.sheel.utils.InternetManager;
+import static com.sheel.utils.SheelMaayaaConstants.*;
 /**
  * This activity is used for displaying and interacting with
  * the offers of the logged-in user.
@@ -219,6 +222,20 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity
 					{
 						Log.e(TAG, responseStr);
 						
+						if(responseStr.equals(Confirmation.alreadyConfirmed))
+							Toast.makeText(getApplicationContext(), "This Offer is already confirmed by two users.", Toast.LENGTH_SHORT).show();
+						else if(responseStr.equals(Confirmation.notSameUser))
+							Toast.makeText(getApplicationContext(), "You already confirmed this offer.", Toast.LENGTH_SHORT).show();
+						else if(responseStr.equals(Confirmation.notFromOfferOwner))
+							Toast.makeText(getApplicationContext(), "An offer owner should confirm this offer.", Toast.LENGTH_SHORT).show();
+						else if(responseStr.equals(Confirmation.confirmedByAnotherPerson))
+							Toast.makeText(getApplicationContext(), "Sorry, this offer is already confirmed by another user.", Toast.LENGTH_SHORT).show();
+						else
+						{
+							updateConfirmedOffersOnUI(responseStr);
+							
+						}
+						
 						/**
 						 * if(half-confirmed by another user)
 						 * Sorry!
@@ -244,6 +261,23 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity
 				
 				}
 			}
+
+			private void updateConfirmedOffersOnUI(String responseStr) {
+				// TODO Auto-generated method stub
+				
+				try {
+					
+					JSONObject confirmationJSon = new JSONObject(responseStr);
+					
+//					if()
+					
+					
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+			}
 		}
 
 			/**
@@ -262,10 +296,10 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity
                		 OfferDisplay2 offer = OfferDisplay2.mapOffer(jsonArray.getJSONObject(i));
                		 
                		 //XXXXbad for localization
-               		if(offer.getOffer().offerStatus.equals("half-confirmed"))
+               		if(offer.getOffer().offerStatus.equals(Confirmation.half_confirmed))
                			searchResults_half.add(OfferDisplay2.mapOffer(jsonArray.getJSONObject(i)));
                		
-               		else if(offer.getOffer().offerStatus.equals("new"))
+               		else if(offer.getOffer().offerStatus.equals(Confirmation.not_confirmed))
                			searchResults_full.add(OfferDisplay2.mapOffer(jsonArray.getJSONObject(i)));
 
                		 
