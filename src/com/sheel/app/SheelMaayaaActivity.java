@@ -20,7 +20,7 @@ public class SheelMaayaaActivity extends UserSessionStateMaintainingActivity {
 	 * It handles all requests to facebook API. Moreover, it has
 	 * all related info to logged in user and session
 	 */
-	private FacebookWebservice fbService = new FacebookWebservice();
+	//private FacebookWebservice fbService = new FacebookWebservice();
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {		
@@ -70,7 +70,8 @@ public class SheelMaayaaActivity extends UserSessionStateMaintainingActivity {
 	 * @return
 	 * 		Object used for interacting with facebook
 	 */
-	public FacebookWebservice getFacebookService(){
+	/*public FacebookWebservice getFacebookService(){
 		return this.fbService;
 	}// end getFacebookService
+	*/
 }// end class

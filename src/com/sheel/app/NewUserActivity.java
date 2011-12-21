@@ -168,7 +168,7 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 		// Set the contentView of this activity to the the register
 		setContentView(R.layout.register);
 
-		setFacebookService(new FacebookWebservice());
+		//setFacebookService(new FacebookWebservice());
 		/////////////////////////////
 		//getFacebookService().login(this, true, false);
 		
@@ -415,7 +415,7 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 		ImageView i = (ImageView) findViewById(R.id.pictureView);
 		Bitmap bitmap = BitmapFactory.decodeFile(ImagePath);
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-	//	bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos); // bm is the
+		bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos); // bm is the
 																// bitmap object
 		byte[] image = baos.toByteArray();
 
@@ -567,7 +567,7 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 			if (!getFacebookService().getFacebookUser()
 					.isRequestedBeforeSuccessfully()) {
 /////////////////////////
-				//getFacebookService().getUserInformation(true);
+			//getFacebookService().getUserInformation(true);
 			} else {
 				tempID = getFacebookService().getFacebookUser().getUserId();
 				firstName = getFacebookService().getFacebookUser().getFirstName();
@@ -588,7 +588,7 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 
 		}
 
-		System.out.println("FB ID: " + tempID);
+		System.out.println("FB ID: " + tempID + " email:"+email);
 		System.out.println(email);
 	}
 	
