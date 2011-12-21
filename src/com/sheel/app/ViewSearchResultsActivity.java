@@ -1,20 +1,33 @@
 
 package com.sheel.app;
 
+import static com.sheel.utils.SheelMaayaaConstants.HTTP_GET_MY_OFFERS_FILTER;
+import static com.sheel.utils.SheelMaayaaConstants.HTTP_RESPONSE;
+import static com.sheel.utils.SheelMaayaaConstants.HTTP_SEARCH_FOR_OFFERS_FILTER;
+import static com.sheel.utils.SheelMaayaaConstants.HTTP_STATUS;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Hashtable;
 
+import org.apache.http.HttpStatus;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import com.sheel.app.MyOffersActivity.SheelMaayaaBroadCastRec;
 import com.sheel.datastructures.Category;
 import com.sheel.datastructures.Flight;
 import com.sheel.datastructures.Offer;
@@ -23,6 +36,8 @@ import com.sheel.datastructures.User;
 import com.sheel.datastructures.Utils;
 import com.sheel.datastructures.enums.OwnerFacebookStatus;
 import com.sheel.utils.GuiUtils;
+import com.sheel.utils.HTTPManager;
+import com.sheel.utils.InternetManager;
 
 /**
  * This activity is used for displaying and interacting with
@@ -41,9 +56,20 @@ public class ViewSearchResultsActivity extends SwypingHorizontalViewsActivity {
 	OwnerFacebookStatus facebook=OwnerFacebookStatus.UNRELATED;
 	String facebookStatus;
 	
+	private SheelMaayaaBroadCastRec receiver;
+	ArrayList<OfferDisplay2> searchResults;
+	IntentFilter filter;
+	
+	/**
+	 * Map between each user and his/her corresponding offersWrappers retrieved
+	 * from the database
+	*/
+	Hashtable<String,ArrayList<OfferDisplay2>> offersFromUsers = new Hashtable<String, ArrayList<OfferDisplay2>>();
+	
 
 	/** Called when the activity is first created. */
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);        
           
@@ -59,133 +85,14 @@ public class ViewSearchResultsActivity extends SwypingHorizontalViewsActivity {
     		else if (facebookStatus.equals(OwnerFacebookStatus.FRIEND_OF_FRIEND.name()))
     			facebook = OwnerFacebookStatus.FRIEND_OF_FRIEND;
     		
-    		Log.e("mm", facebookStatus);
     		}
     	
-    	filterOffers();   	
+    	if((ArrayList<Category>) super.getLastNonConfigurationInstance() == null)
+    		startHttpService();
         
        // test_categorizeOffersUsingFacebook();        
     }// end onCreate
   
-    /**
-     * This method is used to set the default icons for the 
-     * different details in the details pane
-     */
-   /* private void setIconsForDetailsItems(){
-    	    	
-       	setIconForATextField(R.id.details_textView_price, R.drawable.details_money,1);
-    	setIconForATextField(R.id.details_textView_facebookStatus, R.drawable.details_facebook,1);
-    	setIconForATextField(R.id.details_textView_email, R.drawable.details_email,0);
-    	setIconForATextField(R.id.details_textView_mobileNumber, R.drawable.details_phone,0);
-    	
-    	
-    }// end setIconsForDetailsItem
-    */
-    /**
-     * Used as a helper method to add an image to the left side of a text view.
-     * @param textViewId 
-     * 		ID of the text view from (R.id) collection
-     * @param imgId
-     * 		ID of the resource image used from (R.drawable) collection
-     * @param mode 
-     * 		indicates size of icon.
-     * 		<ul>
-     * 			<li>0: small    (40X40px)</li>
-     * 			<li>1: medium   (50X50px)</li>
-     * 			<li>2: large    (80X80px)</li>
-     * 		</ul>
-     */
-   /* private void setIconForATextField(int textViewId , int imgId , int mode){
-    	
-    	Drawable img = getApplicationContext().getResources().getDrawable(imgId );
-    	switch(mode){
-    	case 0:img.setBounds( 0, 0, 40, 40 ); break;
-    	case 1:img.setBounds( 0, 0, 50, 50 ); break;
-    	case 2:img.setBounds( 0, 0, 80, 80 ); break;
-    	default:img.setBounds( 0, 0, 50, 50 ); break;
-    	}// end switch : specify size according to mode
-    	
-    	TextView txtView = (TextView)findViewById(textViewId);
-    	txtView.setCompoundDrawables( img, null, null, null );
-    }// end SetIconForATextField
-    */
-  
-    /**
-     * Method used to update content of sliding drawer displaying 
-     * different details about a certain offer
-     * 
-     * @param position 
-     * 		selected element in the list view. It is used
-     * 		to retrieve corresponding logical objects of this 
-     * 		element
-     * 
-     */
-    /*  private void updateDetailsPane(int position){
-    	
-    	// Hybrid Datastructure having owner/offer necessary info
-    	OfferDisplay searchResult = searchResults.get(position);
-    	
-    	// Get different GUI components to be updated
-    	TextView price = (TextView)findViewById(R.id.details_textView_price);
-    	TextView fbStatus = (TextView)findViewById(R.id.details_textView_facebookStatus);
-    	TextView mobile = (TextView)findViewById(R.id.details_textView_mobileNumber);
-    	TextView email = (TextView)findViewById(R.id.details_textView_email);
-    	
-    	// Set price value from offer
-    		
-       	String prefix="";
-    	
-    	// according to offer status -> specify prefix
-    	if (searchResult.getWeightStatus() == OfferWeightStatus.MORE){
-    		prefix = " Offers";
-    	}// end if : offer for giving luggage -> prefix: pay
-    	else{
-    		prefix = " Requests";
-    	}// end if : offer for carrying luggage -> prefix: wants
-    	
-    	int priceValue = searchResult.getPrice();
-    	if (priceValue < 0){
-    		prefix += " N/A per Kg";
-    	}else if (priceValue == 0){
-    		prefix += " no money per Kg";
-    	}else{
-	    	// get price
-	    	prefix += " "+priceValue+" " + "euro per Kg";
-    	}
-    	
-    	// Set price
-    	price.setText(prefix);
-    	
-    	// Set facebook status of user    		
-    	String facebookTxt ="";
-    	OwnerFacebookStatus relation = searchResult.getOwnerFacebookRelationWithUser();
-    	
-    	if (relation == OwnerFacebookStatus.FRIEND){
-    		facebookTxt = "Facebook friend";
-    	}// end if : user and owner are friends
-    	else if (relation == OwnerFacebookStatus.FRIEND_OF_FRIEND){
-    		facebookTxt = "Friend of Friend ("+searchResult.getFacebookExtraInfo().length()+ " mutual friends)";
-    	}// end else: owner is a friend of user friend
-    	else if (relation == OwnerFacebookStatus.COMMON_NETWORKS){
-    		facebookTxt = "Common networks ("+searchResult.getFacebookExtraInfo().length()+ " networks)";
-    	}// end else: user and owner have common networks only
-    	else{
-    		facebookTxt = "Stranger";
-    	}// end else: user and owner are not related
-    	
-    		// Set displayed text
-    		fbStatus.setText(facebookTxt);
-    		// TODO Set image for expansion
-    	
-    	// Set mobile from user in data base    	
-    	mobile.setText("   "+searchResult.getMobile());
-    	    	
-    	// Set email from facebook user
-    	email.setText("   "+searchResult.getEmail());
-    	
-    	
-    }// end updateDetailsPane
-    */
     
     private String getMutualFriends(OfferDisplay2 current){
     	String mutualFriends="";
@@ -226,7 +133,6 @@ public class ViewSearchResultsActivity extends SwypingHorizontalViewsActivity {
     	
     	// Layout files used for displaying results
     	int layout_searchResultsFound = R.layout.my_offers_main;
-    	int layout_searchResultsNotFound = R.layout.communicate;
     	
     	/**
     	 * The flags are used to avoid displaying a category for a an empty list
@@ -388,8 +294,22 @@ public class ViewSearchResultsActivity extends SwypingHorizontalViewsActivity {
     		ArrayList<OfferDisplay2> resultsFromStrangers = Utils.getValuesOfHashTable(remainingOffers);
     		System.out.println("Facebook search results: strangers: " + resultsFromStrangers);    		
         	
+    		System.out.println("`results from friends: " + resultsFromFriends);
+    		System.out.println("`results from friends of friends: " + resultsFromFriendsOfFriends);
+    		
+    		ArrayList<OfferDisplay2> results_friends = null;
+    		ArrayList<OfferDisplay2> results_friendsOfFriends = null;
+    		
+    		if (resultsFromFriends != null)
+    			results_friends = (ArrayList<OfferDisplay2>)resultsFromFriends.get(0);
+    		
+    		if (resultsFromFriendsOfFriends != null)
+    			results_friendsOfFriends = (ArrayList<OfferDisplay2>)resultsFromFriendsOfFriends.get(0);
+    		
+    		
+    		
     		// Display results
-    		updateDisplayedSearchResults((ArrayList<OfferDisplay2>)resultsFromFriends.get(0), (ArrayList<OfferDisplay2>)resultsFromFriendsOfFriends.get(0),resultsFromStrangers);
+    		updateDisplayedSearchResults( results_friends,results_friendsOfFriends,resultsFromStrangers);
     	}// end if : if user does not care -> why waste internet data on searching
     	else {
     		ArrayList<OfferDisplay2> resultsFromStrangers = Utils.getValuesOfHashTable(remainingOffers);
@@ -400,182 +320,136 @@ public class ViewSearchResultsActivity extends SwypingHorizontalViewsActivity {
     }// end searchUsingFacebook
     
    
-      
-    public void filterOffers(){
+    public void startHttpService(){
     	
-    	dialog = ProgressDialog.show(ViewSearchResultsActivity.this, "", "Seaching for Offers..", true, false);
-		HTTPClient sc = new HTTPClient() {
-	           
-			@Override
-			public void doSomething() {
-				final String str = this.rspStr;
-				 
-							 runOnUiThread(new Runnable()
-                             {
-//                                 @Override
-                                 public void run()
-                                 {
-                                    // Toast.makeText(ViewSearchResultsActivity.this, str, Toast.LENGTH_LONG).show();
-                                     
-                                     try {
-                                    	 
-                                    	 if(dialog != null)
-                                     		dialog.dismiss();
-                                    	 
-                                    	JSONArray jsonArray = new JSONArray(builder.toString());
-                                    	
-                                    	
-                                    	ArrayList<OfferDisplay2> list = new ArrayList<OfferDisplay2>();
-                                    	/**
-                                    	 * Map between each user and his/her corresponding offersWrappers retrieved
-                                    	 * from the database
-                                    	 */
-                                    	Hashtable<String,ArrayList<OfferDisplay2>> offersFromUsers = new Hashtable<String, ArrayList<OfferDisplay2>>();
-                                    	OfferDisplay2 offerDisplay;
-                                    
-                                    	
-                                    	JSONObject offer;
-                                    	
-                                    	 for (int i = 0; i < jsonArray.length(); i++) {
-                                    		 
-                                    		 offer = jsonArray.getJSONObject(i);
-                        
-                                    		 offerDisplay = mapOffer(offer);
-                                    		
-                                    		 if(facebookStatus.equals(OwnerFacebookStatus.UNRELATED.name())) {
-                                    			 list.add(offerDisplay);
-                                       		 }                                    		 
-                                    		 else{
-                                    			 
-                                    			 addOfferToMap(offersFromUsers, offerDisplay.getUser().getFacebookId(), offerDisplay);
-                                    	     }
-                                          
-                                    	 }// end for
-                                    	 
-                                    	/**
-                                    	 * If facebook search is required, do it
-                                    	 * Afterwards display the search results retrieved
-                                    	 * (Integration between search and facebook search and swiping list displaying) 
-                                    	 */
-                                       	if (offersFromUsers.size() > 0 && !facebookStatus.equals(OwnerFacebookStatus.UNRELATED.name())) {
-                                   			categorizeOffersUsingFacebook(offersFromUsers, facebook);
-                                   		}// end if: offersWrappers list is not empty & facebook search required -> do
-                                   		else {
-                                   			updateDisplayedSearchResults(null, null, list);
-                                   		}// end else: no facebook search is required or list is empty
-                                   
-									} catch (JSONException e) {
-										
-										e.printStackTrace();
-									}
-                                 }
-                             });
-				}
-        
-			};
-	        
-			sc.runHttpRequest(request); 	
-	}
-    
-    public OfferDisplay2 mapOffer(JSONObject offerJSON){
+
+    	if(InternetManager.isInternetOn(getApplicationContext()))
+    	{	
+    		//======Start the HTTP Request=========
+    				
+    		if(searchResults == null)
+    		{
+    			searchResults = new ArrayList<OfferDisplay2>();
+    			
+    			dialog = ProgressDialog.show(ViewSearchResultsActivity.this, "", "Seaching for Offers..", true, false);
+    			HTTPManager.startHttpService(request, HTTP_SEARCH_FOR_OFFERS_FILTER, getApplicationContext());
+    		}
     	
-    	try {
-			JSONObject userJSON = offerJSON.getJSONObject("user");
-			JSONObject flightJSON = offerJSON.getJSONObject("flight");
-						
-			String ownerId = userJSON.getString("facebookAccount");
-			String firstName = userJSON.getString("firstName");
-			String middleName = userJSON.getString("middleName");
-			String lastName = userJSON.getString("lastName");
-			String email = userJSON.getString("email");
-			String mobile = userJSON.getString("mobileNumber");
-			String gender = userJSON.getString("gender");
-			String nationality = userJSON.getString("nationality");
-			
-			User user = new User(ownerId, firstName, middleName, lastName, "", "", email, mobile, gender, nationality);
-			
-			Long offerId = offerJSON.getLong("id");
-			String offerstatus = offerJSON.getString("offerStatus");
-			int userstatus = offerJSON.getInt("userStatus");
-			int kgs = offerJSON.getInt("noOfKilograms");
-			int price = offerJSON.getInt("pricePerKilogram");
-			
-			Offer offer = new Offer(offerId, kgs, price, userstatus, offerstatus);
-			    
-			String flightNumber = flightJSON.getString("flightNumber");
-			String source = flightJSON.getString("source");
-			String destination = flightJSON.getString("destination");
-			String departureDate = flightJSON.getString("departureDate");
-			
-			Flight flight = new Flight(flightNumber, source, destination, departureDate);
-	
-			
-			return new OfferDisplay2(user, flight, offer);
-			
-			
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return null;
-		}  	
+    	}// end if (isInternet)
+    	else		
+    		noInternetConnectionHandler();
+   
     }
+
+	private void noInternetConnectionHandler() {
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setMessage("Internet Connection is not available")
+		       .setCancelable(false)
+		       .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+		           public void onClick(DialogInterface dialog, int id) {
+		        	   dialog.cancel();
+		           }
+		       
+		       });
+		 builder.create();
+		 builder.show();
+	
+	}
+	
+	private void loadSearchResultsOnUI(String responseStr) 
+	{
+		try {
+			
+			JSONArray jsonArray = new JSONArray(responseStr);
+        	OfferDisplay2 offerDisplay;
+        	
+       	 	for (int i = 0; i < jsonArray.length(); i++) {    
+	       	 	
+       	 		offerDisplay = OfferDisplay2.mapOffer(jsonArray.getJSONObject(i));
+	       	 	
+       	 		if(facebookStatus.equals(OwnerFacebookStatus.UNRELATED.name())) 
+	       	 		searchResults.add(offerDisplay);
+	      		                                    		 
+       	 		else		 
+       	 			addOfferToMap(offersFromUsers, offerDisplay.getUser().getFacebookId(), offerDisplay);
+	   	     	 
+       	 	}// end for 
+       	
+       	 	
+       	 	if (offersFromUsers.size() > 0 && !facebookStatus.equals(OwnerFacebookStatus.UNRELATED.name())) {
+    			categorizeOffersUsingFacebook(offersFromUsers, facebook);
+    		}// end if: offersWrappers list is not empty & facebook search required -> do
+    		else {
+    			updateDisplayedSearchResults(null, null, searchResults);
+    		}// end else: no facebook search is required or list is empty
+    
+			
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		
+		}
+	
+	class SheelMaayaaBroadCastRec extends BroadcastReceiver {
+
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			// TODO Auto-generated method stub
+		
+			String action = intent.getAction();
+		
+		if(action.equals("test"))
+			dialog = ProgressDialog.show(ViewSearchResultsActivity.this, "", "Please wait..", true, false);
+		else
+		{
+			int httpStatus = intent.getExtras().getInt(HTTP_STATUS);
+			
+			if( httpStatus == HttpStatus.SC_OK)
+			{
+				if (action.equals(HTTP_SEARCH_FOR_OFFERS_FILTER))
+				{
+					String responseStr = intent.getExtras().getString(HTTP_RESPONSE);
+					loadSearchResultsOnUI(responseStr);
+					 
+					// Dialog dismissing
+					if(dialog != null) dialog.dismiss();
+						
+				}
+			
+			}
+		}	
+	}
+}
+		
     
     @Override
 	protected void onPause() {
 		// TODO Auto-generated method stub
 		super.onPause();
 		dialog = null;
+		
+		unregisterReceiver(receiver);
+	}
+    
+
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		
+		filter = new IntentFilter();
+		
+		// Add the filters of your activity
+		filter.addAction(HTTP_SEARCH_FOR_OFFERS_FILTER);
+		filter.addAction("test");
+		
+		receiver = new SheelMaayaaBroadCastRec();
+
+		registerReceiver(receiver, filter);
 	}
    
-    public void onClick_communicate(View v){
-    	// TODO Hossam link ur view .. phone comm is where u want to go
-    	
-    	/* Whatever you need either get it from user or preferable query the db
-    	 * using the facebook ID
-    	 * 
-    	 * Before navigating back to my activity again you must call
-    	 * Intent intent = setSessionInformationBetweenActivities(PhoneCommunication.class);
-    	 * 
-    	 * make your class extend UserSessionStateMaintainingActivity not just activity
-    	 */
-    	// Parameters sent in intent    	
-    /*	int status = searchResults.get(selectedIndex).getUserStatus();
-    	status = (status==0)? 1:0;
-    	
-    	String mobile = searchResults.get(selectedIndex).getMobile();
-    	int kgs = searchResults.get(selectedIndex).getNumberOfKgs();
-    	String offerId1 = searchResults.get(selectedIndex).getOfferId();    	
-    	long offerId = Long.parseLong(offerId1);
-    	String email = searchResults.get(selectedIndex).getEmail();
-    	String fullName = searchResults.get(selectedIndex).getDisplayName();
-    	
-    	
-    	Bundle extras = getIntent().getExtras();
-		long userId = extras.getLong("userId"); 
-		Toast.makeText(getApplicationContext(),"" + userId, Toast.LENGTH_SHORT).show();
-    	    	
-
-		
-    	Intent intent = setSessionInformationBetweenActivities(PhoneCommunication.class);
-    	intent.putExtra("fb_account", getFacebookService().getFacebookUser().getEmail());
-    	intent.putExtra("fbId", getFacebookService().getFacebookUser().getUserId());
-    	
-    	
-    	
-    	// Query mobile from app DB
-    	intent.putExtra("mobile", mobile);
-    	intent.putExtra("kgs", kgs);
-    	intent.putExtra("offerId", offerId);
-    	intent.putExtra("email", email);
-    	intent.putExtra("fullName", fullName);
-    	intent.putExtra("userId", userId);
-    	intent.putExtra("user_status", status);
-    	
-    	// navigate to new activity
-    	startActivity(intent);
-    	*/
-    }// end onClick_communicate
-
+   
     /**
      * Helper method used to categorize the adding of a new
      * offer display object in a hashtable according to its owner
