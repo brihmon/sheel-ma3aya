@@ -476,8 +476,6 @@
 <item>جزر آلاند</item>
 </string-array>
 
-    <string name="weight_in_kgs">الوزن بالكيلو </string>
-	<string name="price_per_kg">سعر الكيلو</string>
 	<string name="extra_weight">وزن زائد</string>
 	<string name="less_weight">وزن ناقص</string>
 	<string name="searching_for_users">ابحث عن مستخدمين لديهم</string>
@@ -487,6 +485,13 @@
 	<string name="using">عن طريق</string>
 	<string name="flight_number">رقم الطائرة</string>
 	<string name="src_and_des">المصدر والوجهة</string>
+	<string name="weight_in_kgs">الوزن بالكيلو </string>
+	<string name="price_per_kg">سعر الكيلو</string>
+	<string name="weight_and_price">الوزن والسعر يجب أن يكونا من ١ إلى ٣٠، والسعر باليورو</string>
+	<string name="facebook_search">بحث عن طريق الفيسبوك</string>
+	<string name="gender">النوع</string>
+	<string name="nationality">الجنسية</string>
+	<string name="search_offers">ابحث العروض</string>
     
 
 </resources>
