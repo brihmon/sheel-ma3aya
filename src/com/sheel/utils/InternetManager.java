@@ -1,6 +1,16 @@
 package com.sheel.utils;
 
+import static com.sheel.utils.SheelMaayaaConstants.HTTP_CHECK_REGISTERED;
+import static com.sheel.utils.SheelMaayaaConstants.HTTP_RESPONSE;
+import static com.sheel.utils.SheelMaayaaConstants.HTTP_STATUS;
+
+import org.apache.http.HttpStatus;
+
+import com.sheel.listeners.LoginDataBaseListener;
+
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Log;
@@ -53,4 +63,10 @@ public class InternetManager {
 		Log.e(TAG, "Internet is not Connected");
 		return false;
 	}
-}
+	
+	
+	public static void isRegisteredUser(Context appContext, String faceBookID, LoginDataBaseListener resultListener){
+		String path = "/checkRegistered/" + faceBookID;
+		HTTPManager.startHttpService(path, HTTP_CHECK_REGISTERED, appContext);
+	}//end isRegisteredUser
+}//end class
