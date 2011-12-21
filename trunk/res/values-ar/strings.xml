@@ -234,7 +234,8 @@
 <item>(زيمبابوي (+263</item>
 </string-array>
 
-    <string-array name="nationalities_array">
+
+<string-array name="nationalities_array">
     <item>أفغانية</item>
 <item>ألبانية</item>
 <item>جزائرية</item>
@@ -474,4 +475,18 @@
 <item>زيمبابوي</item>
 <item>جزر آلاند</item>
 </string-array>
+
+    <string name="weight_in_kgs">الوزن بالكيلو </string>
+	<string name="price_per_kg">سعر الكيلو</string>
+	<string name="extra_weight">وزن زائد</string>
+	<string name="less_weight">وزن ناقص</string>
+	<string name="searching_for_users">ابحث عن مستخدمين لديهم</string>
+	<string name="on">يوم</string>
+	<string name="change_date">تاريخ أخر</string>
+	<string name="current_date">تاريخ اليوم</string>
+	<string name="using">عن طريق</string>
+	<string name="flight_number">رقم الطائرة</string>
+	<string name="src_and_des">المصدر والوجهة</string>
+    
+
 </resources>
