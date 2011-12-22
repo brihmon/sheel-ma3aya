@@ -52,6 +52,7 @@ public class HorizontalSwypingPagingAdapter extends PagerAdapter  implements Tit
 	 */
 	FacebookUser mUser;
 	
+	
 	/**
 	 * Constructor for creating adapter to swap between set of 
 	 * views and update accordingly its indicator with the name 
