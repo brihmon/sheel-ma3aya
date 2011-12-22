@@ -16,6 +16,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
 
+import com.sheel.app.MyOffersActivity;
 import com.sheel.app.R;
 import com.sheel.datastructures.Category;
 import com.sheel.datastructures.FacebookUser;
@@ -30,6 +31,8 @@ import com.viewpagerindicator.TitleProvider;
  *
  */
 public class HorizontalSwypingPagingAdapter extends PagerAdapter  implements TitleProvider{
+	
+	private static final String TAG = MyOffersActivity.class.getName();
 	
 	/**
 	 * Different categories of offers to be displayed
