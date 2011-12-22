@@ -14,7 +14,7 @@ import com.sheel.datastructures.enums.OwnerFacebookStatus;
  * the merging between information of user and offer
  * and flight displayed in the search results
  * 
- * @author magued
+ * @author Magued George (magued.george1990@gmail.com)
  * @author
  * 		Passant El.Agroudy (passant.elagroudy@gmail.com)
  *
@@ -248,7 +248,8 @@ public class OfferDisplay2 {
 	 * @param
 	 * 		offerJSON JSON Object sent to be converted to a normal offer
 	 * @return OfferDisplay2 Object from the JSONObject
-	 * @author Hossam_Amer
+	 * 
+	 * @author Magued George (magued.george1990@gmail.com)
 	 */
 	
 	public static OfferDisplay2 mapOffer(JSONObject offerJSON, String[] airports, String[] nationalities)

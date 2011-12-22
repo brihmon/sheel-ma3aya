@@ -27,32 +27,97 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 import android.widget.AutoCompleteTextView.Validator;
 
+/**
+ * Activity used for getting the basic info for offers the user is searching for (status"less/extra", date, and
+ * flight details "either flight number or source and destination")
+ * 
+ * @author 
+ *		Magued George (magued.george1990@gmail.com)
+ *
+ */
 public class GetUserInfoActivity extends UserSessionStateMaintainingActivity {
     /** Called when the activity is first created. */
 	
+	/**
+	 * User search status either less (0) or extra (1) weight
+	 */
 	int searchStatus;
+
+	/**
+	 * Date selected by the user
+	 */
 	String selectedDate;
+
+	/**
+	 * User search method either flight number (0) or source and destination (1) weight
+	 */
 	int searchMethod;
 	
+	/**
+	 * Radio button for less weight
+	 */
 	RadioButton lessWeight;
+	/**
+	 * Radio button for extra weight
+	 */
 	RadioButton extraWeight;
+
+	/**
+	 * Toggle button for searching by src and des
+	 */
 	ToggleButton srcDes;
+	/**
+	 * Toggle button for searching by flight number
+	 */
 	ToggleButton flightNo;
 	
+	/**
+	 * Text view for displaying chosen date
+	 */
 	TextView dateDisplay;
+	/**
+	 * Button for selecting a date, opens the date picker
+	 */
     Button pickDate;
+    /**
+	 * Selected year
+	 */
     int year;
+    /**
+	 * Selected month
+	 */
     int month;
+    /**
+	 * Selected day
+	 */
     int day;
     
+    /**
+	 * Entered flight number
+	 */
     String flightNumber;
+    /**
+	 * Entered source airport
+	 */
     String source;
+    /**
+	 * Entered destination airport
+	 */
     String destination;
+    /**
+	 * The request string sent to the server
+	 */
     String request;
     
+    /**
+	 * Airports list 
+	 */
     String[] airportsList;
 
     static final int DATE_DIALOG_ID = 0;	
+    /**
+	 * Setting the default date to the current date
+	 */
     static Calendar datePicked = Calendar.getInstance();
 	
     @Override
@@ -60,6 +125,9 @@ public class GetUserInfoActivity extends UserSessionStateMaintainingActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.get_user_info);
         
+        /**
+    	 * Setting all buttons and views from the xml files
+    	 */
         lessWeight = (RadioButton) findViewById(R.id.lessWeight);
         extraWeight = (RadioButton) findViewById(R.id.extraWeight);
         srcDes = (ToggleButton) findViewById(R.id.srcDes);
@@ -68,23 +136,41 @@ public class GetUserInfoActivity extends UserSessionStateMaintainingActivity {
         dateDisplay = (TextView) findViewById(R.id.dateDisplay);
         pickDate = (Button) findViewById(R.id.changeDate);
 
+        /**
+    	 * Action listener for pick date button ... opens date dialog
+    	 */
         pickDate.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 showDialog(DATE_DIALOG_ID);
             }
         });
 
+        /**
+    	 * Setting year, month and day to the current year, month and day
+    	 */
         year = datePicked.get(Calendar.YEAR);
         month = datePicked.get(Calendar.MONTH);
         day = datePicked.get(Calendar.DAY_OF_MONTH);
 
+        /**
+    	 * Setting the datePicked to the current date 
+    	 */
         datePicked.set(year, month, day, 23, 59, 59);
        
         updateDisplay();
         
+        /**
+    	 * Getting airports list from string.xml
+    	 */
         airportsList = getResources().getStringArray(R.array.airports_array);
     }
 
+    /**
+     * Used to update the display of the chosen date 
+     * 
+     * @author 
+     *		Magued George (magued.george1990@gmail.com)
+     */
 	private void updateDisplay() {
     	
         dateDisplay.setText(
@@ -97,6 +183,12 @@ public class GetUserInfoActivity extends UserSessionStateMaintainingActivity {
         selectedDate = (String) dateDisplay.getText();
     }
     
+	/**
+     * Used to set the date to the chosen date 
+     * 
+     * @author 
+     *		Magued George (magued.george1990@gmail.com)
+     */
     private DatePickerDialog.OnDateSetListener mDateSetListener =
         new DatePickerDialog.OnDateSetListener() {
 
@@ -123,16 +215,34 @@ public class GetUserInfoActivity extends UserSessionStateMaintainingActivity {
             return null;
    }
 
+    /**
+     * Listener for less weight button
+     * 
+     * @author 
+     *		Magued George (magued.george1990@gmail.com)
+     */
 	public void onClick_lessWeight(View v) 
 	{
 		extraWeight.setChecked(false);
 	}
       
+	/**
+     * Listener for extra weight button
+     * 
+     * @author 
+     *		Magued George (magued.george1990@gmail.com)
+     */
 	public void onClick_extraWeight(View v) 
 	{
 		lessWeight.setChecked(false);
 	}
 	
+	/**
+     * Listener for src/des button
+     * 
+     * @author 
+     *		Magued George (magued.george1990@gmail.com)
+     */
 	public void onClick_srcDes(View v) {
 		flightNo.setChecked(false);
 		if(!isValidInput())
@@ -142,6 +252,12 @@ public class GetUserInfoActivity extends UserSessionStateMaintainingActivity {
 		enterSourceAndDestination();
 	}
 	
+	/**
+     * Listener for flight button
+     * 
+     * @author 
+     *		Magued George (magued.george1990@gmail.com)
+     */
 	public void onClick_flightNo(View v) {
 		srcDes.setChecked(false);
 		if(!isValidInput())
@@ -151,6 +267,12 @@ public class GetUserInfoActivity extends UserSessionStateMaintainingActivity {
 		enterFlightNumber();			
 	}
 	
+	/**
+     * Creates a dialog with the given title and message used for validation message
+     * 
+     * @author 
+     *		Magued George (magued.george1990@gmail.com)
+     */
 	 public void showErrors(String title, String message){
 		 srcDes.setChecked(false);
 		 flightNo.setChecked(false);
@@ -162,6 +284,13 @@ public class GetUserInfoActivity extends UserSessionStateMaintainingActivity {
 		 alertDialog.show();
 	 }
 	 
+
+		/**
+	     * Checks if all input is valid
+	     * 
+	     * @author 
+	     *		Magued George (magued.george1990@gmail.com)
+	     */
 	 public boolean isValidInput(){
 		 
 		 if(!lessWeight.isChecked() && !extraWeight.isChecked()){
@@ -186,12 +315,26 @@ public class GetUserInfoActivity extends UserSessionStateMaintainingActivity {
 		 return true;
 	 }
 	 
+	 /**
+	     * Takes a string and removes all spaces at the beginning and the end and replaces all spaces in the middle
+	     * with %20
+	     * 
+	     * @author 
+	     *		Magued George (magued.george1990@gmail.com)
+	     */
 	 public String removeSpaces(String str){
 			str = str.trim();			
 			str = str.replaceAll(" ", "%20");
 			return str;
 	}
 	 
+
+		/**
+	     * Creates a dialog for the user to enter the flight number
+	     * 
+	     * @author 
+	     *		Magued George (magued.george1990@gmail.com)
+	     */
 	 public void enterFlightNumber(){
 		 
 		 AlertDialog.Builder alert = new AlertDialog.Builder(this);                 
@@ -244,7 +387,13 @@ public class GetUserInfoActivity extends UserSessionStateMaintainingActivity {
 		  alert.show();
 	 }
 	 
-	
+	 /**
+	     * Creates a dialog for the user to enter the source and destination airports
+	     * Also have validations and adaptors for the autocomplete text views of the source and destination airports
+	     * 
+	     * @author 
+	     *		Magued George (magued.george1990@gmail.com)
+	     */
 	 public void enterSourceAndDestination(){
 		 
 		 AlertDialog.Builder alert = new AlertDialog.Builder(this);                 
@@ -371,6 +520,12 @@ public class GetUserInfoActivity extends UserSessionStateMaintainingActivity {
 		  alert.show();
 	 }
 	 
+	 /**
+	     * Sets the request string and starts the activity that will do the search and display the results
+	     * 
+	     * @author 
+	     *		Magued George (magued.george1990@gmail.com)
+	     */
 	 public void startViewResultsActivity(){
 		 
 		 if(searchMethod == 0)
@@ -396,7 +551,12 @@ public class GetUserInfoActivity extends UserSessionStateMaintainingActivity {
 		 
 	 }
 	 
-
+	 /**
+	     * Starts the activity for filter preferences
+	     * 
+	     * @author 
+	     *		Magued George (magued.george1990@gmail.com)
+	     */
 	 public void startFilterOffersActivity(){
 		 
 		Intent intent = new Intent(getBaseContext(), FilterPreferencesActivity.class);
@@ -419,6 +579,12 @@ public class GetUserInfoActivity extends UserSessionStateMaintainingActivity {
 		startActivity(intent);
 	 }
 	 
+	 /**
+	     * Gets the index of the selected airport from the airports list
+	     * 
+	     * @author 
+	     *		Magued George (magued.george1990@gmail.com)
+	     */
 	 public String getAirportIndex(String airport){
 		 
 		 for(int i = 0 ; i < airportsList.length ; i++){
@@ -429,6 +595,12 @@ public class GetUserInfoActivity extends UserSessionStateMaintainingActivity {
 		 return -1+"";
 	 }
 
+	 /**
+	     * Overrides onResume and sets all radio and toggle buttons to unchecked
+	     * 
+	     * @author 
+	     *		Magued George (magued.george1990@gmail.com)
+	     */
 	@Override
 	protected void onResume() {
 			
@@ -440,6 +612,12 @@ public class GetUserInfoActivity extends UserSessionStateMaintainingActivity {
     	flightNo.setChecked(false);		
 	}
 	
+	/**
+     * Overrides onConfigurationChanged to keep the dialogs open when orientation changed
+     * 
+     * @author 
+     *		Magued George (magued.george1990@gmail.com)
+     */
 	@Override
 	public void onConfigurationChanged(Configuration newConfig){
 	    super.onConfigurationChanged(newConfig);
