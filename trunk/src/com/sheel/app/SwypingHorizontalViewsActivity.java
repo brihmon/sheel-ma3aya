@@ -416,9 +416,18 @@ public class SwypingHorizontalViewsActivity extends UserSessionStateMaintainingA
 				}
 			}
 
-			private void updateConfirmedOffersOnUI(String responseStr) {
-				// TODO Auto-generated method stub
-				
+			/**
+			 * Updates the UI with the offers confirmed by the user.
+			 * It changes the status of the offer and reflect the change on the UI.
+			 * We have four categories:
+			 * - New offers I declared
+			 * - Half confirmed offers I declared (I am Offer owner)
+			 * - Half confirmed offers I confirmed but not declared by me
+			 * 	(I am not offer owner)
+			 * @param responseStr The response string retrieved from the server
+			 * @author Hossam_Amer
+			 */
+			private void updateConfirmedOffersOnUI(String responseStr) {				
 				try {
 					
 					JSONObject confirmationJSON = new JSONObject(responseStr);

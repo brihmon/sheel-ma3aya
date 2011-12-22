@@ -1,6 +1,5 @@
 package com.sheel.app;
 
-import static com.sheel.utils.SheelMaayaaConstants.HTTP_CONFIRM_OFFER;
 import static com.sheel.utils.SheelMaayaaConstants.HTTP_GET_MY_OFFERS_FILTER;
 import static com.sheel.utils.SheelMaayaaConstants.HTTP_RESPONSE;
 import static com.sheel.utils.SheelMaayaaConstants.HTTP_STATUS;
@@ -10,7 +9,6 @@ import java.util.ArrayList;
 import org.apache.http.HttpStatus;
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -21,7 +19,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.sheel.datastructures.Category;
 import com.sheel.datastructures.Confirmation;
@@ -73,7 +70,16 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity
 	 */
 	ProgressDialog dialog;
 	
+	/**
+	 * Airports list used for localization
+	 */
+	
 	String[] airportsList;
+	
+	/**
+	 * Nationalities list used for localization
+	 */
+	
 	String[] nationalitiesList;
 		
 	@SuppressWarnings("unchecked")
@@ -91,13 +97,7 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity
 		
 		if((ArrayList<Category>) super.getLastNonConfigurationInstance() == null)
 		{
-			
-			//=================Add Categories====================
-			
-//			super.getCategories().add(new Category("Half-Confirmed", R.layout.my_offers_main));
-//			super.getCategories().add(new Category("Full-Confirmed", R.layout.my_offers_main));
-			
-				
+							
 			// Create a new list
 			searchResults_half = new ArrayList<OfferDisplay2>();
 			
@@ -105,7 +105,8 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity
 			
 			//======Start the HTTP Request=========
 			path = "/getmyoffers/" + getFacebookService().getFacebookUser().getUserId();
-			// XXXXhashas
+			
+			//	<<<<<Some Test Paths>>>>>>>>			
 //			path = "/getmyoffers/626740322";
 //			path = "/getmyoffers/673780564";
 
@@ -119,6 +120,10 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity
 	
 		
 	}//end OnCreate
+	
+	/**
+	 * Internet connection handler handles when there is not Internet connection. 
+	 */
 
 	private void noInternetConnectionHandler() {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -167,7 +172,6 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity
 		
 		// Add the filters of your activity
 		filter.addAction(HTTP_GET_MY_OFFERS_FILTER);
-		filter.addAction(HTTP_CONFIRM_OFFER);
 		
 		receiver = new SheelMaayaaBroadCastRec();
 		
@@ -218,71 +222,23 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity
 						if(dialog != null) dialog.dismiss();
 						Log.e(TAG, responseStr);
 							
-					}
-					else if(action.equals(HTTP_CONFIRM_OFFER))
-					{
-						Log.e(TAG, responseStr);
-						
-						if(responseStr.equals(Confirmation.alreadyConfirmed))
-							Toast.makeText(getApplicationContext(), "This Offer is already confirmed by two users.", Toast.LENGTH_SHORT).show();
-						else if(responseStr.equals(Confirmation.confirmedByAnotherPerson))
-							Toast.makeText(getApplicationContext(), "Sorry, this offer is already confirmed by another user.", Toast.LENGTH_SHORT).show();
-						else
-						{
-							updateConfirmedOffersOnUI(responseStr);
-							
-						}
-						
-						/**
-						 * if(half-confirmed by another user)
-						 * Sorry!
-						 * if(confirmed success)
-						 * You confirmed the user + 7abashtakaanaat fel view lw fi!
-						 * 
-						 * if(offerOwner is confirming the offer)
-						 * it should not re-appear, it is fetching again
-						 * 
-						 */
-/*                        if(str.contains("12") || str.contains("13"))
-                        {
-                        sendMail
-                       	 Toast.makeText(PhoneCommunication.this, "Offer has been confirmed!", Toast.LENGTH_LONG).show(); 
-                        }
-                        else if(str.contains("Success"))
-                       	 Toast.makeText(PhoneCommunication.this, "You have confirmed the offer!", Toast.LENGTH_LONG).show();
-                        else if(str.contains("Failure"))
-                            Toast.makeText(PhoneCommunication.this, "You could not confirm this offer anymore!", Toast.LENGTH_LONG).show();
-*/
-					}
-						
-				
-				}
-			}
-
-			private void updateConfirmedOffersOnUI(String responseStr) {
-				// TODO Auto-generated method stub
-				
-				try {
-					
-					JSONObject confirmationJSON = new JSONObject(responseStr);
-					Log.e(TAG, confirmationJSON + "");
-					
-//					Confirmation confirmation = Confirmation.mapConfirmation(confirmationJSON);
-//					if()
-					
-					
-				} catch (JSONException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				
-			}
-		}
+					}// end if Get my offers filter
+				}//end onReceive(Context context, Intent intent)
+			}//end onReceive
+			
+		}// end class SheelMaayaaBroadCastRec			
 
 			/**
-			 * Used to fill the adapter with data (Offers)
-			 * @param responseStr
-			 * 					Response String received from the server
+			 * Updates the UI with the offers confirmed by the database.
+			 * It fetches the offers that are either one from 4 categories:
+			 * - New offers I declared
+			 * - Half confirmed offers I declared (I am Offer owner)
+			 * - Half confirmed offers I confirmed but not declared by me
+			 * 	(I am not offer owner)
+			 * 
+			 * @param responseStr 
+			 * 				The response string retrieved from the server
+			 * @author Hossam_Amer
 			 */
 			private void loadSearchResultsOnUI(String responseStr) 
 			{
@@ -307,11 +263,27 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity
                		else if(offer.getOffer().offerStatus.equals(Confirmation.not_confirmed))
                			searchResults_full.add(OfferDisplay2.mapOffer(jsonArray.getJSONObject(i), airportsList,
                					nationalitiesList));
-
                		 
                	 }// end for
               
-               	if(searchResults_full.isEmpty() && searchResults_half.isEmpty())
+               	 // Update the categories in Swype Activity
+               	 updateCategoriesInSwypeActivity();
+               	 
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}//end catch
+				
+			}//end loadSearchResultsOnUI
+			
+			/**
+			 * After fetching the data from the server, it creates the categories depending on the input data.
+			 * Gives alert if there are no data, and lets you go into InsertOffer activity
+			 */
+
+			private void updateCategoriesInSwypeActivity() {
+               
+				if(searchResults_full.isEmpty() && searchResults_half.isEmpty())
         			GuiUtils.showAlertWhenNoResultsAreAvailable(
              				this, 
              				"You do not have any offers yet! ", 
@@ -321,24 +293,21 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity
                		{
                			int index = 0;
                			String [] swpeCats = getResources().getStringArray(R.array._swyperCats);
+               			
                			if(!searchResults_half.isEmpty())
                			{
                      	   getCategories().add(new Category("" + swpeCats[0], R.layout.my_offers_main));
                     	   updateCategoryContent(searchResults_half, index++, false);	
-               			}
+               			}// end if(!searchResults_half.isEmpty())
                			
                			if(!searchResults_full.isEmpty())
                			{
                 			getCategories().add(new Category(swpeCats[1], R.layout.my_offers_main));
                 			updateCategoryContent(searchResults_full, index, false);	
-               			}
-               		}
+               			}//end if(!searchResults_full.isEmpty())
+               		}//end else
                	 
-				} catch (JSONException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				
-			}  
 
-}
+			}//end updateCategoriesInSwypeActivity()   
+
+}//end MyOffersActivity
