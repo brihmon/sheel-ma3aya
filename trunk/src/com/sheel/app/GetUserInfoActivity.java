@@ -2,6 +2,7 @@ package com.sheel.app;
 
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Locale;
 
 import com.sheel.datastructures.enums.OwnerFacebookStatus;
 
@@ -113,6 +114,8 @@ public class GetUserInfoActivity extends UserSessionStateMaintainingActivity {
 	 * Airports list 
 	 */
     String[] airportsList;
+    
+    String language;
 
     static final int DATE_DIALOG_ID = 0;	
     /**
@@ -163,6 +166,8 @@ public class GetUserInfoActivity extends UserSessionStateMaintainingActivity {
     	 * Getting airports list from string.xml
     	 */
         airportsList = getResources().getStringArray(R.array.airports_array);
+        
+       language = Locale.getDefault().toString();
     }
 
     /**
@@ -267,6 +272,25 @@ public class GetUserInfoActivity extends UserSessionStateMaintainingActivity {
 		enterFlightNumber();			
 	}
 	
+	public boolean validateFlight(String flight){
+		
+		if(flight.length() < 5 || flight.length() > 7)
+			return false;
+		
+		if(flight.charAt(0) < 'A' || flight.charAt(0) >'Z' || flight.charAt(1) < 'A' || flight.charAt(1) > 'Z')
+			return false;
+		
+		if((flight.charAt(2) < 'A' || flight.charAt(2) >'Z') && (flight.charAt(2) < '0' || flight.charAt(2) > '9'))
+			return false;
+		
+		for(int i = 3; i < flight.length() ; i++){
+			if(flight.charAt(i) < '0' || flight.charAt(i) > '9')
+				return false;
+		}
+		
+		return true;
+	}
+	
 	/**
      * Creates a dialog with the given title and message used for validation message
      * 
@@ -351,8 +375,10 @@ public class GetUserInfoActivity extends UserSessionStateMaintainingActivity {
 			         
 			         if(flightNumber.equals(""))
 			        	 showErrors(getResources().getString(R.string.missing_input), 
+			        			 getResources().getString(R.string.flight_valid_missing));
+			         else if(!validateFlight(flightNumber))
+			        	 showErrors(getResources().getString(R.string.invalid_input), 
 			        			 getResources().getString(R.string.flight_valid));
-			         
 			         else
 			        	 startViewResultsActivity();
 			         
@@ -367,6 +393,9 @@ public class GetUserInfoActivity extends UserSessionStateMaintainingActivity {
 			    	
 			    	if(flightNumber.equals(""))
 			        	 showErrors(getResources().getString(R.string.missing_input), 
+			        			 getResources().getString(R.string.flight_valid_missing));
+			    	 else if(!validateFlight(flightNumber))
+			        	 showErrors(getResources().getString(R.string.invalid_input), 
 			        			 getResources().getString(R.string.flight_valid));
 			    	else
 			    		startFilterOffersActivity();
@@ -378,13 +407,13 @@ public class GetUserInfoActivity extends UserSessionStateMaintainingActivity {
 		  
 		  alert.setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener(){
 		         public void onClick(DialogInterface dialog, int which) {
-		        	 srcDes.setChecked(false);
-		    		 flightNo.setChecked(false);
 		             return;   
 		         }
 		  });
 		  
-		  alert.show();
+		 srcDes.setChecked(false);
+ 		 flightNo.setChecked(false);
+		 alert.show();
 	 }
 	 
 	 /**
@@ -399,7 +428,7 @@ public class GetUserInfoActivity extends UserSessionStateMaintainingActivity {
 		 AlertDialog.Builder alert = new AlertDialog.Builder(this);                 
 		 alert.setTitle(getResources().getString(R.string.flight_details));  
 		 alert.setMessage(getResources().getString(R.string.enter_airports));                
-		 
+		
 		 final String[] airports = getResources().getStringArray(R.array.airports_array);
 		 ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.list_item, airports);
 
@@ -419,6 +448,11 @@ public class GetUserInfoActivity extends UserSessionStateMaintainingActivity {
 		 enterDestination.setText(getResources().getString(R.string.destination));
 		 layout.addView(enterDestination);
 		 
+		 if(language.equals("ar_AE")){
+			 enterSource.setGravity(0x05);
+			 enterDestination.setGravity(0x05);
+		 }
+			 
 		 final AutoCompleteTextView desAirport = new AutoCompleteTextView(this);
 		 desAirport.setSingleLine(true);
 		 layout.addView(desAirport);
@@ -511,12 +545,12 @@ public class GetUserInfoActivity extends UserSessionStateMaintainingActivity {
 		  
 		  alert.setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener(){
 		         public void onClick(DialogInterface dialog, int which) {
-		        	 srcDes.setChecked(false);
-		    		 flightNo.setChecked(false);
 		             return;   
 		         }
 		  });
 		  
+		  srcDes.setChecked(false);
+ 		  flightNo.setChecked(false);
 		  alert.show();
 	 }
 	 
