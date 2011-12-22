@@ -945,7 +945,8 @@
 	<string name="invalid_input">معلومات غير صحيحة</string>
 	<string name="status_valid">الرجاء إختيار حالة المستخدم الذي تبحث عنه</string>
 	<string name="date_valid">الرجاء إدخال تاريخ صحيح</string>
-	<string name="flight_valid">الرجاء إدخال رقم الرحلة</string>
+	<string name="flight_valid_missing">الرجاء إدخال رقم الرحلة</string>
+	<string name="flight_valid">الرجاء إدخال رقم رحلة صحيح</string>
 	<string name="source_valid_missing">الرجاء إدخال مطار المصدر</string>
 	<string name="des_valid_missing">الرجاء إدخال مطار الوجهة</string>
 	<string name="source_valid">الرجاء إدخال مصدر صحيح</string>
