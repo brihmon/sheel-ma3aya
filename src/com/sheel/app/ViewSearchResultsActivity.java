@@ -328,7 +328,7 @@ public class ViewSearchResultsActivity extends SwypingHorizontalViewsActivity {
    
     public void startHttpService(){
     	
-
+    	//======================Checking Available Internet Connection=============	
     	if(InternetManager.isInternetOn(getApplicationContext()))
     	{	
     		//======Start the HTTP Request=========
@@ -362,6 +362,12 @@ public class ViewSearchResultsActivity extends SwypingHorizontalViewsActivity {
 	
 	}
 	
+	/**
+     * Loading search results from the database and maps the offers list to offerDisplay list
+     * 
+     * @author 
+     *		Magued George (magued.george1990@gmail.com)
+     */
 	private void loadSearchResultsOnUI(String responseStr) 
 	{
 		try {
@@ -397,6 +403,13 @@ public class ViewSearchResultsActivity extends SwypingHorizontalViewsActivity {
 		
 		}
 	
+	   
+	   /**
+	    * {@link SheelMaayaaBroadCastRec} Class for Broadcast receiver i.e to receive the result from the HTTP request
+	    * @author Magued
+	    *
+	    */
+	   
 	class SheelMaayaaBroadCastRec extends BroadcastReceiver {
 
 		@Override

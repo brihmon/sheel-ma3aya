@@ -19,26 +19,70 @@ import android.widget.ToggleButton;
 import android.widget.AutoCompleteTextView.Validator;
 
 import com.sheel.datastructures.enums.OwnerFacebookStatus;
-
+/**
+ * Activity used for filtering the offers the user is searching for by combination of filter (weight, price/kg, gender
+ * or nationality of offer owner as well as setting if he wants to filter by facebook)
+ * 
+ * @author 
+ *		Magued George (magued.george1990@gmail.com)
+ *
+ */
 public class FilterPreferencesActivity extends UserSessionStateMaintainingActivity {
 	
+
+	/**
+	 * User search status either less (0) or extra (1) weight
+	 */
 	int searchStatus;
+
+	/**
+	 * Date selected by the user
+	 */
 	String selectedDate;
+
+	/**
+	 * User search method either flight number (0) or source and destination (1) weight
+	 */
 	int searchMethod;
-	String flightNumber;
-	String srcAirport;
-	String desAirport;
 	
-	ToggleButton male; 
+	String flightNumber;
+    /**
+	 * Entered source airport
+	 */
+    String srcAirport;
+    /**
+	 * Entered destination airport
+	 */
+    String desAirport;
+	
+    /**
+	 * Toggle button for male
+	 */
+	ToggleButton male;
+	/**
+	 * Toggle button for female
+	 */
 	ToggleButton female;
 
 	EditText numOfKgsText;
 	EditText priceText;
 	AutoCompleteTextView nationalityView;
 	
+	/**
+	 * Entered kgs
+	 */
 	String availableKgs;
+	/**
+	 * Entered price
+	 */
 	String pricePerKg;
+	/**
+	 * Entered gender
+	 */
 	String gender;
+	/**
+	 * Entered nationality
+	 */
 	String nationality;
 	
 	int kgs, price;
@@ -46,7 +90,15 @@ public class FilterPreferencesActivity extends UserSessionStateMaintainingActivi
 	
 	OwnerFacebookStatus facebook;
 	
+	/**
+	 * Nationalities list 
+	 */
 	String[] nationalitiesList;
+	
+	/**
+	 * The request string sent to the server
+	 */
+    String request;
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -55,22 +107,23 @@ public class FilterPreferencesActivity extends UserSessionStateMaintainingActivi
         
         Bundle extras = getIntent().getExtras();
         
-        	if(extras !=null){
-        		searchStatus = extras.getInt("searchStatus");
-        		selectedDate = extras.getString("selectedDate");
-        		searchMethod = extras.getInt("searchMethod");
+        ///////////////// Getting data from the intent //////////////////////
+        if(extras !=null){
+       		searchStatus = extras.getInt("searchStatus");
+      		selectedDate = extras.getString("selectedDate");
+       		searchMethod = extras.getInt("searchMethod");
         		
         		
-        		if(searchMethod == 0)
-        			flightNumber = extras.getString("flightNo");
+       		if(searchMethod == 0)
+       			flightNumber = extras.getString("flightNo");
+       		
         		
-        		
-        		else{
-        			srcAirport = extras.getString("srcAirport");
-        			desAirport = extras.getString("desAirport");
-        		}
-        			
+       		else{        			
+       			srcAirport = extras.getString("srcAirport");
+       			desAirport = extras.getString("desAirport");
         	}
+        			
+       	}
         
         gender = "both";
        	nationality  = "none";
@@ -90,6 +143,12 @@ public class FilterPreferencesActivity extends UserSessionStateMaintainingActivi
         setNationalityAdaptor();
      }
 	
+	/**
+     * Setting nationality auto complete text view adaptor and validator
+     * 
+     * @author 
+     *		Magued George (magued.george1990@gmail.com)
+     */
 	public void setNationalityAdaptor(){
 	
         nationalityView = (AutoCompleteTextView) findViewById(R.id.nationality);
@@ -125,6 +184,12 @@ public class FilterPreferencesActivity extends UserSessionStateMaintainingActivi
 		
 	}
 	
+	/**
+     * Creates a dialog for the user to select the owner facebook status
+     * 
+     * @author 
+     *		Magued George (magued.george1990@gmail.com)
+     */
 	public void onClick_facebook(View v){
 		
 		AlertDialog.Builder alert = new AlertDialog.Builder(this);                 
@@ -182,6 +247,12 @@ public class FilterPreferencesActivity extends UserSessionStateMaintainingActivi
 		alert.show();
 	}
 	
+	/**
+     * Creates a dialog with the given title and message used for validation message
+     * 
+     * @author 
+     *		Magued George (magued.george1990@gmail.com)
+     */
 	public void showErrors(String title, String message){
 		 
 		 AlertDialog alertDialog;
@@ -191,19 +262,37 @@ public class FilterPreferencesActivity extends UserSessionStateMaintainingActivi
 		 alertDialog.show();
 	 }
 	
+	/**
+     * Takes a string and removes all spaces at the beginning and the end and replaces all spaces in the middle
+     * with %20
+     * 
+     * @author 
+     *		Magued George (magued.george1990@gmail.com)
+     */
 	public String removeSpaces(String str){
 		str = str.trim();
 		str = str.replaceAll(" ", "%20");
 		return str;
 	}
 	
-
+	/**
+     * Listener for male button
+     * 
+     * @author 
+     *		Magued George (magued.george1990@gmail.com)
+     */
 	public void onClick_male_gender(View v) 
 	{
 		female.setChecked(false);
 		gender = "male";
 	}
 	
+	/**
+     * Listener for female button
+     * 
+     * @author 
+     *		Magued George (magued.george1990@gmail.com)
+     */
 	public void onClick_female_gender(View v) 
 	{
 		male.setChecked(false);
@@ -211,6 +300,12 @@ public class FilterPreferencesActivity extends UserSessionStateMaintainingActivi
 	}
 
 	
+	/**
+     * Listener for search offers button .... checks if all input is valid
+     * 
+     * @author 
+     *		Magued George (magued.george1990@gmail.com)
+     */
 	public void onClick_search_offers(View v) 
 	{
 		allValid = true;
@@ -259,9 +354,13 @@ public class FilterPreferencesActivity extends UserSessionStateMaintainingActivi
 			startViewResultsActivity();
 	}
 	
+	/**
+     * Sets the request string and starts the activity that will do the search and display the results
+     * 
+     * @author 
+     *		Magued George (magued.george1990@gmail.com)
+     */
 	public void startViewResultsActivity(){
-		
-		String request = "";
 		
 		if(!nationality.equals("none"))
 			nationality = getNationalityIndex(nationality);
@@ -281,6 +380,12 @@ public class FilterPreferencesActivity extends UserSessionStateMaintainingActivi
 		startActivity(intent);
 	}
 	
+	 /**
+     * Gets the index of the selected nationality from the nationalities list
+     * 
+     * @author 
+     *		Magued George (magued.george1990@gmail.com)
+     */
 	public String getNationalityIndex(String nationality){
 		 
 		 for(int i = 0 ; i < nationalitiesList.length ; i++){
@@ -291,6 +396,12 @@ public class FilterPreferencesActivity extends UserSessionStateMaintainingActivi
 		 return -1+"";
 	 }
 	
+	/**
+     * Overrides onResume and sets all toggle buttons to unchecked and resets text of all text fields
+     * 
+     * @author 
+     *		Magued George (magued.george1990@gmail.com)
+     */
 	@Override
 	protected void onResume() {
 			
@@ -303,6 +414,12 @@ public class FilterPreferencesActivity extends UserSessionStateMaintainingActivi
     	priceText.setText("");
 	}
 	
+	/**
+     * Overrides onConfigurationChanged to keep the dialogs open when orientation changed
+     * 
+     * @author 
+     *		Magued George (magued.george1990@gmail.com)
+     */
 	@Override
 	public void onConfigurationChanged(Configuration newConfig){
 	    super.onConfigurationChanged(newConfig);
