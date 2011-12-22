@@ -49,6 +49,8 @@ public class GetUserInfoActivity extends UserSessionStateMaintainingActivity {
     String source;
     String destination;
     String request;
+    
+    String[] airportsList;
 
     static final int DATE_DIALOG_ID = 0;	
     static Calendar datePicked = Calendar.getInstance();
@@ -79,6 +81,8 @@ public class GetUserInfoActivity extends UserSessionStateMaintainingActivity {
         datePicked.set(year, month, day, 23, 59, 59);
        
         updateDisplay();
+        
+        airportsList = getResources().getStringArray(R.array.airports_array);
     }
 
 	private void updateDisplay() {
@@ -249,7 +253,7 @@ public class GetUserInfoActivity extends UserSessionStateMaintainingActivity {
 		 
 		 final String[] airports = getResources().getStringArray(R.array.airports_array);
 		 ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.list_item, airports);
-		 
+
 		 ScrollView view = new ScrollView(this);
 		 LinearLayout layout = new LinearLayout(this);
 		 layout.setOrientation(1);
@@ -294,7 +298,7 @@ public class GetUserInfoActivity extends UserSessionStateMaintainingActivity {
 		
 		sourceAirport.setValidator(AirportValidator);
 		desAirport.setValidator(AirportValidator);
-		
+
 		view.addView(layout);
 		alert.setView(view);
 
@@ -373,9 +377,16 @@ public class GetUserInfoActivity extends UserSessionStateMaintainingActivity {
 			 request = "/filterflightnumberoffers/" + flightNumber + "/" + selectedDate + "/" + searchStatus +
 				 	"/0/0/both/none";
 		 
-		 else
+		 else{
+			 
+			 source = getAirportIndex(source);
+			 destination = getAirportIndex(destination);
+			 
+			 Log.e("mm", source);
+			 
 			 request =  "/filterairportsoffers/" + source + "/" + destination + "/" + selectedDate 
 				+ "/" + searchStatus + "/0/0/both/none";
+			}
 			 
 		Intent intent = new Intent(getBaseContext(), ViewSearchResultsActivity.class);
 		intent.putExtra("request", request);
@@ -397,11 +408,25 @@ public class GetUserInfoActivity extends UserSessionStateMaintainingActivity {
 			intent.putExtra("flightNo", flightNumber);
 		
 		else{
+			
+			source = getAirportIndex(source);
+			destination = getAirportIndex(destination);
+			
 			intent.putExtra("srcAirport", source);
 			intent.putExtra("desAirport", destination);
 		}
 		
 		startActivity(intent);
+	 }
+	 
+	 public String getAirportIndex(String airport){
+		 
+		 for(int i = 0 ; i < airportsList.length ; i++){
+			 if(airport.equals(airportsList[i]))
+				 return i+"";	 
+		 }
+		 
+		 return -1+"";
 	 }
 
 	@Override
@@ -409,6 +434,8 @@ public class GetUserInfoActivity extends UserSessionStateMaintainingActivity {
 			
 		super.onResume();
 			
+		lessWeight.setChecked(false);
+		extraWeight.setChecked(false);
 		srcDes.setChecked(false);
     	flightNo.setChecked(false);		
 	}

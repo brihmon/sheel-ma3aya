@@ -4,6 +4,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.sheel.app.R;
 import com.sheel.datastructures.enums.OfferWeightStatus;
 import com.sheel.datastructures.enums.OwnerFacebookStatus;
 
@@ -250,7 +251,7 @@ public class OfferDisplay2 {
 	 * @author Hossam_Amer
 	 */
 	
-	public static OfferDisplay2 mapOffer(JSONObject offerJSON)
+	public static OfferDisplay2 mapOffer(JSONObject offerJSON, String[] airports, String[] nationalities)
 	{
 		try {
 			
@@ -266,6 +267,8 @@ public class OfferDisplay2 {
 			String gender = userJSON.getString("gender");
 			String nationality = userJSON.getString("nationality");
 			
+			nationality = nationalities[Integer.parseInt(nationality)];
+			
 			User user = new User(ownerId, firstName, middleName, lastName, "", "", email, mobile, gender, nationality);
 			
 			Long offerId = offerJSON.getLong("id");
@@ -280,6 +283,9 @@ public class OfferDisplay2 {
 			String source = flightJSON.getString("source");
 			String destination = flightJSON.getString("destination");
 			String departureDate = flightJSON.getString("departureDate");
+			
+			source = airports[Integer.parseInt(source)];
+			destination = airports[Integer.parseInt(destination)];
 				
 			Flight flight = new Flight(flightNumber, source, destination, departureDate);
 			
