@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?> 
+<resources> 
+   
+   
+ 	<string name="_hossamOk">Ok</string>
+	<string name="_hossamYes">Yes</string>
+	<string name="_hossamNo">No</string>
+	<string name="_hossamInternetConn">Internet Connection is not available</string>
+	<string name="_hossamConfirmYesNo">Are you sure, you want to confirm this offer?</string>
+	<string name= "_hossamConfirmPending">Confirming your Offers, Please wait..</string>
+	<string name= "_hossamAlreadyConfirmed">This Offer is already confirmed by two users.</string>
+	<string name="_hossamConfirmedByAnotherPerson">Sorry, this offer is already confirmed by another user.</string>
+	<string name= "_hossamConfirmedByTwoUsers">Offer confirmed by two users</string>
+	<string name="_hossamConfirmationMail">A confirmation mail sent to your inbox</string>
+	    
+	 <string-array name="_swyperCats">
+	     
+	     <item>Half-Confirmed</item>
+	     <item>Not-Confirmed</item>
+	     <item>Full-Confirmed</item>
+	     <item >Strangers</item>
+	     <item >Friends</item>
+	     <item >Friends of friends</item>
+	 </string-array>
+   
+</resources>
