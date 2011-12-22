@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.opengl.Visibility;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,7 +68,7 @@ public class SearchResultsListAdapter extends BaseAdapter {
 
 	public View getView(int position, View convertView, ViewGroup parent) {
 		
-		View listItem;
+		View listRow;
 		
 		if (convertView == null){
 			
@@ -78,73 +79,163 @@ public class SearchResultsListAdapter extends BaseAdapter {
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			// Read the Layout description from the XML file and load it to the
 			// view
-			listItem = inflater.inflate(R.layout.search_result_summary, null);
-			
-			// Set (Name) of the user 
-			TextView summary_name = (TextView) listItem.findViewById(R.id.summary_name);
-			summary_name.setText(offerDisplay.getDisplayName());
-			
-	
-			// Set (Number of Kilograms) according to offer			
-			TextView summary_kilos = (TextView) listItem.findViewById(R.id.summary_numberOfKilos);
-			int numberOfKilos = offerDisplay.getOffer().noOfKilograms;
-			if (numberOfKilos <=9) {
-				summary_kilos.setText("0"+numberOfKilos+ " Kg");
-			}// end if: add extra space for alignment
-			else {
-				summary_kilos.setText(numberOfKilos+ " Kg");
-			}// end else: number of kilos is 2 digits -> just show
-			
-			if (offerDisplay.getOffer().userStatus == SheelMaayaaConstants.OfferWeightStatus_LESS) {
-				GuiUtils.setIconForATextField(context,listItem,R.id.summary_numberOfKilos,R.drawable.sheel_result_arrow_down,0);
-			}// end if: put image indicating status -> Offer has less weight -> wants users with extra weight
-			else {
-				GuiUtils.setIconForATextField(context,listItem,R.id.summary_numberOfKilos,R.drawable.sheel_result_arrow_up,0);
-			}// end else:  put image indicating status -> Offer has more weight -> wants users with less weight
-			
-			// Set (Price) according to the offer
-			TextView summary_price = (TextView) listItem.findViewById(R.id.summary_price);
-			summary_price.setText(offerDisplay.getOffer().pricePerKilogram + " €/Kg");
-			// Add image
-			GuiUtils.setIconForATextField(context,listItem,R.id.summary_price,R.drawable.sheel_result_money,0);
+			listRow = inflater.inflate(R.layout.search_result_summary, null);
+								
+			// get the different available text fields according to their order
+			TextView summary_name = (TextView) listRow.findViewById(R.id.summary_name);
+			TextView summary_kilos = (TextView) listRow.findViewById(R.id.summary_numberOfKilos);
+			TextView summary_price = (TextView) listRow.findViewById(R.id.summary_price);
+		
+			renderFirstTextView(summary_name, offerDisplay, listRow);
+			renderSecondTextView(summary_kilos, offerDisplay, listRow);
+			renderThirdTextView(summary_price, offerDisplay,  listRow);
 		}// end if : first time to initialize
 		else{
-			listItem = convertView;
+			listRow = convertView;
 		}// end else: already there
 		
-		return listItem;
+		return listRow;
 	}// end getView
 	
+	/**
+	 * Used to render the data displayed in the first text view.
+	 * By default it is the display name of the offer owner.
+	 * 
+	 * <br><br><b>Override the method to change the content
+	 * displayed</b>
+	 * 
+	 * <br><br><b>To hide, override the method then
+	 * write <code>textView.setVisibility(View.INVISIBLE)</code></b>
+	 * 
+	 * @param textView
+	 * 		first text view in the list row from the left side
+	 * @param offerDisplay
+	 * 		Data wrapper containing all info about offer, user 
+	 * 		and flight for a certain offer
+	 * @param visibility
+	 * 		Control the visibility of the target text view.
+	 * 		Possible values are: {@link View#VISIBLE}, 
+	 * 		{@link View#INVISIBLE}. By default it is set to
+	 * 		visible
+	 * @param listRow
+	 * 		Inflated view representing the list row. It is used 
+	 * 		to enable adding of icons using 
+	 * 		{@link GuiUtils#setIconForATextField(Context, View, TextView, int, int)}.
+	 * 		To neglect such parameter, pass it as null.
+	 * 		<br><b>IMPORTANT: If you use the default implementation, you must pass if 
+	 * 		correctly</b>
+	 * @author 
+	 *		Passant El.Agroudy (passant.elagroudy@gmail.com)
+	 */
+	public void renderFirstTextView(TextView textView, OfferDisplay2 offerDisplay, View listRow) {
+		// Set (Name) of the user 
+		textView.setText(offerDisplay.getDisplayName());	
+	}// end renderFirstTextView
+	
+	/**
+	 * Used to render the data displayed in the first text view.
+	 * By default it is the number of Kgs of the offer and 
+	 * an icon showing if it is extra weight or less weight.
+	 * 
+	 * <br><br><b>Override the method to change the content
+	 * displayed</b>
+	 * 
+	 * <br><br><b>To hide, override the method then
+	 * write <code>textView.setVisibility(View.INVISIBLE)</code></b>
+	 * 
+	 * @param textView
+	 * 		second text view in the list row from the left side
+	 * @param offerDisplay
+	 * 		Data wrapper containing all info about offer, user 
+	 * 		and flight for a certain offer
+	 * @param listRow
+	 * 		Inflated view representing the list row. It is used 
+	 * 		to enable adding of icons using 
+	 * 		{@link GuiUtils#setIconForATextField(Context, View, TextView, int, int)}.
+	 * 		To neglect such parameter, pass it as null.
+	 *  	<br><b>IMPORTANT: If you use the default implementation, you must pass if 
+	 * 		correctly</b>
+	 * @author 
+	 *		Passant El.Agroudy (passant.elagroudy@gmail.com)
+	 */
+	public void renderSecondTextView(TextView textView, OfferDisplay2 offerDisplay, View listRow) {
+		
+		// Set (Number of Kilograms) according to offer			
+		int numberOfKilos = offerDisplay.getOffer().noOfKilograms;
+		if (numberOfKilos <=9) {
+			textView.setText("0"+numberOfKilos+ " Kg");
+		}// end if: add extra space for alignment
+		else {
+			textView.setText(numberOfKilos+ " Kg");
+		}// end else: number of kilos is 2 digits -> just show
+		
+		if (offerDisplay.getOffer().userStatus == SheelMaayaaConstants.OfferWeightStatus_LESS) {
+			GuiUtils.setIconForATextField(context, listRow,
+					R.id.summary_numberOfKilos,
+					R.drawable.sheel_result_arrow_down, 0);
+		}// end if: put image indicating status -> Offer has less weight ->
+			// wants users with extra weight
+		else {
+			GuiUtils.setIconForATextField(context, listRow,
+					R.id.summary_numberOfKilos,
+					R.drawable.sheel_result_arrow_up, 0);
+		}// end else: put image indicating status -> Offer has more weight ->
+			// wants users with less weight
+	
+		
+	}// end renderFirstTextView
+	
+	/**
+	 * Used to render the data displayed in the first text view.
+	 * By default it is the price per kg for the offer  and 
+	 * a static icon for money	 
+	 * 
+	 * <br><br><b>Override the method to change the content
+	 * displayed</b>
+	 * 
+	 * <br><br><b>To hide, override the method then
+	 * write <code>textView.setVisibility(View.INVISIBLE)</code></b>
+	 * 
+	 * @param textView
+	 * 		third text view in the list row from the left side
+	 * @param offerDisplay
+	 * 		Data wrapper containing all info about offer, user 
+	 * 		and flight for a certain offer
+	 * @param listRow
+	 * 		Inflated view representing the list row. It is used 
+	 * 		to enable adding of icons using 
+	 * 		{@link GuiUtils#setIconForATextField(Context, View, TextView, int, int)}.
+	 * 		To neglect such parameter, override the method and pass it as null. 
+	 * 		<br><b>IMPORTANT: If you use the default implementation, you must pass if 
+	 * 		correctly</b>
+	 * @author 
+	 *		Passant El.Agroudy (passant.elagroudy@gmail.com)
+	 */
+	public void renderThirdTextView(TextView textView,
+			OfferDisplay2 offerDisplay, View listRow) {
+
+		// Set (Price) according to the offer
+		textView.setText(offerDisplay.getOffer().pricePerKilogram + " €/Kg");
+		// Add image
+		GuiUtils.setIconForATextField(context, listRow, R.id.summary_price,
+				R.drawable.sheel_result_money, 0);
+
+	}// end renderFirstTextView
+	
+	/**
+	 * Sets the list to be displayed and notifies the UI to update
+	 * 
+	 * @param newResults
+	 * 		List containing new results to be displayed. It replaces
+	 * 		the old list and does not append 
+	 * @author 
+	 *		Passant El.Agroudy (passant.elagroudy@gmail.com)
+	 */
 	public void setList(ArrayList<OfferDisplay2> newResults){
 		this.searchResults = newResults;
 		this.notifyDataSetChanged();
-	}
+	}// end setList
 	
-	  /** Used as a helper method to add an image to the left side of a text view.
-	     * @param textViewId 
-	     * 		ID of the text view from (R.id) collection
-	     * @param imgId
-	     * 		ID of the resource image used from (R.drawable) collection
-	     * @param mode 
-	     * 		indicates size of icon.
-	     * 		<ul>
-	     * 			<li>0: small    (36X36px)</li>
-	     * 			<li>1: medium   (50X50px)</li>
-	     * 			<li>2: large    (80X80px)</li>
-	     * 		</ul>
-	     */
-	    private void setIconForATextField(TextView txtView , int imgId , int mode){
-	    	
-	    	Drawable img = context.getResources().getDrawable(imgId );
-	    	switch(mode){
-	    	case 0:img.setBounds( 0, 0, 36, 36 ); break;
-	    	case 1:img.setBounds( 0, 0, 50, 50 ); break;
-	    	case 2:img.setBounds( 0, 0, 80, 80 ); break;
-	    	default:img.setBounds( 0, 0, 50, 50 ); break;
-	    	}// end switch : specify size according to mode
-	    	
-	    	txtView.setCompoundDrawables( img, null, null, null );
-	    }// end SetIconForATextField
-	   
+	 
 	    
 }// end SearchResultsListAdapter

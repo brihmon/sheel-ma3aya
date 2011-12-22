@@ -9,14 +9,15 @@ import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewStub;
 import android.view.View.OnClickListener;
+import android.view.ViewStub;
 import android.view.ViewStub.OnInflateListener;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.sheel.app.R;
 import com.sheel.datastructures.FacebookUser;
+import com.sheel.datastructures.Flight;
 import com.sheel.datastructures.OfferDisplay2;
 import com.sheel.datastructures.enums.OwnerFacebookStatus;
 import com.sheel.utils.GuiUtils;
@@ -25,12 +26,18 @@ import com.sheel.utils.InternetManager;
 import com.sheel.utils.SheelMaayaaConstants;
 
 /**
- * InflateListener is the listener used when the Stub is inflated
+ * InflateListener is the listener used when the Stub in the (Search
+ * results) view is inflated. It provides the basic rendering features 
+ * between (MyOffers) and (SearchResults) View. Customatization between
+ * both views is done by extending the class then overriding the different
+ * methods
  * 
  * It is used to save the position of the buttons inside their tags
  * 
- * @author Hossam_Amer
- * 		    Passant El.Agroudy (passant.elagroudy@gmail.com)	
+ * @author 
+ * 		Hossam_Amer
+ * @author		    
+ * 		Passant El.Agroudy (passant.elagroudy@gmail.com)	
  *
  */
 
@@ -122,47 +129,14 @@ public class InflateListener implements OnInflateListener, OnClickListener {
 		 * Initialize the summary (nationality + gender + facebook extra info)
 		 */
 		TextView details_summary = (TextView)inflated.findViewById(R.id.sheel_details_textView_summary);
-		String detailsSummary = offerDisplay.getUser().nationality ;		
-	
-		if (offerDisplay.getOwnerFacebookRelationWithUser() == OwnerFacebookStatus.FRIEND) {
-			detailsSummary += " Friend";
-		}// end if: offer owner is the user's friend
-		else if (offerDisplay.getOwnerFacebookRelationWithUser() == OwnerFacebookStatus.FRIEND_OF_FRIEND) {
-			detailsSummary += " Friend of friend";
-		}// end if: offer owner is the user's friend of friend
-		else if (offerDisplay.getOwnerFacebookRelationWithUser() == OwnerFacebookStatus.UNRELATED) {
-			detailsSummary += " Stranger";
-		}// end if: offer owner is a stranger
-		details_summary.setText(detailsSummary);
-		
-		if (offerDisplay.getUser().gender.equals(SheelMaayaaConstants.GENDER_FEMALE)) {
-			GuiUtils.setIconForATextField(mContext, inflated, details_summary, R.drawable.sheel_gender_female, 3);
-		}// end if : offer owner is a female
-		else {
-			GuiUtils.setIconForATextField(mContext, inflated, details_summary, R.drawable.sheel_gender_male, 3);
-		}// end if:offer owner is a male or unknown -> show icon
-		
-		
-		/**
-		 * Initialize email
-		 */
 		TextView details_email = (TextView)inflated.findViewById(R.id.sheel_details_textView_email);
-		details_email.setText(offerDisplay.getUser().email);
-		GuiUtils.setIconForATextField(mContext, inflated, details_email, R.drawable.sheel_result_email, 3);
-		
-		/**
-		 * Initialize telephone
-		 */
 		TextView details_telephone = (TextView)inflated.findViewById(R.id.sheel_details_textView_telephone);
-		details_telephone.setText(offerDisplay.getUser().mobileNumber);
-		GuiUtils.setIconForATextField(mContext, inflated, details_telephone, R.drawable.sheel_result_phone, 3);
-			
-		/**
-		 * Initialize flight
-		 */
 		TextView details_flight = (TextView)inflated.findViewById(R.id.sheel_details_textView_flight);
-		details_flight.setText(offerDisplay.getFlight().displayFlight());
-		GuiUtils.setIconForATextField(mContext, inflated, details_flight, R.drawable.sheel_result_flight, 0);
+		
+		renderFirstTextView(details_summary, offerDisplay, inflated);
+		renderSecondTextView(details_email, offerDisplay, inflated);
+		renderThirdTextView(details_telephone, offerDisplay, inflated);
+		renderFourthTextView(details_flight, offerDisplay, inflated);
 		
 		
 		/**
@@ -178,12 +152,193 @@ public class InflateListener implements OnInflateListener, OnClickListener {
 			
 			Log.e(TAG, "Button Listener done: " + btn.getId());
 		}
-		
-		//XXXNeed to handle the view stub view
-//		inflated.findViewById(buttonIDs[0]).setVisibility(View.GONE);
-//		inflated.findViewById(buttonIDs[1]).setVisibility(View.GONE);
+	
 	}// end onInflate
 
+	/**
+	 * Used to render the data displayed in the first text view.
+	 * By default it is nationality, Icon representing gender and 
+	 * a controller to reach facebook extra info (like mutual friends
+	 * if it exists).
+	 * 
+	 * <br><br><b>Override the method to change the content
+	 * displayed</b>	
+	 *  
+	 * <br><br><b>To hide, override the method then
+	 * write <code>textView.setVisibility(View.INVISIBLE)</code></b>
+	 * 
+	 * @param textView
+	 * 		first text view in the view stub from top
+	 * @param offerDisplay
+	 * 		Data wrapper containing all info about offer, user 
+	 * 		and flight for a certain offer
+	 * @param inflated
+	 * 		Inflated view representing the layout file displayed
+	 * 		inside the view stub. It is used to enable adding of
+	 * 		icons using 
+	 * 		{@link GuiUtils#setIconForATextField(Context, View, TextView, int, int)}.
+	 * 		To neglect such parameter, pass it as null.
+	 * @author 
+	 *		Passant El.Agroudy (passant.elagroudy@gmail.com)
+	 */
+	public void renderFirstTextView(TextView textView, OfferDisplay2 offerDisplay, View inflated) {
+		String detailsSummary = offerDisplay.getUser().getNationality() ;		
+		
+		if (offerDisplay.getOwnerFacebookRelationWithUser() == OwnerFacebookStatus.FRIEND) {
+			detailsSummary += " Friend";
+		}// end if: offer owner is the user's friend
+		else if (offerDisplay.getOwnerFacebookRelationWithUser() == OwnerFacebookStatus.FRIEND_OF_FRIEND) {
+			detailsSummary += " Friend of friend";
+		}// end if: offer owner is the user's friend of friend
+		else if (offerDisplay.getOwnerFacebookRelationWithUser() == OwnerFacebookStatus.UNRELATED) {
+			detailsSummary += " Stranger";
+		}// end if: offer owner is a stranger
+		textView.setText(detailsSummary);
+		
+		if (offerDisplay.getUser().gender.equals(SheelMaayaaConstants.GENDER_FEMALE)) {
+			GuiUtils.setIconForATextField(mContext, inflated, textView, R.drawable.sheel_gender_female, 3);
+		}// end if : offer owner is a female
+		else {
+			GuiUtils.setIconForATextField(mContext, inflated, textView, R.drawable.sheel_gender_male, 3);
+		}// end if:offer owner is a male or unknown -> show icon
+		
+	}// end renderFirstTextView
+	
+	/**
+	 * Used to render the data displayed in the second text view.
+	 * By default it is the email of the offer owner.
+	 * 
+	 * <br><br><b>Override the method to change the content
+	 * displayed</b>
+	 * 
+	 * <br><br><b>To hide, override the method then
+	 * write <code>textView.setVisibility(View.INVISIBLE)</code></b>
+	 * 
+	 * @param textView
+	 * 		second text view in the  view stub from top
+	 * @param offerDisplay
+	 * 		Data wrapper containing all info about offer, user 
+	 * 		and flight for a certain offer
+	 * @param inflated
+	 * 		Inflated view representing the layout file displayed
+	 * 		inside the view stub. It is used to enable adding of
+	 * 		icons using 
+	 * 		{@link GuiUtils#setIconForATextField(Context, View, TextView, int, int)}.
+	 * 		To neglect such parameter, pass it as null.
+	 * @author 
+	 *		Passant El.Agroudy (passant.elagroudy@gmail.com)
+	 */
+	public void renderSecondTextView(TextView textView, OfferDisplay2 offerDisplay,  View inflated) {
+				
+		textView.setText(offerDisplay.getUser().email);
+		if (inflated != null) {
+			GuiUtils.setIconForATextField(mContext, inflated, textView,
+					R.drawable.sheel_result_email, 3);
+		}// end if
+		
+	}// end renderSecondTextView
+	
+	/**
+	 * Used to render the data displayed in the third text view.
+	 * By default it is the mobile of the offer owner
+	 * 
+	 * <br><br><b>Override the method to change the content
+	 * displayed.</b>
+	 * 
+	 * <br><br><b>To hide, override the method then
+	 * write <code>textView.setVisibility(View.INVISIBLE)</code></b>
+	 * 
+	 * @param textView
+	 * 		third text view in the view stub from top
+	 * @param offerDisplay
+	 * 		Data wrapper containing all info about offer, user 
+	 * 		and flight for a certain offer
+	 * @param inflated
+	 * 		Inflated view representing the layout file displayed
+	 * 		inside the view stub. It is used to enable adding of
+	 * 		icons using 
+	 * 		{@link GuiUtils#setIconForATextField(Context, View, TextView, int, int)}.
+	 * 		To neglect such parameter, pass it as null.
+	 * @author 
+	 *		Passant El.Agroudy (passant.elagroudy@gmail.com)
+	 */
+	public void renderThirdTextView(TextView textView, OfferDisplay2 offerDisplay, View inflated) {
+		
+		textView.setText(offerDisplay.getUser().mobileNumber);
+		if (inflated != null) {
+			GuiUtils.setIconForATextField(mContext, inflated, textView, R.drawable.sheel_result_phone, 3);
+		}// end if
+		
+	}// end renderThirdTextView
+	
+	/**
+	 * Used to render the data displayed in the fourth text view.
+	 * By default it is the showing the flight details in the format
+	 * returned by {@link Flight#displayFlight()}
+	 * 
+	 * <br><br><b>Override the method to change the content
+	 * displayed</b>
+	 *
+	 * <br><br><b>To hide, override the method then
+	 * write <code>textView.setVisibility(View.INVISIBLE)</code></b>
+	 * 
+	 * @param textView
+	 * 		third text view in the view stub from top
+	 * @param offerDisplay
+	 * 		Data wrapper containing all info about offer, user 
+	 * 		and flight for a certain offer
+	 * @param inflated
+	 * 		Inflated view representing the layout file displayed
+	 * 		inside the view stub. It is used to enable adding of
+	 * 		icons using 
+	 * 		{@link GuiUtils#setIconForATextField(Context, View, TextView, int, int)}.
+	 * 		To neglect such parameter, pass it as null.
+	 * @author 
+	 *		Passant El.Agroudy (passant.elagroudy@gmail.com)
+	 */
+	public void renderFourthTextView(TextView textView, OfferDisplay2 offerDisplay, View inflated) {
+		
+		textView.setText(offerDisplay.getFlight().displayFlight());
+		if (inflated != null) {
+			GuiUtils.setIconForATextField(mContext, inflated, textView, R.drawable.sheel_result_flight, 0);
+		}// end if
+		
+	}// end renderFourthTextView
+	
+	/**
+	 * Alters the  visibility of the different available buttons:
+	 * Confirm, call , send SMS
+	 * 
+	 * <br><br><b>To use it:
+	 * <ol> 
+	 * 		<li>Override {@link OnInflateListener#onInflate(ViewStub, View)} 
+	 * 		in child class and call super</li>
+	 * 		<li>Call the method and pass <code>inflated</code></li>
+	 * </ol></b>
+	 * @param inflated
+	 * 		Inflated view representing the layout file displayed
+	 * 		inside the view stub. Possible values are: {@link View#VISIBLE}, 
+	 * 		{@link View#INVISIBLE}.	 		
+	 * @param confirm
+	 * 		visibility of confirm button. Possible values are: {@link View#VISIBLE}, 
+	 * 		{@link View#INVISIBLE}.
+	 * @param call
+	 * 		visibility of call button. Possible values are: {@link View#VISIBLE}, 
+	 * 		{@link View#INVISIBLE}.
+	 * @param sendSms
+	 * 		visibility of send SMS button. Possible values are: {@link View#VISIBLE}, 
+	 * 		{@link View#INVISIBLE}.
+	 * @author 
+	 *		Passant El.Agroudy (passant.elagroudy@gmail.com)
+	 */
+	public void setVisibilityButtonsVisibility(View inflated, int confirm, int call, int sendSms) {
+		((Button) inflated.findViewById(buttonIDs[0])).setVisibility(call);
+		((Button) inflated.findViewById(buttonIDs[1])).setVisibility(confirm);
+		((Button) inflated.findViewById(buttonIDs[2])).setVisibility(sendSms);	
+	}// end setVisibilityButtonsVisibility
+	
+	
+	
 	/**
 	 * Click Action listener for the buttons inside the view stub
 	 * @author Hossam_Amer
