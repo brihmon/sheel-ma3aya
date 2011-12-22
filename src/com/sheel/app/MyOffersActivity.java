@@ -1,9 +1,9 @@
 package com.sheel.app;
 
+import static com.sheel.utils.SheelMaayaaConstants.HTTP_CONFIRM_OFFER;
 import static com.sheel.utils.SheelMaayaaConstants.HTTP_GET_MY_OFFERS_FILTER;
 import static com.sheel.utils.SheelMaayaaConstants.HTTP_RESPONSE;
 import static com.sheel.utils.SheelMaayaaConstants.HTTP_STATUS;
-import static com.sheel.utils.SheelMaayaaConstants.HTTP_CONFIRM_OFFER;
 
 import java.util.ArrayList;
 
@@ -29,7 +29,6 @@ import com.sheel.datastructures.OfferDisplay2;
 import com.sheel.utils.GuiUtils;
 import com.sheel.utils.HTTPManager;
 import com.sheel.utils.InternetManager;
-import static com.sheel.utils.SheelMaayaaConstants.*;
 /**
  * This activity is used for displaying and interacting with
  * the offers of the logged-in user.
@@ -93,8 +92,6 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity
 		if((ArrayList<Category>) super.getLastNonConfigurationInstance() == null)
 		{
 			
-			airportsList = getResources().getStringArray(R.array.airports_array);
-			nationalitiesList = getResources().getStringArray(R.array.nationalities_array);
 			//=================Add Categories====================
 			
 //			super.getCategories().add(new Category("Half-Confirmed", R.layout.my_offers_main));
@@ -110,7 +107,7 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity
 			path = "/getmyoffers/" + getFacebookService().getFacebookUser().getUserId();
 			// XXXXhashas
 //			path = "/getmyoffers/626740322";
-			path = "/getmyoffers/673780564";
+//			path = "/getmyoffers/673780564";
 
 			dialog = ProgressDialog.show(MyOffersActivity.this, "", "Getting your Offers, Please wait..", true, false);
 			HTTPManager.startHttpService(path, HTTP_GET_MY_OFFERS_FILTER, getApplicationContext());
@@ -292,13 +289,18 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity
 				try {
 					
 					JSONArray jsonArray = new JSONArray(responseStr);
-                	
+					airportsList = getResources().getStringArray(R.array.airports_array);
+					nationalitiesList = getResources().getStringArray(R.array.nationalities_array);
+
+					
                	 for (int i = 0; i < jsonArray.length(); i++) {               		 
                		 
-               		 OfferDisplay2 offer = OfferDisplay2.mapOffer(jsonArray.getJSONObject(i), airportsList, nationalitiesList);
+               		 OfferDisplay2 offer = OfferDisplay2.mapOffer(jsonArray.getJSONObject(i), 
+               				 airportsList,  nationalitiesList);
                		 
-               		 //XXXXbad for localization
-               		if(offer.getOffer().offerStatus.equals(Confirmation.half_confirmed))
+               		 Log.e(TAG, offer + "");
+               		 
+                      if(offer.getOffer().offerStatus.equals(Confirmation.half_confirmed))
                			searchResults_half.add(OfferDisplay2.mapOffer(jsonArray.getJSONObject(i), airportsList, 
                					nationalitiesList));
                		
@@ -318,15 +320,16 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity
                	else 
                		{
                			int index = 0;
+               			String [] swpeCats = getResources().getStringArray(R.array._swyperCats);
                			if(!searchResults_half.isEmpty())
                			{
-                     	   getCategories().add(new Category("Half-Confirmed", R.layout.my_offers_main));
+                     	   getCategories().add(new Category("" + swpeCats[0], R.layout.my_offers_main));
                     	   updateCategoryContent(searchResults_half, index++, false);	
                			}
                			
                			if(!searchResults_full.isEmpty())
                			{
-                			getCategories().add(new Category("Not-Confirmed", R.layout.my_offers_main));
+                			getCategories().add(new Category(swpeCats[1], R.layout.my_offers_main));
                 			updateCategoryContent(searchResults_full, index, false);	
                			}
                		}
