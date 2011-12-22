@@ -492,14 +492,14 @@ public class SwypingHorizontalViewsActivity extends UserSessionStateMaintainingA
 			    	   msgBodyOffer = "Hello " + userDes.firstName + ", \n\n"
 			    	   			+ "I am sending you an auto confirmation from Sheel M3aya app describing details of my transaction.\n\n"
 			    	   			+ "I have requested " +  offer.noOfKilograms + " kilograms with " +  
-			    	   			  price +  " euros on flight " + flight.getFlightNumber() +  ".\n\n" 
+			    	   			  price +  " euros on flight " + flight.getFlightNumber() + ", date: " + flight.getDepartureDate() +  ".\n\n" 
 			    	   			+ "Have a nice flight :-),\n "+ userSrc.firstName;
 			    	   
 			       else
 			    	   msgBodyOffer = "Hello " + userDes.firstName + ", \n\n"
 						+ "This is an auto confirmation from Sheel M3aya app describing details of your transaction.\n\n"
 						+ "I have offered " +  offer.noOfKilograms + " kilograms with " + 
-						 price +  " euros on flight " + flight.getFlightNumber() +  ".\n\n"  
+						 price +  " euros on flight " + flight.getFlightNumber() + ", date: " + flight.getDepartureDate() +  ".\n\n"  
 						+ "Have a nice flight :-),\n "+ userSrc.firstName;
 			    		  
 			    	

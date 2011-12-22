@@ -320,7 +320,9 @@ public class InflateListener implements OnInflateListener, OnClickListener {
 	if(this.offerDisplay.getOffer().userStatus == 0)
 	{
 		sms_content1 = "Hello " + this.offerDisplay.getDisplayName() +",";
-		sms_content2 = "I have seen your offer on Sheel M3aaya app that you " +
+		sms_content2 = "I have seen your offer (Flight: " 
+			+  this.offerDisplay.getFlight().flightNumber + ", date: " + this.offerDisplay.getFlight().departureDate
+				+ ") on Sheel M3aaya app that you " +
 				"have an extra space ("+ this.offerDisplay.getOffer().noOfKilograms +  "Kilograms) in your bags." +
 				" So, I would like to inform you that " +
 				"I am interested in putting some of my stuff in your bags.";
@@ -334,7 +336,9 @@ public class InflateListener implements OnInflateListener, OnClickListener {
 	{
 		
 		sms_content1 = "Hello "+ this.offerDisplay.getDisplayName() +",";
-		sms_content2 = "I have seen your request on Sheel M3aaya app that you " +
+		sms_content2 = "I have seen your request" + "(Flight: " 
+			+  this.offerDisplay.getFlight().flightNumber + ", date: " + this.offerDisplay.getFlight().departureDate
+			+	") on Sheel M3aaya app that you " +
 				"need an extra space ("+ this.offerDisplay.getOffer().noOfKilograms + " Kilograms) in your bags." +
 				" So, I would like to inform you that " +
 				"I am interested in offering you some of my space in my bags.";
