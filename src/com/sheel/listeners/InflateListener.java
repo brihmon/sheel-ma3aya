@@ -1,7 +1,10 @@
 package com.sheel.listeners;
 
+import static com.sheel.utils.SheelMaayaaConstants.HTTP_CONFIRM_OFFER;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
@@ -18,9 +21,8 @@ import com.sheel.datastructures.OfferDisplay2;
 import com.sheel.datastructures.enums.OwnerFacebookStatus;
 import com.sheel.utils.GuiUtils;
 import com.sheel.utils.HTTPManager;
+import com.sheel.utils.InternetManager;
 import com.sheel.utils.SheelMaayaaConstants;
-
-import static com.sheel.utils.SheelMaayaaConstants.HTTP_CONFIRM_OFFER;;
 
 /**
  * InflateListener is the listener used when the Stub is inflated
@@ -71,6 +73,8 @@ public class InflateListener implements OnInflateListener, OnClickListener {
 	 * Current user logged In
 	 */
 	private FacebookUser mUser;
+
+
 	
 	/**
 	 * 
@@ -100,6 +104,7 @@ public class InflateListener implements OnInflateListener, OnClickListener {
 		this.mActivity = activity;
 		
 		this.mUser = mUser;
+		
 		
 		// <=== List your buttons here ===>
 		buttonIDs[0] = R.id.details_button_call; 
@@ -173,7 +178,10 @@ public class InflateListener implements OnInflateListener, OnClickListener {
 			
 			Log.e(TAG, "Button Listener done: " + btn.getId());
 		}
-				
+		
+		//XXXNeed to handle the view stub view
+//		inflated.findViewById(buttonIDs[0]).setVisibility(View.GONE);
+//		inflated.findViewById(buttonIDs[1]).setVisibility(View.GONE);
 	}// end onInflate
 
 	/**
@@ -192,12 +200,49 @@ public class InflateListener implements OnInflateListener, OnClickListener {
 		case R.id.details_button_sendSms:
 			
 			Log.e("SMS button", this.offerDisplay.getUser().mobileNumber);
-			sendSMS(getSMSMessage(), this.offerDisplay.getUser().mobileNumber);
+			sendSMS(getSMSMessage(), this.offerDisplay.getUser().mobileNumber, mActivity);
 			break;
 			
 		case R.id.details_button_confirm:
 			Log.e("Confirm button", "Hello");
-			confirmOffer();
+			if(InternetManager.isInternetOn(mContext))
+			{	
+				AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
+				builder.setMessage("Are you sure, you want to confirm this offer?")
+				       .setCancelable(false)
+				       .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+				           public void onClick(DialogInterface dialog2, int id) { 
+				        	   
+				        		
+								confirmOffer();
+				           }
+				       });
+				builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog2, int whichButton) {
+			        	   dialog2.cancel();
+                    }
+                	});
+				
+				 builder.create();
+				 builder.show();
+				
+			
+			}
+			else
+			{
+				AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
+				builder.setMessage("" + R.string._hossamInternetConn)
+				       .setCancelable(false)
+				       .setPositiveButton( "" + R.string._hossamOk, new DialogInterface.OnClickListener() {
+				           public void onClick(DialogInterface dialog, int id) {
+				        	   dialog.cancel();
+				           }
+				       
+				       });
+				 builder.create();
+				 builder.show();
+
+			}
 			break;
 	
 		default:
@@ -212,8 +257,9 @@ public class InflateListener implements OnInflateListener, OnClickListener {
 	 * @param sms_content The template form of the SMS
 	 * @param number The destination number the SMS will be sent to
 	 * @author Hossam_Amer
+	 * @see http://stackoverflow.com/questions/8429003/open-sms-send-app-with-parameters-in-android-2-2
 	 */
-	private void sendSMS(String sms_content, String number)
+	public static void sendSMS(String sms_content, String number, Activity mActivity)
 	{
 //		Intent sendIntent = new Intent(Intent.ACTION_VIEW, Uri.fromParts("sms", number, null));
 //		sendIntent.putExtra("sms_body", sms_content);
@@ -241,10 +287,10 @@ public class InflateListener implements OnInflateListener, OnClickListener {
 		
 //XXX		
 		String path = "/insertconfirmation/" + mUser.getUserId()+"/"+this.offerDisplay.getOffer().id;
-//		String path = "/insertconfirmation/" + 673780564+"/"+this.offerDisplay.getOffer().id;
+//		path = "/insertconfirmation/" + 673780564+"/"+this.offerDisplay.getOffer().id;
+//		path = "/insertconfirmation/" + "100003145017782" +"/"+this.offerDisplay.getOffer().id;
 		Log.e("Confirm offer path: ", path);
 		HTTPManager.startHttpService(path, HTTP_CONFIRM_OFFER, mContext);
-		
 		
 	}
 	
