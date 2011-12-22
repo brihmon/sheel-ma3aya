@@ -960,7 +960,8 @@ Hossam Amer
 	<string name="invalid_input">Invalid Input</string>
 	<string name="status_valid">Please select the user status you\'re searching for</string>
 	<string name="date_valid">Please enter a valid date</string>
-	<string name="flight_valid">Please enter the flight number</string>
+	<string name="flight_valid_missing">Please enter the flight number</string>
+	<string name="flight_valid">Please enter a valid flight number</string>
 	<string name="source_valid_missing">Please enter the source airport</string>
 	<string name="des_valid_missing">Please enter the destination airport</string>
 	<string name="source_valid">Please enter a valid source aiport</string>
