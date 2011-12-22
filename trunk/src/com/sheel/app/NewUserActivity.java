@@ -137,7 +137,8 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 	boolean gotResponse = false;
 	boolean photoTaken = true;
 	boolean mobileValid = true;
-
+	Bundle savedBundle;
+	
 	/*
 	 * public void NewUser() { String gender = ""; String firstName = ""; String
 	 * middleName = ""; String lastName = ""; String email = "";
@@ -165,6 +166,7 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		//onRestoreInstanceState(savedBundle);
 		// Set the contentView of this activity to the the register
 		setContentView(R.layout.register);
 
@@ -185,30 +187,39 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 	*/
 	@Override
 	protected void onDestroy() {
+		try{	unregisterReceiver(receiver);
+		}catch(Exception e){System.out.println("CATCHED");}
 		// TODO Auto-generated method stub
+	//onSaveInstanceState(savedBundle);
 		super.onDestroy();
 	}
 
 	@Override
 	protected void onPause() {
+		//try{	unregisterReceiver(receiver);
+		//}catch(Exception e){System.out.println("CATCHED");}
 		// TODO Auto-generated method stub
+		//onSaveInstanceState(savedBundle);
 		super.onPause();
 		
 		// Cancel out the dialog
 		dialog = null;
 		// Unregister the receiver onPause
-		unregisterReceiver(receiver);
+		//unregisterReceiver(receiver);
 	}
 
 	@Override
 	protected void onRestart() {
 		// TODO Auto-generated method stub
+		//onRestoreInstanceState(savedBundle);
 		super.onRestart();
+		
 	}
 
 	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub
+		//onRestoreInstanceState(savedBundle);
 		super.onResume();
 		
 		filter = new IntentFilter();
@@ -530,6 +541,7 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 
 	public void validate() {
 		String countryCode = countryCodes.getText().toString();
+		
 		countryCodes.getValidator().isValid(countryCode);
 		System.out.println("Went to validator");
 		//nationality = nationalityField.getText().toString();
@@ -609,6 +621,17 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 		}
 		return false;
 		}
+	/*
+	public String getNationalityIndex(String nationality){
+		 
+		 for(int i = 0 ; i < nationalityStrings.length ; i++){
+			 if(nationality.equals(nationalityStrings[i]))
+				 return i+"";	 
+		 }
+		 
+		 return -1+"";
+	 }*/
+
 
 	public AlertDialog showAlert(String title, String message){
 		 AlertDialog alertDialog;
@@ -692,6 +715,7 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 			
 		}
 	}
+	
 	
 	public void OnClick_register(View v) {
 		//if(isInternetOn())
