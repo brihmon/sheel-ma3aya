@@ -22,9 +22,12 @@ import android.widget.Toast;
 import com.sheel.adapters.HorizontalSwypingPagingAdapter;
 import com.sheel.datastructures.Category;
 import com.sheel.datastructures.Confirmation;
+import com.sheel.datastructures.Flight;
+import com.sheel.datastructures.Offer;
 import com.sheel.datastructures.OfferDisplay2;
+import com.sheel.datastructures.User;
+import com.sheel.listeners.InflateListener;
 import com.viewpagerindicator.TitlePageIndicator;
-
 /**
  * Activity used for displaying multiple views in a horizontal-sliding
  * manner. It has built in page indicator  with categories names as its 
@@ -34,6 +37,7 @@ import com.viewpagerindicator.TitlePageIndicator;
  * 
  * @author 
  *		Passant El.Agroudy (passant.elagroudy@gmail.com)
+ *		Hossam Amer
  *
  */
 public class SwypingHorizontalViewsActivity extends UserSessionStateMaintainingActivity {
@@ -312,7 +316,7 @@ public class SwypingHorizontalViewsActivity extends UserSessionStateMaintainingA
 		super.onPause();
 		
 		// Cancel out the dialog
-//		dialog = null;
+//		dialogConfirm = null;
 		// Unregister the receiver onPause
 		unregisterReceiver(receiver);
 
@@ -394,13 +398,13 @@ public class SwypingHorizontalViewsActivity extends UserSessionStateMaintainingA
 				{
 					responseStr = intent.getExtras().getString(HTTP_RESPONSE);
 					if(action.equals(HTTP_CONFIRM_OFFER))
-					{
+					{	
 						Log.e(TAG, responseStr);
 						
 						if(responseStr.equals(Confirmation.alreadyConfirmed))
-							Toast.makeText(getApplicationContext(), "This Offer is already confirmed by two users.", Toast.LENGTH_SHORT).show();
+							Toast.makeText(getApplicationContext(), R.string._hossamAlreadyConfirmed, Toast.LENGTH_SHORT).show();
 						else if(responseStr.equals(Confirmation.confirmedByAnotherPerson))
-							Toast.makeText(getApplicationContext(), "Sorry, this offer is already confirmed by another user.", Toast.LENGTH_SHORT).show();
+							Toast.makeText(getApplicationContext(), R.string._hossamConfirmedByAnotherPerson, Toast.LENGTH_SHORT).show();
 						else
 						{
 							Log.e("updateConfirmedOffersOnUI(responseStr)", TAG);
@@ -408,28 +412,7 @@ public class SwypingHorizontalViewsActivity extends UserSessionStateMaintainingA
 							updateConfirmedOffersOnUI(responseStr);
 							
 						}
-					}	
-						/**
-						 * if(half-confirmed by another user)
-						 * Sorry!
-						t * if(confirmed success)
-						 * You confirmed the user + 7abashtakaanaat fel view lw fi!
-						 * 
-						 * if(offerOwner is confirming the offer)
-						 * it should not re-appear, it is fetching again
-						 * 
-						 */
-/*                        if(str.contains("12") || str.contains("13"))
-                     {
-                     sendMail
-                    	 Toast.makeText(PhoneCommunication.this, "Offer has been confirmed!", Toast.LENGTH_LONG).show(); 
-                     }
-                     else if(str.contains("Success"))
-                    	 Toast.makeText(PhoneCommunication.this, "You have confirmed the offer!", Toast.LENGTH_LONG).show();
-                     else if(str.contains("Failure"))
-                         Toast.makeText(PhoneCommunication.this, "You could not confirm this offer anymore!", Toast.LENGTH_LONG).show();
-*/						
-				
+					}					
 				}
 			}
 
@@ -444,9 +427,42 @@ public class SwypingHorizontalViewsActivity extends UserSessionStateMaintainingA
 					Confirmation confirmation = Confirmation.mapConfirmation(confirmationJSON);
 					Log.e("hashas confirmation", confirmation + "");
 					
+				
+					
 					if(confirmation.isStatusTransactionUser1() && confirmation.isStatusTransactionUser2())
 					{
-						Toast.makeText(getApplicationContext(), "Offer confirmed by two users", Toast.LENGTH_SHORT).show();
+						//============Delete offer from UI=========
+						
+						deleteOfferFromCategory();
+						
+//						Log.e(TAG, "Dismissing Dialog : " + dialogConfirm);
+//						if(dialogConfirm != null) dialogConfirm.dismiss();
+						Toast.makeText(getApplicationContext(), getString(R.string._hossamConfirmedByTwoUsers), Toast.LENGTH_SHORT).show();
+						Toast.makeText(getApplicationContext(), getFacebookService().getFacebookUser().getFirstName() + ", " + 
+								getString(R.string._hossamConfirmationMail), Toast.LENGTH_SHORT).show();
+						
+					if(getFacebookService().getFacebookUser().getUserId().equals(confirmation.getUser1().getFacebookId()))	
+							InflateListener.sendSMS( 
+										getSMSContentForConfirmation
+											(confirmation.getOffer().userStatus, 
+											confirmation.getUser1(), 
+											confirmation.getUser2(), 
+											confirmation.getOffer(),
+											confirmation.getFlight()),
+									confirmation.getUser2().mobileNumber,
+									SwypingHorizontalViewsActivity.this);
+						
+					else
+						InflateListener.sendSMS( 
+								getSMSContentForConfirmation
+									(confirmation.getOffer().userStatus, 
+									confirmation.getUser2(), 
+									confirmation.getUser1(), 
+									confirmation.getOffer(),
+									confirmation.getFlight()),
+							confirmation.getUser1().mobileNumber,
+							SwypingHorizontalViewsActivity.this);
+
 						
 					}
 					else if(confirmation.isStatusTransactionUser1())
@@ -465,7 +481,43 @@ public class SwypingHorizontalViewsActivity extends UserSessionStateMaintainingA
 				}
 				
 			}
-		}
 
+			 private String  getSMSContentForConfirmation(int offerStatus, User userSrc, User userDes, Offer offer, Flight flight) {
+					
+			        String msgBodyOffer  = "";
+			        double price = offer.noOfKilograms*offer.pricePerKilogram;
+			        
+			        // More weight
+			       if(offerStatus == 1)	 
+			    	   msgBodyOffer = "Hello " + userDes.firstName + ", \n\n"
+			    	   			+ "I am sending you an auto confirmation from Sheel M3aya app describing details of my transaction.\n\n"
+			    	   			+ "I have requested " +  offer.noOfKilograms + " kilograms with " +  
+			    	   			  price +  " euros on flight " + flight.getFlightNumber() +  ".\n\n" 
+			    	   			+ "Have a nice flight :-),\n "+ userSrc.firstName;
+			    	   
+			       else
+			    	   msgBodyOffer = "Hello " + userDes.firstName + ", \n\n"
+						+ "This is an auto confirmation from Sheel M3aya app describing details of your transaction.\n\n"
+						+ "I have offered " +  offer.noOfKilograms + " kilograms with " + 
+						 price +  " euros on flight " + flight.getFlightNumber() +  ".\n\n"  
+						+ "Have a nice flight :-),\n "+ userSrc.firstName;
+			    		  
+			    	
+			              
+			       return msgBodyOffer;
+				}
+		}// updateConfirmedOffersOnUI(String responseStr)
+			/**
+			 * Finds the Offer and deletes it from the list
+			 * @author Ahmed Moshen
+			 */
+			private void deleteOfferFromCategory() {
+				// TODO Mohsens's Task to delete the offer from UI + DB
+				
+				/**
+				 * @Ahmed: It is for you to fill, delete the offer from the category
+				 */
+			}
+		
 	
 }// end class
