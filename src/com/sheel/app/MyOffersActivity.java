@@ -300,7 +300,7 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity
                		 
                		 Log.e(TAG, offer + "");
                		 
-                      if(offer.getOffer().offerStatus.equals(Confirmation.half_confirmed))
+                      if(offer.getOffer().offerStatus.equals(Confirmation.half_confirmed_offerOwner))
                			searchResults_half.add(OfferDisplay2.mapOffer(jsonArray.getJSONObject(i), airportsList, 
                					nationalitiesList));
                		
