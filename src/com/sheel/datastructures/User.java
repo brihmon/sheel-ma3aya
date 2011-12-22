@@ -104,6 +104,20 @@ public class User
 	    public String getFacebookId () {
 	    	return facebookAccount;
 	    }
+	    
+	    /**
+	     * Returns the nationality in the correct language 
+	     * of the mobile as a string
+	     * 
+	     * @return
+	     * 		Name of the country
+	     * @author 
+	     *		Passant El.Agroudy (passant.elagroudy@gmail.com)
+	     */
+	    public String getNationality() {
+	    	return nationality;
+	    }// end getNationality
+	    
 	    public String toString()
 	    {
 	    	return
