@@ -46,6 +46,8 @@ public class FilterPreferencesActivity extends UserSessionStateMaintainingActivi
 	
 	OwnerFacebookStatus facebook;
 	
+	String[] nationalitiesList;
+	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,6 +85,8 @@ public class FilterPreferencesActivity extends UserSessionStateMaintainingActivi
         male = (ToggleButton) findViewById(R.id.male);
         female = (ToggleButton) findViewById(R.id.female);
         	
+        nationalitiesList = getResources().getStringArray(R.array.nationalities_array);
+        
         setNationalityAdaptor();
      }
 	
@@ -259,6 +263,9 @@ public class FilterPreferencesActivity extends UserSessionStateMaintainingActivi
 		
 		String request = "";
 		
+		if(!nationality.equals("none"))
+			nationality = getNationalityIndex(nationality);
+		
 		if(searchMethod == 0)
 			request = "/filterflightnumberoffers/" + flightNumber + "/" + selectedDate + "/" + searchStatus +
 									"/" + kgs + "/" + price + "/" + gender + "/" + nationality; 
@@ -272,6 +279,28 @@ public class FilterPreferencesActivity extends UserSessionStateMaintainingActivi
 		intent.putExtra("facebook", facebook.name());
 	
 		startActivity(intent);
+	}
+	
+	public String getNationalityIndex(String nationality){
+		 
+		 for(int i = 0 ; i < nationalitiesList.length ; i++){
+			 if(nationality.equals(nationalitiesList[i]))
+				 return i+"";	 
+		 }
+		 
+		 return -1+"";
+	 }
+	
+	@Override
+	protected void onResume() {
+			
+		super.onResume();
+			
+		male.setChecked(false);
+    	female.setChecked(false);
+    	nationalityView.setText("");
+    	numOfKgsText.setText("");
+    	priceText.setText("");
 	}
 	
 	@Override

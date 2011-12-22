@@ -60,6 +60,9 @@ public class ViewSearchResultsActivity extends SwypingHorizontalViewsActivity {
 	ArrayList<OfferDisplay2> searchResults;
 	IntentFilter filter;
 	
+	String[] airportsList;
+	String[] nationalitiesList;
+	
 	/**
 	 * Map between each user and his/her corresponding offersWrappers retrieved
 	 * from the database
@@ -86,6 +89,9 @@ public class ViewSearchResultsActivity extends SwypingHorizontalViewsActivity {
     			facebook = OwnerFacebookStatus.FRIEND_OF_FRIEND;
     		
     		}
+    	
+    	airportsList = getResources().getStringArray(R.array.airports_array);
+    	nationalitiesList = getResources().getStringArray(R.array.nationalities_array);
     	
     	if((ArrayList<Category>) super.getLastNonConfigurationInstance() == null)
     		startHttpService();
@@ -365,7 +371,7 @@ public class ViewSearchResultsActivity extends SwypingHorizontalViewsActivity {
         	
        	 	for (int i = 0; i < jsonArray.length(); i++) {    
 	       	 	
-       	 		offerDisplay = OfferDisplay2.mapOffer(jsonArray.getJSONObject(i));
+       	 		offerDisplay = OfferDisplay2.mapOffer(jsonArray.getJSONObject(i), airportsList, nationalitiesList);
 	       	 	
        	 		if(facebookStatus.equals(OwnerFacebookStatus.UNRELATED.name())) 
 	       	 		searchResults.add(offerDisplay);
