@@ -73,6 +73,9 @@ public class SwypeCatsGuiUtils extends Activity
 	public SwypeCatsGuiUtils(Context mContext) {
 		
 		this.mContext = mContext;
+		
+		//============Add your resources here=============
+		
 		swpeCats = mContext.getResources().getStringArray(R.array._swyperCats);
 		okay = mContext.getResources().getString(R.string._hossamOk);
 		Yes =  mContext.getResources().getString(R.string._hossamYes);
