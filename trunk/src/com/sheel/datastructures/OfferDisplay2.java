@@ -4,8 +4,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.sheel.app.R;
-import com.sheel.datastructures.enums.OfferWeightStatus;
+import android.util.Log;
+
 import com.sheel.datastructures.enums.OwnerFacebookStatus;
 
 
@@ -251,13 +251,19 @@ public class OfferDisplay2 {
 	 * 
 	 * @author Magued George (magued.george1990@gmail.com)
 	 */
-	
+	static int i = 0;
 	public static OfferDisplay2 mapOffer(JSONObject offerJSON, String[] airports, String[] nationalities)
 	{
 		try {
 			
+			Log.e("Map Offer: ", (i++) + "" );// 0
+			
 			JSONObject userJSON = offerJSON.getJSONObject("user");
+			
+			Log.e("Map Offer: ", (i++) + "" );// 1
+			
 			JSONObject flightJSON = offerJSON.getJSONObject("flight");
+			Log.e("Map Offer: ", (i++) + "" );// 2
 			
 			String ownerId = userJSON.getString("facebookAccount");
 			String firstName = userJSON.getString("firstName");
@@ -268,9 +274,15 @@ public class OfferDisplay2 {
 			String gender = userJSON.getString("gender");
 			String nationality = userJSON.getString("nationality");
 			
+			Log.e("Map Offer: ", (i++) + "" );// 3
+			
 			nationality = nationalities[Integer.parseInt(nationality)];
 			
+			Log.e("Map Offer: ", (i++) + "" );// 4
+			
 			User user = new User(ownerId, firstName, middleName, lastName, "", "", email, mobile, gender, nationality);
+			
+			Log.e("Map Offer: ", (i++) + "" );// 5
 			
 			Long offerId = offerJSON.getLong("id");
 			String offerstatus = offerJSON.getString("offerStatus");
@@ -279,24 +291,58 @@ public class OfferDisplay2 {
 			int price = offerJSON.getInt("pricePerKilogram");
 			
 			Offer offer = new Offer(offerId, kgs, price, userstatus, offerstatus);
-			    
-			String flightNumber = flightJSON.getString("flightNumber");
-			String source = flightJSON.getString("source");
-			String destination = flightJSON.getString("destination");
-			String departureDate = flightJSON.getString("departureDate");
 			
-			source = airports[Integer.parseInt(source)];
-			destination = airports[Integer.parseInt(destination)];
-				
-			Flight flight = new Flight(flightNumber, source, destination, departureDate);
+			Log.e("Map Offer: ", (i++) + " offer: " + offer.getId() );// 6
+			String flightNumber;
+		try
+		{
+			flightNumber = flightJSON.getString("flightNumber");
+			Log.e("Map Offer: ", (i++) + " offer: " + offer.getId() );// 7
+		}
+		catch (Exception e) {
+			// TODO: handle exception
+			flightNumber = "";
+			Log.e("Map Offer: ", (i++) + " offer: " + offer.getId() );// 8
+		}
+		String source = "";
+		String destination = "";
+		String departureDate = "";
+		try
+		{
+			source = flightJSON.getString("source");
+			Log.e("Map Offer: ", (i++) + " offer: " + offer.getId() );// 9
 			
+		}
+		catch (Exception e) {
+			// TODO: handle exception
+			Log.e("Map Offer: ", (i++) + " offer: " + offer.getId() );// 10
+		}
+		try
+		{
+			 destination = flightJSON.getString("destination");
+			 departureDate = flightJSON.getString("departureDate");
+		} 
+		catch (Exception e) {
+			// TODO: handle exception
+			Log.e("Map Offer: ", (i++) + " offer: " + offer.getId() );// 11
+		}
+			
+			String sourceNew = airports[Integer.parseInt(source)];
+			String destinationNew = airports[Integer.parseInt(destination)];
 				
+			Flight flight = new Flight(flightNumber, sourceNew, destinationNew, departureDate);
+			
+			Log.e("Map Offer: ", (i++) + "" );// 12
+			
+			i = 0;
 			return new OfferDisplay2(user, flight, offer);
 
 			
-		} catch (Exception e) {
+		} 
+	catch (JSONException e) {
 			// TODO: handle exception
-			
+			Log.e("Map Offer: ", (i++) + "" );// 12
+			i = 0;
 			return null;
 		}
 	}
