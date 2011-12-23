@@ -22,6 +22,7 @@ import com.sheel.datastructures.Category;
 import com.sheel.datastructures.FacebookUser;
 import com.sheel.datastructures.OfferDisplay2;
 import com.sheel.listeners.InflateListener;
+import com.sheel.listeners.MyOffersInflateListener;
 import com.viewpagerindicator.TitleProvider;
 
 /**
@@ -32,7 +33,7 @@ import com.viewpagerindicator.TitleProvider;
  */
 public class HorizontalSwypingPagingAdapter extends PagerAdapter  implements TitleProvider{
 	
-	private static final String TAG = MyOffersActivity.class.getName();
+	private static final String TAG = HorizontalSwypingPagingAdapter.class.getName();
 	
 	/**
 	 * Different categories of offers to be displayed
@@ -143,7 +144,8 @@ public class HorizontalSwypingPagingAdapter extends PagerAdapter  implements Tit
 			private void toggleVisibilityOfStub(ViewStub stub, int position) {
 				if (stub != null) {
 					if (stub.getVisibility() == View.GONE) {
-						InflateListener infListener =  new InflateListener(position, appContext, this.offersInList.get(position), mActivity, mUser);
+//						InflateListener infListener =  new InflateListener(position, appContext, this.offersInList.get(position), mActivity, mUser);
+						MyOffersInflateListener infListener =  new MyOffersInflateListener(position, appContext, this.offersInList.get(position), mActivity, mUser);
 						stub.setOnInflateListener(infListener);
 						stub.setVisibility(View.VISIBLE);
 
@@ -178,7 +180,8 @@ public class HorizontalSwypingPagingAdapter extends PagerAdapter  implements Tit
 		
 		if (displayList != null) {
 			System.out.println("HorizontalSwypingPager: instantiateItem: List was retrieved successfully");
-			displayList.setAdapter(new SearchResultsListAdapter(appContext, categories.get(position).getOffersDisplayed()));
+		//	displayList.setAdapter(new SearchResultsListAdapter(appContext, categories.get(position).getOffersDisplayed()));
+			displayList.setAdapter(new MyOffersResultsListAdapter(appContext, categories.get(position).getOffersDisplayed()));
 			((SearchResultsListAdapter)displayList.getAdapter()).notifyDataSetChanged();
 
 			displayList.setOnItemClickListener(new ListItemClickListener(appContext,this.categories.get(position).getOffersDisplayed()));
