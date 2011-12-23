@@ -11,7 +11,8 @@
 <RelativeLayout
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:gravity="center" >
 
     <TextView
         android:id="@+id/textView12_maged"
@@ -62,9 +63,8 @@
   	     android:id="@+id/textView14_maged"
   	     android:layout_width="wrap_content"
   	     android:layout_height="wrap_content"
-  	     android:layout_alignLeft="@+id/price"
   	     android:layout_below="@+id/kgs"
-  	     android:layout_alignParentRight="true"
+  	     android:layout_centerHorizontal="true"
   	     android:text="@string/weight_and_price"
   	     android:textAppearance="?android:attr/textAppearanceSmall" />
   	 
