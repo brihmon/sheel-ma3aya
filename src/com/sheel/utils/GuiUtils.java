@@ -89,6 +89,11 @@ public final class GuiUtils extends Activity{
 	public String flightOn;
 	
 	/**
+	 * Strings for displaying the offer
+	 */
+	public String offerKg;
+	
+	/**
 	 * Constructor for creating and getting the Swyper GUI utilities.
 	 * @param mContext
 	 * 				Current context of the application
@@ -114,7 +119,7 @@ public final class GuiUtils extends Activity{
 		flightFrom = mContext.getResources().getString(R.string._hossamFlightFrom);
 		flightTo = mContext.getResources().getString(R.string._hossamFlightTo);
 		flightOn = mContext.getResources().getString(R.string._hossamFlightOn);
-		
+		offerKg = mContext.getResources().getString(R.string._hossamOfferKg);
 	}
 	
 	
@@ -123,38 +128,130 @@ public final class GuiUtils extends Activity{
 	 * =======Some Getters=================
 	 * 
 	 */
-	
-	public String[] getSwpeCats() {
-		return swpeCats;
+		
+	/**
+	 * @return the flightOn
+	 */
+	public String getFlightOn() {
+		return flightOn;
 	}
+	
+	/**
+	 * @return the offerKg
+	 */
+	public String getOfferKg() {
+		return offerKg;
+	}
+	
+
+	/**
+	 * @return the okay
+	 */
 	public String getOkay() {
 		return okay;
 	}
+
+
+	/**
+	 * @return the yes
+	 */
 	public String getYes() {
 		return Yes;
 	}
+
+
+	/**
+	 * @return the no
+	 */
 	public String getNo() {
 		return No;
 	}
+
+
+	/**
+	 * @return the loadingConfirmation
+	 */
 	public String getLoadingConfirmation() {
 		return loadingConfirmation;
 	}
+
+
+	/**
+	 * @return the alreadyConfirmed
+	 */
 	public String getAlreadyConfirmed() {
 		return alreadyConfirmed;
 	}
+
+
+	/**
+	 * @return the confirmedByTwoUsers
+	 */
 	public String getConfirmedByTwoUsers() {
 		return confirmedByTwoUsers;
 	}
+
+
+	/**
+	 * @return the confirmedByAnotherPerson
+	 */
 	public String getConfirmedByAnotherPerson() {
 		return confirmedByAnotherPerson;
 	}
+
+
+	/**
+	 * @return the confirmationMail
+	 */
 	public String getConfirmationMail() {
 		return confirmationMail;
 	}
+
+
+	/**
+	 * @return the writingMode
+	 */
 	public String getWritingMode() {
 		return writingMode;
 	}
+
+
+	/**
+	 * @return the flightWord
+	 */
+	public String getFlightWord() {
+		return flightWord;
+	}
+
+
+	/**
+	 * @return the flightFrom
+	 */
+	public String getFlightFrom() {
+		return flightFrom;
+	}
+
+
+	/**
+	 * @return the flightTo
+	 */
+	public String getFlightTo() {
+		return flightTo;
+	}
 	
+	/**
+	 * @return the swype cats
+	 */
+	public String [] getSwpeCats()
+	{
+		return swpeCats;
+	}
+
+	/**
+	 * 
+	 * ==========================================
+	 * 
+	 */
 	
 	
 	/**
@@ -333,25 +430,6 @@ public final class GuiUtils extends Activity{
     		textView.setCompoundDrawables(null, null, img, null);
     }// end setIconForATextField
 
-
-	public String getFlightWord() {
-		return flightWord;
-	}
-
-
-	public String getFlightFrom() {
-		return flightFrom;
-	}
-
-
-	public String getFlightTo() {
-		return flightTo;
-	}
-
-
-	public String getFlightOn() {
-		return flightOn;
-	}
 
 
 }// end class

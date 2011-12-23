@@ -495,8 +495,5 @@ public class SwypingHorizontalViewsActivity extends UserSessionStateMaintainingA
 				this.reponseStr = responseStr;
 				
 			}
-
-
-		
 	
 }// end class

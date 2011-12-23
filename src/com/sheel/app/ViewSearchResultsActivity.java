@@ -1,7 +1,6 @@
 
 package com.sheel.app;
 
-import static com.sheel.utils.SheelMaayaaConstants.HTTP_GET_MY_OFFERS_FILTER;
 import static com.sheel.utils.SheelMaayaaConstants.HTTP_RESPONSE;
 import static com.sheel.utils.SheelMaayaaConstants.HTTP_SEARCH_FOR_OFFERS_FILTER;
 import static com.sheel.utils.SheelMaayaaConstants.HTTP_STATUS;
@@ -14,7 +13,6 @@ import java.util.Hashtable;
 import org.apache.http.HttpStatus;
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -25,17 +23,11 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 
-import com.sheel.app.MyOffersActivity.SheelMaayaaBroadCastRec;
 import com.sheel.datastructures.Category;
-import com.sheel.datastructures.Flight;
-import com.sheel.datastructures.Offer;
 import com.sheel.datastructures.OfferDisplay2;
-import com.sheel.datastructures.User;
 import com.sheel.datastructures.Utils;
 import com.sheel.datastructures.enums.OwnerFacebookStatus;
-import com.sheel.utils.GuiUtils;
 import com.sheel.utils.HTTPManager;
 import com.sheel.utils.InternetManager;
 
