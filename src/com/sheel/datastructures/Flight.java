@@ -1,5 +1,7 @@
 package com.sheel.datastructures;
 
+import android.util.Log;
+
 import com.sheel.utils.GuiUtils;
 
 //import java.util.Date;
@@ -91,7 +93,12 @@ public class Flight
 	     * 						Object contains all the localized strings.
 	     */
 	    public String displayFlight(GuiUtils swypeCatsGuiUtils) {
-	    	return swypeCatsGuiUtils.getFlightWord()+ " (" + flightNumber + ") " + 
+	    	
+	    	Log.e("Flight details: ", swypeCatsGuiUtils.getFlightWord()+ "(" + flightNumber + ") " + 
+    				swypeCatsGuiUtils.getFlightFrom() + " " + source + " " + swypeCatsGuiUtils.getFlightTo() + " " + destination + " " +  
+    				swypeCatsGuiUtils.getFlightOn() + " " + departureDate );
+	    	
+	    	return swypeCatsGuiUtils.getFlightWord()+ "(" + flightNumber + ") " + 
 	    				swypeCatsGuiUtils.getFlightFrom() + " " + source + " " + swypeCatsGuiUtils.getFlightTo() + " " + destination + " " +  
 	    				swypeCatsGuiUtils.getFlightOn() + " " + departureDate ;
 //	    else
