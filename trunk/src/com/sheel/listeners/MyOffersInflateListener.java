@@ -54,7 +54,7 @@ public class MyOffersInflateListener extends InflateListener{
 		/**
 		 * Example: Assume you want to hide call and send sms buttons
 		 */
-		setVisibilityButtonsVisibility(inflated, View.VISIBLE, View.INVISIBLE, View.INVISIBLE);
+		setVisibilityButtonsVisibility(inflated, View.VISIBLE, View.GONE, View.GONE);
 		
 		/**
 		 * If you don't need to change the visibility, you do not need to 
@@ -71,8 +71,9 @@ public class MyOffersInflateListener extends InflateListener{
 		/**
 		 * Example: assume you want to change the name
 		 */
-		textView.setText("Overriding is successful");
+//		textView.setText("Overriding is successful");
 		
+	//	textView.Visit
 		/**
 		 * Example: assume you want to change the visibility
 		 */
