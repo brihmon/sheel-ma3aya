@@ -85,7 +85,7 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
      ProgressDialog dialog;
 
 	/** Path string where the taken passport photo is saved */
-	String ImagePath;
+	String ImagePath = "";
 	/** Male Toggle Button. Not required to register */
 	RadioButton toggleMale;
 	/** Female Toggle Button. Not required to register */
@@ -126,7 +126,7 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 	
 	String LoggedID;
 
-	int code;
+	int code=853589;
 	String userValidationCode;
 	/**
 	 * Boolean variable to check that all the required fields are filled and in
@@ -170,7 +170,7 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 	  savedInstanceState.putString("ValidationCode", validationCodeField.getText().toString());
 	  savedInstanceState.putString("Nationality", nationalityField.getText().toString());
 	  savedInstanceState.putString("PassportNumber", passportNumberField.getText().toString());
-	 
+	  savedInstanceState.putInt("ValCode", code);
 	  savedInstanceState.putString("ImageView", ImagePath);
 	  System.out.println("In SaveInstanceState ");
 	  // etc.
@@ -188,6 +188,8 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 	  nationalityField.setText(savedInstanceState.getString("Nationality"));
 	  passportNumberField.setText(savedInstanceState.getString("PassportNumber"));
 	ImagePath = savedInstanceState.getString("ImageView");
+	code = savedInstanceState.getInt("ValCode");
+	if(ImagePath.length()>2)
 	onPhotoTaken();
 	  System.out.println("onRestoreInstanceState");
 	}
@@ -343,34 +345,11 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 		i = (ImageView) findViewById(R.id.pictureView);
 	} // end setVariables
 
-	/** Method called when male toggle button is clicked */
-	public void onClick_male(View v) {
-		
-		// Uncheck the female radio button
-		toggleFemale.setChecked(false);
-		// Set the gender to male
-		gender = "male";
-		
-	} // end onClick_male
 
-	/** Method called when female toggle button is clicked */
-	public void onClick_female(View v) {
-		
-		// Uncheck the male radio button
-		toggleMale.setChecked(false);
-		// Set the gender to male
-		gender = "female";
-		
-	} // end onClick_female
 
 	/** Method called when the take photo button is clicked to open the camera */
 	public void onClick_takePhoto(View v) {
 		/*
-		 * Intent photoIntent = new Intent(this, TakePhotoActivity.class);
-		 * startActivity(photoIntent); passportImage =
-		 * photoIntent.getExtras().getString(PASSPORT_IMAGE_KEY);
-		 * System.out.println(passportImage);
-		 */
 
 		// Set the path where the taken photo will be saved
 		
@@ -463,7 +442,7 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 		String SENT = "SMS_SENT";
         String DELIVERED = "SMS_DELIVERED";
         
-        String phoneCode = countryCode.toString().split(" ")[1];
+        String phoneCode = countryCode.toString().split(" ")[countryCode.toString().split(" ").length-1];
 		mobileNumber =  phoneCode + mobileNumber;
 
 		mobileNumber = mobileNumber.trim();
@@ -743,8 +722,15 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 		faceBookID = getFacebookService().getFacebookUser().getUserId();
 		
 
-	//	mobileNumber = (mobileNumberField.getText().toString());
-		//mobileNumber = mobileNumber.trim();
+		mobileNumber = (mobileNumberField.getText().toString());
+		String countryCode = countryCodes.getText().toString();
+		String phoneCode = countryCode.toString().split(" ")[countryCode.toString().split(" ").length-1];
+		mobileNumber =  phoneCode + mobileNumber;
+
+		mobileNumber = mobileNumber.trim();
+		mobileNumber = mobileNumber.replace("(", "");
+		mobileNumber = mobileNumber.replace(")", "");
+		mobileNumber = mobileNumber.replace(" ", "");
 		
 		//firstName = firstNameField.getText().toString();
 		//firstName = firstName.trim();

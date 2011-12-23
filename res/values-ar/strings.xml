@@ -956,5 +956,12 @@
 	<string name="price_valid">السعر يجب أن يكون من ١ إلى ٣٠ يورو</string>
 	<string name="nationality_valid">الرجاء إدخل جنسية صحيحة</string>
     
-
+	<string name="required">مطلوب للتسجيل*</string>
+	<string name="mobile_code">*بلد الهاتف </string>
+	<string name="mobile_number">*رقم الهاتف </string>
+	<string name="send_validation">رسالة التأكيد</string>
+	<string name="nationality_nada">الجنسية </string>
+	<string name="passport_number">*رقم جواز السفر </string>
+	<string name="passport_photo">*صورة جواز السفر </string>
+	<string name="register">التسجيل</string>
 </resources>
