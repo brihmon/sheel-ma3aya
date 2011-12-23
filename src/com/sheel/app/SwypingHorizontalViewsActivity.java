@@ -28,7 +28,6 @@ import com.sheel.datastructures.Offer;
 import com.sheel.datastructures.OfferDisplay2;
 import com.sheel.datastructures.User;
 import com.sheel.listeners.InflateListener;
-import com.sheel.listeners.MyOffersInflateListener;
 import com.sheel.utils.GuiUtils;
 import com.viewpagerindicator.TitlePageIndicator;
 /**
@@ -125,7 +124,8 @@ public class SwypingHorizontalViewsActivity extends UserSessionStateMaintainingA
      * @author 
      *		Passant El.Agroudy (passant.elagroudy@gmail.com)
      */
-    public  Class getClassOfListAdapter() {
+    @SuppressWarnings("unchecked")
+	public  Class getClassOfListAdapter() {
     	return SearchResultsListAdapter.class;
     }// end getClassOfListAdapter
     
@@ -471,107 +471,8 @@ public class SwypingHorizontalViewsActivity extends UserSessionStateMaintainingA
 					}					
 				}
 			}
+		}	
 
-			/**
-			 * Updates the UI with the offers confirmed by the user.
-			 * It changes the status of the offer and reflect the change on the UI.
-			 * We have four categories:
-			 * - New offers I declared
-			 * - Half confirmed offers I declared (I am Offer owner)
-			 * - Half confirmed offers I confirmed but not declared by me
-			 * 	(I am not offer owner)
-			 * @param responseStr The response string retrieved from the server
-			 * @author Hossam_Amer
-			 */
-			private void updateConfirmedOffersOnUI(String responseStr) {				
-				try {
-					
-					JSONObject confirmationJSON = new JSONObject(responseStr);
-					Log.e("hashas confirmationJSON: ", confirmationJSON + "");
-					
-					Confirmation confirmation = Confirmation.mapConfirmation(confirmationJSON);
-					Log.e("hashas confirmation", confirmation + "");
-					
-				
-					
-					if(confirmation.isStatusTransactionUser1() && confirmation.isStatusTransactionUser2())
-					{
-						//============Delete offer from UI=========
-						
-						deleteOfferFromCategory();
-						
-//						Log.e(TAG, "Dismissing Dialog : " + dialogConfirm);
-//						if(dialogConfirm != null) dialogConfirm.dismiss();
-						Toast.makeText(getApplicationContext(), getString(R.string._hossamConfirmedByTwoUsers), Toast.LENGTH_SHORT).show();
-						Toast.makeText(getApplicationContext(), getFacebookService().getFacebookUser().getFirstName() + ", " + 
-								getString(R.string._hossamConfirmationMail), Toast.LENGTH_SHORT).show();
-						
-					if(getFacebookService().getFacebookUser().getUserId().equals(confirmation.getUser1().getFacebookId()))	
-							InflateListener.sendSMS( 
-										getSMSContentForConfirmation
-											(confirmation.getOffer().userStatus, 
-											confirmation.getUser1(), 
-											confirmation.getUser2(), 
-											confirmation.getOffer(),
-											confirmation.getFlight()),
-									confirmation.getUser2().mobileNumber,
-									SwypingHorizontalViewsActivity.this);
-						
-					else
-						InflateListener.sendSMS( 
-								getSMSContentForConfirmation
-									(confirmation.getOffer().userStatus, 
-									confirmation.getUser2(), 
-									confirmation.getUser1(), 
-									confirmation.getOffer(),
-									confirmation.getFlight()),
-							confirmation.getUser1().mobileNumber,
-							SwypingHorizontalViewsActivity.this);
-
-						
-					}
-					else if(confirmation.isStatusTransactionUser1())
-					{
-						Toast.makeText(getApplicationContext(), "Hello offer Owner, you have confirmed this offer", Toast.LENGTH_SHORT).show();
-					}
-					else if(confirmation.isStatusTransactionUser2())
-					{
-						Toast.makeText(getApplicationContext(), "Hello offer other, you have confirmed this offer", Toast.LENGTH_SHORT).show();
-					}
-					
-					
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				
-			}
-
-			 private String  getSMSContentForConfirmation(int offerStatus, User userSrc, User userDes, Offer offer, Flight flight) {
-					
-			        String msgBodyOffer  = "";
-			        double price = offer.noOfKilograms*offer.pricePerKilogram;
-			        
-			        // More weight
-			       if(offerStatus == 1)	 
-			    	   msgBodyOffer = "Hello " + userDes.firstName + ", \n\n"
-			    	   			+ "I am sending you an auto confirmation from Sheel M3aya app describing details of my transaction.\n\n"
-			    	   			+ "I have requested " +  offer.noOfKilograms + " kilograms with " +  
-			    	   			  price +  " euros on flight " + flight.getFlightNumber() + ", date: " + flight.getDepartureDate() +  ".\n\n" 
-			    	   			+ "Have a nice flight :-),\n "+ userSrc.firstName;
-			    	   
-			       else
-			    	   msgBodyOffer = "Hello " + userDes.firstName + ", \n\n"
-						+ "This is an auto confirmation from Sheel M3aya app describing details of your transaction.\n\n"
-						+ "I have offered " +  offer.noOfKilograms + " kilograms with " + 
-						 price +  " euros on flight " + flight.getFlightNumber() + ", date: " + flight.getDepartureDate() +  ".\n\n"  
-						+ "Have a nice flight :-),\n "+ userSrc.firstName;
-			    		  
-			    	
-			              
-			       return msgBodyOffer;
-				}
-		}// updateConfirmedOffersOnUI(String responseStr)
 			/**
 			 * Finds the Offer and deletes it from the list
 			 * @author Ahmed Moshen
