@@ -19,6 +19,7 @@ import com.sheel.app.R;
 import com.sheel.datastructures.FacebookUser;
 import com.sheel.datastructures.Flight;
 import com.sheel.datastructures.OfferDisplay2;
+import com.sheel.datastructures.User;
 import com.sheel.datastructures.enums.OwnerFacebookStatus;
 import com.sheel.utils.GuiUtils;
 import com.sheel.utils.HTTPManager;
@@ -148,8 +149,8 @@ public class InflateListener implements OnInflateListener, OnClickListener {
 			btn.setTag(mPos);
 			Log.e(TAG, "Button: " + btn.getId());
 			
+			//btn.setOnClickListener(this);
 			btn.setOnClickListener(this);
-			
 			Log.e(TAG, "Button Listener done: " + btn.getId());
 		}
 	
@@ -341,71 +342,132 @@ public class InflateListener implements OnInflateListener, OnClickListener {
 	
 	/**
 	 * Click Action listener for the buttons inside the view stub
-	 * @author Hossam_Amer
+	 * @author 
+	 * 		Hossam_Amer
+	 * @author 
+	 * 		Passant El.Agroudy (passant.elagroudy@gmail.com)
 	 */
 	public void onClick(View v) {
-		// TODO Auto-generated method stub
+		
+		/**
+		 * The helper methods called in the switch are used
+		 * to handle giving customized actions for the views
+		 * to the buttons by overriding the methods
+		 * 
+		 * Example: (Call) button is search results view
+		 * is the (Edit) button in My Offers view 
+		 */
 		switch (v.getId()) {
 		case R.id.details_button_call:
-			
-			Log.e("Call button", this.offerDisplay.getUser().mobileNumber);
-			call(this.offerDisplay.getUser().mobileNumber);
+			onClick_button1(v);
 			break;
 			
 		case R.id.details_button_sendSms:
-			
-			Log.e("SMS button", this.offerDisplay.getUser().mobileNumber);
-			sendSMS(getSMSMessage(), this.offerDisplay.getUser().mobileNumber, mActivity);
+			onClick_button2(v);
 			break;
 			
 		case R.id.details_button_confirm:
-			Log.e("Confirm button", "Hello");
-			if(InternetManager.isInternetOn(mContext))
-			{	
-				AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
-				builder.setMessage("Are you sure, you want to confirm this offer?")
-				       .setCancelable(false)
-				       .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-				           public void onClick(DialogInterface dialog2, int id) { 
-				        	   
-				        		
-								confirmOffer();
-				           }
-				       });
-				builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog2, int whichButton) {
-			        	   dialog2.cancel();
-                    }
-                	});
-				
-				 builder.create();
-				 builder.show();
-				
-			
-			}
-			else
-			{
-				AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
-				builder.setMessage("" + R.string._hossamInternetConn)
-				       .setCancelable(false)
-				       .setPositiveButton( "" + R.string._hossamOk, new DialogInterface.OnClickListener() {
-				           public void onClick(DialogInterface dialog, int id) {
-				        	   dialog.cancel();
-				           }
-				       
-				       });
-				 builder.create();
-				 builder.show();
-
-			}
+			onClick_confirm(v);
 			break;
 	
 		default:
 			break;
+		}// end switch
+		
+	}// end onClick
+	
+	/**
+	 * Called on clicking the first button form the left.
+	 * By default this button performs call functions for
+	 * offer owner. To change such behavior, override the
+	 * method in child class
+	 * 
+	 * @param v
+	 * 		Clicked button
+	 * @author 
+	 *		Passant El.Agroudy (passant.elagroudy@gmail.com)
+	 * @author 
+	 * 		Hossam_Amer
+	 */
+	public void onClick_button1(View v) {
+		Log.e("Call button", this.offerDisplay.getUser().mobileNumber);
+		call(this.offerDisplay.getUser().mobileNumber);
+	}// end onClick_button1
+	
+	/**
+	 * Called on clicking the second button form the left.
+	 * By default this button performs send SMS functions for
+	 * offer owner. To change such behavior, override the
+	 * method in child class
+	 * 
+	 * @param v
+	 * 		Clicked button
+	 * @author 
+	 *		Passant El.Agroudy (passant.elagroudy@gmail.com)
+	 * @author 
+	 * 		Hossam_Amer
+	 */
+	public void onClick_button2(View v) {
+		Log.e("SMS button", this.offerDisplay.getUser().mobileNumber);
+		sendSMS(getSMSMessage(), this.offerDisplay.getUser().mobileNumber, mActivity);
+	}// end onClick_button2
+	
+	
+	/**
+	 * Called on clicking the third button form the left.
+	 * By default this button performs confirm functions for
+	 * offer owner with possibility to update the UI accordingly.
+	 * The default implementation does not update the database.
+	 * To change such behavior, override the method in child class
+	 * 
+	 * @param v
+	 * 		Clicked button
+	 * @author 
+	 *		Passant El.Agroudy (passant.elagroudy@gmail.com)
+	 * @author 
+	 * 		Hossam_Amer
+	 */
+	private void onClick_confirm(View v) {
+		Log.e("Confirm button", "Hello");
+		if(InternetManager.isInternetOn(mContext))
+		{	
+			AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
+			builder.setMessage("Are you sure, you want to confirm this offer?")
+			       .setCancelable(false)
+			       .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+			           public void onClick(DialogInterface dialog2, int id) { 
+			        	   
+			        		
+							confirmOffer();
+			           }
+			       });
+			builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog2, int whichButton) {
+		        	   dialog2.cancel();
+                }
+            	});
+			
+			 builder.create();
+			 builder.show();
+			
+		
 		}
-		
-		
-	}
+		else
+		{
+			AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
+			builder.setMessage("" + R.string._hossamInternetConn)
+			       .setCancelable(false)
+			       .setPositiveButton( "" + R.string._hossamOk, new DialogInterface.OnClickListener() {
+			           public void onClick(DialogInterface dialog, int id) {
+			        	   dialog.cancel();
+			           }
+			       
+			       });
+			 builder.create();
+			 builder.show();
+
+		}
+	}// end onClick_confirm
 	
 	/**
 	 * Launches the activity of sending SMS
@@ -457,6 +519,9 @@ public class InflateListener implements OnInflateListener, OnClickListener {
 
 	/**XXXXXXNeed to check how to get the name
 	 *XXXXXhashas
+	 *
+	 *<br><br>From Passant: {@link OfferDisplay2#getUser()} then {@link User#firstName} 
+	 *OR {@link OfferDisplay2#getDisplayName()}
 	 */
 	private String getSMSMessage() {
 		
