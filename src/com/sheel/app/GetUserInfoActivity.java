@@ -323,10 +323,10 @@ public class GetUserInfoActivity extends UserSessionStateMaintainingActivity {
 				return false;
 		}
 		 
-		//if(datePicked.before(Calendar.getInstance())){
-	    	//showErrors(getResources().getString(R.string.invalid_input), getResources().getString(R.string.date_valid));
-	    	//return false;
-	   // }
+		if(datePicked.before(Calendar.getInstance())){
+	    	showErrors(getResources().getString(R.string.invalid_input), getResources().getString(R.string.date_valid));
+	    	return false;
+		}
 		 
 		if(lessWeight.isChecked()){
 			searchStatus = 0;
