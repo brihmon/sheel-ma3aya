@@ -7,7 +7,6 @@ import static com.sheel.utils.SheelMaayaaConstants.HTTP_STATUS;
 import java.util.ArrayList;
 
 import org.apache.http.HttpStatus;
-import org.json.JSONObject;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -23,10 +22,7 @@ import com.sheel.adapters.HorizontalSwypingPagingAdapter;
 import com.sheel.adapters.SearchResultsListAdapter;
 import com.sheel.datastructures.Category;
 import com.sheel.datastructures.Confirmation;
-import com.sheel.datastructures.Flight;
-import com.sheel.datastructures.Offer;
 import com.sheel.datastructures.OfferDisplay2;
-import com.sheel.datastructures.User;
 import com.sheel.listeners.InflateListener;
 import com.sheel.utils.GuiUtils;
 import com.viewpagerindicator.TitlePageIndicator;
