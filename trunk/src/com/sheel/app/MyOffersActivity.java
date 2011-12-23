@@ -3,11 +3,11 @@ package com.sheel.app;
 import static com.sheel.utils.SheelMaayaaConstants.CONFIRMED;
 import static com.sheel.utils.SheelMaayaaConstants.HALF_CONFIRMED_ME_CONFIRMED_USER_NOT_OFFER_OWNER;
 import static com.sheel.utils.SheelMaayaaConstants.HALF_CONFIRMED_ME_OFFER_OWNER;
+import static com.sheel.utils.SheelMaayaaConstants.HTTP_CONFIRM_OFFER;
 import static com.sheel.utils.SheelMaayaaConstants.HTTP_GET_MY_OFFERS_FILTER;
 import static com.sheel.utils.SheelMaayaaConstants.HTTP_RESPONSE;
 import static com.sheel.utils.SheelMaayaaConstants.HTTP_STATUS;
 import static com.sheel.utils.SheelMaayaaConstants.NOT_CONFIRMED;
-import static com.sheel.utils.SheelMaayaaConstants.*;
 
 import java.util.ArrayList;
 
@@ -37,7 +37,6 @@ import com.sheel.listeners.InflateListener;
 import com.sheel.utils.GuiUtils;
 import com.sheel.utils.HTTPManager;
 import com.sheel.utils.InternetManager;
-
 /**
  * This activity is used for displaying and interacting with
  * the offers of the logged-in user.
@@ -331,15 +330,15 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity
                	else 
                		{
                			int index = 0;
-               			String [] swpeCats = getResources().getStringArray(R.array._swyperCats);
+               			
                		
                			//=============================HALF CONFIRMED NOT DECLARED ME========================================	
                			
                			//   * - Half confirmed offers I confirmed but not declared by me (I am not offer owner)
                			if(!searchResults_HalfConfirmedByMeNotDeclaredByMe.isEmpty())
                			{
-               				Log.e("Display Name in My offers DCBME: ", "" + swpeCats[0]);
-               				getCategories().add(new Category("" + swpeCats[0], HALF_CONFIRMED_ME_CONFIRMED_USER_NOT_OFFER_OWNER, R.layout.my_offers_main));
+               				Log.e("Display Name in My offers DCBME: ", "" + swypeCatsGuiUtils.getSwpeCats()[0]);
+               				getCategories().add(new Category("" + swypeCatsGuiUtils.getSwpeCats()[0], HALF_CONFIRMED_ME_CONFIRMED_USER_NOT_OFFER_OWNER, R.layout.my_offers_main));
                				updateCategoryContent(searchResults_HalfConfirmedByMeNotDeclaredByMe, index++, false);		
                			}// end if(!searchResults_HalfConfirmedByMeNotDeclaredByMe.isEmpty())
 
@@ -349,8 +348,8 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity
 	           			 // * - Half confirmed offers I confirmed but not declared by me
 	           			 if(!searchResults_half.isEmpty())
 	                  	{
-	           				Log.e("Display Name in My offers DCBME: ", "" + swpeCats[1]);
-	           				getCategories().add(new Category("" + swpeCats[1], HALF_CONFIRMED_ME_OFFER_OWNER, R.layout.my_offers_main)); 
+	           				Log.e("Display Name in My offers DCBME: ", "" + swypeCatsGuiUtils.getSwpeCats()[1]);
+	           				getCategories().add(new Category("" + swypeCatsGuiUtils.getSwpeCats()[1], HALF_CONFIRMED_ME_OFFER_OWNER, R.layout.my_offers_main)); 
 	                       	   updateCategoryContent(searchResults_half, index++, false);	
 	                  	}// end if(!searchResults_half.isEmpty())
 	           		
@@ -358,8 +357,8 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity
         			 	// * - New offers I declared
             			if(!searchResults_new.isEmpty())
             			{
-            				Log.e("Display Name in My offers DCBME: ", "" + swpeCats[2]);
-            				getCategories().add(new Category("" + swpeCats[2], NOT_CONFIRMED, R.layout.my_offers_main));
+            				Log.e("Display Name in My offers DCBME: ", "" + swypeCatsGuiUtils.getSwpeCats()[2]);
+            				getCategories().add(new Category("" + swypeCatsGuiUtils.getSwpeCats()[2], NOT_CONFIRMED, R.layout.my_offers_main));
             				updateCategoryContent(searchResults_new, index++, false);		
             			}// end if(!searchResults_new.isEmpty())
             			//========================================FULL CONFIRMED================================
@@ -367,8 +366,8 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity
            			 //  * - Confirmed offers
                			if(!searchResults_full.isEmpty())
                			{
-               				Log.e("Display Name in My offers DCBME: ", "" + swpeCats[3]);
-               				getCategories().add(new Category("" + swpeCats[3], CONFIRMED, R.layout.my_offers_main));
+               				Log.e("Display Name in My offers DCBME: ", "" + swypeCatsGuiUtils.getSwpeCats()[3]);
+               				getCategories().add(new Category("" + swypeCatsGuiUtils.getSwpeCats()[3], CONFIRMED, R.layout.my_offers_main));
                 			updateCategoryContent(searchResults_full, index, false);	
                			}//end if(!searchResults_full.isEmpty())		
                			
