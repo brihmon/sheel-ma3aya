@@ -36,7 +36,6 @@ import com.sheel.datastructures.OfferDisplay2;
 import com.sheel.datastructures.User;
 import com.sheel.listeners.InflateListener;
 import com.sheel.listeners.MyOffersInflateListener;
-import com.sheel.utils.GuiUtils;
 import com.sheel.utils.HTTPManager;
 import com.sheel.utils.InternetManager;
 
@@ -173,6 +172,7 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity {
 	 * @author 
 	 * 		Passant El.Agroudy (passant.elagroudy@gmail.com)
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public Class getClassOfListAdapter() {
 		return MyOffersResultsListAdapter.class;
@@ -186,6 +186,7 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity {
 	 * @author 
 	 * 		Passant El.Agroudy (passant.elagroudy@gmail.com)
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public Class getClassOfInflateListener() {
 		return MyOffersInflateListener.class;
