@@ -44,7 +44,10 @@ public class SwypingHorizontalViewsActivity extends UserSessionStateMaintainingA
 	
 	private static final String TAG = MyOffersActivity.class.getName();
 	
-	
+	/**
+	 * Response String from the confirm offer
+	 */
+	String reponseStr;
 	
 	/**
 	 * Different categories of offers to be displayed
@@ -224,11 +227,14 @@ public class SwypingHorizontalViewsActivity extends UserSessionStateMaintainingA
      * 		index of category if existing, -1 otherwise
      * @author 
      *		Passant El.Agroudy (passant.elagroudy@gmail.com)
+     *@author 
+     *			Hossam_Amer
+     *Change: getLogicName instead (@author Hossam_Amer)
      */
     public int findCategoryBy(String categoryName) {
     	
     	for (int i=0 ; i< this.categories.size() ; i++) {
-    		if (this.categories.get(i).getName().equalsIgnoreCase(categoryName)) {
+    		if (this.categories.get(i).getLogicName().equalsIgnoreCase(categoryName)) {
     			return i;
     		}// end if: category is found
     	}// end for: search in categories
@@ -409,7 +415,11 @@ public class SwypingHorizontalViewsActivity extends UserSessionStateMaintainingA
 						{
 							Log.e("updateConfirmedOffersOnUI(responseStr)", TAG);
 							Log.e("hashas: ", responseStr + "");
-							updateConfirmedOffersOnUI(responseStr);
+							
+//							XXXNeed him feel the change now, before here, you have a confirmationJSON object.. Now it calls the child class 3ady.
+//							getCategories().add(new )
+							
+							updateOffersOnUI(responseStr);
 							
 						}
 					}					
@@ -527,6 +537,19 @@ public class SwypingHorizontalViewsActivity extends UserSessionStateMaintainingA
 				 * @Ahmed: It is for you to fill, delete the offer from the category
 				 */
 			}
+			
+			/**
+			 * Method over-ridable to be used differently in the child activities 
+			 * @param responseStr
+			 */
+			public void updateOffersOnUI(String responseStr)
+			{
+				Log.e("I am In super class calling updateUIOFfers: ", responseStr);
+				this.reponseStr = responseStr;
+				
+			}
+
+
 		
 	
 }// end class
