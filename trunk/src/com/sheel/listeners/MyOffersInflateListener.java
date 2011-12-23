@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.sheel.datastructures.FacebookUser;
 import com.sheel.datastructures.OfferDisplay2;
+import com.sheel.utils.GuiUtils;
 
 /**
  * Used when the Stub in the (My Offers) view is inflated. 
@@ -42,8 +43,8 @@ public class MyOffersInflateListener extends InflateListener{
 	 *  
 	 */
 	public MyOffersInflateListener(int position, Context mContext,
-			OfferDisplay2 offerDisplay, Activity activity, FacebookUser mUser) {
-		super(position, mContext, offerDisplay, activity, mUser);	
+			OfferDisplay2 offerDisplay, Activity activity, FacebookUser mUser, GuiUtils swypeCatsGuiUtils) {
+		super(position, mContext, offerDisplay, activity, mUser, swypeCatsGuiUtils);	
 	}// end MyOffersInflateListener
 	
 
