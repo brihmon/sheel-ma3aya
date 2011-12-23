@@ -94,7 +94,7 @@
         android:layout_marginRight="14dp"
         android:layout_toLeftOf="@+id/price"
         android:onClick = "onClick_male_gender"
-        android:background="@drawable/gender_male_xml"
+        android:background="@drawable/sheel_gender_male_xml"
         android:textOff=""
         android:textOn="" />
 
@@ -106,7 +106,7 @@
         android:layout_alignBottom="@+id/male"
         android:layout_alignLeft="@+id/price"
         android:onClick = "onClick_female_gender"
-        android:background="@drawable/gender_female_xml"
+        android:background="@drawable/sheel_gender_female_xml"
         android:textOff=""
         android:textOn="" />
 
