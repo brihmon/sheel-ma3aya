@@ -159,7 +159,7 @@ public class FilterPreferencesActivity extends UserSessionStateMaintainingActivi
         nationalityView.setAdapter(nationalityAdapter);
         Validator NationalityValidator = new Validator() {
 
-			@Override
+//			@Override
 			public boolean isValid(CharSequence text) {
 
 				String stringText = text.toString();
@@ -172,7 +172,7 @@ public class FilterPreferencesActivity extends UserSessionStateMaintainingActivi
 				return false;
 			}
 
-			@Override
+//			@Override
 			public CharSequence fixText(CharSequence invalidText) {
 
 				return invalidText;
@@ -204,7 +204,7 @@ public class FilterPreferencesActivity extends UserSessionStateMaintainingActivi
 		layout.addView(friends); 
 		
 		friends.setOnClickListener(new OnClickListener() {
-			@Override
+//			@Override
 			public void onClick(View v) {
 				friendsOfFriends.setChecked(false);
 				facebook = OwnerFacebookStatus.FRIEND;	
@@ -214,7 +214,7 @@ public class FilterPreferencesActivity extends UserSessionStateMaintainingActivi
 		layout.addView(friendsOfFriends);
 		
 		friendsOfFriends.setOnClickListener(new OnClickListener() {
-			@Override
+//			@Override
 			public void onClick(View v) {
 				friends.setChecked(false);
 				facebook = OwnerFacebookStatus.FRIEND_OF_FRIEND;

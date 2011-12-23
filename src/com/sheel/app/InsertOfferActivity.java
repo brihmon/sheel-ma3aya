@@ -220,56 +220,56 @@ static Flight flight = new Flight("","","","");
 					 dAirportET.getText().toString(),
 					 mDateDisplay.getText().toString());
 		 
-		SheelMaaayaClient sc = new SheelMaaayaClient() {
-			
-			@Override
-			public void doSomething() {
-				final String str = this.rspStr;
-				 
-							 runOnUiThread(new Runnable()
-                           {
-//                               @Override
-                               public void run()
-                               {
-                              	 if((!(dialog==null))&&dialog.isShowing()){
-                              		 dialog.dismiss();
-                              	 }
-                              	 if(str.equals("OK")){
-                              	 ///////////// SHOULD GO HERE TO ANOTHER ACTIVITY
-                                   showMessageBox("Message","Your offer has been posted successfully!");
-                              	 }
-                              	 else{
-                              	 showMessageBox("Server Error!","Unfortunatly, we currently cannot process your offer, please try again later.");
-                              	 }
-                               }
-                           });
-
-			}
-		};
-		
-		Gson gson = new Gson();
-		String[] airports = getResources().getStringArray(R.array.airports_array);
-		for(int i = 0; i < airports.length ; i++)
-		{
-			if(flight.destination.equals(airports[i]))
-			{
-				flight.destination = i+"";
-			}
-			if(flight.source.equals(airports[i]))
-			{
-				flight.source = i+"";
-			}
-			
-		}
-		String input = gson.toJson(flight);
-		input+= "<>"+gson.toJson(offer);
-
-		try{
-			sc.runHttpPost("/insertnewoffer/"+getFacebookService().getFacebookUser().getUserId(), input);
-		}catch(Exception e){
-			sc.runHttpPost("/insertnewoffer/"+0, input);
-		}
-		
+////		SheelMaaayaClient sc = new SheelMaaayaClient() {
+////			
+////			@Override
+////			public void doSomething() {
+////				final String str = this.rspStr;
+////				 
+////							 runOnUiThread(new Runnable()
+////                           {
+//////                               @Override
+////                               public void run()
+////                               {
+////                              	 if((!(dialog==null))&&dialog.isShowing()){
+////                              		 dialog.dismiss();
+////                              	 }
+////                              	 if(str.equals("OK")){
+////                              	 ///////////// SHOULD GO HERE TO ANOTHER ACTIVITY
+////                                   showMessageBox("Message","Your offer has been posted successfully!");
+////                              	 }
+////                              	 else{
+////                              	 showMessageBox("Server Error!","Unfortunatly, we currently cannot process your offer, please try again later.");
+////                              	 }
+////                               }
+////                           });
+////
+////			}
+////		};
+////		
+//		Gson gson = new Gson();
+//		String[] airports = getResources().getStringArray(R.array.airports_array);
+//		for(int i = 0; i < airports.length ; i++)
+//		{
+//			if(flight.destination.equals(airports[i]))
+//			{
+//				flight.destination = i+"";
+//			}
+//			if(flight.source.equals(airports[i]))
+//			{
+//				flight.source = i+"";
+//			}
+//			
+//		}
+//		String input = gson.toJson(flight);
+//		input+= "<>"+gson.toJson(offer);
+//
+//		try{
+//			sc.runHttpPost("/insertnewoffer/"+getFacebookService().getFacebookUser().getUserId(), input);
+//		}catch(Exception e){
+//			sc.runHttpPost("/insertnewoffer/"+0, input);
+//		}
+//		
 		 
 		
 	}
