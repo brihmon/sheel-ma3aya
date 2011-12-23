@@ -96,10 +96,10 @@ public final class GuiUtils extends Activity{
 	/**
 	 * Alert and toast messages of Swype Activity
 	 */
-	public String _hossamDialogNoResultsMyOffers1; 
-	public String _hossamDialogNoResultsMyOffers2;
-	public String _hossamDialogNoResultsViewOffers1;
-	public String _hossamDialogNoResultsViewOffers2;
+	public String dialogNoResultsMyOffers1; 
+	public String dialogNoResultsMyOffers2;
+	public String dialogNoResultsViewOffers1;
+	public String dialogNoResultsViewOffers2;
 	
 	
 	/**
@@ -129,7 +129,10 @@ public final class GuiUtils extends Activity{
 		flightTo = mContext.getResources().getString(R.string._hossamFlightTo);
 		flightOn = mContext.getResources().getString(R.string._hossamFlightOn);
 		offerKg = mContext.getResources().getString(R.string._hossamOfferKg);
-//		_hossamDialogNoResultsMyOffers1 = mContext.getResources().getString(R.s);
+		dialogNoResultsMyOffers1 = mContext.getResources().getString(R.string._hossamDialogNoResultsMyOffers1);
+		dialogNoResultsMyOffers2 = mContext.getResources().getString(R.string._hossamDialogNoResultsMyOffers2);
+		dialogNoResultsViewOffers1= mContext.getResources().getString(R.string._hossamDialogNoResultsViewOffers1);
+		dialogNoResultsViewOffers2= mContext.getResources().getString(R.string._hossamDialogNoResultsViewOffers2);
 	}
 	
 	
@@ -255,6 +258,37 @@ public final class GuiUtils extends Activity{
 	public String [] getSwpeCats()
 	{
 		return swpeCats;
+	}
+
+	/**
+	 * @return the dialogNoResultsMyOffers1
+	 */
+	public String getDialogNoResultsMyOffers1() {
+		return dialogNoResultsMyOffers1;
+	}
+
+
+	/**
+	 * @return the dialogNoResultsMyOffers2
+	 */
+	public String getDialogNoResultsMyOffers2() {
+		return dialogNoResultsMyOffers2;
+	}
+
+
+	/**
+	 * @return the dialogNoResultsViewOffers1
+	 */
+	public String getDialogNoResultsViewOffers1() {
+		return dialogNoResultsViewOffers1;
+	}
+
+
+	/**
+	 * @return the dialogNoResultsViewOffers2
+	 */
+	public String getDialogNoResultsViewOffers2() {
+		return dialogNoResultsViewOffers2;
 	}
 
 	/**

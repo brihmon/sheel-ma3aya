@@ -149,24 +149,24 @@ public class ViewSearchResultsActivity extends SwypingHorizontalViewsActivity {
     	if ((!hasResultsFromFriends)&&(!hasResultsFromFriendsOfFriends)&&(!hasResultsFromStrangers)) {
      		super.swypeCatsGuiUtils.showAlertWhenNoResultsAreAvailable(
      				this, 
-     				"No offers matching your criteria were found! ", 
-     				"Search again", GetUserInfoActivity.class, 
+     				swypeCatsGuiUtils.dialogNoResultsViewOffers1+" ", 
+     				swypeCatsGuiUtils.dialogNoResultsViewOffers2, GetUserInfoActivity.class, 
      				"Change filters",FilterPreferencesActivity.class);
     	}// end if: no results were found -> show message to divert to another view
     	else {
     		if (hasResultsFromFriends) {
-        		addCategory(new Category("Friends", layout_searchResultsFound, offersFromFriends));    		
+        		addCategory(new Category(swypeCatsGuiUtils.getSwpeCats()[5], layout_searchResultsFound, offersFromFriends));    		
         	}// end if : there exists offers from facebook friends -> Add category
         	
         	if (hasResultsFromFriendsOfFriends) {
         		// Sort the results descendingly by number of mutual friends
         		sortSearchResultsFromFacebook(offersFromFriendsOfFriends, null);
         		// Add category
-        		addCategory(new Category("Friends of friends", layout_searchResultsFound, offersFromFriendsOfFriends));
+        		addCategory(new Category(swypeCatsGuiUtils.getSwpeCats()[6], layout_searchResultsFound, offersFromFriendsOfFriends));
         	}// end if: there exists offers from facebook friends of friends -> add category
         	
         	if (hasResultsFromStrangers) {
-        		addCategory(new Category("Strangers", layout_searchResultsFound, offersFromStrangers));
+        		addCategory(new Category(swypeCatsGuiUtils.getSwpeCats()[4], layout_searchResultsFound, offersFromStrangers));
           	}// end if: there exists offers from strangers -> add category        	
     		
     	}// end else: one or more of the lists contain results -> display    			
