@@ -2,39 +2,48 @@
 <resources> 
    
     <!-- Need to know the mode of the writing either left to right or right to left -->
-   <string name = "_hossamWritingmode">LeftToRight</string>
- 	
-       <!-- Strings for confirmation display -->
- 	<string name="_hossamOk">Ok</string>
-	<string name="_hossamYes">Yes</string>
-	<string name="_hossamNo">No</string>
-	<string name="_hossamInternetConn">Internet Connection is not available</string>
-	<string name="_hossamConfirmYesNo">Are you sure, you want to confirm this offer?</string>
-	<string name= "_hossamConfirmPending">Confirming your Offers, Please wait..</string>
-	<string name= "_hossamAlreadyConfirmed">This Offer is already confirmed by two users.</string>
-	<string name="_hossamConfirmedByAnotherPerson">Sorry, this offer is already confirmed by another user.</string>
-	<string name= "_hossamConfirmedByTwoUsers">Offer confirmed by two users</string>
-	<string name="_hossamConfirmationMail">A confirmation mail sent to your inbox</string>
-		
-			    
-	    
-	       <!-- Strings for display Flight --> 
-	    <string name = "_hossamFlight">Flight</string>
-	    <string name = "_hossamFlightFrom">from</string>
-	    <string name="_hossamFlightTo">to</string>
-	     <string name="_hossamFlightOn">on</string>
-	    
-	 <!--**Note: If you would like to add, append to them, dun change the order -->
-	 
-	 <string-array name="_swyperCats">
-	     <!-- Item Name -->						<!--Corresponding index  -->
-	     <item>Others-Declared-Me-Confirmed</item>  <!-- 0 -->
-	     <item>Me-Declared-Me-Confirmed</item>		<!-- 1 -->
-	     <item>Not-Confirmed</item>	     			<!-- 2 -->
-	     <item>Confirmed</item>						<!-- 3 -->
-	     <item >Strangers</item>					<!-- 4 -->
-	     <item >Friends</item>						<!-- 5 -->
-	     <item >Friends of friends</item>			<!-- 6 -->
+<string name = "_hossamWritingmode">LeftToRight</string>
+
+<!-- Strings for confirmation display -->
+<string name="_hossamOk">Ok</string>
+<string name="_hossamYes">Yes</string>
+<string name="_hossamNo">No</string>
+<string name="_hossamInternetConn">Internet Connection is not available</string>
+<string name="_hossamConfirmYesNo">Are you sure, you want to confirm this offer?</string>
+<string name= "_hossamConfirmPending">Confirming your Offers, Please wait..</string>
+<string name= "_hossamAlreadyConfirmed">This Offer is already confirmed by two users.</string>
+<string name="_hossamConfirmedByAnotherPerson">Sorry, this offer is already confirmed by another user.</string>
+<string name= "_hossamConfirmedByTwoUsers">Offer confirmed by two users</string>
+<string name="_hossamConfirmationMail">A confirmation mail sent to your inbox</string>
+	
+		    
+    
+<!-- Strings for display Flight --> 
+<string name = "_hossamFlight">Flight</string>
+<string name = "_hossamFlightFrom">from</string>
+<string name="_hossamFlightTo">to</string>
+ <string name="_hossamFlightOn">on</string>
+ 
+     <!-- Offer Display -->
+<string name="_hossamOfferKg">Kg</string>
+
+<!-- Alert and toast messages of Swype Activity -->
+<sting name="_hossamDialogNoResultsMyOffers2">Declare a new offer</sting>
+ <sting name="_hossamDialogNoResultsViewOffers1">No offers matching your criteria were found!</sting>
+ <sting name="_hossamDialogNoResultsViewOffers2">Search again</sting>
+        
+   
+<!--**Note: If you would like to add, append to them, dun change the order -->
+
+<string-array name="_swyperCats">
+    <!-- Item Name -->					<!--Corresponding index  -->
+<item>Others-Declared-Me-Confirmed</item>  	<!-- 0 -->
+<item>Me-Declared-Me-Confirmed</item>		<!-- 1 -->
+<item>Not-Confirmed</item>	     			<!-- 2 -->
+<item>Confirmed</item>						<!-- 3 -->
+<item >Strangers</item>						<!-- 4 -->
+<item >Friends</item>						<!-- 5 -->
+<item >Friends of friends</item>			<!-- 6 -->
 	 </string-array>
    
 </resources>
