@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?> 
+<resources> 
+   
+   
+ 	<string name="_hossamOk">موافق</string>
+	<string name="_hossamYes">نعم</string>
+	<string name="_hossamNo">لا</string>
+	<string name="_hossamInternetConn">اتصال الإنترنت غير متوفر</string>
+	<string name="_hossamConfirmYesNo">هل أنت متأكد، تحتاج إلى تأكيد هذا العرض؟</string>
+	<string name= "_hossamConfirmPending">مؤكدا عروض الخاصة بك ، يرجى الانتظار...</string>
+	<string name= "_hossamAlreadyConfirmed">وأكدت بالفعل هذا العرض من قبل اثنين من المستخدمين</string>
+	<string name="_hossamConfirmedByAnotherPerson">آسف ، ويؤكد هذا العرض بالفعل من قبل مستخدم آخر.</string>
+	<string name= "_hossamConfirmedByTwoUsers">أكدت دراسة اثنين من المستخدمين</string>
+	<string name="_hossamConfirmationMail">وتأكيد البريد الإلكتروني المرسلة إلى صندوق البريد الوارد</string>
+	    
+	 <string-array name="_swyperCats">
+	     
+	     <item>الآخرين - اعلنو - أنا - أكدت</item>
+	     <item>أنا - أعلنت  - أنا - أكدت </item>
+	     <item>لم يتأكد</item>	     
+	     <item>مؤكد</item>
+	     <item >أغراب</item>
+	     <item >أصدقاء</item>
+	     <item >أصدقاء الأصدقاء</item>
+	 </string-array>
+   
+</resources>
