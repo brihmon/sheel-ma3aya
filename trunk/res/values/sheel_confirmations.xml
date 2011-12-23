@@ -15,9 +15,10 @@
 	    
 	 <string-array name="_swyperCats">
 	     
-	     <item>Half-Confirmed</item>
-	     <item>Not-Confirmed</item>
-	     <item>Full-Confirmed</item>
+	     <item>Others-Declared-Me-Confirmed</item>
+	     <item>Me-Declared-Me-Confirmed</item>
+	     <item>Not-Confirmed</item>	     
+	     <item>Confirmed</item>
 	     <item >Strangers</item>
 	     <item >Friends</item>
 	     <item >Friends of friends</item>
