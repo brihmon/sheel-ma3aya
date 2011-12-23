@@ -16,15 +16,17 @@
 		<string name="_hossamTo">to</string>	    
 	    <string name="_hossamOn">on</string>
 	    
+	 <!--**Note: If you would like to add, append to them, dun change the order -->
+	 
 	 <string-array name="_swyperCats">
-	     
-	     <item>Others-Declared-Me-Confirmed</item>
-	     <item>Me-Declared-Me-Confirmed</item>
-	     <item>Not-Confirmed</item>	     
-	     <item>Confirmed</item>
-	     <item >Strangers</item>
-	     <item >Friends</item>
-	     <item >Friends of friends</item>
+	     <!-- Item Name -->						<!--Corresponding index  -->
+	     <item>Others-Declared-Me-Confirmed</item>  <!-- 0 -->
+	     <item>Me-Declared-Me-Confirmed</item>		<!-- 1 -->
+	     <item>Not-Confirmed</item>	     			<!-- 2 -->
+	     <item>Confirmed</item>						<!-- 3 -->
+	     <item >Strangers</item>					<!-- 4 -->
+	     <item >Friends</item>						<!-- 5 -->
+	     <item >Friends of friends</item>			<!-- 6 -->
 	 </string-array>
    
 </resources>
