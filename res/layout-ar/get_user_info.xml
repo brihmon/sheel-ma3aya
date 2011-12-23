@@ -92,7 +92,7 @@
         android:layout_height="wrap_content"
         android:layout_alignRight="@+id/extraWeight"
         android:layout_below="@+id/textView3_maged"
-        android:background="@drawable/flight_xml"
+        android:background="@drawable/sheel_flight_xml"
         android:onClick="onClick_flightNo"
         android:textOff=""
         android:textOn="" />
@@ -113,7 +113,7 @@
         android:layout_alignBottom="@+id/flightNo"
         android:layout_alignRight="@+id/changeDate"
         android:layout_below="@+id/textView3_maged"
-        android:background="@drawable/src_des_xml"
+        android:background="@drawable/sheel_src_des_xml"
         android:onClick="onClick_srcDes"
         android:textOff=""
         android:textOn="" />
