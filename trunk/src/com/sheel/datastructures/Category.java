@@ -19,7 +19,7 @@ public class Category {
 	/**
 	 * Name of the category that will appear in the indicator
 	 */
-	private String name="";
+	private String logicName="";
 	/**
 	 * Layout ID of the XML file used for inflating the category
 	 */
@@ -28,6 +28,31 @@ public class Category {
 	 * List of offersWrappers displayed in the category
 	 */
 	ArrayList<OfferDisplay2> offersWrappers = new ArrayList<OfferDisplay2>();
+	
+	/**
+	 * Used as the display text for the category
+	 */
+	private String displayName;
+	
+	/**
+	 * Constructor for creating a new category
+	 * 
+	 * Used for distinguishing between the display name and the logic name
+	 * Helps in the confirms action button.
+	 * @param name
+	 * 		Name of the category that will appear in the indicator
+	 * 		on the top of the page
+	 * @param layoutId
+	 * 		Layout ID of the XML file used for inflating the category.
+	 * 		Use <code>R.layout.STH</code>
+	 * @author Hossam_Amer
+	 */
+	public Category (String displayName , String logicName, int layoutId ) {
+		this.displayName = displayName;
+		this.logicName = logicName;
+		this.layoutId = layoutId;
+	}// end constructor
+
 	
 	/**
 	 * Constructor for creating a new category
@@ -40,7 +65,7 @@ public class Category {
 	 * 		Use <code>R.layout.STH</code>
 	 */
 	public Category (String name , int layoutId ) {
-		this.name = name;
+		this.displayName = name;
 		this.layoutId = layoutId;
 	}// end constructor
 	
@@ -59,7 +84,7 @@ public class Category {
 	 * 		List of components to be displayed. 
 	 */
 	public Category (String name , int layoutId , ArrayList<OfferDisplay2> offersWrappers) {
-		this.name = name;
+		this.displayName = name;
 		this.layoutId = layoutId;
 		this.offersWrappers = offersWrappers;
 	}// end constructor
@@ -79,7 +104,7 @@ public class Category {
 	 * 		List of components to be displayed. 
 	 */
 	public Category (String name , int layoutId , OfferDisplay2 offerWrapper) {
-		this.name = name;
+		this.displayName = name;
 		this.layoutId = layoutId;
 		this.offersWrappers = new ArrayList<OfferDisplay2>();
 		this.offersWrappers.add(offerWrapper);
@@ -87,13 +112,14 @@ public class Category {
 	
 	/**
 	 * Returns name of the category that will appear in the indicator
+	 * 
 	 * @return
 	 * 		Empty list if not initialized
 	 * @author 
 	 *		Passant El.Agroudy (passant.elagroudy@gmail.com)
 	 */
 	public String getName() {
-		return this.name;
+		return this.displayName;
 	}// end getName
 	
 	/**
@@ -145,6 +171,17 @@ public class Category {
 	
 	public void deleteOffer(OfferDisplay2 offer) {
 		this.offersWrappers.remove(offer);
+	}
+
+
+
+	/**
+	 * Gets the logic name
+	 * @author Hossam_Amer
+	 * @return the logicName
+	 */
+	public String getLogicName() {
+		return logicName;
 	}
 	
 }// end class
