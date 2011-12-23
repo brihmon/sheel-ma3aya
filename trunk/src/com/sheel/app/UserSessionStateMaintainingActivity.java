@@ -10,9 +10,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.sheel.app.NewUserActivity.SheelMaayaaBroadCastRec;
 import com.sheel.datastructures.FacebookUser;
-import com.sheel.datastructures.NavigationItem;
 import com.sheel.datastructures.enums.SharedValuesBetweenActivities;
 import com.sheel.listeners.LoginDataBaseListener;
 import com.sheel.webservices.FacebookWebservice;
