@@ -27,14 +27,6 @@
 <!-- Offer Display -->
 <string name="_hossamOfferKg">كيلو</string>
 
-
-<!-- Alert and toast messages of Swype Activity -->
-<sting name="_hossamDialogNoResultsMyOffers1">ليس لديك أي عروض حتى الآن</sting>
- <sting name="_hossamDialogNoResultsMyOffers2">أعرض عرض جديد</sting>
-<sting name="_hossamDialogNoResultsViewOffers1">لا توجد عروض بتلك الصفات</sting>
-<sting name="_hossamDialogNoResultsViewOffers2">ابحث مرة أخرى</sting>
-     
-        
 <string-array name="_swyperCats">
     
     <item>الآخرين - اعلنو - أنا - أكدت</item>
@@ -45,5 +37,12 @@
     <item >أصدقاء</item>
     <item >أصدقاء الأصدقاء</item>
 </string-array>
+
+    	<!-- Alert messages of the view swyper activities -->
+    <string name="_hossamDialogNoResultsMyOffers1">!ليس لديك أي عروض حتى الآن</string>
+    <string name="_hossamDialogNoResultsMyOffers2">أعرض عرض جديد</string>
+    <string name="_hossamDialogNoResultsViewOffers1">لا توجد عروض بتلك الصفات</string>
+    <string name="_hossamDialogNoResultsViewOffers2">ابحث مرة أخرى</string>
+    
  
 </resources>
