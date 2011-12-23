@@ -13,13 +13,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewStub;
 import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ListView;
 
 import com.sheel.app.R;
 import com.sheel.datastructures.Category;
 import com.sheel.datastructures.FacebookUser;
 import com.sheel.datastructures.OfferDisplay2;
+import com.sheel.listeners.InflateListener;
 import com.sheel.listeners.MyOffersInflateListener;
 import com.sheel.utils.GuiUtils;
 import com.viewpagerindicator.TitleProvider;
@@ -34,10 +35,14 @@ public class HorizontalSwypingPagingAdapter extends PagerAdapter  implements Tit
 	
 	private static final String TAG = HorizontalSwypingPagingAdapter.class.getName();
 	
+	private Class listAdapterClass = SearchResultsListAdapter.class;
+	private Class inflateListenerClass = InflateListener.class;
+	
 	/**
 	 * Different categories of offers to be displayed
 	 */
 	private ArrayList<Category> categories = new ArrayList<Category>();
+	
 	
 	
 	private Context appContext;
@@ -63,22 +68,31 @@ public class HorizontalSwypingPagingAdapter extends PagerAdapter  implements Tit
 	 * Constructor for creating adapter to swap between set of 
 	 * views and update accordingly its indicator with the name 
 	 * of the category.
-	 * <b>IMPORTANT: both inputs must be equal in size</b>	
 	 * 	 
 	 * @param
-	 * 		Different categories to be displayed in the swyping 
+	 * 		Different categories to be displayed in the swiping 
 	 * 		views with their respective data
+	 * @param listAdapterClass
+	 * 		Class used as a list adapter to render the different rows
+	 * @param inflateListenerClass
+	 * 		Class used as an inflate listener for the stub actions
+	 * 		and its rendering
 	 *  	
 	 * @author 
 	 * 		Passant El.Agroudy (passant.elagroudy@gmail.com)
 	 */
 	
-	public HorizontalSwypingPagingAdapter(ArrayList<Category> categories, Context appContext, Activity mActivity, 
-								FacebookUser mUser,  GuiUtils swypeCatsGuiUtils) {
+
+	public HorizontalSwypingPagingAdapter(ArrayList<Category> categories,
+			Context appContext, Activity mActivity, FacebookUser mUser,
+			GuiUtils swypeCatsGuiUtils, Class listAdapterClass , Class inflateListenerClass) {
+
 		this.categories = categories;
 		this.appContext = appContext;
 		this.mActivity = mActivity;
-		this.mUser  = mUser;
+		this.mUser = mUser;
+		this.inflateListenerClass = inflateListenerClass;
+		this.listAdapterClass = listAdapterClass;
 		this.swypeCatsGuiUtils = swypeCatsGuiUtils;
 	}// end constructor
 	
@@ -151,10 +165,10 @@ public class HorizontalSwypingPagingAdapter extends PagerAdapter  implements Tit
 			private void toggleVisibilityOfStub(ViewStub stub, int position) {
 				if (stub != null) {
 					if (stub.getVisibility() == View.GONE) {
-//						InflateListener infListener =  new InflateListener(position, appContext, this.offersInList.get(position), mActivity, mUser, swypeCatsGuiUtils);
-						MyOffersInflateListener infListener =  new MyOffersInflateListener(position, appContext, this.offersInList.get(position), 
-														mActivity, mUser, swypeCatsGuiUtils);
-						stub.setOnInflateListener(infListener);
+
+						
+						stub.setOnInflateListener(createInflateListener(position, this.offersInList.get(position)));
+
 						stub.setVisibility(View.VISIBLE);
 
 					} else
@@ -188,8 +202,7 @@ public class HorizontalSwypingPagingAdapter extends PagerAdapter  implements Tit
 		
 		if (displayList != null) {
 			System.out.println("HorizontalSwypingPager: instantiateItem: List was retrieved successfully");
-		//	displayList.setAdapter(new SearchResultsListAdapter(appContext, categories.get(position).getOffersDisplayed()));
-			displayList.setAdapter(new MyOffersResultsListAdapter(appContext, categories.get(position).getOffersDisplayed()));
+			displayList.setAdapter(createListAdapter(position));
 			((SearchResultsListAdapter)displayList.getAdapter()).notifyDataSetChanged();
 
 			displayList.setOnItemClickListener(new ListItemClickListener(appContext,this.categories.get(position).getOffersDisplayed()));
@@ -197,10 +210,8 @@ public class HorizontalSwypingPagingAdapter extends PagerAdapter  implements Tit
 		}
 		else {
 			System.out.println("HorizontalSwypingPager: instantiateItem: List could not be retrieved ");
-		}
-		
-		//System.out.println("HorizontalSwypingPager: instantiateItem: offers2: " + categories.get(position).getOffersDisplayed() );
-		
+		}		
+			
 		((ViewPager) container).addView(view, 0);
 		
 		
@@ -247,14 +258,67 @@ public class HorizontalSwypingPagingAdapter extends PagerAdapter  implements Tit
 	
 	/**
 	 * Set the list of categories with the new set of categories.
+	 * and notifies the swiper with data update
 	 * 
 	 * @param categories
 	 * 				New categories to be set
 	 * @author Hossam_Amer
+	 * @author Passant El.Agroudy (passant.elagroudy@gmail.com)
 	 */
 	public void setCatagories(ArrayList<Category> categories)
 	{
 		this.categories = categories;
+		this.notifyDataSetChanged();
 	}
+	
+	/**
+	 * Used to instantiate a list adapter according type
+	 * of view specified
+	 * 
+	 * @param position
+	 * 		category order
+	 * @return
+	 * 		A list adapter instance depending on the type that extends 
+	 * 		{@link SearchResultsListAdapter}
+	 * @author 
+	 *		Passant El.Agroudy (passant.elagroudy@gmail.com)
+	 */
+	private <T extends SearchResultsListAdapter> T createListAdapter(int position){
+		
+		if (listAdapterClass.equals(SearchResultsListAdapter.class)) {
+			return (T)new SearchResultsListAdapter(appContext, categories.get(position).getOffersDisplayed());
+		}// end if: activate row view of search results
+		else if (listAdapterClass.equals(MyOffersResultsListAdapter.class)) {
+			return (T)new MyOffersResultsListAdapter(appContext, categories.get(position).getOffersDisplayed());
+		}// end if: activate row view of My Offers
+		else {
+			return (T)new SearchResultsListAdapter(appContext, categories.get(position).getOffersDisplayed());
+		}// end else: by default activate that of search results
+	}// end createListAdapter
+	
+	/**
+	 * Used to instantiate a inflate listener for each row in the
+	 * list according type of view specified
+	 * 
+	 * @param position
+	 * 		offer index in the list
+	 * @return
+	 * 		An inflate listener instance depending on the type that extends 
+	 * 		{@link InflateListener}
+	 * @author 
+	 *		Passant El.Agroudy (passant.elagroudy@gmail.com)
+	 */
+	private <T extends InflateListener> T createInflateListener(int position, OfferDisplay2 offerDisplay) {
+		
+		if (inflateListenerClass.equals(InflateListener.class)) {
+			return (T)new InflateListener(position, appContext, offerDisplay, mActivity, mUser, swypeCatsGuiUtils);
+		}// end if: activate accordian with data in search results view
+		else if (inflateListenerClass.equals(MyOffersInflateListener.class)) {
+			return (T)new MyOffersInflateListener(position, appContext, offerDisplay, mActivity, mUser, swypeCatsGuiUtils);
+		}// end if: activate accordian with data as in my offers view
+		else {
+			return (T)new InflateListener(position, appContext, offerDisplay, mActivity, mUser, swypeCatsGuiUtils);
+		}// end else: default: search view
+	}// end createInflateListener
 	
 }// end class
