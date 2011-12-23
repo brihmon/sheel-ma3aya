@@ -1,5 +1,7 @@
 package com.sheel.datastructures;
 
+import com.sheel.utils.GuiUtils;
+
 //import java.util.Date;
  
 /**
@@ -83,10 +85,18 @@ public class Flight
 	     * 
 	     * @author 
 	     *		Passant El.Agroudy (passant.elagroudy@gmail.com)
+	     * @param swypeCatsGuiUtils 
 	     */
-	    public String displayFlight() {
-	    	return "Flight (" + flightNumber + ") from " + source + " to " + destination +
-	    				" on " + departureDate ;
+	    public String displayFlight(GuiUtils swypeCatsGuiUtils) {
+	    	
+	    
+	    	return swypeCatsGuiUtils.getFlightWord()+ " (" + flightNumber + ") " + 
+	    				swypeCatsGuiUtils.getFlightFrom() + " " + source + " " + swypeCatsGuiUtils.getFlightTo() + " " + destination + " " +  
+	    				swypeCatsGuiUtils.getFlightOn() + " " + departureDate ;
+//	    else
+//	    	return swypeCatsGuiUtils.getFlightWord()+ " )" + flightNumber + "( " + 
+//			swypeCatsGuiUtils.getFlightFrom() + " " + source + " " + swypeCatsGuiUtils.getFlightTo() + " " + destination + " " +  
+//			swypeCatsGuiUtils.getFlightOn() + " " + departureDate ;
 	    }// end displayFlight
 	    
 		@Override

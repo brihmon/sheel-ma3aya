@@ -37,12 +37,12 @@ public class MyOffersResultsListAdapter extends SearchResultsListAdapter {
 	 * @see com.sheel.adapters.SearchResultsListAdapter#renderFirstTextView(android.widget.TextView, com.sheel.datastructures.OfferDisplay2,  android.view.View)
 	 */
 	public void renderFirstTextView(TextView textView,OfferDisplay2 offerDisplay,  View listRow) {
-		textView.setText("The overriding is successful");
+		//textView.setText("The overriding is successful");
 		
 		/**
 		 * If you want to set it to flight details instead of name
 		 */
-		//textView.setText(offerDisplay.getFlight().displayFlight());
+		textView.setText(offerDisplay.getFlight().displayFlight(super.swypeCatsGuiUtils));
 		
 	}// end renderFirstTextView
 

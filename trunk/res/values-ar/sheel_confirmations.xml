@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?> 
 <resources> 
    
+   <!-- Need to know the mode of the writing either left to right or right to left -->
+   <string name = "_hossamWritingmode">RightToLeft</string>
    
  	<string name="_hossamOk">موافق</string>
 	<string name="_hossamYes">نعم</string>
@@ -12,10 +14,15 @@
 	<string name="_hossamConfirmedByAnotherPerson">آسف ، ويؤكد هذا العرض بالفعل من قبل مستخدم آخر.</string>
 	<string name= "_hossamConfirmedByTwoUsers">أكدت دراسة اثنين من المستخدمين</string>
 	<string name="_hossamConfirmationMail">تأكيد البريد الإلكتروني المرسلة إلى صندوق البريد الوارد</string>
-<string name="_hossamFrom">من</string>
-<string name="_hossamTo">إلى</string>	    
-<string name="_hossamOn">على</string>
+   
+
 	    
+    <!-- Flight display -->
+    <string name="_hossamFlightTo">إلى</string>
+    <string name = "_hossamFlight">الطائرة</string>
+	  <string name = "_hossamFlightFrom">من</string>
+	     <string name="_hossamFlightOn">على</string>
+    
 	 <string-array name="_swyperCats">
 	     
 	     <item>الآخرين - اعلنو - أنا - أكدت</item>
