@@ -9,8 +9,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewStub;
+import android.view.View.OnClickListener;
 import android.view.ViewStub.OnInflateListener;
 import android.widget.Button;
 import android.widget.TextView;
@@ -46,6 +46,12 @@ public class InflateListener implements OnInflateListener, OnClickListener {
 	
 	private static final String TAG = InflateListener.class.getName();
 
+	
+	/**
+	 * Swyping Gui utils instance
+	 */
+	public GuiUtils swypeCatsGuiUtils;
+	
 	
 	/**
 	 *  Position Clicked
@@ -101,7 +107,7 @@ public class InflateListener implements OnInflateListener, OnClickListener {
 	 *  
 	 */
 	public InflateListener(int position, Context mContext, OfferDisplay2 offerDisplay,
-			Activity activity, FacebookUser mUser)
+			Activity activity, FacebookUser mUser, GuiUtils swypeCatsGuiUtils)
 	{
 		mPos = position;
 
@@ -112,6 +118,8 @@ public class InflateListener implements OnInflateListener, OnClickListener {
 		this.mActivity = activity;
 		
 		this.mUser = mUser;
+		
+		this.swypeCatsGuiUtils = swypeCatsGuiUtils;
 		
 		
 		// <=== List your buttons here ===>
@@ -186,21 +194,24 @@ public class InflateListener implements OnInflateListener, OnClickListener {
 		String detailsSummary = offerDisplay.getUser().getNationality() ;		
 		
 		if (offerDisplay.getOwnerFacebookRelationWithUser() == OwnerFacebookStatus.FRIEND) {
-			detailsSummary += " Friend";
+			detailsSummary += " " +  swypeCatsGuiUtils.getSwpeCats()[5];
+//			detailsSummary += " Friend";
 		}// end if: offer owner is the user's friend
 		else if (offerDisplay.getOwnerFacebookRelationWithUser() == OwnerFacebookStatus.FRIEND_OF_FRIEND) {
-			detailsSummary += " Friend of friend";
+			detailsSummary += " " +  swypeCatsGuiUtils.getSwpeCats()[6];
+//			detailsSummary += " Friend of friend";
 		}// end if: offer owner is the user's friend of friend
 		else if (offerDisplay.getOwnerFacebookRelationWithUser() == OwnerFacebookStatus.UNRELATED) {
-			detailsSummary += " Stranger";
+			detailsSummary += " " +  swypeCatsGuiUtils.getSwpeCats()[4];
+//			detailsSummary += " Stranger";
 		}// end if: offer owner is a stranger
 		textView.setText(detailsSummary);
 		
 		if (offerDisplay.getUser().gender.equals(SheelMaayaaConstants.GENDER_FEMALE)) {
-			GuiUtils.setIconForATextField(mContext, inflated, textView, R.drawable.sheel_gender_female, 3);
+			this.swypeCatsGuiUtils.setIconForATextField(mContext, inflated, textView, R.drawable.sheel_gender_female, 3);
 		}// end if : offer owner is a female
 		else {
-			GuiUtils.setIconForATextField(mContext, inflated, textView, R.drawable.sheel_gender_male, 3);
+			this.swypeCatsGuiUtils.setIconForATextField(mContext, inflated, textView, R.drawable.sheel_gender_male, 3);
 		}// end if:offer owner is a male or unknown -> show icon
 		
 	}// end renderFirstTextView
@@ -233,7 +244,7 @@ public class InflateListener implements OnInflateListener, OnClickListener {
 				
 		textView.setText(offerDisplay.getUser().email);
 		if (inflated != null) {
-			GuiUtils.setIconForATextField(mContext, inflated, textView,
+			this.swypeCatsGuiUtils.setIconForATextField(mContext, inflated, textView,
 					R.drawable.sheel_result_email, 3);
 		}// end if
 		
@@ -267,7 +278,7 @@ public class InflateListener implements OnInflateListener, OnClickListener {
 		
 		textView.setText(offerDisplay.getUser().mobileNumber);
 		if (inflated != null) {
-			GuiUtils.setIconForATextField(mContext, inflated, textView, R.drawable.sheel_result_phone, 3);
+			this.swypeCatsGuiUtils.setIconForATextField(mContext, inflated, textView, R.drawable.sheel_result_phone, 3);
 		}// end if
 		
 	}// end renderThirdTextView
@@ -275,7 +286,7 @@ public class InflateListener implements OnInflateListener, OnClickListener {
 	/**
 	 * Used to render the data displayed in the fourth text view.
 	 * By default it is the showing the flight details in the format
-	 * returned by {@link Flight#displayFlight()}
+	 * returned by {@link Flight#displayFlight(swypeCatsGuiUtils)}
 	 * 
 	 * <br><br><b>Override the method to change the content
 	 * displayed</b>
@@ -296,12 +307,13 @@ public class InflateListener implements OnInflateListener, OnClickListener {
 	 * 		To neglect such parameter, pass it as null.
 	 * @author 
 	 *		Passant El.Agroudy (passant.elagroudy@gmail.com)
+	 *@author Hossam_Amer
 	 */
 	public void renderFourthTextView(TextView textView, OfferDisplay2 offerDisplay, View inflated) {
 		
-		textView.setText(offerDisplay.getFlight().displayFlight());
+		textView.setText(offerDisplay.getFlight().displayFlight(swypeCatsGuiUtils));
 		if (inflated != null) {
-			GuiUtils.setIconForATextField(mContext, inflated, textView, R.drawable.sheel_result_flight, 0);
+			this.swypeCatsGuiUtils.setIconForATextField(mContext, inflated, textView, R.drawable.sheel_result_flight, 0);
 		}// end if
 		
 	}// end renderFourthTextView
@@ -331,6 +343,7 @@ public class InflateListener implements OnInflateListener, OnClickListener {
 	 * 		{@link View#INVISIBLE}.
 	 * @author 
 	 *		Passant El.Agroudy (passant.elagroudy@gmail.com)
+	 *@author Hossam_Amer
 	 */
 	public void setVisibilityButtonsVisibility(View inflated, int confirm, int call, int sendSms) {
 		((Button) inflated.findViewById(buttonIDs[0])).setVisibility(call);
