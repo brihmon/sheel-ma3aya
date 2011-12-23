@@ -108,6 +108,8 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 	EditText passportNumberField;
 	
 	EditText validationCodeField;
+	
+	ImageView i;
 
 	String gender = ""; /* Declaration of gender string */
 	String firstName; /* Declaration of first name string */
@@ -118,7 +120,7 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 	String passportNumber; /* Declaration of passport string */
 	String email; /* Declaration of email string */
 	String mobileNumber; /* Declaration of mobile number string */
-	String nationality; /* Declaration of nationality string */
+	static String nationality; /* Declaration of nationality string */
 	/** String containing the user facebook ID */
 	String faceBookID;
 	
@@ -139,39 +141,18 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 	boolean mobileValid = true;
 	Bundle savedBundle;
 	
-	/*
-	 * public void NewUser() { String gender = ""; String firstName = ""; String
-	 * middleName = ""; String lastName = ""; String email = "";
-	 * 
-	 * Bundle extras = getIntent().getExtras(); if (extras != null) { firstName
-	 * = extras.getString(FIRST_NAME_KEY); middleName =
-	 * extras.getString(MIDDLE_NAME_KEY); lastName =
-	 * extras.getString(LAST_NAME_KEY); email = extras.getString(EMAIL_KEY);
-	 * gender = extras.getString(GENDER_KEY);
-	 * 
-	 * }// end if: extract info sent by the intent
-	 * 
-	 * 
-	 * firstNameField.setText(firstName); middleNameField.setText(middleName);
-	 * lastNameField.setText(lastName); emailField.setText(email); this.gender =
-	 * gender;
-	 * 
-	 * if (gender.equalsIgnoreCase("male")) toggleMale.setChecked(true); else if
-	 * (gender.equalsIgnoreCase("female")) toggleFemale.setChecked(true);
-	 * 
-	 * }
-	 */
+	String[] nationalityStrings;
 
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		System.out.println("OnCreate");
 		//onRestoreInstanceState(savedBundle);
 		// Set the contentView of this activity to the the register
 		setContentView(R.layout.register);
 
 		//setFacebookService(new FacebookWebservice());
-		/////////////////////////////
 		//getFacebookService().login(this, true, false);
 		
 		// call the setVariables
@@ -179,18 +160,46 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 
 	}
 	
-	/*@Override
-	protected void onPause() {
-		// TODO Auto-generated method stub
-		super.onPause();
+	@Override
+	public void onSaveInstanceState(Bundle savedInstanceState) {
+	  // Save UI state changes to the savedInstanceState.
+	  // This bundle will be passed to onCreate if the process is
+	  // killed and restarted.
+	  savedInstanceState.putString("MobileCode", countryCodes.getText().toString());
+	  savedInstanceState.putString("MobileNumber", mobileNumberField.getText().toString());
+	  savedInstanceState.putString("ValidationCode", validationCodeField.getText().toString());
+	  savedInstanceState.putString("Nationality", nationalityField.getText().toString());
+	  savedInstanceState.putString("PassportNumber", passportNumberField.getText().toString());
+	 
+	  savedInstanceState.putString("ImageView", ImagePath);
+	  System.out.println("In SaveInstanceState ");
+	  // etc.
+	  super.onSaveInstanceState(savedInstanceState);
 	}
-	*/
+	
+	@Override
+	public void onRestoreInstanceState(Bundle savedInstanceState) {
+	  super.onRestoreInstanceState(savedInstanceState);
+	  // Restore UI state from the savedInstanceState.
+	  // This bundle has also been passed to onCreate.
+	  countryCodes.setText(savedInstanceState.getString("MobileCode"));
+	  mobileNumberField.setText(savedInstanceState.getString("MobileNumber"));
+	  validationCodeField.setText(savedInstanceState.getString("ValidationCode"));
+	  nationalityField.setText(savedInstanceState.getString("Nationality"));
+	  passportNumberField.setText(savedInstanceState.getString("PassportNumber"));
+	ImagePath = savedInstanceState.getString("ImageView");
+	onPhotoTaken();
+	  System.out.println("onRestoreInstanceState");
+	}
+	
+	
 	@Override
 	protected void onDestroy() {
 		try{	unregisterReceiver(receiver);
 		}catch(Exception e){System.out.println("CATCHED");}
 		// TODO Auto-generated method stub
 	//onSaveInstanceState(savedBundle);
+		System.out.println("onDestroy");
 		super.onDestroy();
 	}
 
@@ -200,6 +209,7 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 		//}catch(Exception e){System.out.println("CATCHED");}
 		// TODO Auto-generated method stub
 		//onSaveInstanceState(savedBundle);
+		System.out.println("onPause");
 		super.onPause();
 		
 		// Cancel out the dialog
@@ -212,6 +222,9 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 	protected void onRestart() {
 		// TODO Auto-generated method stub
 		//onRestoreInstanceState(savedBundle);
+		try{	unregisterReceiver(receiver);
+		}catch(Exception e){System.out.println("CATCHED In On Restart");}
+		System.out.println("onRestart");
 		super.onRestart();
 		
 	}
@@ -220,6 +233,7 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		//onRestoreInstanceState(savedBundle);
+		System.out.println("onResume");
 		super.onResume();
 		
 		filter = new IntentFilter();
@@ -228,7 +242,6 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 		filter.addAction(HTTP_CHECK_REGISTERED);
 		filter.addAction(HTTP_REGISTER_USER);
 		receiver = new SheelMaayaaBroadCastRec();
-		
 		Log.e(TAG, "Receiver Registered");
 		registerReceiver(receiver, filter);
 	}
@@ -241,7 +254,7 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 
 		/* Nationality field, its adaptor, its validator */
 		nationalityField = (AutoCompleteTextView) findViewById(R.id.autoNationality);
-		final String[] nationalityStrings = getResources().getStringArray(
+		 nationalityStrings = getResources().getStringArray(
 				R.array.nationalities_array);
 		ArrayAdapter<String> nationalityAdapter = new ArrayAdapter<String>(
 				this, R.layout.list_item, nationalityStrings);
@@ -327,7 +340,7 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 		/* Passport number field */
 		passportNumberField = (EditText) findViewById(R.id.passNum);
 		validationCodeField = (EditText) findViewById(R.id.validationCode);
-
+		i = (ImageView) findViewById(R.id.pictureView);
 	} // end setVariables
 
 	/** Method called when male toggle button is clicked */
@@ -423,7 +436,7 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 
 	protected void onPhotoTaken() {
 
-		ImageView i = (ImageView) findViewById(R.id.pictureView);
+		//ImageView i = (ImageView) findViewById(R.id.pictureView);
 		Bitmap bitmap = BitmapFactory.decodeFile(ImagePath);
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos); // bm is the
@@ -434,7 +447,7 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 		System.out.println("Photo: "+ passportImage);
 		i.setImageBitmap(bitmap);
 		System.out.println("Photo Success");
-		
+	
 	}
 
 	public void OnClick_mobileValidate(View v){
@@ -544,10 +557,8 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 		
 		countryCodes.getValidator().isValid(countryCode);
 		System.out.println("Went to validator");
-		//nationality = nationalityField.getText().toString();
 		if(!nationality.equals("%20")){
 			nationalityField.getValidator().isValid(nationality);
-			
 		}
 		else{
 			nationalityValid = true;
@@ -621,16 +632,16 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 		}
 		return false;
 		}
-	/*
+	
 	public String getNationalityIndex(String nationality){
-		 
+		 System.out.println("In nationality index");
 		 for(int i = 0 ; i < nationalityStrings.length ; i++){
 			 if(nationality.equals(nationalityStrings[i]))
 				 return i+"";	 
 		 }
 		 
 		 return -1+"";
-	 }*/
+	 }
 
 
 	public AlertDialog showAlert(String title, String message){
@@ -670,11 +681,12 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 							+ "/" + gender + "/" + passportImage;*/
 
 						User user = new User("", firstName, middleName, lastName, passportImage, passportNumber, 
-								email, mobileNumber, faceBookID, gender, nationality);
+								email, mobileNumber, faceBookID, gender, getNationalityIndex(nationality));
 						
 						Gson gson = new Gson();
 						String input = gson.toJson(user);
 						System.out.println("GSONSTRING: " + input);
+						
 						
 						HTTPManager.startHttpService(path, input, HTTP_REGISTER_USER, getApplicationContext());
 						Toast.makeText(NewUserActivity.this, "Successful Registration", Toast.LENGTH_LONG).show();
@@ -685,17 +697,18 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 						
 					}
 					else if(responseStr.equalsIgnoreCase("true")){
-						AlertDialog a = showAlert("Registration failed","Sorry you are already registered");
-						a.setButton("ok", new android.content.DialogInterface.OnClickListener() {
+						//AlertDialog a = showAlert("Registration failed","Sorry you are already registered");
+						//a.setButton("ok", new android.content.DialogInterface.OnClickListener() {
 							
-							@Override
-							public void onClick(DialogInterface dialog, int which) {
-								Intent statedIntent = setSessionInformationBetweenActivities(ConnectorUserActionsActivity.class);
+							//@Override
+							//public void onClick(DialogInterface dialog, int which) {
+								
+						Intent statedIntent = new Intent(getBaseContext(), ConnectorUserActionsActivity.class);
 								statedIntent.putExtra(ConnectorUserActionsActivity.LOGGED_ID_KEY, faceBookID);
 								startActivity(statedIntent);
-							}
-						});
-						a.show();
+							//}
+						//});
+						//a.show();
 						System.out.println("Already Registered");
 					}
 					// Dialog dismissing
@@ -705,7 +718,7 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 				}
 				else if (action.equals(HTTP_REGISTER_USER))
 				{
-					Intent statedIntent = setSessionInformationBetweenActivities(ConnectorUserActionsActivity.class);
+					Intent statedIntent = new Intent(getBaseContext(), ConnectorUserActionsActivity.class);
 					statedIntent.putExtra(ConnectorUserActionsActivity.LOGGED_ID_KEY, faceBookID);
 					startActivity(statedIntent);
 					finish();
