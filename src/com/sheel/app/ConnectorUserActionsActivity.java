@@ -1,13 +1,18 @@
 package com.sheel.app;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.sheel.adapters.MyOffersResultsListAdapter;
+import com.sheel.datastructures.OfferDisplay2;
 import com.sheel.webservices.FacebookWebservice;
 
 /**
@@ -123,13 +128,99 @@ public class ConnectorUserActionsActivity extends UserSessionStateMaintainingAct
 		//ArrayList<Integer> catRsc = new ArrayList<Integer>();
 		//catRsc.add(R.id.menu_main_declare); catRsc.add(R.id.menu_main_search);
 		
-	System.out.println("I am in the correct version");
-		Intent intent = new Intent(getApplicationContext(), SwypingHorizontalViewsActivity.class);
-		startActivity(intent);
+//		System.out.println("I am in the correct version");
+//		Intent intent = new Intent(getApplicationContext(), SwypingHorizontalViewsActivity.class);
+//		startActivity(intent);
 		
 	//	System.out.println("I am in the correct version");
 	//	Intent intent = new Intent(getApplicationContext(), MyOffersActivity.class);
 	//	startActivity(intent);
+		
+		
+		Class baseClass = MyOffersResultsListAdapter.class;
+		Class[] parametersTypes = new Class[] {Context.class,ArrayList.class};
+		try {
+			Constructor baseClassConstructor = baseClass.getConstructor(parametersTypes);
+			ArrayList<OfferDisplay2> param2 = new ArrayList<OfferDisplay2>();
+			param2.add(new OfferDisplay2("owner", 1, "PAssant gdn"));
+			Object[] parameters = new Object[] {this,param2};
+			try {
+				Object o = baseClassConstructor.newInstance(parameters);
+				baseClass.cast(o);
+			} catch (IllegalArgumentException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InstantiationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InvocationTargetException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} catch (SecurityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NoSuchMethodException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		try {
+			
+			Class<?> implementorClass = Class.forName("String");
+			String instance = String.class.cast(implementorClass.newInstance());
+			
+			//Class<?> implementorClass = String.class;
+			//String instance = String.class.cast(implementorClass.newInstance());
+			
+		}catch(ClassNotFoundException e) {
+			
+		}catch (IllegalAccessException e) {
+			
+		}catch (InstantiationException e) {
+			
+		}
+		
+		
+		try {
+			
+			//Class<?> implementorClass = String.class;
+			//String instance = String.class.cast(implementorClass.newInstance());
+			
+			Class<?> implementorClass = MyOffersResultsListAdapter.class;
+			Class[] paramTypes = new Class[] {Context.class,ArrayList.class};
+			Constructor baseClassConstructor = implementorClass.getConstructor(paramTypes);
+			ArrayList<OfferDisplay2> param2 = new ArrayList<OfferDisplay2>();
+			param2.add(new OfferDisplay2("owner", 1, "PAssant gdn"));
+			Object[] parameters = new Object[] {this,param2};
+			
+			//MyOffersResultsListAdapter instance = MyOffersResultsListAdapter.class.cast(implementorClass.newInstance());
+			MyOffersResultsListAdapter instance = MyOffersResultsListAdapter.class.cast(baseClassConstructor.newInstance(parameters));
+		}catch (IllegalAccessException e) {
+			
+		}catch (InstantiationException e) {
+			
+		} catch (SecurityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NoSuchMethodException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}// end onClick_checkFacebookSearch
+	
+	private void  x (MyOffersResultsListAdapter m) {
 		
 	}
 
