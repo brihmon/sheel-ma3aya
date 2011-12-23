@@ -39,7 +39,9 @@ public class Confirmation {
 	public final static String alreadyConfirmed = "alreadyConfirmed";
 	public final static String confirmedByAnotherPerson = "confirmedByAnotherPerson";
 	public final static String half_confirmed_offerOwner = "half_confirmed_1";
+	public final static String half_confirmed_other = "half_confirmed_2";
 	public final static String not_confirmed = "new";
+	public final static String confirmed = "confirmed";
 	
 	 public Confirmation(User user1, User user2, Flight flight, Offer offer, 
 			 boolean statusTransactionUser1, boolean statusTransactionUser2) {
