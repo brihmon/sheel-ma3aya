@@ -3,6 +3,8 @@
  */
 package com.sheel.utils;
 
+import com.sheel.app.R;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -18,9 +20,142 @@ import android.widget.TextView;
  * 
  * @author 
  *		Passant El.Agroudy (passant.elagroudy@gmail.com)
+ *@author 
+ *			Hossam_Amer (hossam.amer12@gmail.com)
  *
  */
-public final class GuiUtils {
+public final class GuiUtils extends Activity{
+	
+	
+	/**
+	 * Current context of the application
+	 */
+	Context mContext; 
+	
+	/**
+	 * Categories display names
+	 */
+	public  String [] swpeCats;
+	
+	/**
+	 * Okay word
+	 */
+	public  String okay;
+	/**
+	 * Yes word
+	 */
+	public  String Yes;
+	
+	/**
+	 * No word
+	 */
+	public  String No;
+	/**
+	 * Pending confirmation Dialog
+	 */
+	public  String loadingConfirmation;
+	
+	/**
+	 * Already confirmed status
+	 */
+	public  String alreadyConfirmed;
+	
+	/**
+	 * Confirmed by two users status
+	 */
+	public  String confirmedByTwoUsers;
+	
+	/**
+	 * Confirmed by another person status
+	 */
+	public  String confirmedByAnotherPerson;
+	
+	/**
+	 * Confirmation Mail dialog box
+	 */
+	public  String confirmationMail;
+	
+	/**
+	 * Mode of writing
+	 */
+	public String writingMode;
+	
+	/**
+	 * Strings for displaying the flight
+	 */
+	public String flightWord;
+	public String flightFrom;
+	public String flightTo;
+	public String flightOn;
+	
+	/**
+	 * Constructor for creating and getting the Swyper GUI utilities.
+	 * @param mContext
+	 * 				Current context of the application
+	 */
+	
+	public GuiUtils(Context mContext) {
+		
+		this.mContext = mContext;
+		
+		//============Add your resources here=============
+		
+		swpeCats = mContext.getResources().getStringArray(R.array._swyperCats);
+		okay = mContext.getResources().getString(R.string._hossamOk);
+		Yes =  mContext.getResources().getString(R.string._hossamYes);
+		No =  mContext.getResources().getString(R.string._hossamNo);
+		loadingConfirmation =  mContext.getResources().getString(R.string._hossamConfirmPending);
+		alreadyConfirmed =  mContext.getResources().getString(R.string._hossamAlreadyConfirmed);
+		confirmedByTwoUsers =  mContext.getResources().getString(R.string._hossamConfirmedByTwoUsers);
+		confirmedByAnotherPerson =  mContext.getResources().getString(R.string._hossamConfirmedByAnotherPerson);
+		confirmationMail =  mContext.getResources().getString(R.string._hossamConfirmationMail);
+		writingMode = mContext.getResources().getString(R.string._hossamWritingmode);
+		flightWord = mContext.getResources().getString(R.string._hossamFlight);
+		flightFrom = mContext.getResources().getString(R.string._hossamFlightFrom);
+		flightTo = mContext.getResources().getString(R.string._hossamFlightTo);
+		flightOn = mContext.getResources().getString(R.string._hossamFlightOn);
+		
+	}
+	
+	
+	/**
+	 * 
+	 * =======Some Getters=================
+	 * 
+	 */
+	
+	public String[] getSwpeCats() {
+		return swpeCats;
+	}
+	public String getOkay() {
+		return okay;
+	}
+	public String getYes() {
+		return Yes;
+	}
+	public String getNo() {
+		return No;
+	}
+	public String getLoadingConfirmation() {
+		return loadingConfirmation;
+	}
+	public String getAlreadyConfirmed() {
+		return alreadyConfirmed;
+	}
+	public String getConfirmedByTwoUsers() {
+		return confirmedByTwoUsers;
+	}
+	public String getConfirmedByAnotherPerson() {
+		return confirmedByAnotherPerson;
+	}
+	public String getConfirmationMail() {
+		return confirmationMail;
+	}
+	public String getWritingMode() {
+		return writingMode;
+	}
+	
+	
 	
 	/**
 	 * Used to show consistent pop up for the user when no results are 
@@ -44,7 +179,7 @@ public final class GuiUtils {
 	 * @author 
 	 * 		Hossam Amer
 	 */
-	public static void showAlertWhenNoResultsAreAvailable(final Activity activity, String message , String commandRes1, final Class<?> res1 , String commandRes2,final Class<?> res2) {
+	public void showAlertWhenNoResultsAreAvailable(final Activity activity, String message , String commandRes1, final Class<?> res1 , String commandRes2,final Class<?> res2) {
 		System.out.println("Should show alert message");
 		
 		AlertDialog.Builder builder = new AlertDialog.Builder(activity);
@@ -92,7 +227,7 @@ public final class GuiUtils {
      * @author 
      * 		Passant El.Agroudy (passant.elagroudy@gmail.com)
      */
-    public static void setIconForATextField(Activity activity, int textViewId , int imgId , int mode){
+    public  void setIconForATextField(Activity activity, int textViewId , int imgId , int mode){
     	Drawable img = activity.getApplicationContext().getResources().getDrawable(imgId );
     	TextView textView = (TextView)activity.findViewById(textViewId);
     	setIconForATextField(img, textView, mode);
@@ -123,7 +258,7 @@ public final class GuiUtils {
      * @author 
      *		Passant El.Agroudy (passant.elagroudy@gmail.com)
      */
-    public static void setIconForATextField(Context appContext, View parent,  int textViewId , int imgId , int mode){
+    public void setIconForATextField(Context appContext, View parent,  int textViewId , int imgId , int mode){
     	
     	Drawable img = appContext.getResources().getDrawable(imgId );
     	TextView textView = (TextView)parent.findViewById(textViewId);
@@ -156,7 +291,7 @@ public final class GuiUtils {
      * @author 
      *		Passant El.Agroudy (passant.elagroudy@gmail.com)
      */
-    public static void setIconForATextField(Context appContext, View parent,  TextView textView , int imgId , int mode){
+    public void setIconForATextField(Context appContext, View parent,  TextView textView , int imgId , int mode){
     	
     	Drawable img = appContext.getResources().getDrawable(imgId );
        	setIconForATextField(img, textView, mode);
@@ -182,7 +317,7 @@ public final class GuiUtils {
 	 * @author 
 	 *		Passant El.Agroudy (passant.elagroudy@gmail.com)
 	 */
-    public static void setIconForATextField(Drawable img , TextView textView , int mode) {
+    public void setIconForATextField(Drawable img , TextView textView , int mode) {
     	switch(mode){
     	case 0:img.setBounds( 0, 0, 40, 40 ); break;
     	case 1:img.setBounds( 0, 0, 50, 50 ); break;
@@ -190,8 +325,33 @@ public final class GuiUtils {
     	case 3:img.setBounds( 0, 0, 33, 33 ); break;
     	default:img.setBounds( 0, 0, 50, 50 ); break;
     	}// end switch : specify size according to mode
-    	textView.setCompoundDrawables(img, null, null, null);
+    	//In case of left to right put the icon on the left, put it on the right otherwise
+    	
+    	if(this.writingMode.equals("LeftToRight"))
+    		textView.setCompoundDrawables(img, null, null, null);
+    	else
+    		textView.setCompoundDrawables(null, null, img, null);
     }// end setIconForATextField
+
+
+	public String getFlightWord() {
+		return flightWord;
+	}
+
+
+	public String getFlightFrom() {
+		return flightFrom;
+	}
+
+
+	public String getFlightTo() {
+		return flightTo;
+	}
+
+
+	public String getFlightOn() {
+		return flightOn;
+	}
 
 
 }// end class
