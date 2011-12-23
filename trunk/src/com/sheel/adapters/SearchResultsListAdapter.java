@@ -54,6 +54,7 @@ public class SearchResultsListAdapter extends BaseAdapter {
 		this.context = c;
 		this.searchResults = offersWrappers;
 		
+		// Create a new swypeCatsGuiUtils
 		swypeCatsGuiUtils = new GuiUtils(this.context);
 	}// end constructor
 
@@ -169,10 +170,10 @@ public class SearchResultsListAdapter extends BaseAdapter {
 		// Set (Number of Kilograms) according to offer			
 		int numberOfKilos = offerDisplay.getOffer().noOfKilograms;
 		if (numberOfKilos <=9) {
-			textView.setText("0"+numberOfKilos+ " Kg");
+			textView.setText("0"+numberOfKilos+ " " + swypeCatsGuiUtils.getOfferKg());
 		}// end if: add extra space for alignment
 		else {
-			textView.setText(numberOfKilos+ " Kg");
+			textView.setText(numberOfKilos+ " " + swypeCatsGuiUtils.offerKg);
 		}// end else: number of kilos is 2 digits -> just show
 		
 		if (offerDisplay.getOffer().userStatus == SheelMaayaaConstants.OfferWeightStatus_LESS) {
@@ -221,7 +222,7 @@ public class SearchResultsListAdapter extends BaseAdapter {
 			OfferDisplay2 offerDisplay, View listRow) {
 
 		// Set (Price) according to the offer
-		textView.setText(offerDisplay.getOffer().pricePerKilogram + " €/Kg");
+		textView.setText(offerDisplay.getOffer().pricePerKilogram + " Û/"+swypeCatsGuiUtils.getOfferKg());
 		// Add image
 		this.swypeCatsGuiUtils.setIconForATextField(context, listRow, R.id.summary_price,
 				R.drawable.sheel_result_money, 0);
