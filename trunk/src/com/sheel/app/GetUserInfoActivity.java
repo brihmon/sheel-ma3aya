@@ -458,7 +458,7 @@ public class GetUserInfoActivity extends UserSessionStateMaintainingActivity {
 		 layout.addView(desAirport);
 		  
 		 Validator AirportValidator = new Validator() {
-				@Override
+//				@Override
 				public boolean isValid(CharSequence text) {
 
 					String stringText = text.toString();
@@ -469,7 +469,7 @@ public class GetUserInfoActivity extends UserSessionStateMaintainingActivity {
 					}
 					return false;
 				}
-				@Override
+//				@Override
 				public CharSequence fixText(CharSequence invalidText) {
 
 					return invalidText;

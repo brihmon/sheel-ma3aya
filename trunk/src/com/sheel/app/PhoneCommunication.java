@@ -169,40 +169,40 @@ public class PhoneCommunication extends UserSessionStateMaintainingActivity {
 		dialog = ProgressDialog.show(PhoneCommunication.this, "", "Doing your request, Please wait..", true, false);
 		Toast.makeText(PhoneCommunication.this, "Doing your request..", Toast.LENGTH_LONG).show();
 		String path = "/insertconfirmation/" + userId+"/"+offerId+"/"+user_status;
-        SheelMaaayaClient sc = new SheelMaaayaClient() {
-			
-			@Override
-			public void doSomething() {
-				final String str = this.rspStr;
-				 
-							 runOnUiThread(new Runnable()
-                             {
-  //                               @Override
-                                 public void run()
-                                 {
-                                	 if(dialog != null)
-                                 		dialog.dismiss();
-                                	  
-                                     if(str.contains("12") || str.contains("13"))
-                                     {
-                                    	 Toast.makeText(PhoneCommunication.this, "Offer has been confirmed!", Toast.LENGTH_LONG).show(); 
-                                     }
-                                     else if(str.contains("Success"))
-                                    	 Toast.makeText(PhoneCommunication.this, "You have confirmed the offer!", Toast.LENGTH_LONG).show();
-                                     else if(str.contains("Failure"))
-                                         Toast.makeText(PhoneCommunication.this, "You could not confirm this offer anymore!", Toast.LENGTH_LONG).show();
-
-                                     // Check the response string if success and ready
-                                     // Then you go and startActivity of send SMS
-//                                     startActivity(new Intent(PhoneCommunication.this, PhoneCommunication.class));
-
-                                 }
-                             });
-
-			}
-		};
-        
-        sc.runHttpRequest(path);       
+//        SheelMaaayaClient sc = new SheelMaaayaClient() {
+//			
+//			@Override
+//			public void doSomething() {
+//				final String str = this.rspStr;
+//				 
+//							 runOnUiThread(new Runnable()
+//                             {
+//  //                               @Override
+//                                 public void run()
+//                                 {
+//                                	 if(dialog != null)
+//                                 		dialog.dismiss();
+//                                	  
+//                                     if(str.contains("12") || str.contains("13"))
+//                                     {
+//                                    	 Toast.makeText(PhoneCommunication.this, "Offer has been confirmed!", Toast.LENGTH_LONG).show(); 
+//                                     }
+//                                     else if(str.contains("Success"))
+//                                    	 Toast.makeText(PhoneCommunication.this, "You have confirmed the offer!", Toast.LENGTH_LONG).show();
+//                                     else if(str.contains("Failure"))
+//                                         Toast.makeText(PhoneCommunication.this, "You could not confirm this offer anymore!", Toast.LENGTH_LONG).show();
+//
+//                                     // Check the response string if success and ready
+//                                     // Then you go and startActivity of send SMS
+////                                     startActivity(new Intent(PhoneCommunication.this, PhoneCommunication.class));
+//
+//                                 }
+//                             });
+//
+//			}
+//		};
+//        
+//        sc.runHttpRequest(path);       
 
 	}// end onClick_send_email
 	
