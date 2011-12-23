@@ -85,11 +85,12 @@ public class Flight
 	     * 
 	     * @author 
 	     *		Passant El.Agroudy (passant.elagroudy@gmail.com)
+	     *@author
+	     *		Hossam_Amer
 	     * @param swypeCatsGuiUtils 
+	     * 						Object contains all the localized strings.
 	     */
 	    public String displayFlight(GuiUtils swypeCatsGuiUtils) {
-	    	
-	    
 	    	return swypeCatsGuiUtils.getFlightWord()+ " (" + flightNumber + ") " + 
 	    				swypeCatsGuiUtils.getFlightFrom() + " " + source + " " + swypeCatsGuiUtils.getFlightTo() + " " + destination + " " +  
 	    				swypeCatsGuiUtils.getFlightOn() + " " + departureDate ;
