@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?> 
 <resources> 
    
-   
+    <!-- Need to know the mode of the writing either left to right or right to left -->
+   <string name = "_hossamWritingmode">LeftToRight</string>
+ 	
+       <!-- Strings for confirmation display -->
  	<string name="_hossamOk">Ok</string>
 	<string name="_hossamYes">Yes</string>
 	<string name="_hossamNo">No</string>
@@ -12,9 +15,14 @@
 	<string name="_hossamConfirmedByAnotherPerson">Sorry, this offer is already confirmed by another user.</string>
 	<string name= "_hossamConfirmedByTwoUsers">Offer confirmed by two users</string>
 	<string name="_hossamConfirmationMail">A confirmation mail sent to your inbox</string>
-		 <string name="_hossamFrom">from</string>
-		<string name="_hossamTo">to</string>	    
-	    <string name="_hossamOn">on</string>
+		
+			    
+	    
+	       <!-- Strings for display Flight --> 
+	    <string name = "_hossamFlight">Flight</string>
+	    <string name = "_hossamFlightFrom">from</string>
+	    <string name="_hossamFlightTo">to</string>
+	     <string name="_hossamFlightOn">on</string>
 	    
 	 <!--**Note: If you would like to add, append to them, dun change the order -->
 	 

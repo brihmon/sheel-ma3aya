@@ -322,7 +322,7 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity
                
 				if(searchResults_full.isEmpty() && searchResults_half.isEmpty() && 
 						searchResults_HalfConfirmedByMeNotDeclaredByMe.isEmpty() && searchResults_new.isEmpty())
-        			GuiUtils.showAlertWhenNoResultsAreAvailable(
+        			super.swypeCatsGuiUtils.showAlertWhenNoResultsAreAvailable(
              				this, 
              				"You do not have any offers yet! ", 
              				"Declare new offer", InsertOfferActivity.class, 

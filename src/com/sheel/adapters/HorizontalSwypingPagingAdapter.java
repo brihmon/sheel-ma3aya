@@ -16,13 +16,12 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
 
-import com.sheel.app.MyOffersActivity;
 import com.sheel.app.R;
 import com.sheel.datastructures.Category;
 import com.sheel.datastructures.FacebookUser;
 import com.sheel.datastructures.OfferDisplay2;
-import com.sheel.listeners.InflateListener;
 import com.sheel.listeners.MyOffersInflateListener;
+import com.sheel.utils.GuiUtils;
 import com.viewpagerindicator.TitleProvider;
 
 /**
@@ -53,6 +52,12 @@ public class HorizontalSwypingPagingAdapter extends PagerAdapter  implements Tit
 	 */
 	FacebookUser mUser;
 	
+	/**
+	 * Swyping Gui utils instance
+	 */
+	public GuiUtils swypeCatsGuiUtils;
+	
+	
 	
 	/**
 	 * Constructor for creating adapter to swap between set of 
@@ -68,11 +73,13 @@ public class HorizontalSwypingPagingAdapter extends PagerAdapter  implements Tit
 	 * 		Passant El.Agroudy (passant.elagroudy@gmail.com)
 	 */
 	
-	public HorizontalSwypingPagingAdapter(ArrayList<Category> categories, Context appContext, Activity mActivity, FacebookUser mUser) {
+	public HorizontalSwypingPagingAdapter(ArrayList<Category> categories, Context appContext, Activity mActivity, 
+								FacebookUser mUser,  GuiUtils swypeCatsGuiUtils) {
 		this.categories = categories;
 		this.appContext = appContext;
 		this.mActivity = mActivity;
 		this.mUser  = mUser;
+		this.swypeCatsGuiUtils = swypeCatsGuiUtils;
 	}// end constructor
 	
 	/*
@@ -144,8 +151,9 @@ public class HorizontalSwypingPagingAdapter extends PagerAdapter  implements Tit
 			private void toggleVisibilityOfStub(ViewStub stub, int position) {
 				if (stub != null) {
 					if (stub.getVisibility() == View.GONE) {
-//						InflateListener infListener =  new InflateListener(position, appContext, this.offersInList.get(position), mActivity, mUser);
-						MyOffersInflateListener infListener =  new MyOffersInflateListener(position, appContext, this.offersInList.get(position), mActivity, mUser);
+//						InflateListener infListener =  new InflateListener(position, appContext, this.offersInList.get(position), mActivity, mUser, swypeCatsGuiUtils);
+						MyOffersInflateListener infListener =  new MyOffersInflateListener(position, appContext, this.offersInList.get(position), 
+														mActivity, mUser, swypeCatsGuiUtils);
 						stub.setOnInflateListener(infListener);
 						stub.setVisibility(View.VISIBLE);
 

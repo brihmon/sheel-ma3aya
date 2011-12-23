@@ -63,6 +63,8 @@ public class ViewSearchResultsActivity extends SwypingHorizontalViewsActivity {
 	String[] airportsList;
 	String[] nationalitiesList;
 	
+	
+	
 	/**
 	 * Map between each user and his/her corresponding offersWrappers retrieved
 	 * from the database
@@ -153,7 +155,7 @@ public class ViewSearchResultsActivity extends SwypingHorizontalViewsActivity {
     	boolean hasResultsFromStrangers = offersFromStrangers != null && offersFromStrangers.size() >0;
         
     	if ((!hasResultsFromFriends)&&(!hasResultsFromFriendsOfFriends)&&(!hasResultsFromStrangers)) {
-     		GuiUtils.showAlertWhenNoResultsAreAvailable(
+     		super.swypeCatsGuiUtils.showAlertWhenNoResultsAreAvailable(
      				this, 
      				"No offers matching your criteria were found! ", 
      				"Search again", GetUserInfoActivity.class, 

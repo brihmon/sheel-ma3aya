@@ -27,6 +27,10 @@ import com.sheel.utils.SheelMaayaaConstants;
 public class SearchResultsListAdapter extends BaseAdapter {
 	
 	/**
+	 * GUI Utilities instance
+	 */
+	 GuiUtils swypeCatsGuiUtils;
+	/**
 	 * Context of the application having the list view. 
 	 * It is used to have access to (inflation) properties
 	 */
@@ -49,6 +53,8 @@ public class SearchResultsListAdapter extends BaseAdapter {
 	public SearchResultsListAdapter(Context c, ArrayList<OfferDisplay2> offersWrappers ){
 		this.context = c;
 		this.searchResults = offersWrappers;
+		
+		swypeCatsGuiUtils = new GuiUtils(this.context);
 	}// end constructor
 
 	
@@ -170,13 +176,13 @@ public class SearchResultsListAdapter extends BaseAdapter {
 		}// end else: number of kilos is 2 digits -> just show
 		
 		if (offerDisplay.getOffer().userStatus == SheelMaayaaConstants.OfferWeightStatus_LESS) {
-			GuiUtils.setIconForATextField(context, listRow,
+			this.swypeCatsGuiUtils.setIconForATextField(context, listRow,
 					R.id.summary_numberOfKilos,
 					R.drawable.sheel_result_arrow_down, 0);
 		}// end if: put image indicating status -> Offer has less weight ->
 			// wants users with extra weight
 		else {
-			GuiUtils.setIconForATextField(context, listRow,
+			this.swypeCatsGuiUtils.setIconForATextField(context, listRow,
 					R.id.summary_numberOfKilos,
 					R.drawable.sheel_result_arrow_up, 0);
 		}// end else: put image indicating status -> Offer has more weight ->
@@ -217,7 +223,7 @@ public class SearchResultsListAdapter extends BaseAdapter {
 		// Set (Price) according to the offer
 		textView.setText(offerDisplay.getOffer().pricePerKilogram + " €/Kg");
 		// Add image
-		GuiUtils.setIconForATextField(context, listRow, R.id.summary_price,
+		this.swypeCatsGuiUtils.setIconForATextField(context, listRow, R.id.summary_price,
 				R.drawable.sheel_result_money, 0);
 
 	}// end renderFirstTextView
