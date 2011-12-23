@@ -11,7 +11,10 @@
 	<string name= "_hossamAlreadyConfirmed">وأكدت بالفعل هذا العرض من قبل اثنين من المستخدمين</string>
 	<string name="_hossamConfirmedByAnotherPerson">آسف ، ويؤكد هذا العرض بالفعل من قبل مستخدم آخر.</string>
 	<string name= "_hossamConfirmedByTwoUsers">أكدت دراسة اثنين من المستخدمين</string>
-	<string name="_hossamConfirmationMail">وتأكيد البريد الإلكتروني المرسلة إلى صندوق البريد الوارد</string>
+	<string name="_hossamConfirmationMail">تأكيد البريد الإلكتروني المرسلة إلى صندوق البريد الوارد</string>
+<string name="_hossamFrom">من</string>
+<string name="_hossamTo">إلى</string>	    
+<string name="_hossamOn">على</string>
 	    
 	 <string-array name="_swyperCats">
 	     
