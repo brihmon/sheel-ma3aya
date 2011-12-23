@@ -54,7 +54,9 @@ public class MyOffersInflateListener extends InflateListener{
 		/**
 		 * Example: Assume you want to hide call and send sms buttons
 		 */
-		setVisibilityButtonsVisibility(inflated, View.VISIBLE, View.GONE, View.GONE);
+		
+		//setVisibilityButtonsVisibility(inflated, View.VISIBLE, View.GONE, View.GONE);
+
 		
 		/**
 		 * If you don't need to change the visibility, you do not need to 
@@ -78,5 +80,29 @@ public class MyOffersInflateListener extends InflateListener{
 		 * Example: assume you want to change the visibility
 		 */
 	}// end renderFirstTextView
+	
+	/**
+	 * Called when (Edit Offer) button is clicked
+	 */
+	@Override	
+	public void onClick_button1(View v) {		
+		/**
+		 * Logic will be implemented by ahmad
+		 */
+		System.out.println("Edit offer button has been clicked");
+	}// end onClick_button1
+	
+	/**
+	 * Called when (Delete Offer) button is clicked
+	 */
+	@Override	
+	public void onClick_button2(View v) {
+		/**
+		 * Logic will be implemented by ahmad
+		 */
+		System.out.println("Delete offer button has been clicked");
+	}// end onClick_button2
+	
+	
 
 }// end class
