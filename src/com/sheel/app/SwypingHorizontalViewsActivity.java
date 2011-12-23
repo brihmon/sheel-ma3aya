@@ -20,6 +20,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.sheel.adapters.HorizontalSwypingPagingAdapter;
+import com.sheel.adapters.SearchResultsListAdapter;
 import com.sheel.datastructures.Category;
 import com.sheel.datastructures.Confirmation;
 import com.sheel.datastructures.Flight;
@@ -27,6 +28,7 @@ import com.sheel.datastructures.Offer;
 import com.sheel.datastructures.OfferDisplay2;
 import com.sheel.datastructures.User;
 import com.sheel.listeners.InflateListener;
+import com.sheel.listeners.MyOffersInflateListener;
 import com.sheel.utils.GuiUtils;
 import com.viewpagerindicator.TitlePageIndicator;
 /**
@@ -73,41 +75,75 @@ public class SwypingHorizontalViewsActivity extends UserSessionStateMaintainingA
     /** Called when the activity is first created. */
     @SuppressWarnings("unchecked")
 	@Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.sheel_offers_list);
-        
-        this.swypeCatsGuiUtils =  new GuiUtils(getApplicationContext());
-        
-        ViewPager swypePager = (ViewPager)findViewById(R.id.swypeView);
-        swypeAdapter = new HorizontalSwypingPagingAdapter(new ArrayList<Category>(), getApplicationContext(), 
-        		SwypingHorizontalViewsActivity.this, getFacebookService().getFacebookUser(), this.swypeCatsGuiUtils);
-        
-//        swypePager.setOnPageChangeListener(new MyPageChangeListener());
-        Log.e("Swype Pager Listen Please: ", "Inside Swype Activity");
-        
-        categories = (ArrayList<Category>) getLastNonConfigurationInstance();
-        
-        if(categories == null)
-        {
-//          initializeContent();
-        	categories = new ArrayList<Category>();
-        	swypeAdapter = new HorizontalSwypingPagingAdapter(categories, getApplicationContext(), 
-        			SwypingHorizontalViewsActivity.this, getFacebookService().getFacebookUser(), this.swypeCatsGuiUtils);
-        	
-        }
-        else
-        {        	
-        	swypeAdapter.setCatagories(categories);
-        	swypeAdapter.notifyDataSetChanged();        
-        }
-        
-    	swypePager.setAdapter(swypeAdapter);
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.sheel_offers_list);
 
-        TitlePageIndicator titleIndicator = (TitlePageIndicator)findViewById(R.id.categoriesIndicator);
-        titleIndicator.setViewPager(swypePager);
+		this.swypeCatsGuiUtils = new GuiUtils(getApplicationContext());
 
-    }// end onCreate
+		ViewPager swypePager = (ViewPager) findViewById(R.id.swypeView);
+		swypeAdapter = new HorizontalSwypingPagingAdapter(
+				new ArrayList<Category>(), getApplicationContext(),
+				SwypingHorizontalViewsActivity.this, getFacebookService()
+						.getFacebookUser(), this.swypeCatsGuiUtils,
+				getClassOfListAdapter(), getClassOfInflateListener());
+
+		// swypePager.setOnPageChangeListener(new MyPageChangeListener());
+		Log.e("Swype Pager Listen Please: ", "Inside Swype Activity");
+
+		categories = (ArrayList<Category>) getLastNonConfigurationInstance();
+
+		if (categories == null) {
+			// initializeContent();
+			categories = new ArrayList<Category>();
+			swypeAdapter = new HorizontalSwypingPagingAdapter(categories,
+					getApplicationContext(),
+					SwypingHorizontalViewsActivity.this, getFacebookService()
+							.getFacebookUser(), this.swypeCatsGuiUtils,
+					getClassOfListAdapter(), getClassOfInflateListener());
+
+		} else {
+			swypeAdapter.setCatagories(categories);
+			// swypeAdapter.notifyDataSetChanged();
+		}
+
+		swypePager.setAdapter(swypeAdapter);
+
+		TitlePageIndicator titleIndicator = (TitlePageIndicator) findViewById(R.id.categoriesIndicator);
+		titleIndicator.setViewPager(swypePager);
+
+	}// end onCreate
+    
+    /**
+     * Used to specify the class used as a list adapter for the displayed
+     * lists in the swiper. By default it is set to {@link SearchResultsListAdapter}.
+     * <br><br>
+     * 
+     * <b>If you wish to change the adapter, override the method</b>
+     * @return
+     * 		any class that extends {@link SearchResultsListAdapter}
+     * @author 
+     *		Passant El.Agroudy (passant.elagroudy@gmail.com)
+     */
+    public  Class getClassOfListAdapter() {
+    	return SearchResultsListAdapter.class;
+    }// end getClassOfListAdapter
+    
+    /**
+     * Used to specify the class used as an inflate listener for the 
+     * accordian (found in each row for showing more details).
+     * By default it is set to {@link InflateListener}.
+     * <br><br>
+     * 
+     * <b>If you wish to change the adapter, override the method</b>
+     * @return
+     * 		any class that extends {@link InflateListener}
+     * @author 
+     *		Passant El.Agroudy (passant.elagroudy@gmail.com)
+     */
+    public Class getClassOfInflateListener() {    	
+    	return InflateListener.class;
+    }// end getClassOfInflateListener
     
 	/**
      * Sets the input categories (data models) used for displaying 
