@@ -94,6 +94,15 @@ public final class GuiUtils extends Activity{
 	public String offerKg;
 	
 	/**
+	 * Alert and toast messages of Swype Activity
+	 */
+	public String _hossamDialogNoResultsMyOffers1; 
+	public String _hossamDialogNoResultsMyOffers2;
+	public String _hossamDialogNoResultsViewOffers1;
+	public String _hossamDialogNoResultsViewOffers2;
+	
+	
+	/**
 	 * Constructor for creating and getting the Swyper GUI utilities.
 	 * @param mContext
 	 * 				Current context of the application
@@ -120,6 +129,7 @@ public final class GuiUtils extends Activity{
 		flightTo = mContext.getResources().getString(R.string._hossamFlightTo);
 		flightOn = mContext.getResources().getString(R.string._hossamFlightOn);
 		offerKg = mContext.getResources().getString(R.string._hossamOfferKg);
+//		_hossamDialogNoResultsMyOffers1 = mContext.getResources().getString(R.s);
 	}
 	
 	
