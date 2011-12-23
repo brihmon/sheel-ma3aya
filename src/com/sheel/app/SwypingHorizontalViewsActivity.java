@@ -27,6 +27,7 @@ import com.sheel.datastructures.Offer;
 import com.sheel.datastructures.OfferDisplay2;
 import com.sheel.datastructures.User;
 import com.sheel.listeners.InflateListener;
+import com.sheel.utils.SwypeCatsGuiUtils;
 import com.viewpagerindicator.TitlePageIndicator;
 /**
  * Activity used for displaying multiple views in a horizontal-sliding
@@ -43,6 +44,11 @@ import com.viewpagerindicator.TitlePageIndicator;
 public class SwypingHorizontalViewsActivity extends UserSessionStateMaintainingActivity {
 	
 	private static final String TAG = MyOffersActivity.class.getName();
+	
+	/**
+	 * GUI utils used for localization
+	 */
+	public SwypeCatsGuiUtils swypeCatsGuiUtils;
 	
 	/**
 	 * Response String from the confirm offer
@@ -70,6 +76,8 @@ public class SwypingHorizontalViewsActivity extends UserSessionStateMaintainingA
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sheel_offers_list);
+        
+        swypeCatsGuiUtils =  new SwypeCatsGuiUtils(getApplicationContext());
         
         ViewPager swypePager = (ViewPager)findViewById(R.id.swypeView);
         swypeAdapter = new HorizontalSwypingPagingAdapter(new ArrayList<Category>(), getApplicationContext(), SwypingHorizontalViewsActivity.this, getFacebookService().getFacebookUser());
