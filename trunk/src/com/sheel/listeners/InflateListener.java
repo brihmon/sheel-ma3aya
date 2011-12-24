@@ -86,7 +86,7 @@ public class InflateListener implements OnInflateListener, OnClickListener {
 	/**
 	 * Activity to launch the operations on
 	 */
-	private Activity mActivity;
+	protected Activity mActivity;
 	
 	/**
 	 * Current user logged In

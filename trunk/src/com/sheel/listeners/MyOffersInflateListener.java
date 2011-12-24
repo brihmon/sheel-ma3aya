@@ -5,12 +5,15 @@ package com.sheel.listeners;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewStub;
 import android.widget.TextView;
 
+import com.sheel.datastructures.Confirmation;
 import com.sheel.datastructures.FacebookUser;
 import com.sheel.datastructures.OfferDisplay2;
+import com.sheel.utils.DemoPopupWindow;
 import com.sheel.utils.GuiUtils;
 
 /**
@@ -85,25 +88,40 @@ public class MyOffersInflateListener extends InflateListener{
 	/**
 	 * Called when (Edit Offer) button is clicked
 	 */
-	@Override	
-	public void onClick_button1(View v) {		
-		/**
-		 * Logic will be implemented by ahmad
-		 */
-		System.out.println("Edit offer button has been clicked");
-	}// end onClick_button1
+	
+	
 	
 	/**
-	 * Called when (Delete Offer) button is clicked
+	 * Called on clicking the fourth button form the left.
+	 * By default this button performs call functions for
+	 * offer owner. To change such behavior, override the
+	 * method in child class
+	 * 
+	 * @param v
+	 * 		Clicked button
+	 * @author 
+	 *		Mohsen
 	 */
-	@Override	
-	public void onClick_button2(View v) {
-		/**
-		 * Logic will be implemented by ahmad
-		 */
-		System.out.println("Delete offer button has been clicked");
-	}// end onClick_button2
-	
+	@Override
+	public void onClick_options(View v) {
+		Log.e("Options button", "For the quick action menu");
+		//DemoPopupWindow.enabledButtons = 3;
+		DemoPopupWindow.enabledButtons = 0;
+		
+		if (offerDisplay.getOffer().offerStatus.equals(Confirmation.half_confirmed_offerOwner)){
+			DemoPopupWindow.enabledButtons = DemoPopupWindow.enabledButtons| BUTTON_DEACTIVATE | BUTTON_EDIT;
+		}
+		else if (offerDisplay.getOffer().offerStatus.equals(Confirmation.half_confirmed_other)){
+			DemoPopupWindow.enabledButtons = DemoPopupWindow.enabledButtons| BUTTON_CONFIRM;
+		}else if (offerDisplay.getOffer().offerStatus.equals(Confirmation.not_confirmed)){
+			DemoPopupWindow.enabledButtons = DemoPopupWindow.enabledButtons| BUTTON_CONFIRM | BUTTON_DEACTIVATE | BUTTON_EDIT;
+		}
+		
+		DemoPopupWindow dw = new DemoPopupWindow(v,this.offerDisplay,this.mActivity, this);
+		
+		dw.showLikeQuickAction();
+
+	}// end onClick_options
 	
 
 }// end class
