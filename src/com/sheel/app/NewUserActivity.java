@@ -46,6 +46,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 
 import com.sheel.datastructures.User;
+import com.sheel.utils.GuiUtils;
 import com.sheel.utils.HTTPManager;
 import com.sheel.utils.InternetManager;
 import com.sheel.webservices.FacebookWebservice;
@@ -65,50 +66,37 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 	public static final String EMAIL_KEY = "email";
 	public static final String GENDER_KEY = "gender";
 	public static final String PASSPORT_IMAGE_KEY = "passportImage";
-	
 
 	private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
 	private Uri fileUri;
 	private static final String TAG = "MyActivity";
-	
+
 	/**
-	 * Filter added for this activity to filter the actions received by the receiver
+	 * Filter added for this activity to filter the actions received by the
+	 * receiver
 	 */
 	IntentFilter filter;
-	
+
 	/**
-	 *  The receiver used for detecting the HTTP data arrival 
+	 * The receiver used for detecting the HTTP data arrival
 	 */
 	private SheelMaayaaBroadCastRec receiver;
 
-     
-     ProgressDialog dialog;
+	ProgressDialog dialog;
 
 	/** Path string where the taken passport photo is saved */
 	String ImagePath = "";
-	/** Male Toggle Button. Not required to register */
-	RadioButton toggleMale;
-	/** Female Toggle Button. Not required to register */
-	RadioButton toggleFemale; // female
 	/** AutoComplete field for mobile country codes. Required to register */
 	AutoCompleteTextView countryCodes;
 	/** AutoComplete field for nationality. Not required to register */
 	AutoCompleteTextView nationalityField;
 	/** Mobile number text field. Required to register */
 	EditText mobileNumberField;
-	/** First name field. Required to register */
-	EditText firstNameField;
-	/** Middle name field. Not required to register */
-	EditText middleNameField;
-	/** Last name field. Required to register */
-	EditText lastNameField;
-	/** Email field. Required to register */
-	EditText emailField;
 	/** Passport number field. Required to register */
 	EditText passportNumberField;
-	
+
 	EditText validationCodeField;
-	
+
 	ImageView i;
 
 	String gender = ""; /* Declaration of gender string */
@@ -116,31 +104,31 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 	String middleName; /* Declaration of middle name string */
 	String lastName; /* Declaration of last name string */
 	/** String containing the passport image encoded data string */
-	String passportImage="image";
+	String passportImage = "image";
 	String passportNumber; /* Declaration of passport string */
 	String email; /* Declaration of email string */
 	String mobileNumber; /* Declaration of mobile number string */
 	static String nationality; /* Declaration of nationality string */
 	/** String containing the user facebook ID */
 	String faceBookID;
-	
+
 	String LoggedID;
 
-	int code=853589;
+	int code = 853589;
 	String userValidationCode;
 	/**
 	 * Boolean variable to check that all the required fields are filled and in
 	 * the right format. True if everything is valid. False otherwise
 	 */
 	boolean allValid = false;
-	
+
 	boolean codeValid = false;
 	boolean nationalityValid = false;
 	boolean gotResponse = false;
-	boolean photoTaken = true;
+	boolean photoTaken = false;
 	boolean mobileValid = true;
 	Bundle savedBundle;
-	
+
 	String[] nationalityStrings;
 
 	/** Called when the activity is first created. */
@@ -148,98 +136,103 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		System.out.println("OnCreate");
-		//onRestoreInstanceState(savedBundle);
+		// onRestoreInstanceState(savedBundle);
 		// Set the contentView of this activity to the the register
 		setContentView(R.layout.register);
 
-		//setFacebookService(new FacebookWebservice());
-		//getFacebookService().login(this, true, false);
-		
 		// call the setVariables
 		setVariables();
 
 	}
-	
+
 	@Override
 	public void onSaveInstanceState(Bundle savedInstanceState) {
-	  // Save UI state changes to the savedInstanceState.
-	  // This bundle will be passed to onCreate if the process is
-	  // killed and restarted.
-	  savedInstanceState.putString("MobileCode", countryCodes.getText().toString());
-	  savedInstanceState.putString("MobileNumber", mobileNumberField.getText().toString());
-	  savedInstanceState.putString("ValidationCode", validationCodeField.getText().toString());
-	  savedInstanceState.putString("Nationality", nationalityField.getText().toString());
-	  savedInstanceState.putString("PassportNumber", passportNumberField.getText().toString());
-	  savedInstanceState.putInt("ValCode", code);
-	  savedInstanceState.putString("ImageView", ImagePath);
-	  System.out.println("In SaveInstanceState ");
-	  // etc.
-	  super.onSaveInstanceState(savedInstanceState);
+		// Save UI state changes to the savedInstanceState.
+		// This bundle will be passed to onCreate if the process is
+		// killed and restarted.
+		savedInstanceState.putString("MobileCode", countryCodes.getText()
+				.toString());
+		savedInstanceState.putString("MobileNumber", mobileNumberField
+				.getText().toString());
+		savedInstanceState.putString("ValidationCode", validationCodeField
+				.getText().toString());
+		savedInstanceState.putString("Nationality", nationalityField.getText()
+				.toString());
+		savedInstanceState.putString("PassportNumber", passportNumberField
+				.getText().toString());
+		savedInstanceState.putInt("ValCode", code);
+		savedInstanceState.putString("ImageView", ImagePath);
+		System.out.println("In SaveInstanceState ");
+		// etc.
+		super.onSaveInstanceState(savedInstanceState);
 	}
-	
+
 	@Override
 	public void onRestoreInstanceState(Bundle savedInstanceState) {
-	  super.onRestoreInstanceState(savedInstanceState);
-	  // Restore UI state from the savedInstanceState.
-	  // This bundle has also been passed to onCreate.
-	  countryCodes.setText(savedInstanceState.getString("MobileCode"));
-	  mobileNumberField.setText(savedInstanceState.getString("MobileNumber"));
-	  validationCodeField.setText(savedInstanceState.getString("ValidationCode"));
-	  nationalityField.setText(savedInstanceState.getString("Nationality"));
-	  passportNumberField.setText(savedInstanceState.getString("PassportNumber"));
-	ImagePath = savedInstanceState.getString("ImageView");
-	code = savedInstanceState.getInt("ValCode");
-	if(ImagePath.length()>2)
-	onPhotoTaken();
-	  System.out.println("onRestoreInstanceState");
+		super.onRestoreInstanceState(savedInstanceState);
+		// Restore UI state from the savedInstanceState.
+		// This bundle has also been passed to onCreate.
+		countryCodes.setText(savedInstanceState.getString("MobileCode"));
+		mobileNumberField.setText(savedInstanceState.getString("MobileNumber"));
+		validationCodeField.setText(savedInstanceState
+				.getString("ValidationCode"));
+		nationalityField.setText(savedInstanceState.getString("Nationality"));
+		passportNumberField.setText(savedInstanceState
+				.getString("PassportNumber"));
+		ImagePath = savedInstanceState.getString("ImageView");
+		code = savedInstanceState.getInt("ValCode");
+		if (ImagePath.length() > 2)
+			onPhotoTaken();
+		System.out.println("onRestoreInstanceState");
 	}
-	
-	
+
 	@Override
 	protected void onDestroy() {
-		try{	unregisterReceiver(receiver);
-		}catch(Exception e){System.out.println("CATCHED");}
-		// TODO Auto-generated method stub
-	//onSaveInstanceState(savedBundle);
+		try {
+			unregisterReceiver(receiver);
+		} catch (Exception e) {
+			System.out.println("CATCHED");
+		}
+		// onSaveInstanceState(savedBundle);
 		System.out.println("onDestroy");
 		super.onDestroy();
 	}
 
 	@Override
 	protected void onPause() {
-		//try{	unregisterReceiver(receiver);
-		//}catch(Exception e){System.out.println("CATCHED");}
-		// TODO Auto-generated method stub
-		//onSaveInstanceState(savedBundle);
+		// try{ unregisterReceiver(receiver);
+		// }catch(Exception e){System.out.println("CATCHED");}
+		// onSaveInstanceState(savedBundle);
 		System.out.println("onPause");
 		super.onPause();
-		
+
 		// Cancel out the dialog
 		dialog = null;
 		// Unregister the receiver onPause
-		//unregisterReceiver(receiver);
+		// unregisterReceiver(receiver);
 	}
 
 	@Override
 	protected void onRestart() {
-		// TODO Auto-generated method stub
-		//onRestoreInstanceState(savedBundle);
-		try{	unregisterReceiver(receiver);
-		}catch(Exception e){System.out.println("CATCHED In On Restart");}
+		// onRestoreInstanceState(savedBundle);
+		try {
+			unregisterReceiver(receiver);
+		} catch (Exception e) {
+			System.out.println("CATCHED In On Restart");
+		}
 		System.out.println("onRestart");
 		super.onRestart();
-		
+
 	}
 
 	@Override
 	protected void onResume() {
-		// TODO Auto-generated method stub
-		//onRestoreInstanceState(savedBundle);
+		// onRestoreInstanceState(savedBundle);
 		System.out.println("onResume");
 		super.onResume();
-		
+
 		filter = new IntentFilter();
-		
+
 		// Add the filters of your activity
 		filter.addAction(HTTP_CHECK_REGISTERED);
 		filter.addAction(HTTP_REGISTER_USER);
@@ -256,26 +249,24 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 
 		/* Nationality field, its adaptor, its validator */
 		nationalityField = (AutoCompleteTextView) findViewById(R.id.autoNationality);
-		 nationalityStrings = getResources().getStringArray(
+		nationalityStrings = getResources().getStringArray(
 				R.array.nationalities_array);
 		ArrayAdapter<String> nationalityAdapter = new ArrayAdapter<String>(
 				this, R.layout.list_item, nationalityStrings);
 		nationalityField.setAdapter(nationalityAdapter);
 		Validator NationalityValidator = new Validator() {
 
-//			@Override
+			// @Override
 			public boolean isValid(CharSequence text) {
 
 				Log.v("Test", "Checking if valid: " + text);
 				String stringText = text.toString();
 				stringText = stringText.trim();
-				
 
 				Arrays.sort(nationalityStrings);
 				if ((Arrays.binarySearch(nationalityStrings, stringText) > 0)) {
 					nationalityValid = true;
 					nationality = stringText.replaceAll(" ", "%20");
-					
 
 					return true;
 				}
@@ -286,7 +277,7 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 				return false;
 			}
 
-//			@Override
+			// @Override
 			public CharSequence fixText(CharSequence invalidText) {
 
 				return invalidText;
@@ -304,7 +295,7 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 		countryCodes.setAdapter(adapter);
 		Validator MobileValidator = new Validator() {
 
-//			@Override
+			// @Override
 			public boolean isValid(CharSequence text) {
 				Log.v("Test", "Checking if valid: " + text);
 				Arrays.sort(codeStrings);
@@ -319,7 +310,7 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 				return false;
 			}
 
-//			@Override
+			// @Override
 			public CharSequence fixText(CharSequence invalidText) {
 
 				return invalidText;
@@ -330,37 +321,20 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 		/* Mobile number field */
 		mobileNumberField = (EditText) findViewById(R.id.mobileNumber);
 
-		/* First, middle and last names fields 
-		firstNameField = (EditText) findViewById(R.id.FirstName);
-		middleNameField = (EditText) findViewById(R.id.MiddleName);
-		lastNameField = (EditText) findViewById(R.id.LastName);
-		*/
-	
-		/* Email field */
-		emailField = (EditText) findViewById(R.id.email);
-
 		/* Passport number field */
 		passportNumberField = (EditText) findViewById(R.id.passNum);
 		validationCodeField = (EditText) findViewById(R.id.validationCode);
 		i = (ImageView) findViewById(R.id.pictureView);
 	} // end setVariables
 
-
-
 	/** Method called when the take photo button is clicked to open the camera */
 	public void onClick_takePhoto(View v) {
-		/*
 
 		// Set the path where the taken photo will be saved
-		
-		/*path = Environment.getExternalStorageDirectory().getName()
+		ImagePath = Environment.getExternalStorageDirectory().getPath()
 				+ File.separatorChar + "Android/data/"
-				+ NewUserActivity.this.getPackageName()+ "/PassportPhoto.jpg";
-		*/
-		
-		ImagePath =  Environment.getExternalStorageDirectory().getPath() 
-				+ File.separatorChar+ "Android/data/"
-						+ NewUserActivity.this.getPackageName() +File.separatorChar+  "PassportPhoto.jpg";
+				+ NewUserActivity.this.getPackageName() + File.separatorChar
+				+ "PassportPhoto.jpg";
 		System.out.println("Path: " + ImagePath.toString());
 		/** The file containing the taken passport photo */
 		File file = new File(ImagePath);
@@ -385,15 +359,14 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 		// set the image file name
 		intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
 		// start the image capture Intent
-		startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE); 
-		} // end onClick_takePhoto
-	
+		startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
+	} // end onClick_takePhoto
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
-			
+
 			// User done with capturing image
 			if (resultCode == RESULT_OK) {
 				System.out.println("Result OK");
@@ -409,13 +382,11 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 						.show();
 			}
 		}
-		
-		
+
 	}
 
 	protected void onPhotoTaken() {
 
-		//ImageView i = (ImageView) findViewById(R.id.pictureView);
 		Bitmap bitmap = BitmapFactory.decodeFile(ImagePath);
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos); // bm is the
@@ -423,139 +394,136 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 		byte[] image = baos.toByteArray();
 
 		passportImage = Base64.encodeBytes(image);
-		System.out.println("Photo: "+ passportImage);
+		System.out.println("Photo: " + passportImage);
 		i.setImageBitmap(bitmap);
 		System.out.println("Photo Success");
-	
+
 	}
 
-	public void OnClick_mobileValidate(View v){
+	public void OnClick_mobileValidate(View v) {
 		mobileNumber = (mobileNumberField.getText().toString());
 		String countryCode = countryCodes.getText().toString();
-		if(mobileNumber.length() < 1 && countryCode.length()<1){
-			 Toast.makeText(getBaseContext(), "Please insert the mobile code and number", 
-                    Toast.LENGTH_SHORT).show();
-		}else{
-		double code1 = Math.random()*12345;
-		code = (int)code1;
-		
-		String SENT = "SMS_SENT";
-        String DELIVERED = "SMS_DELIVERED";
-        
-        String phoneCode = countryCode.toString().split(" ")[countryCode.toString().split(" ").length-1];
-		mobileNumber =  phoneCode + mobileNumber;
-
-		mobileNumber = mobileNumber.trim();
-		mobileNumber = mobileNumber.replace("(", "");
-		mobileNumber = mobileNumber.replace(")", "");
-		mobileNumber = mobileNumber.replace(" ", "");
-		System.out.println("MOB: "+mobileNumber+" Code: "+code);
-		
-		 PendingIntent sent = PendingIntent.getActivity(this, 0, new Intent(SENT), 0);
-		 PendingIntent delivered = PendingIntent.getActivity(this, 0, new Intent(DELIVERED), 0);
-		        System.out.println("Message sent");
-		       
-		       //---when the SMS has been sent---
-		        registerReceiver(new BroadcastReceiver(){
-		            @Override
-		            public void onReceive(Context arg0, Intent arg1) {
-		                switch (getResultCode())
-		                {
-		                    case Activity.RESULT_OK:
-		                        Toast.makeText(getBaseContext(), "SMS sent", 
-		                                Toast.LENGTH_SHORT).show();
-		                        break;
-		                    case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
-		                        Toast.makeText(getBaseContext(), "Generic failure", 
-		                                Toast.LENGTH_SHORT).show();
-		                        break;
-		                    case SmsManager.RESULT_ERROR_NO_SERVICE:
-		                        Toast.makeText(getBaseContext(), "No service", 
-		                                Toast.LENGTH_SHORT).show();
-		                        break;
-		                    case SmsManager.RESULT_ERROR_NULL_PDU:
-		                        Toast.makeText(getBaseContext(), "Null PDU", 
-		                                Toast.LENGTH_SHORT).show();
-		                        break;
-		                    case SmsManager.RESULT_ERROR_RADIO_OFF:
-		                        Toast.makeText(getBaseContext(), "Radio off", 
-		                                Toast.LENGTH_SHORT).show();
-		                        break;
-		                }
-		            }
-		        }, new IntentFilter(SENT));
-		 
-		        //---when the SMS has been delivered---
-		        registerReceiver(new BroadcastReceiver(){
-		            @Override
-		            public void onReceive(Context arg0, Intent arg1) {
-		                switch (getResultCode())
-		                {
-		                    case Activity.RESULT_OK:
-		                        Toast.makeText(getBaseContext(), "SMS delivered", 
-		                                Toast.LENGTH_SHORT).show();
-		                        break;
-		                    case Activity.RESULT_CANCELED:
-		                        Toast.makeText(getBaseContext(), "SMS not delivered", 
-		                                Toast.LENGTH_SHORT).show();
-		                        break;                        
-		                }
-		            }
-		        }, new IntentFilter(DELIVERED));  
-		        SmsManager sms = SmsManager.getDefault();
-			       sms.sendTextMessage(mobileNumber,mobileNumber, ("This is a message from SheelMaaya /n Validation Code:" + code), null,null);        
-			       Toast.makeText(this, "SMS SENT", Toast.LENGTH_LONG)
-					.show();
-		}
-	}
-	public void emailValidation(String emailstring) {
-		Pattern emailPattern = Pattern.compile(".+@.+\\.[a-z]+");
-		Matcher emailMatcher = emailPattern.matcher(emailstring);
-		if (emailMatcher.matches()) {
-			allValid = true;
+		if (mobileNumber.length() < 1 && countryCode.length() < 1) {
+			Toast.makeText(getBaseContext(),
+					"Please insert the mobile code and number",
+					Toast.LENGTH_SHORT).show();
 		} else {
-			allValid = false;
-			Toast.makeText(this, "Please enter a valid email address",
-					Toast.LENGTH_LONG).show();
+			double code1 = Math.random() * 12345;
+			code = (int) code1;
+
+			String SENT = "SMS_SENT";
+			String DELIVERED = "SMS_DELIVERED";
+
+			String phoneCode = countryCode.toString().split(" ")[countryCode
+					.toString().split(" ").length - 1];
+			mobileNumber = phoneCode + mobileNumber;
+
+			mobileNumber = mobileNumber.trim();
+			mobileNumber = mobileNumber.replace("(", "");
+			mobileNumber = mobileNumber.replace(")", "");
+			mobileNumber = mobileNumber.replace(" ", "");
+			System.out.println("MOB: " + mobileNumber + " Code: " + code);
+
+			// ---when the SMS has been sent---
+			registerReceiver(new BroadcastReceiver() {
+				@Override
+				public void onReceive(Context arg0, Intent arg1) {
+					switch (getResultCode()) {
+					case Activity.RESULT_OK:
+						Toast.makeText(getBaseContext(), "SMS sent",
+								Toast.LENGTH_SHORT).show();
+						break;
+					case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
+						Toast.makeText(getBaseContext(), "Generic failure",
+								Toast.LENGTH_SHORT).show();
+						break;
+					case SmsManager.RESULT_ERROR_NO_SERVICE:
+						Toast.makeText(getBaseContext(), "No service",
+								Toast.LENGTH_SHORT).show();
+						break;
+					case SmsManager.RESULT_ERROR_NULL_PDU:
+						Toast.makeText(getBaseContext(), "Null PDU",
+								Toast.LENGTH_SHORT).show();
+						break;
+					case SmsManager.RESULT_ERROR_RADIO_OFF:
+						Toast.makeText(getBaseContext(), "Radio off",
+								Toast.LENGTH_SHORT).show();
+						break;
+					}
+				}
+			}, new IntentFilter(SENT));
+
+			// ---when the SMS has been delivered---
+			registerReceiver(new BroadcastReceiver() {
+				@Override
+				public void onReceive(Context arg0, Intent arg1) {
+					switch (getResultCode()) {
+					case Activity.RESULT_OK:
+						Toast.makeText(getBaseContext(), "SMS delivered",
+								Toast.LENGTH_SHORT).show();
+						break;
+					case Activity.RESULT_CANCELED:
+						Toast.makeText(getBaseContext(), "SMS not delivered",
+								Toast.LENGTH_SHORT).show();
+						break;
+					}
+				}
+			}, new IntentFilter(DELIVERED));
+			SmsManager sms = SmsManager.getDefault();
+			sms.sendTextMessage(
+					mobileNumber,
+					mobileNumber,
+					("This is a message from SheelMaaya /n Validation Code:" + code),
+					null, null);
+			Toast.makeText(this, "SMS SENT", Toast.LENGTH_LONG).show();
 		}
 	}
-	
-	public void photoValidation( String passporttemp){
-		if(passporttemp.length()>0){
+
+	public void photoValidation(String passporttemp) {
+		if (passporttemp.length() > 0) {
 			photoTaken = true;
-			
-		}
-		else{
+
+		} else {
 			photoTaken = false;
-			Toast.makeText(this, "Please take the passport photo", Toast.LENGTH_LONG).show();
+			Toast.makeText(this, "Please take the passport photo",
+					Toast.LENGTH_LONG).show();
 		}
 	}
 
 	public void validate() {
 		String countryCode = countryCodes.getText().toString();
-		
+
 		countryCodes.getValidator().isValid(countryCode);
 		System.out.println("Went to validator");
-		if(!nationality.equals("%20")){
-			nationalityField.getValidator().isValid(nationality);
-		}
-		else{
-			nationalityValid = true;
-		}
-		
-		if(userValidationCode.length()>0 && code == Integer.parseInt(userValidationCode)){
-			System.out.println(code + " " + userValidationCode);
-			mobileValid = true;
-		}
-		else{
-			Toast.makeText(this, "Validation code mismatch", 0).show();
-		}
-		emailValidation(email);
-		
-		photoValidation(passportImage);
 
-		if (nationalityValid && codeValid && photoTaken && mobileValid && mobileNumber.length() > 2
-				&& passportNumber.length() > 0)
+		if (codeValid) {
+			if (!nationality.equals("%20")) {
+				nationalityField.getValidator().isValid(nationality);
+			} else {
+				nationalityValid = true;
+			}
+			if (nationalityValid) {
+
+				if (userValidationCode.length() > 0
+						&& code == Integer.parseInt(userValidationCode)) {
+					System.out.println(code + " " + userValidationCode);
+					mobileValid = true;
+				} else {
+					Toast.makeText(this, "Validation code mismatch", 0).show();
+				}
+				if (mobileValid) {
+					if(!(passportNumber.length() > 0)){
+						Toast.makeText(this, "Please insert your passport number", 0).show();
+					}
+					else{
+					photoValidation(passportImage);
+					}
+				}
+			}
+		}
+
+		if (nationalityValid && codeValid && photoTaken && mobileValid
+				&& mobileNumber.length() > 2 && passportNumber.length() > 0)
 			allValid = true;
 		else
 			allValid = false;
@@ -563,227 +531,224 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 
 	public void GetUserFacebookID() {
 		String tempID = "";
-		//getFacebookService().getUserInformation(true);
+		// getFacebookService().getUserInformation(true);
 		if (getFacebookService() != null) {
 
 			if (!getFacebookService().getFacebookUser()
 					.isRequestedBeforeSuccessfully()) {
-/////////////////////////
-			//getFacebookService().getUserInformation(true);
+
+				// getFacebookService().getUserInformation(true);
 			} else {
 				tempID = getFacebookService().getFacebookUser().getUserId();
-				firstName = getFacebookService().getFacebookUser().getFirstName();
-				 firstName = firstName.trim();
-				 if(firstName.length() == 0) firstName = "%20";
-				 middleName = getFacebookService().getFacebookUser().getMiddleName();
+				firstName = getFacebookService().getFacebookUser()
+						.getFirstName();
+				firstName = firstName.trim();
+				if (firstName.length() == 0)
+					firstName = "%20";
+				middleName = getFacebookService().getFacebookUser()
+						.getMiddleName();
 				middleName = middleName.trim();
-				if(middleName.length() == 0) middleName = "%20";
-				lastName =  getFacebookService().getFacebookUser().getLastName();
+				if (middleName.length() == 0)
+					middleName = "%20";
+				lastName = getFacebookService().getFacebookUser().getLastName();
 				lastName = lastName.trim();
-				if(lastName.length() == 0) lastName = "%20";
-				email =  getFacebookService().getFacebookUser().getEmail();
+				if (lastName.length() == 0)
+					lastName = "%20";
+				email = getFacebookService().getFacebookUser().getEmail();
 				email = email.trim();
-				if(email.length() == 0) email = "%20";
-				 if(getFacebookService().getFacebookUser().isFemale()) gender = "female";
-				 else gender = "male";
+				if (email.length() == 0)
+					email = "%20";
+				if (getFacebookService().getFacebookUser().isFemale())
+					gender = "female";
+				else
+					gender = "male";
 			}
 
 		}
 
-		System.out.println("FB ID: " + tempID + " email:"+email);
-		System.out.println(email);
+		System.out.println("FB ID: " + tempID + " email:" + email);
 	}
-	
-	public final boolean isInternetOn() {
-		ConnectivityManager connec =  (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
-		// ARE WE CONNECTED TO THE NET
-		if ( connec.getNetworkInfo(0).getState() == NetworkInfo.State.CONNECTED ||
-		connec.getNetworkInfo(0).getState() == NetworkInfo.State.CONNECTING ||
-		connec.getNetworkInfo(1).getState() == NetworkInfo.State.CONNECTING ||
-		connec.getNetworkInfo(1).getState() == NetworkInfo.State.CONNECTED ) {
-		// MESSAGE TO SCREEN FOR TESTING (IF REQ)
-			//System.out.println("CONNECTED");
-		//Toast.makeText(this, connectionType + " connected", Toast.LENGTH_SHORT).show();
-		return true;
-		} else if ( connec.getNetworkInfo(0).getState() == NetworkInfo.State.DISCONNECTED ||  connec.getNetworkInfo(1).getState() == NetworkInfo.State.DISCONNECTED  ) {
-		//System.out.println("Not Connected");
-		return false;
-		}
-		return false;
-		}
-	
-	public String getNationalityIndex(String nationality){
-		 System.out.println("In nationality index");
-		 for(int i = 0 ; i < nationalityStrings.length ; i++){
-			 if(nationality.equals(nationalityStrings[i]))
-				 return i+"";	 
-		 }
-		 
-		 return -1+"";
-	 }
 
+	public String getNationalityIndex(String nationality) {
+		System.out.println("In nationality index");
+		for (int i = 0; i < nationalityStrings.length; i++) {
+			if (nationality.equals(nationalityStrings[i]))
+				return i + "";
+		}
 
-	public AlertDialog showAlert(String title, String message){
-		 AlertDialog alertDialog;
-		 alertDialog = new AlertDialog.Builder(this).create();
-		 //alertDialog.setButton(, listener)
-		 alertDialog.setTitle(title);
-		 alertDialog.setMessage(message);
-		 //alertDialog.show();
-		 return alertDialog;
-	 }
-	
+		return -1 + "";
+	}
+
+	public AlertDialog showAlert(String title, String message) {
+		AlertDialog alertDialog;
+		alertDialog = new AlertDialog.Builder(this).create();
+		// alertDialog.setButton(, listener)
+		alertDialog.setTitle(title);
+		alertDialog.setMessage(message);
+		// alertDialog.show();
+		return alertDialog;
+	}
+
 	class SheelMaayaaBroadCastRec extends BroadcastReceiver {
 
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			// TODO Auto-generated method stub
-			if(dialog != null)	
-         		dialog.dismiss();
+			if (dialog != null)
+				dialog.dismiss();
 			Log.e(TAG, intent.getAction());
 			String action = intent.getAction();
 			int httpStatus = intent.getExtras().getInt(HTTP_STATUS);
-			Log.e(TAG, "HTTPSTATUS: "+ httpStatus);
-			
-			if( httpStatus == HttpStatus.SC_OK)
-			{
-				if (action.equals(HTTP_CHECK_REGISTERED))
-				{
-					String responseStr = intent.getExtras().getString(HTTP_RESPONSE);
-					
-					Toast.makeText(NewUserActivity.this, responseStr, Toast.LENGTH_LONG).show();
-					if(responseStr.equals("false")){
-						System.out.println("Not found");
-						String path = "/registeruser";/*" + faceBookID + "/" + email + "/"
-							+ firstName + "/" + middleName + "/" + lastName + "/"
-							+ mobileNumber + "/" + nationality + "/" + passportNumber
-							+ "/" + gender + "/" + passportImage;*/
+			Log.e(TAG, "HTTPSTATUS: " + httpStatus);
 
-						User user = new User("", firstName, middleName, lastName, passportImage, passportNumber, 
-								email, mobileNumber, faceBookID, gender, getNationalityIndex(nationality));
-						
+			if (httpStatus == HttpStatus.SC_OK) {
+				if (action.equals(HTTP_CHECK_REGISTERED)) {
+					String responseStr = intent.getExtras().getString(
+							HTTP_RESPONSE);
+
+					Toast.makeText(NewUserActivity.this, responseStr,
+							Toast.LENGTH_LONG).show();
+					if (responseStr.equals("false")) {
+						System.out.println("Not found");
+						String path = "/registeruser";/*
+													 * " + faceBookID + "/
+													 * " + email + "/" +
+													 * firstName + "/" +
+													 * middleName + "/" +
+													 * lastName + "/" +
+													 * mobileNumber + "/" +
+													 * nationality + "/" +
+													 * passportNumber + "/" +
+													 * gender + "/" +
+													 * passportImage;
+													 */
+
+						User user = new User("", firstName, middleName,
+								lastName, passportImage, passportNumber, email,
+								mobileNumber, faceBookID, gender,
+								getNationalityIndex(nationality));
+
 						Gson gson = new Gson();
 						String input = gson.toJson(user);
 						System.out.println("GSONSTRING: " + input);
-						
-						
-						HTTPManager.startHttpService(path, input, HTTP_REGISTER_USER, getApplicationContext());
-						Toast.makeText(NewUserActivity.this, "Successful Registration", Toast.LENGTH_LONG).show();
-						//LoggedID = faceBookID;
+
+						HTTPManager.startHttpService(path, input,
+								HTTP_REGISTER_USER, getApplicationContext());
+						Toast.makeText(NewUserActivity.this,
+								"Successful Registration", Toast.LENGTH_LONG)
+								.show();
+
 						System.out.println("Done in DataBase");
 						System.out.println(passportImage.length());
-						//System.out.println("LogID " + LoggedID);
-						
-					}
-					else if(responseStr.equalsIgnoreCase("true")){
-						//AlertDialog a = showAlert("Registration failed","Sorry you are already registered");
-						//a.setButton("ok", new android.content.DialogInterface.OnClickListener() {
-							
-							//@Override
-							//public void onClick(DialogInterface dialog, int which) {
-								
-						Intent statedIntent = new Intent(getBaseContext(), ConnectorUserActionsActivity.class);
-								statedIntent.putExtra(ConnectorUserActionsActivity.LOGGED_ID_KEY, faceBookID);
-								startActivity(statedIntent);
-							//}
-						//});
-						//a.show();
+
+					} else if (responseStr.equalsIgnoreCase("true")) {
+						// AlertDialog a =
+						// showAlert("Registration failed","Sorry you are already registered");
+						// a.setButton("ok", new
+						// android.content.DialogInterface.OnClickListener() {
+
+						// @Override
+						// public void onClick(DialogInterface dialog, int
+						// which) {
+
+						Intent statedIntent = new Intent(getBaseContext(),
+								ConnectorUserActionsActivity.class);
+						statedIntent.putExtra(
+								ConnectorUserActionsActivity.LOGGED_ID_KEY,
+								faceBookID);
+						startActivity(statedIntent);
+						// }
+						// });
+						// a.show();
 						System.out.println("Already Registered");
 					}
 					// Dialog dismissing
-					//if(dialog != null) dialog.dismiss();
+					// if(dialog != null) dialog.dismiss();
 					Log.e(TAG, responseStr);
-						
-				}
-				else if (action.equals(HTTP_REGISTER_USER))
-				{
-					Intent statedIntent = new Intent(getBaseContext(), ConnectorUserActionsActivity.class);
-					statedIntent.putExtra(ConnectorUserActionsActivity.LOGGED_ID_KEY, faceBookID);
+
+				} else if (action.equals(HTTP_REGISTER_USER)) {
+					Intent statedIntent = new Intent(getBaseContext(),
+							ConnectorUserActionsActivity.class);
+					statedIntent.putExtra(
+							ConnectorUserActionsActivity.LOGGED_ID_KEY,
+							faceBookID);
 					startActivity(statedIntent);
 					finish();
 				}
-			
+
 			}
-			
+
 		}
 	}
-	
-	
+
 	public void OnClick_register(View v) {
-		//if(isInternetOn())
-		if(InternetManager.isInternetOn(getApplicationContext()))
-		{
+		// if(isInternetOn())
+		if (InternetManager.isInternetOn(getApplicationContext())) {
 			// INTERNET IS AVAILABLE, DO STUFF..
 			System.out.println("CONNECCTIVITY OK");
-			
-		boolean registered = false;
-		GetUserFacebookID();
-		//faceBookID = Session.facebookUserId;
-		faceBookID = getFacebookService().getFacebookUser().getUserId();
-		
 
-		mobileNumber = (mobileNumberField.getText().toString());
-		String countryCode = countryCodes.getText().toString();
-		String phoneCode = countryCode.toString().split(" ")[countryCode.toString().split(" ").length-1];
-		mobileNumber =  phoneCode + mobileNumber;
+			GetUserFacebookID();
+			faceBookID = getFacebookService().getFacebookUser().getUserId();
 
-		mobileNumber = mobileNumber.trim();
-		mobileNumber = mobileNumber.replace("(", "");
-		mobileNumber = mobileNumber.replace(")", "");
-		mobileNumber = mobileNumber.replace(" ", "");
-		
-		//firstName = firstNameField.getText().toString();
-		//firstName = firstName.trim();
-		
-		//middleName = middleNameField.getText().toString();
-		//middleName = middleName.trim();
-		
-		if(middleName.length() == 0){ 
-			middleName = "%20";
-			System.out.println("Middle: " + middleName);}
-		
-		//lastName = lastNameField.getText().toString();
-		//lastName = lastName.trim();
-		
-		//email = emailField.getText().toString();
-		//email = email.trim();
-		
-		passportNumber = passportNumberField.getText().toString();
-		passportNumber = passportNumber.trim();
-		
-		nationality = nationalityField.getText().toString();
-		nationality = nationality.trim();
-		if(nationality.length() == 0) {nationality = "%20";}
-		if(gender.length() == 0) gender = "%20";
-		
-		userValidationCode = validationCodeField.getText().toString();
+			mobileNumber = (mobileNumberField.getText().toString());
+			String countryCode = countryCodes.getText().toString();
+			String phoneCode = countryCode.toString().split(" ")[countryCode
+					.toString().split(" ").length - 1];
+			mobileNumber = phoneCode + mobileNumber;
 
-		System.out.println("Before Validate " + allValid);
-		validate();
-		System.out.println("After Validate " + allValid);
-		if (allValid == false)
-			Toast.makeText(this, "Please fill all the data", 0).show();
-		else {
+			mobileNumber = mobileNumber.trim();
+			mobileNumber = mobileNumber.replace("(", "");
+			mobileNumber = mobileNumber.replace(")", "");
+			mobileNumber = mobileNumber.replace(" ", "");
 
-			dialog = ProgressDialog.show(NewUserActivity.this, "", "Registering, Please wait..", true, false);
-			dialog.setCancelable(false);
-			
-			
-			String path = "/checkRegistered/" + faceBookID;
-			
-			
-			//sc.runHttpRequest("/checkRegistered/" + faceBookID);
-			HTTPManager.startHttpService(path, HTTP_CHECK_REGISTERED, getApplicationContext());
-			//passportImage = "PassPortImage";
-			
-		}
-		}
-		else{
-			// NO INTERNET AVAILABLE, DO STUFF..
-			
-				showAlert("Network connection","Rgistration failed because no network connectivity was detected").show();
+			if (middleName.length() == 0) {
+				middleName = "%20";
+				System.out.println("Middle: " + middleName);
 			}
-	}
 
+			passportNumber = passportNumberField.getText().toString();
+			passportNumber = passportNumber.trim();
+
+			nationality = nationalityField.getText().toString();
+			nationality = nationality.trim();
+			if (nationality.length() == 0) {
+				nationality = "%20";
+			}
+			if (gender.length() == 0)
+				gender = "%20";
+
+			userValidationCode = validationCodeField.getText().toString();
+
+			System.out.println("Before Validate " + allValid);
+			validate();
+			System.out.println("After Validate " + allValid);
+			if (allValid == false)
+				//Toast.makeText(this, "Please fill all the data", 0).show();
+				System.out.println("Please fill al the data");
+			else {
+
+				dialog = ProgressDialog.show(NewUserActivity.this, "",
+						"Registering, Please wait..", true, false);
+				dialog.setCancelable(false);
+
+				String path = "/checkRegistered/" + faceBookID;
+
+				// sc.runHttpRequest("/checkRegistered/" + faceBookID);
+				HTTPManager.startHttpService(path, HTTP_CHECK_REGISTERED,
+						getApplicationContext());
+				// passportImage = "PassPortImage";
+
+			}
+		} else {
+			// NO INTERNET AVAILABLE, DO STUFF..
+			// GuiUtils gu = new GuiUtils(this);
+			// gu.showAlertWhenNoResultsAreAvailable(this,
+			// getResources().getString(R.string._hossamInternetConn)
+			// , gu.okay, ConnectorUserActionsActivity.class, "",
+			// FilterPreferencesActivity.class);
+			showAlert("Network connection",
+					"Rgistration failed because no network connectivity was detected")
+					.show();
+		}
+	}
 
 }
