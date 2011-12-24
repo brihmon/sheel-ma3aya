@@ -67,6 +67,11 @@ public class Confirmation {
 	
 	public static Confirmation mapConfirmation(JSONObject confirmationJSON)
 	{
+		/**
+		 * User attributes
+		 */
+		//===========================
+		
 		String ownerId;
 		String firstName;
 		String middleName;
@@ -79,11 +84,24 @@ public class Confirmation {
 		User user1 = new User("13", "hashas");
 		User user2 = new User("13", "hashas");
 		
+		//===========================
+		/**
+		 * Offer attributes
+		 */
+		//===========================
+		
 		Long offerId;
 		String offerstatus;
 		int userstatus;
 		int kgs;
 		int price;
+		
+		
+		//===========================
+		/**
+		 * Flight attributes
+		 */
+		//===========================
 		
 		String flightNumber;
 		String source;
