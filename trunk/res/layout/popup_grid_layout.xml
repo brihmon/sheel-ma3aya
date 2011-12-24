@@ -9,24 +9,48 @@
 		<Button
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
-			android:id="@+id/one"
-			android:text="Edit flight"
+			android:id="@+id/qa_call"
+			android:text="Call"
 			android:minWidth="80dp"
 			android:minHeight="40dp"
 			 />
 		<Button
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
-			android:id="@+id/two"
+			android:id="@+id/qa_sms"
+			android:text="SMS"
+			android:minWidth="80dp"
+			android:minHeight="40dp"
+			 />
+		<Button
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:id="@+id/qa_confirm"
+			android:text="Confirm"
+			android:minWidth="80dp"
+			android:minHeight="40dp"
+			 />
+		<Button
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:id="@+id/qa_editOffer"
 			android:text="Edit offer"
 			android:minWidth="80dp"
 			android:minHeight="40dp"
 			 />
-		<Button
+			<Button
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
-			android:id="@+id/three"
-			android:text="deactivate"
+			android:id="@+id/qa_editFlight"
+			android:text="Edit flight"
+			android:minWidth="80dp"
+			android:minHeight="40dp"
+			 />
+				<Button
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:id="@+id/qa_deactivate"
+			android:text="Deactivate"
 			android:minWidth="80dp"
 			android:minHeight="40dp"
 			 />
