@@ -27,6 +27,20 @@ http://developer.android.com/resources/articles/layout-tricks-efficiency.html
         android:layout_alignWithParentIfMissing="true"
         android:text="N/A"
         android:textAppearance="?android:attr/textAppearanceMedium" />
+    
+      <TextView
+        android:id="@+id/sheel_details_textView_facebookInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/sheel_details_textView_email"
+        android:layout_alignParentTop="true"
+        android:layout_toleftOf="@id/sheel_details_textView_summary"
+        android:background="@drawable/sheel_result_circular"
+        android:padding="3dip"
+        android:text="62" 
+        >
+	</TextView>
+    
 
     <TextView
         android:id="@+id/sheel_details_textView_email"
