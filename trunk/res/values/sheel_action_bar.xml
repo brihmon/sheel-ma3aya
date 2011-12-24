@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?> 
+<resources> 
+ 
+    <string name="sheel_btn_call">Call</string>
+    <string name="sheel_btn_confirm">Confirm</string>
+    <string name="sheel_btn_send_sms">Send SMS</string>
+    <string name="sheel_btn_edit">Edit</string>
+    <string name="sheel_btn_delete">Delete</string>
+    
+ </resources>
