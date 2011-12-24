@@ -56,24 +56,25 @@ http://developer.android.com/resources/articles/layout-tricks-efficiency.html
         
         />
    
-   
-    
     <TextView
         android:id="@+id/summary_name"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_width="0dp"
-        android:layout_weight="1"
-        android:text=" الطائرة(JKLMM) من بروكسل زافنتم إلى بلانتير يوم 11-20-2011" 
+        android:layout_margin="5dp"
+        android:layout_weight="0.25"
+        android:text="الطائرة(JKLMM) من بروكسل زافنتم إلى بلانتير يوم 11-20-2011" 
         
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
         android:layout_toRightOf="@id/summary_numberOfKilos"
         android:layout_alignTop="@id/summary_numberOfKilos"
-        
-        android:gravity="center_horizontal"
-
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:scrollHorizontally="false"
+        android:maxLines="3"
         android:layout_alignWithParentIfMissing="true"
         />
+    
+    
+
     
     
     
