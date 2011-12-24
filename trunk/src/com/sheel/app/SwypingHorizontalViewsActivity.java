@@ -69,6 +69,21 @@ public class SwypingHorizontalViewsActivity extends UserSessionStateMaintainingA
 	private SheelMaayaaBroadCastRec receiver;
 	
     /** Called when the activity is first created. */
+	/**
+	 * Initializes the GUI utilities for localization
+	 * Creates the view pager for swiping
+	 * Creates the adapter to avoid a null pointer exception on landscape
+	 * Creates the list of the categories from the last time between onStop and onDestroy
+	 * If it is the first time for this onCreate, it initializes the categories + the adapter.
+	 * otherwise, it gets from what retrieved before the call of onDestroy, it was done to avoid
+	 * multiple HTTP requests.
+	 * 
+	 * @see <code>onRetainNonConfigurationInstance</code>
+	 * @see https://docs.google.com/viewer?url=http%3A%2F%2Fcourses.coreservlets.com%2FCourse-Materials%2Fpdf%2Fandroid%2FAndroid-Rotations.pdf
+	 * @author Hossam_Amer
+	 * @author Passant El.Agroudy
+	 * 
+	 */
     @SuppressWarnings("unchecked")
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
