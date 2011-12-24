@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?> 
+<resources> 
+ 
+    <string name="country_code_toast">Please insert a valid country</string>
+    <string name="nationality_toast">Please insert a valid nationality</string>
+    <string name="success_registration_toast">Successful Registration</string>
+    <string name="camera_cancelled_toast">Image Capture Cancelled</string>
+    <string name="camera_failed_toast">Image Capture failed</string>
+    <string name="mobile_toast">Please insert the mobile code and number</string>
+    <string name="sms_toast">An sms message was sent with the validation code</string>
+    <string name="passport_photo_toast">Please take the passport photo</string>
+    <string name="passport_number_toast">Please insert your passport number</string>
+    <string name="validation_mismatch_toast">Validation code mismatch</string>
+
+    
+ </resources>

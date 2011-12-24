@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?> 
+<resources> 
+ 
+    <string name="country_code_toast">بـرجاء ادخال بلد صحيحة</string>
+    <string name="nationality_toast">بـرجاء ادخال جنسية صحيحة</string>
+    <string name="success_registration_toast">تم التسجيل بنجاح</string>
+    <string name="camera_cancelled_toast">الغاء اخذ الصورة</string>
+    <string name="camera_failed_toast">فشل اخذ الصورة</string>
+    <string name="mobile_toast">بـرجاء ادخال كود البلد ورقم المحمول</string>
+    <string name="sms_toast">تم ارسال رسالة بكود التأكيد</string>
+    <string name="passport_photo_toast">برجاء أخذ صورة جواز السفر</string>
+    <string name="passport_number_toast">بـرجاء ادخال رقم جواز السفر</string>
+    <string name="validation_mismatch_toast">كود التأكيد غير مطابق</string>
+
+    
+ </resources>
