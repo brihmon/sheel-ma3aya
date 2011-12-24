@@ -19,7 +19,7 @@
     
    <!-- Flight display -->
  <string name="_hossamFlightTo">إلى</string>
- <string name = "_hossamFlight">الطائرة</string>
+ <string name = "_hossamFlight">الرحلة</string>
 <string name = "_hossamFlightFrom">من</string>
    <string name="_hossamFlightOn">يوم</string>
  
