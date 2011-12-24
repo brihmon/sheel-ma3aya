@@ -55,6 +55,7 @@ public interface SheelMaayaaConstants {
 	final String HTTP_REGISTER_USER = "HTTP_REGISTER_USER";
 	final String HTTP_SEARCH_FOR_OFFERS_FILTER = "HTTP_SEARCH_FOR_OFFERS";
 	final String HTTP_CONFIRM_OFFER = "HTTP_CONFIRM_OFFER";
+	final String HTTP_CONFIRM_OFFER_UI = "HTTP_CONFIRM_OFFER_UI";
 	
 	
 	//======================================================================

@@ -3,7 +3,6 @@ package com.sheel.app;
 import static com.sheel.utils.SheelMaayaaConstants.CONFIRMED;
 import static com.sheel.utils.SheelMaayaaConstants.HALF_CONFIRMED_ME_CONFIRMED_USER_NOT_OFFER_OWNER;
 import static com.sheel.utils.SheelMaayaaConstants.HALF_CONFIRMED_ME_OFFER_OWNER;
-import static com.sheel.utils.SheelMaayaaConstants.HTTP_CONFIRM_OFFER;
 import static com.sheel.utils.SheelMaayaaConstants.HTTP_GET_MY_OFFERS_FILTER;
 import static com.sheel.utils.SheelMaayaaConstants.HTTP_RESPONSE;
 import static com.sheel.utils.SheelMaayaaConstants.HTTP_STATUS;
@@ -16,11 +15,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
@@ -38,7 +35,7 @@ import com.sheel.listeners.InflateListener;
 import com.sheel.listeners.MyOffersInflateListener;
 import com.sheel.utils.HTTPManager;
 import com.sheel.utils.InternetManager;
-
+import static com.sheel.utils.SheelMaayaaConstants.*;
 /**
  * This activity is used for displaying and interacting with the offers of the
  * logged-in user.
@@ -228,7 +225,7 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity {
 
 		// Add the filters of your activity
 		filter.addAction(HTTP_GET_MY_OFFERS_FILTER);
-		filter.addAction(HTTP_CONFIRM_OFFER);
+		filter.addAction(HTTP_CONFIRM_OFFER_UI);
 
 		receiver = new SheelMaayaaBroadCastRec();
 
@@ -264,7 +261,18 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity {
 
 			Log.e(TAG, intent.getAction());
 			String action = intent.getAction();
-
+			
+			// If I need to update the UI of the confirm offer, go update it without any further check.
+			if(action.equals(HTTP_CONFIRM_OFFER_UI))
+			{
+				String res = intent.getExtras().getString("response");
+				Log.e("I am Child Broad Cast receiver taking the UI update", "updateOffersOnUI()");
+				updateOffersOnUI(res);
+				Log.e("I am Child Broad Cast receiver finishing the UI update", "updateOffersOnUI()");
+				
+			}
+			else
+			{
 			int httpStatus = intent.getExtras().getInt(HTTP_STATUS);
 			Log.e(TAG, "HTTPSTATUS: " + httpStatus);
 
@@ -282,10 +290,10 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity {
 					Log.e(TAG, responseStr);
 
 				}// end if Get my offers filter
-				else if (action.equals(HTTP_CONFIRM_OFFER)) {
-					updateOffersOnUI();
-				}
-			}// end onReceive(Context context, Intent intent)
+			}
+			}// end if (httpStatus == HttpStatus.SC_OK) {
+			
+		
 		}// end onReceive
 
 	}// end class SheelMaayaaBroadCastRec
@@ -450,9 +458,10 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity {
 	 *            The response string retrieved from the server
 	 * @author Hossam_Amer
 	 */
-	private void updateOffersOnUI() {
+	private void updateOffersOnUI(String response) {
 
-		super.updateOffersOnUI(super.reponseStr);
+		super.reponseStr = response;
+//		super.updateOffersOnUI(super.reponseStr);
 		Log.e("Update on Response UI SUPER CALLED IN CHILD : ",
 				super.reponseStr);
 		try {

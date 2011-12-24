@@ -3,6 +3,7 @@ package com.sheel.app;
 import static com.sheel.utils.SheelMaayaaConstants.HTTP_CONFIRM_OFFER;
 import static com.sheel.utils.SheelMaayaaConstants.HTTP_RESPONSE;
 import static com.sheel.utils.SheelMaayaaConstants.HTTP_STATUS;
+import static com.sheel.utils.SheelMaayaaConstants.HTTP_CONFIRM_OFFER_UI;
 
 import java.util.ArrayList;
 
@@ -460,8 +461,17 @@ public class SwypingHorizontalViewsActivity extends UserSessionStateMaintainingA
 							
 //							XXXNeed him feel the change now, before here, you have a confirmationJSON object.. Now it calls the child class 3ady.
 //							getCategories().add(new )
+
+							/**
+							 * Add the action of the intent
+							 * and send a signal to the broadcast receiver of the child
+							 * to receive the response string and deal with it as appropriate (updating the UI...etc).
+							 */
+							Intent data = new Intent(HTTP_CONFIRM_OFFER_UI);
+							data.putExtra("response", responseStr);
+							sendBroadcast(data);
 							
-							updateOffersOnUI(responseStr);
+							
 							
 						}
 					}					
@@ -479,17 +489,6 @@ public class SwypingHorizontalViewsActivity extends UserSessionStateMaintainingA
 				/**
 				 * @Ahmed: It is for you to fill, delete the offer from the category
 				 */
-			}
-			
-			/**
-			 * Method over-ridable to be used differently in the child activities 
-			 * @param responseStr
-			 */
-			public void updateOffersOnUI(String responseStr)
-			{
-				Log.e("I am In super class calling updateUIOFfers: ", responseStr);
-				this.reponseStr = responseStr;
-				
 			}
 	
 }// end class

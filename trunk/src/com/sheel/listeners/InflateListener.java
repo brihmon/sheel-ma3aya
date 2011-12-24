@@ -447,14 +447,14 @@ public class InflateListener implements OnInflateListener, OnClickListener {
 			AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
 			builder.setMessage(R.string._hossamConfirmYesNo)
 			       .setCancelable(false)
-			       .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+			       .setPositiveButton(R.string._hossamYes, new DialogInterface.OnClickListener() {
 			           public void onClick(DialogInterface dialog2, int id) { 
 			        	   
 			        		
 							confirmOffer();
 			           }
 			       });
-			builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+			builder.setNegativeButton(R.string._hossamNo, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog2, int whichButton) {
 		        	   dialog2.cancel();
                 }
