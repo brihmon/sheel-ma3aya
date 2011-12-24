@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?> 
+<resources> 
+ 
+    <string name="sheel_btn_call">إتصل</string>
+    <string name="sheel_btn_confirm">أكد</string>
+    <string name="sheel_btn_send_sms">رسالة قصيرة</string>
+    <string name="sheel_btn_edit">تحرير</string>
+    <string name="sheel_btn_delete">حذف</string>
+    
+ </resources>
