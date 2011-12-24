@@ -34,7 +34,7 @@ public class Confirmation {
     private boolean statusTransactionUser2;
 
 	/**
-	 * Confirmation Statuses
+	 * Confirmation Statuses inside the database.
 	 */
 	public final static String alreadyConfirmed = "alreadyConfirmed";
 	public final static String confirmedByAnotherPerson = "confirmedByAnotherPerson";
