@@ -46,7 +46,7 @@
     <string name="_hossamDialogNoResultsMyOffers2">Declare a new offer</string>
     <string name="_hossamDialogNoResultsViewOffers1">No offers matching your criteria were found!</string>
     <string name="_hossamDialogNoResultsViewOffers2">Search again</string>
-    
-
+    <string name="_hossamfetchingMyOffers">Getting your offers.. Please wait</string>
+	<string name="_hossamfetchingOtherOffers">Seaching for Offers..</string>
    
 </resources>

@@ -40,7 +40,7 @@ import com.viewpagerindicator.TitlePageIndicator;
  */
 public class SwypingHorizontalViewsActivity extends UserSessionStateMaintainingActivity {
 	
-	private static final String TAG = MyOffersActivity.class.getName();
+	private static final String TAG = SwypingHorizontalViewsActivity.class.getName();
 	
 	/**
 	 * GUI utils used for localization

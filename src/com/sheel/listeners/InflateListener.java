@@ -445,7 +445,7 @@ public class InflateListener implements OnInflateListener, OnClickListener {
 		if(InternetManager.isInternetOn(mContext))
 		{	
 			AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
-			builder.setMessage("Are you sure, you want to confirm this offer?")
+			builder.setMessage(R.string._hossamConfirmYesNo)
 			       .setCancelable(false)
 			       .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
 			           public void onClick(DialogInterface dialog2, int id) { 
