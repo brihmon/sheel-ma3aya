@@ -33,9 +33,9 @@
     <item>أنا - أعلنت  - أنا - أكدت </item>
     <item>لم يتأكد</item>	     
     <item>مؤكد</item>
-    <item >أغراب</item>
-    <item >أصدقاء</item>
-    <item >أصدقاء الأصدقاء</item>
+    <item >غريب</item>
+    <item >صديق</item>
+    <item >أصدقاء مشتركة</item>
 </string-array>
 
     	<!-- Alert messages of the view swyper activities -->
