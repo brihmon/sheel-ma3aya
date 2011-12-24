@@ -99,7 +99,7 @@ public class Confirmation {
 		
 		//===========================
 		/**
-		 * Flight attributes
+		 * Flight of the offer attributes
 		 */
 		//===========================
 		
