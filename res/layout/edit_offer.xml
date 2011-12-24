@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="440px"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20px"
+        android:layout_marginLeft="20px"
+        android:text="I have ...."/>
+    
+     <RadioGroup android:id="@+id/edit_offer_type" android:orientation="horizontal"
+            android:layout_width="wrap_content"
+		   android:layout_height="wrap_content"
+		   android:layout_marginLeft="20px">
+		<RadioButton android:id="@+id/edit_exWeight"
+		   android:layout_width="wrap_content"
+		   android:layout_height="wrap_content"
+		android:text="    Extra weight"/>
+		<RadioButton android:id="@+id/edit_avWeight"
+		       android:layout_width="wrap_content"
+		   android:layout_height="wrap_content"
+		android:text="   Less weight"/>
+	</RadioGroup>
+         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal" >
+         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+		     <TextView
+          
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+            android:layout_marginLeft="10px"
+         android:text="Amount(Kgs): "
+         android:textAppearance="?android:attr/textAppearanceSmall" />
+		          <EditText
+         android:id="@+id/edit_offer_kgs"
+         android:layout_width="140px"
+         android:layout_height="wrap_content"
+         android:layout_marginLeft="30px"
+         android:inputType= "number" />
+             </LinearLayout>
+         
+ 
+  <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="50px"
+    android:orientation="vertical" >
+		     <TextView
+         android:id="@+id/textView3"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+            android:layout_marginLeft="10px"
+         android:text="Price per Kg (euros) "
+         android:textAppearance="?android:attr/textAppearanceSmall" />
+		          <EditText
+         android:id="@+id/edit_offer_price"
+         android:layout_width="140px"
+         android:layout_height="wrap_content"
+         android:layout_marginLeft="30px"
+         android:inputType="number"/>
+             </LinearLayout>
+             </LinearLayout>
+             
+             
+             <TextView android:id="@+id/edit_error1"
+                  android:layout_width="wrap_content"
+   				   android:layout_height="wrap_content"
+                 		android:textColor="#CC0000"/>
+             
+             <TextView android:id="@+id/edit_error2"
+                   android:layout_width="wrap_content"
+   				   android:layout_height="wrap_content"
+                 		android:textColor="#CC0000"/>
+             
+       
+             
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="#AAAAAA"
+    android:orientation="horizontal" >
+
+    <Button
+        android:id="@+id/edit_offer_save"
+        android:layout_width="220px"
+        android:layout_height="wrap_content"
+        android:text="Save" />
+
+    <Button
+        android:id="@+id/edit_offer_cancel"
+        android:layout_width="220px"
+        android:layout_height="wrap_content"
+        android:text="Cancel" />
+		    
+             </LinearLayout>
+    </LinearLayout>
