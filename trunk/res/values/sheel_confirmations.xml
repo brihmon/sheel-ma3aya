@@ -35,10 +35,11 @@
 <item>Others-Declared-Me-Confirmed</item>  	<!-- 0 -->
 <item>Me-Declared-Me-Confirmed</item>		<!-- 1 -->
 <item>Not-Confirmed</item>	     			<!-- 2 -->
-<item>Confirmed</item>						<!-- 3 -->
+<item>Confirmed-Me-Declared</item>			<!-- 3 -->
 <item >Strangers</item>						<!-- 4 -->
 <item >Friends</item>						<!-- 5 -->
 <item >Friends of friends</item>			<!-- 6 -->
+<item>Confirmed-Others-Declared</item>		<!-- 7 -->
 	 </string-array>
 	 
 	<!-- Alert messages of the view swyper activities -->
