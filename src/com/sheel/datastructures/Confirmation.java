@@ -67,6 +67,7 @@ public class Confirmation {
 	
 	public static Confirmation mapConfirmation(JSONObject confirmationJSON)
 	{
+		//===========================
 		/**
 		 * User attributes
 		 */
