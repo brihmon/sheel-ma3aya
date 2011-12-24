@@ -272,7 +272,7 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 				}
 				nationalityValid = false;
 				Toast toast = Toast.makeText(NewUserActivity.this,
-						"Please insert a valid nationality", 0);
+						getResources().getString(R.string.nationality_toast), 0);
 				toast.show();
 				return false;
 			}
@@ -305,7 +305,7 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 				}
 				codeValid = false;
 				Toast toast = Toast.makeText(NewUserActivity.this,
-						"Please insert a valid country", 0);
+						getResources().getString(R.string.country_code_toast), 0);
 				toast.show();
 				return false;
 			}
@@ -374,11 +374,10 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 				onPhotoTaken();
 			} else if (resultCode == RESULT_CANCELED) {
 				// User cancelled the image capture
-				System.out.println("Cancel");
-				Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show();
+				Toast.makeText(this, getResources().getString(R.string.camera_cancelled_toast), Toast.LENGTH_LONG).show();
 			} else {
 				// Image capture failed, advise user
-				Toast.makeText(this, "Image Capture failed", Toast.LENGTH_LONG)
+				Toast.makeText(this,getResources().getString(R.string.camera_failed_toast), Toast.LENGTH_LONG)
 						.show();
 			}
 		}
@@ -405,7 +404,7 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 		String countryCode = countryCodes.getText().toString();
 		if (mobileNumber.length() < 1 && countryCode.length() < 1) {
 			Toast.makeText(getBaseContext(),
-					"Please insert the mobile code and number",
+					getResources().getString(R.string.mobile_toast),
 					Toast.LENGTH_SHORT).show();
 		} else {
 			double code1 = Math.random() * 12345;
@@ -475,7 +474,7 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 					mobileNumber,
 					("This is a message from SheelMaaya /n Validation Code:" + code),
 					null, null);
-			Toast.makeText(this, "SMS SENT", Toast.LENGTH_LONG).show();
+			Toast.makeText(this, getResources().getString(R.string.sms_toast), Toast.LENGTH_LONG).show();
 		}
 	}
 
@@ -485,7 +484,7 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 
 		} else {
 			photoTaken = false;
-			Toast.makeText(this, "Please take the passport photo",
+			Toast.makeText(this, getResources().getString(R.string.passport_photo_toast),
 					Toast.LENGTH_LONG).show();
 		}
 	}
@@ -509,11 +508,11 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 					System.out.println(code + " " + userValidationCode);
 					mobileValid = true;
 				} else {
-					Toast.makeText(this, "Validation code mismatch", 0).show();
+					Toast.makeText(this, getResources().getString(R.string.validation_mismatch_toast), 0).show();
 				}
 				if (mobileValid) {
 					if(!(passportNumber.length() > 0)){
-						Toast.makeText(this, "Please insert your passport number", 0).show();
+						Toast.makeText(this, getResources().getString(R.string.passport_number_toast), 0).show();
 					}
 					else{
 					photoValidation(passportImage);
@@ -605,8 +604,8 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 					String responseStr = intent.getExtras().getString(
 							HTTP_RESPONSE);
 
-					Toast.makeText(NewUserActivity.this, responseStr,
-							Toast.LENGTH_LONG).show();
+					//Toast.makeText(NewUserActivity.this, responseStr,
+						//	Toast.LENGTH_LONG).show();
 					if (responseStr.equals("false")) {
 						System.out.println("Not found");
 						String path = "/registeruser";/*
@@ -634,7 +633,7 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 						HTTPManager.startHttpService(path, input,
 								HTTP_REGISTER_USER, getApplicationContext());
 						Toast.makeText(NewUserActivity.this,
-								"Successful Registration", Toast.LENGTH_LONG)
+								getResources().getString(R.string.success_registration_toast), Toast.LENGTH_LONG)
 								.show();
 
 						System.out.println("Done in DataBase");
