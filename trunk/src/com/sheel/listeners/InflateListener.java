@@ -71,7 +71,7 @@ public class InflateListener implements OnInflateListener, OnClickListener {
 	/**
 	 * Number of buttons
 	 */
-	int numButtons = 3;
+	int numButtons = 4;
 	
 	/**
 	 * Array of Button IDs
@@ -126,6 +126,7 @@ public class InflateListener implements OnInflateListener, OnClickListener {
 		buttonIDs[0] = R.id.details_button_call; 
 		buttonIDs[1] = R.id.details_button_confirm;
 		buttonIDs[2] = R.id.details_button_sendSms;
+		buttonIDs[3] = R.id.details_button_options;
 
 	}
 
@@ -345,10 +346,11 @@ public class InflateListener implements OnInflateListener, OnClickListener {
 	 *		Passant El.Agroudy (passant.elagroudy@gmail.com)
 	 *@author Hossam_Amer
 	 */
-	public void setVisibilityButtonsVisibility(View inflated, int confirm, int call, int sendSms) {
+	public void setVisibilityButtonsVisibility(View inflated, int confirm, int call, int sendSms, int options) {
 		((Button) inflated.findViewById(buttonIDs[0])).setVisibility(call);
 		((Button) inflated.findViewById(buttonIDs[1])).setVisibility(confirm);
 		((Button) inflated.findViewById(buttonIDs[2])).setVisibility(sendSms);	
+		((Button) inflated.findViewById(buttonIDs[3])).setVisibility(options);	
 	}// end setVisibilityButtonsVisibility
 	
 	
@@ -382,12 +384,32 @@ public class InflateListener implements OnInflateListener, OnClickListener {
 		case R.id.details_button_confirm:
 			onClick_confirm(v);
 			break;
+		case R.id.details_button_options:
+			onClick_options(v);
+			break;
 	
 		default:
 			break;
 		}// end switch
 		
 	}// end onClick
+	
+	/**
+	 * Called on clicking the fourth button form the left.
+	 * By default this button performs call functions for
+	 * offer owner. To change such behavior, override the
+	 * method in child class
+	 * 
+	 * @param v
+	 * 		Clicked button
+	 * @author 
+	 *		Mohsen
+	 */
+	public void onClick_options(View v) {
+		Log.e("Options button", "For the quick action menu");
+		//call(this.offerDisplay.getUser().mobileNumber);
+	}// end onClick_button1
+	
 	
 	/**
 	 * Called on clicking the first button form the left.
@@ -406,6 +428,8 @@ public class InflateListener implements OnInflateListener, OnClickListener {
 		Log.e("Call button", this.offerDisplay.getUser().mobileNumber);
 		call(this.offerDisplay.getUser().mobileNumber);
 	}// end onClick_button1
+	
+	
 	
 	/**
 	 * Called on clicking the second button form the left.
