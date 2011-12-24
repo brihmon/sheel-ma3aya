@@ -473,7 +473,8 @@ public final class GuiUtils extends Activity{
 	 */
     public void setIconForATextField(Drawable img , TextView textView , int mode) {
     	switch(mode){
-    	case 0:img.setBounds( 0, 0, 40, 40 ); break;
+    	case 0:img.setBounds( 0, 0, 40, 40 );
+    	break;
     	case 1:img.setBounds( 0, 0, 50, 50 ); break;
     	case 2:img.setBounds( 0, 0, 80, 80 ); break;
     	case 3:img.setBounds( 0, 0, 33, 33 ); break;
@@ -481,6 +482,9 @@ public final class GuiUtils extends Activity{
     	}// end switch : specify size according to mode
     	//In case of left to right put the icon on the left, put it on the right otherwise
     	
+    	if(mode == 0)
+    		textView.setCompoundDrawables(img, null, null, null);
+    	else
     	if(this.writingMode.equals("LeftToRight"))
     		textView.setCompoundDrawables(img, null, null, null);
     	else
