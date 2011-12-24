@@ -21,6 +21,7 @@ import com.sheel.datastructures.Flight;
 import com.sheel.datastructures.OfferDisplay2;
 import com.sheel.datastructures.User;
 import com.sheel.datastructures.enums.OwnerFacebookStatus;
+import com.sheel.utils.DemoPopupWindow;
 import com.sheel.utils.GuiUtils;
 import com.sheel.utils.HTTPManager;
 import com.sheel.utils.InternetManager;
@@ -407,6 +408,8 @@ public class InflateListener implements OnInflateListener, OnClickListener {
 	 */
 	public void onClick_options(View v) {
 		Log.e("Options button", "For the quick action menu");
+		DemoPopupWindow dw = new DemoPopupWindow(v);
+		dw.showLikeQuickAction();
 		//call(this.offerDisplay.getUser().mobileNumber);
 	}// end onClick_button1
 	
