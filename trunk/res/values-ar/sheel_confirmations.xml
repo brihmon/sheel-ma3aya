@@ -43,6 +43,7 @@
     <string name="_hossamDialogNoResultsMyOffers2">أعرض عرض جديد</string>
     <string name="_hossamDialogNoResultsViewOffers1">لا توجد عروض بتلك الصفات</string>
     <string name="_hossamDialogNoResultsViewOffers2">ابحث مرة أخرى</string>
-    
+ 	<string name="_hossamfetchingMyOffers">الحصول على العروض الخاصة بك.. يرجى الانتظار</string>
+	<string name="_hossamfetchingOtherOffers">جاري بحث عن عروض</string>   
  
 </resources>

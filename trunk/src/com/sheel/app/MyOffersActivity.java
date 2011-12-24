@@ -134,7 +134,7 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity {
 				// path = "/getmyoffers/673780564";
 
 				dialog = ProgressDialog.show(MyOffersActivity.this, "",
-						"Getting your Offers, Please wait..", true, false);
+						swypeCatsGuiUtils.dialogFetchMyOffers, true, false);
 				HTTPManager.startHttpService(path, HTTP_GET_MY_OFFERS_FILTER,
 						getApplicationContext());
 			}
@@ -151,18 +151,22 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity {
 	 */
 
 	private void noInternetConnectionHandler() {
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setMessage("Internet Connection is not available")
-				.setCancelable(false)
-				.setPositiveButton("ok", new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int id) {
-						dialog.cancel();
-					}
-
-				});
-		builder.create();
-		builder.show();
-
+//		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//		builder.setMessage(swypeCatsGuiUtils.dialogInternetConnection)
+//				.setCancelable(false)
+//				.setPositiveButton(swypeCatsGuiUtils.okay, new DialogInterface.OnClickListener() {
+//					public void onClick(DialogInterface dialog, int id) {
+//						dialog.cancel();
+//						startActivity(new Intent(MyOffersActivity, ConnectorUserActionsActivity.class));	
+//						
+//					}
+//
+//				});
+//		builder.create();
+//		builder.show();
+		
+		this.swypeCatsGuiUtils.showAlertWhenNoResultsAreAvailable(this, swypeCatsGuiUtils.dialogInternetConnection
+				, swypeCatsGuiUtils.okay, ConnectorUserActionsActivity.class, "", FilterPreferencesActivity.class);
 	}
 
 	/**

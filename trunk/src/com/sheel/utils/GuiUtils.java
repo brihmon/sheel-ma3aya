@@ -101,6 +101,16 @@ public final class GuiUtils extends Activity{
 	public String dialogNoResultsViewOffers1;
 	public String dialogNoResultsViewOffers2;
 	
+	/**
+	 * Dialog boxes for internet connection
+	 */
+	public String dialogInternetConnection;
+	
+	/**
+	 * Dialog boxes for the fetching offers
+	 */
+	public String dialogFetchMyOffers;
+	public String dialogFetchOtherOffers;
 	
 	/**
 	 * Constructor for creating and getting the Swyper GUI utilities.
@@ -133,6 +143,9 @@ public final class GuiUtils extends Activity{
 		dialogNoResultsMyOffers2 = mContext.getResources().getString(R.string._hossamDialogNoResultsMyOffers2);
 		dialogNoResultsViewOffers1= mContext.getResources().getString(R.string._hossamDialogNoResultsViewOffers1);
 		dialogNoResultsViewOffers2= mContext.getResources().getString(R.string._hossamDialogNoResultsViewOffers2);
+		dialogInternetConnection = mContext.getResources().getString(R.string._hossamInternetConn);
+		dialogFetchMyOffers = mContext.getResources().getString(R.string._hossamfetchingMyOffers);
+		dialogFetchOtherOffers = mContext.getResources().getString(R.string._hossamfetchingOtherOffers);
 	}
 	
 	
