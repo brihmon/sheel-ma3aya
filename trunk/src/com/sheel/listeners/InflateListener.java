@@ -1,9 +1,6 @@
 package com.sheel.listeners;
 
 import static com.sheel.utils.SheelMaayaaConstants.HTTP_CONFIRM_OFFER;
-
-import org.json.JSONArray;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -11,7 +8,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewStub;
@@ -50,7 +46,11 @@ import com.sheel.utils.SheelMaayaaConstants;
 public class InflateListener implements OnInflateListener, OnClickListener {
 	
 	private static final String TAG = InflateListener.class.getName();
-
+	public static int BUTTON_CALL = 1;
+	public static int BUTTON_SMS = 2;
+	public static int BUTTON_CONFIRM = 4;
+	public static int BUTTON_EDIT = 8;
+	public static int BUTTON_DEACTIVATE = 16;
 	
 	/**
 	 * Swyping Gui utils instance
@@ -76,7 +76,7 @@ public class InflateListener implements OnInflateListener, OnClickListener {
 	/**
 	 * Number of buttons
 	 */
-	int numButtons = 4;
+	int numButtons = 1;
 	
 	/**
 	 * Array of Button IDs
@@ -128,10 +128,11 @@ public class InflateListener implements OnInflateListener, OnClickListener {
 		
 		
 		// <=== List your buttons here ===>
-		buttonIDs[0] = R.id.details_button_call; 
-		buttonIDs[1] = R.id.details_button_confirm;
-		buttonIDs[2] = R.id.details_button_sendSms;
-		buttonIDs[3] = R.id.details_button_options;
+		/** All buttons are now added to the pop-up grid for the quick action bar **/
+	//	buttonIDs[0] = R.id.details_button_call; 
+	//	buttonIDs[1] = R.id.details_button_confirm;
+	//	buttonIDs[2] = R.id.details_button_sendSms;
+		buttonIDs[0] = R.id.details_button_options;
 
 	}
 
@@ -409,10 +410,10 @@ public class InflateListener implements OnInflateListener, OnClickListener {
 	 *@author Hossam_Amer
 	 */
 	public void setVisibilityButtonsVisibility(View inflated, int confirm, int call, int sendSms, int options) {
-		((Button) inflated.findViewById(buttonIDs[0])).setVisibility(call);
-		((Button) inflated.findViewById(buttonIDs[1])).setVisibility(confirm);
-		((Button) inflated.findViewById(buttonIDs[2])).setVisibility(sendSms);	
-		((Button) inflated.findViewById(buttonIDs[3])).setVisibility(options);	
+		//((Button) inflated.findViewById(buttonIDs[0])).setVisibility(call);
+		//((Button) inflated.findViewById(buttonIDs[1])).setVisibility(confirm);
+		//((Button) inflated.findViewById(buttonIDs[2])).setVisibility(sendSms);	
+		((Button) inflated.findViewById(buttonIDs[0])).setVisibility(options);	
 	}// end setVisibilityButtonsVisibility
 	
 	
@@ -435,7 +436,7 @@ public class InflateListener implements OnInflateListener, OnClickListener {
 		 * is the (Edit) button in My Offers view 
 		 */
 		switch (v.getId()) {
-		case R.id.details_button_call:
+	/*	case R.id.details_button_call:
 			onClick_button1(v);
 			break;
 			
@@ -445,7 +446,7 @@ public class InflateListener implements OnInflateListener, OnClickListener {
 			
 		case R.id.details_button_confirm:
 			onClick_confirm(v);
-			break;
+			break; */
 		case R.id.details_button_options:
 			onClick_options(v);
 			break;
@@ -469,7 +470,10 @@ public class InflateListener implements OnInflateListener, OnClickListener {
 	 */
 	public void onClick_options(View v) {
 		Log.e("Options button", "For the quick action menu");
-		DemoPopupWindow dw = new DemoPopupWindow(v,this.offerDisplay,this.mActivity);
+		//DemoPopupWindow.enabledButtons = 3;
+		DemoPopupWindow.enabledButtons = BUTTON_CALL|BUTTON_SMS|BUTTON_CONFIRM;
+		DemoPopupWindow dw = new DemoPopupWindow(v,this.offerDisplay,this.mActivity, this);
+	 
 		dw.showLikeQuickAction();
 
 	}// end onClick_options
@@ -529,7 +533,7 @@ public class InflateListener implements OnInflateListener, OnClickListener {
 	 * @author 
 	 * 		Hossam_Amer
 	 */
-	private void onClick_confirm(View v) {
+	public void onClick_confirm(View v) {
 		Log.e("Confirm button", "Hello");
 		if(InternetManager.isInternetOn(mContext))
 		{	
