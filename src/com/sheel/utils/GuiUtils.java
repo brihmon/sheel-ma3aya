@@ -102,7 +102,7 @@ public final class GuiUtils extends Activity{
 	public String dialogNoResultsViewOffers2;
 	
 	/**
-	 * Dialog boxes for internet connection
+	 * Dialog boxes for Internet connection
 	 */
 	public String dialogInternetConnection;
 	
