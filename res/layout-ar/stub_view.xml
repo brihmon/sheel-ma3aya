@@ -13,99 +13,77 @@ http://developer.android.com/resources/articles/layout-tricks-efficiency.html
 
 @author Hossam Amer (hossam.amer12@gmail.com)
  -->
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/stub_container"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:id="@+id/stub_container"
-    android:descendantFocusability="blocksDescendants"
-     
-     >
-   	   
+    android:descendantFocusability="blocksDescendants" >
+
     <TextView
-                    android:id="@+id/sheel_details_textView_summary"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="N/A"
- 					
- 					android:layout_alignParentRight="true"
-                    android:textAppearance="?android:attr/textAppearanceMedium" 
-                    android:layout_alignWithParentIfMissing="true"
-           />
-    
+        android:id="@+id/sheel_details_textView_summary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignWithParentIfMissing="true"
+        android:text="N/A"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
     <TextView
-                    android:id="@+id/sheel_details_textView_email"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=" N/A"               
-					
-					android:layout_below="@id/sheel_details_textView_summary"                    
-                    android:layout_alignParentRight="true"
-                    android:layout_alignWithParentIfMissing="true"  
-                   />
-    
-    
-    
-     <TextView
-                    android:id="@+id/sheel_details_textView_telephone"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=" N/A"             
-                    
-                    android:layout_below="@id/sheel_details_textView_email"
-                    android:layout_alignWithParentIfMissing="true"
-                    android:layout_alignParentRight="true"
-                    
-           />
-    
-     <TextView
-                    android:id="@+id/sheel_details_textView_flight"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="N/A"
-                    
-                    
-                    android:layout_alignParentRight="true"
-                    android:layout_below="@id/sheel_details_textView_telephone"
-                    android:gravity="center_vertical"
-                    android:layout_alignWithParentIfMissing="true"
-           />
-    
-     
-     	<Button
-	                android:id="@+id/details_button_confirm"
-	                android:layout_width="wrap_content"
-	                android:layout_height="wrap_content"
-	                android:text="Confirm" 
-	                
-	                android:layout_below="@id/sheel_details_textView_flight"
-	                android:gravity="center_vertical|center_horizontal"
-	                android:layout_marginLeft="5px"
-	                android:layout_alignParentRight="true"
-	        /> 
-	       			 <Button
-	                android:id="@+id/details_button_sendSms"
-	                android:layout_width="wrap_content"
-	                android:layout_height="wrap_content"
-	                android:text="SMS"
-	                
-	                android:gravity="center_vertical|center_horizontal"
-	                android:layout_toLeftOf="@id/details_button_confirm"
-            		android:layout_alignTop="@id/details_button_confirm"
-	                />
-	       			 
-	       			 
-	                <Button
-	                android:id="@+id/details_button_call"
-	                android:layout_width="wrap_content"
-	                android:layout_height="wrap_content"
-	                android:text="Call"
-	                
-	                 android:gravity="center_vertical|center_horizontal"
-	                android:layout_toLeftOf="@id/details_button_sendSms"
-            		android:layout_alignTop="@id/details_button_sendSms" 
-	                
-	                />
-      
+        android:id="@+id/sheel_details_textView_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignWithParentIfMissing="true"
+        android:layout_below="@id/sheel_details_textView_summary"
+        android:text=" N/A" />
+
+    <TextView
+        android:id="@+id/sheel_details_textView_telephone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignWithParentIfMissing="true"
+        android:layout_below="@id/sheel_details_textView_email"
+        android:text=" N/A" />
+
+    <TextView
+        android:id="@+id/sheel_details_textView_flight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignWithParentIfMissing="true"
+        android:layout_below="@id/sheel_details_textView_telephone"
+        android:gravity="center_vertical"
+        android:text="N/A" />
+
+    <Button
+        android:id="@+id/details_button_call"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/sheel_details_textView_flight"
+        android:layout_marginTop="16dp"
+        android:gravity="center_vertical|center_horizontal"
+        android:text="Call" />
+
+    <Button
+        android:id="@+id/details_button_sendSms"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/details_button_call"
+        android:layout_alignBottom="@+id/details_button_call"
+        android:layout_toLeftOf="@+id/details_button_call"
+        android:gravity="center_vertical|center_horizontal"
+        android:text="SMS" />
+
+    <Button
+        android:id="@+id/details_button_confirm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/details_button_sendSms"
+        android:layout_alignBottom="@+id/details_button_sendSms"
+        android:layout_toLeftOf="@+id/details_button_sendSms"
+        android:gravity="center_vertical|center_horizontal"
+        android:text="Confirm" />
 
 </RelativeLayout>
