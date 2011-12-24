@@ -3,9 +3,13 @@ package com.sheel.utils;
 
  
 
+import static com.sheel.utils.SheelMaayaaConstants.HTTP_RESPONSE;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -22,10 +26,17 @@ import com.sheel.datastructures.OfferDisplay2;
 public class DemoPopupWindow extends BetterPopupWindow implements OnClickListener {
 	OfferDisplay2 offer;
 	private Activity mActivity;
+	
+	/********* Edit offer UI components ********/
 	private RadioGroup type;
 	private EditText noKGsET;
 	private EditText pricePerKGET;
 	private TextView eo_error[] = new TextView[2];
+	
+	
+	/******* Internet service components *******/
+	private IntentFilter filter;
+	private BroadcastReceiver br;
  
 	
 	
@@ -63,6 +74,9 @@ public class DemoPopupWindow extends BetterPopupWindow implements OnClickListene
 
 		// set the inflated view as what we want to display
 		this.setContentView(root);
+		
+		
+		
 	}
 	AlertDialog dialog;
 	@Override
