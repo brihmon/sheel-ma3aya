@@ -61,7 +61,7 @@ public interface SheelMaayaaConstants {
 	//======================================================================
 	
 	/**
-	 * Constant Statuses of the confirmation 
+	 * Constant Statuses of the confirmation will be used inside the logic of the confirmation.
 	 */
 	final String CONFIRMED = "Confirmed";
 	final String HALF_CONFIRMED_ME_OFFER_OWNER = "Me Half-Confirmed";
