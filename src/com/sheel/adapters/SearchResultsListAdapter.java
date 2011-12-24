@@ -217,10 +217,18 @@ public class SearchResultsListAdapter extends BaseAdapter {
 	 * 		correctly</b>
 	 * @author 
 	 *		Passant El.Agroudy (passant.elagroudy@gmail.com)
+	 *@author Hossam_Amer
+	 *
+	 *@Change: Added if less than to display a zero beside the number to maintain the alignment.
 	 */
 	public void renderThirdTextView(TextView textView,
 			OfferDisplay2 offerDisplay, View listRow) {
 
+		
+		if (offerDisplay.getOffer().pricePerKilogram <=9) {
+			textView.setText("0" +offerDisplay.getOffer().pricePerKilogram + " Û/"+swypeCatsGuiUtils.getOfferKg());
+		}// end if: add extra space for alignment
+		else
 		// Set (Price) according to the offer
 		textView.setText(offerDisplay.getOffer().pricePerKilogram + " Û/"+swypeCatsGuiUtils.getOfferKg());
 		// Add image
