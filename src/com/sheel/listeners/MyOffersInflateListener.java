@@ -112,7 +112,7 @@ public class MyOffersInflateListener extends InflateListener{
 			DemoPopupWindow.enabledButtons = DemoPopupWindow.enabledButtons| BUTTON_DEACTIVATE | BUTTON_EDIT;
 		}
 		else if (offerDisplay.getOffer().offerStatus.equals(Confirmation.half_confirmed_other)){
-			DemoPopupWindow.enabledButtons = DemoPopupWindow.enabledButtons| BUTTON_CONFIRM;
+			DemoPopupWindow.enabledButtons = DemoPopupWindow.enabledButtons| BUTTON_CONFIRM | BUTTON_CALL | BUTTON_SMS;
 		}else if (offerDisplay.getOffer().offerStatus.equals(Confirmation.not_confirmed)){
 			DemoPopupWindow.enabledButtons = DemoPopupWindow.enabledButtons| BUTTON_CONFIRM | BUTTON_DEACTIVATE | BUTTON_EDIT;
 		}

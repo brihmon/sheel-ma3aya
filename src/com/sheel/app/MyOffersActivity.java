@@ -318,7 +318,7 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity {
 				Log.e("loadSearchResultsOnUI: Inisde the loop of my offers: offer ",
 						offer + "");
 
-				// ÊTo check if the offer is half confirmed by an offer owner
+				// ï¿½To check if the offer is half confirmed by an offer owner
 				if (offer.getOffer().offerStatus
 						.equals(Confirmation.half_confirmed_offerOwner))
 					searchResults_half.add(OfferDisplay2.mapOffer(
@@ -332,7 +332,7 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity {
 									nationalitiesList));
 				// To check if the offer is confirmed and I am the offer owner.
 				else if (offer.getOffer().offerStatus
-						.equals(Confirmation.confirmed))
+						.equals(Confirmation.confirmedIAmOfferOwner))
 					searchResults_full.add(OfferDisplay2.mapOffer(
 							jsonArray.getJSONObject(i), airportsList,
 							nationalitiesList));
