@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewStub;
 import android.view.View.OnClickListener;
@@ -408,10 +409,10 @@ public class InflateListener implements OnInflateListener, OnClickListener {
 	 */
 	public void onClick_options(View v) {
 		Log.e("Options button", "For the quick action menu");
-		DemoPopupWindow dw = new DemoPopupWindow(v);
+		DemoPopupWindow dw = new DemoPopupWindow(v,this.offerDisplay,this.mActivity);
 		dw.showLikeQuickAction();
-		//call(this.offerDisplay.getUser().mobileNumber);
-	}// end onClick_button1
+
+	}// end onClick_options
 	
 	
 	/**
