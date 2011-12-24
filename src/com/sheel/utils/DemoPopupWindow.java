@@ -3,12 +3,10 @@ package com.sheel.utils;
 
  
 
-import static com.sheel.utils.SheelMaayaaConstants.HTTP_RESPONSE;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.Intent;
 import android.content.IntentFilter;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,10 +20,12 @@ import android.widget.TextView;
 
 import com.sheel.app.R;
 import com.sheel.datastructures.OfferDisplay2;
+import com.sheel.listeners.InflateListener;
 
 public class DemoPopupWindow extends BetterPopupWindow implements OnClickListener {
 	OfferDisplay2 offer;
 	private Activity mActivity;
+	private InflateListener inflateListener;
 	
 	/********* Edit offer UI components ********/
 	private RadioGroup type;
@@ -38,16 +38,22 @@ public class DemoPopupWindow extends BetterPopupWindow implements OnClickListene
 	private IntentFilter filter;
 	private BroadcastReceiver br;
  
+	public static int BUTTON_CALL = 1;
+	public static int BUTTON_SMS = 2;
+	public static int BUTTON_CONFIRM = 4;
+	public static int BUTTON_EDIT = 8;
+	public static int BUTTON_DEACTIVATE = 16;
+	
+	public static int enabledButtons;
 	
 	
-	
-	
-	public DemoPopupWindow(View anchor, OfferDisplay2 offer, Activity activity) {
+	public DemoPopupWindow(View anchor, OfferDisplay2 offer, Activity activity, InflateListener inflateListener) {
 		super(anchor);
 		this.mActivity = activity;
 		this.offer = offer;
+		this.inflateListener = inflateListener;
 	}
-
+	
 	@Override
 	protected void onCreate() {
 		LayoutInflater inflater =
@@ -55,22 +61,45 @@ public class DemoPopupWindow extends BetterPopupWindow implements OnClickListene
 
 		ViewGroup root = (ViewGroup) inflater.inflate(R.layout.popup_grid_layout, null);
 
-		// setup button events
-		for(int i = 0, icount = root.getChildCount() ; i < icount ; i++) {
-			View v = root.getChildAt(i);
 
-			if(v instanceof TableRow) {
-				TableRow row = (TableRow) v;
-
-				for(int j = 0, jcount = row.getChildCount() ; j < jcount ; j++) {
-					View item = row.getChildAt(j);
-					if(item instanceof Button) {
-						Button b = (Button) item;
-						b.setOnClickListener(this);
-					}
-				}
-			}
+		if((enabledButtons&BUTTON_CALL)==0){
+		((TableRow)(root.findViewById(R.id.qa_call).getParent())).removeView(root.findViewById(R.id.qa_call));
 		}
+		else{
+			(root.findViewById(R.id.qa_call)).setOnClickListener(this);
+		}
+		if((enabledButtons&BUTTON_SMS)==0){
+		((TableRow)(root.findViewById(R.id.qa_sms).getParent())).removeView(root.findViewById(R.id.qa_sms));
+		}else
+		{
+			(root.findViewById(R.id.qa_sms)).setOnClickListener(this);
+		}
+		
+		if((enabledButtons&BUTTON_EDIT)==0){
+		((TableRow)(root.findViewById(R.id.qa_editOffer).getParent())).removeView(root.findViewById(R.id.qa_editOffer));
+		((TableRow)(root.findViewById(R.id.qa_editFlight).getParent())).removeView(root.findViewById(R.id.qa_editFlight));
+		}else{
+			(root.findViewById(R.id.qa_editOffer)).setOnClickListener(this);
+			(root.findViewById(R.id.qa_editFlight)).setOnClickListener(this);
+		}
+		
+		if((enabledButtons&BUTTON_CONFIRM)==0){
+			((TableRow)(root.findViewById(R.id.qa_confirm).getParent())).removeView(root.findViewById(R.id.qa_confirm));
+		}else{
+			(root.findViewById(R.id.qa_confirm)).setOnClickListener(this);
+		}
+		
+		if((enabledButtons&BUTTON_DEACTIVATE)==0){
+			((TableRow)(root.findViewById(R.id.qa_deactivate).getParent())).removeView(root.findViewById(R.id.qa_deactivate));
+		}else{
+			(root.findViewById(R.id.qa_deactivate)).setOnClickListener(this);
+		}
+						
+						//b.setOnClickListener(this);
+					
+				
+			
+		
 
 		// set the inflated view as what we want to display
 		this.setContentView(root);
@@ -86,9 +115,27 @@ public class DemoPopupWindow extends BetterPopupWindow implements OnClickListene
 		
 		switch(b.getId()){
 		
+		
+		case R.id.qa_confirm:{
+			inflateListener.onClick_confirm(v);
+			break;
+		}
+		
+		case R.id.qa_sms:{
+			 inflateListener.onClick_button2(v);
+			 break;
+		}
+		
+		case R.id.qa_call:{
+			inflateListener.onClick_button1(v);
+			break;
+		}
+		
+		
+		
 		/*****************Quick action bar , Edit Offer clicked******************************/
 		
-		case R.id.two:{
+		case R.id.qa_editOffer:{
 			LayoutInflater inflater =
 					(LayoutInflater) this.anchor.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
