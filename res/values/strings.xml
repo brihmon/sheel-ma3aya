@@ -981,6 +981,7 @@ Hossam Amer
 	<string name="passport_number">Passport Number* </string>
 	<string name="passport_photo">Passport Photo* </string>
 	<string name="register">Register</string>
+	<string name="registerDialog">Registering, Please wait..</string>
 	    	
 	
 </resources>
