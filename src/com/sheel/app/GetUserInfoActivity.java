@@ -643,7 +643,15 @@ public class GetUserInfoActivity extends UserSessionStateMaintainingActivity {
 		lessWeight.setChecked(false);
 		extraWeight.setChecked(false);
 		srcDes.setChecked(false);
-    	flightNo.setChecked(false);		
+    	flightNo.setChecked(false);	
+    	
+    	datePicked = Calendar.getInstance();
+    	year = datePicked.get(Calendar.YEAR);
+        month = datePicked.get(Calendar.MONTH);
+        day = datePicked.get(Calendar.DAY_OF_MONTH);
+
+        datePicked.set(year, month, day, 23, 59, 59);
+        updateDisplay();
 	}
 	
 	/**
