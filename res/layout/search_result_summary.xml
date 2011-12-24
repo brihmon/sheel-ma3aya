@@ -1,45 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<!-- 
+
+** Changed the view into relative layout with alignment with respect to each other.
+For the sake of optimization it is better. I ran layout opt, and it is fine.
+
+** Now it is storing one view instead of two views.
+
+**I built it such that I place the center element first and then align the 
+right and left textview (especially the one with long description). After
+that I say that the view stub is below the summary name text view.
+
+**Ran layout opt and it is not complaining about anything.
+
+** It is based on those links:
+http://developer.android.com/guide/topics/ui/layout-objects.html
+http://developer.android.com/resources/articles/layout-tricks-efficiency.html
+
+@author Hossam Amer (hossam.amer12@gmail.com)
+ -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:baselineAligned="true"
-    android:orientation="vertical" >
+    android:layout_height="fill_parent" >
 
-   <LinearLayout 
-       android:layout_width="fill_parent"
-       android:layout_height="fill_parent"
-       android:orientation="horizontal"
-       >
-
+    
+     <TextView
+        android:id="@+id/summary_numberOfKilos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:text="give 5 Kg" 
+        
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignWithParentIfMissing="true"
+        
+        />
+   
+   
+     	  
+	<TextView
+        android:id="@+id/summary_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:text="5 €/Kg" 
+        
+        
+        
+        android:layout_toRightOf="@id/summary_numberOfKilos"
+        android:layout_alignTop="@id/summary_numberOfKilos"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignWithParentIfMissing="true"
+        
+        />
+   
+   
+    
     <TextView
         android:id="@+id/summary_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:layout_weight="0.25"
-        android:text="Passant Akram El.Agroudy" />
-	
-	<TextView
-        android:id="@+id/summary_numberOfKilos"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:text="give 5 Kg" />
-	
-	<TextView
-        android:id="@+id/summary_price"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:text="5 €/Kg" />
-	
-	</LinearLayout>
-	
-	 <ViewStub android:id="@+id/infoStub" android:inflatedId="@+id/infoStubInflated"
+        android:text="Flight LK322 from Cairo 
+        to Geneva on 28/01/2011" 
+        
+        android:layout_toLeftOf="@id/summary_numberOfKilos"
+        android:layout_alignTop="@id/summary_numberOfKilos"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:scrollHorizontally="false"
+        android:maxLines="3"
+        android:layout_alignWithParentIfMissing="true"
+        />
+    
+    
+    
+    <ViewStub android:id="@+id/infoStub" android:inflatedId="@+id/infoStubInflated"
 		 android:layout="@layout/stub_view" android:layout_width="fill_parent"
 		 android:layout_height="wrap_content" 
 		 android:layout_gravity="bottom"
+		 android:layout_below="@id/summary_name"
+		 android:layout_alignWithParentIfMissing="true"
 		 />
-	
-	
-</LinearLayout>
+    
+        	
+  
+
+</RelativeLayout>	
