@@ -342,18 +342,20 @@ public class ViewSearchResultsActivity extends SwypingHorizontalViewsActivity {
     }
 
 	private void noInternetConnectionHandler() {
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setMessage(swypeCatsGuiUtils.dialogInternetConnection)
-		       .setCancelable(false)
-		       .setPositiveButton(swypeCatsGuiUtils.okay, new DialogInterface.OnClickListener() {
-		           public void onClick(DialogInterface dialog, int id) {
-		        	   dialog.cancel();
-		           }
-		       
-		       });
-		 builder.create();
-		 builder.show();
+//		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//		builder.setMessage(swypeCatsGuiUtils.dialogInternetConnection)
+//		       .setCancelable(false)
+//		       .setPositiveButton(swypeCatsGuiUtils.okay, new DialogInterface.OnClickListener() {
+//		           public void onClick(DialogInterface dialog, int id) {
+//		        	   dialog.cancel();
+//		           }
+//		       
+//		       });
+//		 builder.create();
+//		 builder.show();
 	
+			this.swypeCatsGuiUtils.showAlertWhenNoResultsAreAvailable(this, swypeCatsGuiUtils.dialogInternetConnection
+					, swypeCatsGuiUtils.okay, ConnectorUserActionsActivity.class, "", FilterPreferencesActivity.class);
 	}
 	
 	/**
