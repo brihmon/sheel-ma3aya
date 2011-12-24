@@ -85,5 +85,15 @@ http://developer.android.com/resources/articles/layout-tricks-efficiency.html
         android:layout_toLeftOf="@+id/details_button_sendSms"
         android:gravity="center_vertical|center_horizontal"
         android:text="Confirm" />
+    
+    <Button
+        android:id="@+id/details_button_options"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/details_button_sendSms"
+        android:layout_alignBottom="@+id/details_button_sendSms"
+        android:layout_toLeftOf="@+id/details_button_confirm"
+        android:gravity="center_vertical|center_horizontal"
+        android:text="Options" />
 
 </RelativeLayout>
