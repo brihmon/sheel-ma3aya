@@ -94,7 +94,7 @@ public class ViewSearchResultsActivity extends SwypingHorizontalViewsActivity {
     }// end onCreate
   
     
-    private String getMutualFriends(OfferDisplay2 current){
+  /*  private String getMutualFriends(OfferDisplay2 current){
     	String mutualFriends="";
     	
     	JSONArray data = current.getFacebookExtraInfo();
@@ -112,7 +112,8 @@ public class ViewSearchResultsActivity extends SwypingHorizontalViewsActivity {
     	}// end for: get names of the mutual friends for displaying 
     	
     	return mutualFriends;
-    }// end getMutualFriends    
+    }// end getMutualFriends        
+  */
     
     /**
      * Used to update the contents of the different available lists from 

@@ -1,6 +1,9 @@
 package com.sheel.listeners;
 
 import static com.sheel.utils.SheelMaayaaConstants.HTTP_CONFIRM_OFFER;
+
+import org.json.JSONArray;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -10,8 +13,8 @@ import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewStub;
 import android.view.View.OnClickListener;
+import android.view.ViewStub;
 import android.view.ViewStub.OnInflateListener;
 import android.widget.Button;
 import android.widget.TextView;
@@ -141,11 +144,13 @@ public class InflateListener implements OnInflateListener, OnClickListener {
 		 * Initialize the summary (nationality + gender + facebook extra info)
 		 */
 		TextView details_summary = (TextView)inflated.findViewById(R.id.sheel_details_textView_summary);
+		TextView details_facebook = (TextView)inflated.findViewById(R.id.sheel_details_textView_facebookInfo);
 		TextView details_email = (TextView)inflated.findViewById(R.id.sheel_details_textView_email);
 		TextView details_telephone = (TextView)inflated.findViewById(R.id.sheel_details_textView_telephone);
 		TextView details_flight = (TextView)inflated.findViewById(R.id.sheel_details_textView_flight);
 		
 		renderFirstTextView(details_summary, offerDisplay, inflated);
+		renderFacebookExtraInfoTextView(details_facebook, offerDisplay, inflated);
 		renderSecondTextView(details_email, offerDisplay, inflated);
 		renderThirdTextView(details_telephone, offerDisplay, inflated);
 		renderFourthTextView(details_flight, offerDisplay, inflated);
@@ -198,15 +203,12 @@ public class InflateListener implements OnInflateListener, OnClickListener {
 		
 		if (offerDisplay.getOwnerFacebookRelationWithUser() == OwnerFacebookStatus.FRIEND) {
 			detailsSummary += " " +  swypeCatsGuiUtils.getSwpeCats()[5];
-//			detailsSummary += " Friend";
 		}// end if: offer owner is the user's friend
 		else if (offerDisplay.getOwnerFacebookRelationWithUser() == OwnerFacebookStatus.FRIEND_OF_FRIEND) {
 			detailsSummary += " " +  swypeCatsGuiUtils.getSwpeCats()[6];
-//			detailsSummary += " Friend of friend";
 		}// end if: offer owner is the user's friend of friend
 		else if (offerDisplay.getOwnerFacebookRelationWithUser() == OwnerFacebookStatus.UNRELATED) {
 			detailsSummary += " " +  swypeCatsGuiUtils.getSwpeCats()[4];
-//			detailsSummary += " Stranger";
 		}// end if: offer owner is a stranger
 		textView.setText(detailsSummary);
 		
@@ -216,8 +218,66 @@ public class InflateListener implements OnInflateListener, OnClickListener {
 		else {
 			this.swypeCatsGuiUtils.setIconForATextField(mContext, inflated, textView, R.drawable.sheel_gender_male, 3);
 		}// end if:offer owner is a male or unknown -> show icon
-		
+				
 	}// end renderFirstTextView
+	
+	private void renderFacebookExtraInfoTextView(TextView textView, OfferDisplay2 offerDisplay, View inflated) {
+		
+		/**
+		 * Inner Listener used to handling events on the label
+		 * used to show more facebook info
+		 * @author 
+		 *		Passant El.Agroudy (passant.elagroudy@gmail.com)
+		 *
+		 */
+		class ExtraFacebookClickListener implements View.OnClickListener{
+
+			private String title;
+			private String[] dataDisplayed;
+			
+			/**
+			 * Constructor for listener handling events on the label
+			 * used to show more facebook info
+			 * 
+			 * @param title
+			 * 		Title of the dialog box
+			 * @param dataDisplayed
+			 * 		Names that should be displayed
+			 */
+			public ExtraFacebookClickListener(String title,String[] dataDisplayed) {
+				this.title = title;
+				this.dataDisplayed = dataDisplayed;
+			}// end constructor
+			
+			/* (non-Javadoc)
+			 * @see android.view.View.OnClickListener#onClick(android.view.View)
+			 */
+			@Override
+			public void onClick(View v) {
+				swypeCatsGuiUtils.createDialogueWithScrollableList(mContext,mActivity,this.title,this.dataDisplayed);
+			}// end onClick: open a dialog with names of mutual friends
+			
+		}// end inner class
+		
+		if (offerDisplay.getOwnerFacebookRelationWithUser() == OwnerFacebookStatus.FRIEND_OF_FRIEND) {
+			// Parse and get the names of the mutual friends
+			String[] mutualFriendsNames = offerDisplay.parseFacebookExtraInfo();
+			
+			System.out.println("Text view is : " + textView);
+			// Set the label to show their number
+			textView.setText(mutualFriendsNames.length+ "");
+			/** 
+			 * Add action listener to it to open a dialog with the names
+			 * Implemented as inner class for passing parameters 
+			 */
+			textView.setOnClickListener(new ExtraFacebookClickListener("My mutual friends are", mutualFriendsNames));
+		}// end if: offer owner is a friend of friend -> show number + enable action
+		else {
+			textView.setVisibility(View.GONE);
+		}// end else: in any other mode -> hide this view
+		
+		
+	}// end renderFacebookExtraInfoTextView
 	
 	/**
 	 * Used to render the data displayed in the second text view.
@@ -430,7 +490,8 @@ public class InflateListener implements OnInflateListener, OnClickListener {
 	 */
 	public void onClick_button1(View v) {
 		Log.e("Call button", this.offerDisplay.getUser().mobileNumber);
-		call(this.offerDisplay.getUser().mobileNumber);
+		call(this.offerDisplay.getUser().mobileNumber);		
+	
 	}// end onClick_button1
 	
 	
