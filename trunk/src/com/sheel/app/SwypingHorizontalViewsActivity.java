@@ -332,7 +332,7 @@ public class SwypingHorizontalViewsActivity extends UserSessionStateMaintainingA
      */
     private void initializeContent() {
    
-    	categories.add(new Category("Communicate", R.layout.communicate));
+    //	categories.add(new Category("Communicate", R.layout.communicate));
     	categories.add(new Category("My Offers", R.layout.my_offers_main));
     	categories.add(new Category("My Offers2", R.layout.my_offers_main));    
     }// end initializeContent
