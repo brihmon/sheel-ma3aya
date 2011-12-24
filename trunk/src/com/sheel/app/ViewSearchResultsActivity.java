@@ -331,7 +331,7 @@ public class ViewSearchResultsActivity extends SwypingHorizontalViewsActivity {
     		{
     			searchResults = new ArrayList<OfferDisplay2>();
     			
-    			dialog = ProgressDialog.show(ViewSearchResultsActivity.this, "", "Seaching for Offers..", true, false);
+    			dialog = ProgressDialog.show(ViewSearchResultsActivity.this, "", swypeCatsGuiUtils.dialogFetchOtherOffers, true, false);
     			HTTPManager.startHttpService(request, HTTP_SEARCH_FOR_OFFERS_FILTER, getApplicationContext());
     		}
     	
@@ -343,9 +343,9 @@ public class ViewSearchResultsActivity extends SwypingHorizontalViewsActivity {
 
 	private void noInternetConnectionHandler() {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setMessage("Internet Connection is not available")
+		builder.setMessage(swypeCatsGuiUtils.dialogInternetConnection)
 		       .setCancelable(false)
-		       .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+		       .setPositiveButton(swypeCatsGuiUtils.okay, new DialogInterface.OnClickListener() {
 		           public void onClick(DialogInterface dialog, int id) {
 		        	   dialog.cancel();
 		           }
@@ -413,7 +413,7 @@ public class ViewSearchResultsActivity extends SwypingHorizontalViewsActivity {
 			String action = intent.getAction();
 		
 		if(action.equals("test"))
-			dialog = ProgressDialog.show(ViewSearchResultsActivity.this, "", "Please wait..", true, false);
+			dialog = ProgressDialog.show(ViewSearchResultsActivity.this, swypeCatsGuiUtils.dialogFetchOtherOffers, ".", true, false);
 		else
 		{
 			int httpStatus = intent.getExtras().getInt(HTTP_STATUS);
