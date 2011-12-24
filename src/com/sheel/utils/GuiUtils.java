@@ -3,16 +3,20 @@
  */
 package com.sheel.utils;
 
-import com.sheel.app.R;
-
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
+
+import com.sheel.app.R;
 
 /**
  * Class used to contain common methods relevant to UI
@@ -489,8 +493,44 @@ public final class GuiUtils extends Activity{
     		textView.setCompoundDrawables(img, null, null, null);
     	else
     		textView.setCompoundDrawables(null, null, img, null);
+    	
+    	
     }// end setIconForATextField
+ 
+    public void addRightButtonToTextField(Context appContext, TextView textView, String txt) {
+    	
+    	Button btn = new Button(appContext);
+    	btn.setText("mutual");
+    	
+    	
+    	
+    	//if(this.writingMode.equals("LeftToRight"))
+    	//	textView.setCompoundDrawables(null, null, btn, null);
+    	//else
+    	//	textView.setCompoundDrawables(null, null, img, null);
+    	
+    }// end addRightButtonToTextField
+    
+    public void createDialogueWithScrollableList(Context appContext,Activity activity,  String title , String[] data) {
+    	AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+    	builder.setTitle(title);
 
+    	ListView modeList = new ListView(appContext);
+     	ArrayAdapter<String> modeAdapter = new ArrayAdapter<String>(appContext, android.R.layout.simple_list_item_2, android.R.id.text2, data);
+       	modeList.setAdapter(modeAdapter);
 
+    	builder.setView(modeList);
+    	builder.setPositiveButton(okay, new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.dismiss();				
+			}
+		});
+       	builder.create();
+    	builder.show();
+  
+	}// end showAlertWhenNoResultsAreAvailable
+	
 
 }// end class

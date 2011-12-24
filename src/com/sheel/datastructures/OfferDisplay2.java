@@ -211,7 +211,48 @@ public class OfferDisplay2 {
 		this.ownerFbStatus = status;
 	}// end setFacebookStatus
 	
-	
+	/**
+	 * Used to parse the extra data provided by facebook about
+	 * an offer owner
+	 * 
+	 * @return
+	 * 		If relation between offer owner and app user is:
+	 * 		<ul>
+	 * 			<li><code>{@link OwnerFacebookStatus#FRIEND}</code> : null </li>
+	 * 			<li><code>{@link OwnerFacebookStatus#FRIEND_OF_FRIEND}</code> : String array
+	 * 			of mutual friends names</li>
+	 *  		<li><code>{@link OwnerFacebookStatus#COMMON_NETWORKS}</code> : String array
+	 * 			of common networks</li>
+	 *   		<li><code>{@link OwnerFacebookStatus#UNRELATED}</code> : null</li>
+	 * 		</ul>
+	 * @author 
+	 *		Passant El.Agroudy (passant.elagroudy@gmail.com)
+	 */
+	public String[] parseFacebookExtraInfo() {
+
+		JSONArray data = this.getFacebookExtraInfo();
+
+		if (data == null)
+			return null;
+
+		String[] mutualFriends = new String[data.length()];
+
+		String mutualFriendName = "";
+
+		for (int i = 0; i < data.length(); i++) {
+			try {
+				mutualFriendName = (data.getJSONObject(i)).getString("name");
+			} catch (JSONException e) {
+				mutualFriendName = "";
+				e.printStackTrace();
+			}
+			mutualFriends[i] = mutualFriendName;
+		}// end for: get names of the mutual friends for displaying
+
+		return mutualFriends;
+
+	}// end parseFacebookExtraInfo
+
 	@Override
 	public String toString() {
 		// TODO : implement properly ==> just quick implementation for testing
