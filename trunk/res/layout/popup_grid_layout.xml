@@ -10,28 +10,28 @@
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
 			android:id="@+id/one"
-			android:text="One"
+			android:text="Edit flight"
 			android:minWidth="80dp"
-			android:minHeight="80dp"
+			android:minHeight="40dp"
 			 />
 		<Button
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
 			android:id="@+id/two"
-			android:text="Two"
+			android:text="Edit offer"
 			android:minWidth="80dp"
-			android:minHeight="80dp"
+			android:minHeight="40dp"
 			 />
 		<Button
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
 			android:id="@+id/three"
-			android:text="Three"
+			android:text="deactivate"
 			android:minWidth="80dp"
-			android:minHeight="80dp"
+			android:minHeight="40dp"
 			 />
 	</TableRow>
-	<TableRow>
+	<!-- <TableRow>
 		<Button
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
@@ -53,5 +53,5 @@
 			android:text="Six"
 			android:minHeight="80dp"
 			 />
-	</TableRow>
+	</TableRow> -->
 </TableLayout>
