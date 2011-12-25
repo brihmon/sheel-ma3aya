@@ -218,13 +218,16 @@ public class DemoPopupWindow extends BetterPopupWindow implements OnClickListene
 			   
 			   
 			    
-				Flight flight = new Flight(flightNumberET.getText().toString(),
-							 sAirportET.getText().toString(),
-							 dAirportET.getText().toString(),
-							 mDateDisplay.getText().toString());
-				flight.id = offer.getFlight().id;
-
 				 
+				
+				offer.getFlight().setFlightNumber(flightNumberET.getText().toString());
+				offer.getFlight().setSource(sAirportET.getText().toString());
+				offer.getFlight().setDestination(dAirportET.getText().toString());
+				offer.getFlight().setDepartureDateTime(mDateDisplay.getText().toString()) ;
+				
+					
+
+				
 				 
 				
 				String[] airports = mActivity.getResources().getStringArray(R.array.airports_array);
@@ -232,14 +235,14 @@ public class DemoPopupWindow extends BetterPopupWindow implements OnClickListene
 				src = -1;
 				for(int i = 0; i < airports.length ; i++)
 				{
-					if(flight.destination.equals(airports[i]))
+					if(offer.getFlight().destination.equals(airports[i]))
 					{
-						flight.destination = i+"";
+						
 						des = i;
 					}
-					if(flight.source.equals(airports[i]))
+					if(offer.getFlight().source.equals(airports[i]))
 					{
-						flight.source = i+"";
+						
 						src = i;
 					}			
 				}
@@ -247,13 +250,29 @@ public class DemoPopupWindow extends BetterPopupWindow implements OnClickListene
 				if(des == -1){
 					eo_error[count==0?0:1].setText(mActivity.getResources().getString(R.string.des_valid));
 					 count++;
+				}else{
+					offer.getFlight().destination = des+"";
 				}
 				if(src == -1){
 					eo_error[count==0?0:1].setText(mActivity.getResources().getString(R.string.source_valid));
 					 count++;
+				}else{
+					offer.getFlight().source = src+"";
 				}
 				if(count>0)
 					return;
+				
+				
+				Gson gson = new Gson();
+	         
+		  	    String input = gson.toJson(offer.getFlight());
+		  	    Log.e("JSON SENT = ", offer.getFlight().id+"");
+	        	HTTPManager.startHttpService("/editflight/"+offer.getOffer().id,
+				input , SheelMaayaaConstants.HTTP_EDIT_FLIGHT, mActivity.getApplicationContext());   
+	        	offer.getFlight().setSource(airports[src]);
+				offer.getFlight().setDestination(airports[des]);
+			
+	        	dialog.dismiss();
 			
 			
 			break;

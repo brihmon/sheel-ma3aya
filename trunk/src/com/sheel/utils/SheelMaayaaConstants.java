@@ -58,6 +58,7 @@ public interface SheelMaayaaConstants {
 	final String HTTP_CONFIRM_OFFER = "HTTP_CONFIRM_OFFER";
 	final String HTTP_CONFIRM_OFFER_UI = "HTTP_CONFIRM_OFFER_UI";
 	final String HTTP_EDIT_OFFER = "HTTP_EDIT_OFFER";
+	final String HTTP_EDIT_FLIGHT = "HTTP_EDIT_FLIGHT";
 	
 	//======================================================================
 	
