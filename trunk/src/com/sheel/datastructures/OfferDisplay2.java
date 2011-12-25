@@ -32,6 +32,11 @@ public class OfferDisplay2 {
 	private Offer offer;
 	
 	/**
+	 * The other side of the offer if exists
+	 */
+	public User userOther;
+	
+	/**
 	 * The relation between app user and offer owner. See {@link OwnerFacebookStatus}
 	 * enumeration for available options
 	 */
@@ -58,6 +63,17 @@ public class OfferDisplay2 {
 		this.user = user;
 		this.flight = flight;
 		this.offer = offer;
+	}
+	
+	/**
+	 * Constructor for creating the offerDisplay and adding the other side of the offer if exists.
+	 */
+		public OfferDisplay2(User user, Flight flight, Offer offer, User userOther) {
+		
+		this.user = user;
+		this.flight = flight;
+		this.offer = offer;
+		this.userOther = userOther;
 	}
 	
 	/**
@@ -386,7 +402,86 @@ public class OfferDisplay2 {
 			i = 0;
 			return null;
 		}
+	}//end method mapOffer
+	
+	
+	private static User createUser(JSONObject userJSON, String[] nationalities) throws JSONException
+	{
+		String ownerId = userJSON.getString("facebookAccount");
+		String firstName = userJSON.getString("firstName");
+		String middleName = userJSON.getString("middleName");
+		String lastName = userJSON.getString("lastName");
+		String email = userJSON.getString("email");
+		String mobile = userJSON.getString("mobileNumber");
+		String gender = userJSON.getString("gender");
+		String nationality = userJSON.getString("nationality");
+		
+		Log.e("Map Offer: ", (i++) + "" );// 3
+		
+		nationality = nationalities[Integer.parseInt(nationality)];
+		
+		Log.e("Map Offer: ", (i++) + "" );// 4
+		
+		return new User(ownerId, firstName, middleName, lastName, "", "", email, mobile, gender, nationality);
 	}
+
 	
+	public static OfferDisplay2 mapOfferNew(JSONObject offerHelperJSON, String[] airports, String[] nationalities)
+	{
+		// Create userOther
+		
+		JSONObject userOtherJSON;
+		User userOther = null;
+		try {
+			
+			
+			Log.e("Map Offer: ", (i++) + "" );// 0
+			
+			// First thing try to get the other side of the offer
+			 userOtherJSON = offerHelperJSON.getJSONObject("userOther");
+		}
+		catch (Exception e) {
+			userOtherJSON = null;
+		}	
+			
+		if(userOtherJSON != null)
+		{
+			try {
+				userOther = createUser(userOtherJSON, nationalities);
+			} catch (JSONException e) {
+				
+				userOther = null;
+			}
+		}
+
+		OfferDisplay2 offerDisplay = null;
+		try {
+			JSONObject offerJSON = new JSONObject();
+			offerJSON = offerHelperJSON.getJSONObject("offer");
+			
+			Log.e("Offer JSON MAP OFFER: ", offerJSON + "");
+			offerDisplay = mapOffer(offerJSON, airports, nationalities);
+			Log.e("OfferDisplay MAP OFFER: ", offerDisplay + "");
+		} catch (JSONException e1) {
+			// TODO Auto-generated catch block
+			
+			Log.e("Failed to get the offer information", "Inside offerDisplay2");
+			offerDisplay = null;
+			e1.printStackTrace();
+		}   
+		 
+		try
+		{
+			offerDisplay.userOther = userOther;
+		}
+		catch (Exception e) {
+			
+		}
+		
+		return offerDisplay;
+		
+	}//end mapOfferNew
+
 	
+		
 }// end class

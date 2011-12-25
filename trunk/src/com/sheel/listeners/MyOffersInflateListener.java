@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewStub;
 import android.widget.TextView;
 
+import com.sheel.app.R;
 import com.sheel.datastructures.Confirmation;
 import com.sheel.datastructures.FacebookUser;
 import com.sheel.datastructures.OfferDisplay2;
@@ -77,17 +78,105 @@ public class MyOffersInflateListener extends InflateListener{
 		/**
 		 * Example: assume you want to change the name
 		 */
-//		textView.setText("Overriding is successful");
-		
-	//	textView.Visit
+		textView.setVisibility(View.GONE);
 		/**
 		 * Example: assume you want to change the visibility
 		 */
 	}// end renderFirstTextView
 	
 	/**
-	 * Called when (Edit Offer) button is clicked
+	 * Called when second text view is rendered
+	 * Overrides the super class renderSecondTextView Method
+	 * @author Hossam_Amer
 	 */
+	@Override
+	public void renderSecondTextView(TextView textView,
+			OfferDisplay2 offer, View inflated) {
+			
+		try
+		{
+		// To check if the offer is half confirmed by an offer owner
+		// of to check of the offer is confirmed and I am that offer owner
+		// or to check if the offer is not confirmed and I am the offer owner
+		if (offer.getOffer().offerStatus.equals(Confirmation.half_confirmed_offerOwner) || 
+				(offer.getOffer().offerStatus.equals(Confirmation.not_confirmed) && mUser.getUserId().equals(offer.getUser().getFacebookId())))
+			textView.setVisibility(View.GONE);
+			
+		else if((offer.getOffer().offerStatus.equals(Confirmation.confirmed)))
+		{
+			// If I am the offer owner, get the other
+			if(mUser.getUserId().equals(offer.getUser().getFacebookId()))
+				textView.setText(offerDisplay.userOther.email);
+			// else put the offer owner
+			else 
+				textView.setText(offerDisplay.getUser().email);
+			
+			if (inflated != null) {
+				this.swypeCatsGuiUtils.setIconForATextField(mContext, inflated, textView,
+						R.drawable.sheel_result_email, 3);
+			}// end if
+		}
+		
+		else if(offer.getOffer().offerStatus.equals(Confirmation.half_confirmed_other))
+		{
+			textView.setText(offerDisplay.userOther.email);
+			if (inflated != null) {
+				this.swypeCatsGuiUtils.setIconForATextField(mContext, inflated, textView,
+						R.drawable.sheel_result_email, 3);
+			}// end if
+		}
+		}
+		catch (Exception e) {
+			textView.setText("No e-mail");
+		}
+	}
+	
+	/**
+	 * Called when the third text view is rendered
+	 * Overrides the super class renderThirdTextView Method
+	 * @author Hossam_Amer
+	 */
+	@Override
+	public void renderThirdTextView(TextView textView,
+			OfferDisplay2 offer, View inflated) {
+			
+		try
+		{
+		// To check if the offer is half confirmed by an offer owner
+		// of to check of the offer is confirmed and I am that offer owner
+		// or to check if the offer is not confirmed and I am the offer owner
+		if (offer.getOffer().offerStatus.equals(Confirmation.half_confirmed_offerOwner) || 
+				(offer.getOffer().offerStatus.equals(Confirmation.not_confirmed) && mUser.getUserId().equals(offer.getUser().getFacebookId())))
+			textView.setVisibility(View.GONE);
+			
+		else if((offer.getOffer().offerStatus.equals(Confirmation.confirmed)))
+		{
+			// If I am the offer owner, get the other
+			if(mUser.getUserId().equals(offer.getUser().getFacebookId()))
+				textView.setText(offerDisplay.userOther.mobileNumber);
+			// else put the offer owner
+			else 
+				textView.setText(offerDisplay.getUser().mobileNumber);
+			
+			if (inflated != null) {
+				this.swypeCatsGuiUtils.setIconForATextField(mContext, inflated, textView,
+						R.drawable.sheel_result_email, 3);
+			}// end if
+		}
+		
+		else if(offer.getOffer().offerStatus.equals(Confirmation.half_confirmed_other))
+		{
+			textView.setText(offerDisplay.userOther.mobileNumber);
+			if (inflated != null) {
+				this.swypeCatsGuiUtils.setIconForATextField(mContext, inflated, textView,
+						R.drawable.sheel_result_email, 3);
+			}// end if
+		}
+		}
+		catch (Exception e) {
+			textView.setText("No email");
+		}
+	}
 	
 	
 	
