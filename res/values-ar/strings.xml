@@ -965,6 +965,8 @@
 	<string name="passport_photo">*صورة جواز السفر </string>
 	<string name="register">التسجيل</string>
 	<string name="Success">نجاح</string>
+	<string name="validation_hint">ادخل كود التأكيد..</string>
+	<string name="registration_toast">يجب التسجيل قبل الاستمرار</string>
 	<string name="your_offer_has_been_posted_successfully">تم نشر عرضك بنجاح</string>
 	<string name="Sorry">نأسف</string>
 	<string name="Unfortunately_we_cannot_process_your_offer">للأسف ،لا يمكننا تسجيل العرض. الرجاء المحاولة مرة أخرى</string>

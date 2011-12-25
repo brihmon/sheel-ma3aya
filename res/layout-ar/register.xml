@@ -14,11 +14,11 @@
         android:padding="8dip"
         android:text="@string/required"
         android:textColor="#FF0000"
-        android:textSize="13dp" >
+        android:textSize="13dp">
     </TextView>
 
     <!-- Mobile Code -->
-
+
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
@@ -29,13 +29,13 @@
 
         <AutoCompleteTextView
             android:id="@+id/auto"
-            android:layout_width="fill_parent"
+            android:layout_width="79dp"
             android:layout_height="35dp"
             android:layout_gravity="right"
-            android:gravity="right"
+            android:layout_weight="0.95"
+            android:autoText="true"
             android:singleLine="true"
-            android:textSize="15dp" 
-            android:autoText="true">
+            android:textSize="15dp" >
         </AutoCompleteTextView>
 
         <TextView
@@ -47,6 +47,7 @@
             android:text="@string/mobile_code" >
         </TextView>
     </LinearLayout>
+
     <!-- Mobile Number -->
 
     <LinearLayout
@@ -87,12 +88,14 @@
 
         <EditText
             android:id="@+id/validationCode"
+            android:inputType="number"
             android:layout_width="fill_parent"
             android:layout_height="35dp"
             android:layout_weight="0.63"
             android:gravity="right"
-            android:inputType="number"
-            android:textSize="15dp" >
+            android:hint="@string/validation_hint"
+            android:enabled="false"
+            android:textSize="15dp">
         </EditText>
 
         <Button
@@ -105,7 +108,7 @@
     </LinearLayout>
 
     <!-- Nationality -->
-
+
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
@@ -116,9 +119,9 @@
 
         <AutoCompleteTextView
             android:id="@+id/autoNationality"
-            android:layout_width="fill_parent"
+            android:layout_width="141dp"
             android:layout_height="35dp"
-            android:gravity="right"
+            android:layout_weight="0.89"
             android:singleLine="true"
             android:textSize="15dp" />
 
@@ -131,8 +134,9 @@
             android:text="@string/nationality_nada" >
         </TextView>
     </LinearLayout>
-    <!-- Passport Number -->
 
+    <!-- Passport Number -->
+
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
@@ -143,9 +147,9 @@
 
         <EditText
             android:id="@+id/passNum"
-            android:layout_width="fill_parent"
+            android:layout_width="175dp"
             android:layout_height="35dp"
-            android:gravity="right"
+            android:layout_weight="1.17"
             android:textSize="15dp" >
         </EditText>
 
@@ -160,7 +164,7 @@
     </LinearLayout>
 
     <!-- Passport Photo -->
-
+
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
@@ -171,8 +175,9 @@
 
         <ImageButton
             android:id="@+id/takePhoto"
-            android:layout_width="fill_parent"
+            android:layout_width="171dp"
             android:layout_height="35dp"
+            android:layout_weight="0.50"
             android:gravity="right"
             android:onClick="onClick_takePhoto"
             android:src="@drawable/camera_icon" >

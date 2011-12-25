@@ -52,7 +52,6 @@ public class SheelMaayaaActivity extends UserSessionStateMaintainingActivity {
 			ImageButton currentButton = buttonsInDashBoard[i];
 			//currentTextView.setText(dashBoardItems[i].getName());
 			//localizingGuiUtils.setIconForATextField(dashBoardItems[i].getResourceIdOfDashBoard(), currentTextView, 4);
-			System.out.println("i: " +i + " " + currentButton.getId());
 			currentButton.setTag(i);
 			//localizingGuiUtils.setBackgroundOfTextView(currentTextView, leftToRightRsc, rightToLeftRsc)
 			currentButton.setOnClickListener(new View.OnClickListener() {				

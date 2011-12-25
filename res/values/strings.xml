@@ -974,7 +974,7 @@ Hossam Amer
 	
 
 	<string name="required">* Required for Registering</string>
-	<string name="mobile_code">Mobile Code* </string>
+	<string name="mobile_code">Mobile Country* </string>
 	<string name="mobile_number">Mobile Number* </string>
 	<string name="send_validation">Send Validation</string>
 	<string name="nationality_nada">Nationality </string>
@@ -983,6 +983,8 @@ Hossam Amer
 	<string name="register">Register</string>
 	<string name="registerDialog">Registering, Please wait..</string>
 	<string name="Success">Success</string>
+	<string name="validation_hint">Enter Validation Code...</string>
+	<string name="registration_toast">You need to register before proceeding</string>
 	<string name="your_offer_has_been_posted_successfully">Your offer has been posted successfully!</string>
 	<string name="Sorry">Sorry</string>
 	<string name="Unfortunately_we_cannot_process_your_offer">Unfortunately, we currently cannot process your offer, please try again later.</string>
