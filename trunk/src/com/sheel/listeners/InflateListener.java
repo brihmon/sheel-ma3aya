@@ -15,7 +15,9 @@ import android.view.ViewStub.OnInflateListener;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.sheel.app.FilterPreferencesActivity;
 import com.sheel.app.R;
+import com.sheel.app.SheelMaayaaActivity;
 import com.sheel.datastructures.FacebookUser;
 import com.sheel.datastructures.Flight;
 import com.sheel.datastructures.OfferDisplay2;
@@ -565,6 +567,8 @@ public class InflateListener implements OnInflateListener, OnClickListener {
 			       .setCancelable(false)
 			       .setPositiveButton( "" + R.string._hossamOk, new DialogInterface.OnClickListener() {
 			           public void onClick(DialogInterface dialog, int id) {
+			        	   swypeCatsGuiUtils.showAlertWhenNoResultsAreAvailable(mActivity, "" + R.string._hossamOk
+				       				, swypeCatsGuiUtils.okay, SheelMaayaaActivity.class, "", FilterPreferencesActivity.class);
 			        	   dialog.cancel();
 			           }
 			       

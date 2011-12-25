@@ -160,7 +160,7 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity {
 
 	private void noInternetConnectionHandler() {
 		this.swypeCatsGuiUtils.showAlertWhenNoResultsAreAvailable(this, swypeCatsGuiUtils.dialogInternetConnection
-				, swypeCatsGuiUtils.okay, ConnectorUserActionsActivity.class, "", FilterPreferencesActivity.class);
+				, swypeCatsGuiUtils.okay, SheelMaayaaActivity.class, "", FilterPreferencesActivity.class);
 	}
 
 	/**
