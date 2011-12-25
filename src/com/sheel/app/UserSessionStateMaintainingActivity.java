@@ -3,6 +3,8 @@ package com.sheel.app;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -218,27 +220,46 @@ public class UserSessionStateMaintainingActivity extends Activity {
 		startActivity(intent);
 	}// end goToActivity
 	
-
-	public void onClick_dashBoardItem(int position){
+	/**
+	 * Used to lock current state of orientation.
+	 * i.e: If mobile in landscape mode, lock it to landscape.
+	 * 
+	 * <br><br><b>IMPORTANT: to release orientation back, 
+	 * use <code>setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);</code></b>
+	 * 
+	 * @author 
+	 * 		Pilot_51 ({@link http://stackoverflow.com/questions/3611457/android-temporarily-disable-orientation-changes-in-an-activity})
+	 *		Used by: Passant El.Agroudy (passant.elagroudy@gmail.com)
+	 */
+	public void lockCurrentStateForOrientation () {
+		if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+		    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		} else setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+	}// end lockCurrentStateForOrientation
+	
+	public void onClick_dashBoardItem(int position) {
 		System.out.println("onClick_dashBoardItem");
-		System.out.println("onClick_dashBoardItem: " + getFacebookService() );
-		
+		System.out.println("onClick_dashBoardItem: " + getFacebookService());
+
 		if (fbService == null)
 			fbService = new FacebookWebservice();
-		
-	if(!getFacebookService().getFacebookUser().isRequestedBeforeSuccessfully()){
-		CheckUserLoginStatusFromDbListener dbListener = new CheckUserLoginStatusFromDbListener(filter,position);
-		registerReceiver(dbListener, filter);
-		getFacebookService().login(this, true, true, dbListener, getApplicationContext());
-		System.out.println("First time to register receiver");
-	}
-	else{
-		System.out.println("already registered receiver -> move to activity");
-		goToActivity(NAVIGATION_ITEMS[position].getActivityType());
-	}
-		
+
+		if (!getFacebookService().getFacebookUser()
+				.isRequestedBeforeSuccessfully()) {
+			CheckUserLoginStatusFromDbListener dbListener = new CheckUserLoginStatusFromDbListener(
+					filter, position);
+			registerReceiver(dbListener, filter);
+			lockCurrentStateForOrientation();
+			getFacebookService().login(this, true, true, dbListener,
+					getApplicationContext());
+			System.out.println("First time to register receiver");
+		} else {
+			System.out.println("already registered receiver -> move to activity");
+			goToActivity(NAVIGATION_ITEMS[position].getActivityType());
+		}
+
 	}// end onClick_dashBoardItem
-	
+
 	class CheckUserLoginStatusFromDbListener extends LoginDataBaseListener{
 		/**
 		 * Element position in the list to know which activity should it divert to
@@ -253,13 +274,15 @@ public class UserSessionStateMaintainingActivity extends Activity {
 		public void doActionUserIsRegistered() {
 			System.out.println("doActionUserIsRegistered from UserSessionMaintainingActivity");
 			Toast.makeText(getApplicationContext(), "The user is logging in", Toast.LENGTH_LONG).show();
+			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
 			goToActivity(NAVIGATION_ITEMS[position].getActivityType());
 		}// end doActionUserIsRegistered
 
 		public void doActionUserIsNotRegistered() {
 			System.out.println("doActionUserIsNotRegistered from UserSessionMaintainingActivity");	
 			Toast.makeText(getApplicationContext(), "The user needs to register", Toast.LENGTH_LONG).show();
-			goToActivity(NewUserActivity.class);
+			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+			goToActivity(NewUserActivity.class);			
 		}// end doActionUserIsNotRegistered
 		
 	}// end CheckUserLoginStatusFromDbListener
