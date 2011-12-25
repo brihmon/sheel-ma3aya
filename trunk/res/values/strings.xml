@@ -3,7 +3,7 @@
 
 	<string name="hello">Hello World, SheelMaayaaActivity!</string>
 	<string name="app_name">SheelMaayaa</string>
-
+	
 	<string-array name="codes">
 		<item>Afghanistan (+93)</item>
 		<item>Albania (+355)</item>
@@ -982,6 +982,12 @@ Hossam Amer
 	<string name="passport_photo">Passport Photo* </string>
 	<string name="register">Register</string>
 	<string name="registerDialog">Registering, Please wait..</string>
-	    	
-	
+	<string name="Success">Success</string>
+	<string name="your_offer_has_been_posted_successfully">Your offer has been posted successfully!</string>
+	<string name="Sorry">Sorry</string>
+	<string name="Unfortunately_we_cannot_process_your_offer">Unfortunately, we currently cannot process your offer, please try again later.</string>
+ 	<string name="Please_insert_valid_source_and_destination">Please insert proper source and destination airports</string>
+	<string name="Please_insert_num_kilos_and_price">Please insert the number of kilograms and the corresponding price in euros.</string>
+	 
+ 	    
 </resources>
