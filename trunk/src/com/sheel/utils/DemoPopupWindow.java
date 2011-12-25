@@ -149,8 +149,8 @@ public class DemoPopupWindow extends BetterPopupWindow implements OnClickListene
 			View edit_offer =   inflater.inflate(R.layout.edit_offer, null);
 			
 		    AlertDialog.Builder alert = new AlertDialog.Builder(mActivity);
-			alert.setTitle("Offer details");
-			alert.setMessage("Please make the desired changes, then click Save");
+			alert.setTitle(mActivity.getResources().getString(R.string.offer_details));
+			alert.setMessage(mActivity.getResources().getString(R.string.Please_make_changes));
 			alert.setView(edit_offer);
 		    dialog = alert.create();
 			dialog.show();
@@ -194,21 +194,21 @@ public class DemoPopupWindow extends BetterPopupWindow implements OnClickListene
 			 
 			 if(noKGsET.getText().toString().equals("")){
 				 checkErrors += "Please insert the number of kilograms.\n";
-				 eo_error[count++].setText("* Please insert the number of kilograms.");
+				 eo_error[count++].setText(mActivity.getResources().getString(R.string.kgs_valid));
 			 } else if(Integer.parseInt(noKGsET.getText().toString())>30){
 				 checkErrors += "Number of kilograms cannot exceed 30.\n";
-				 eo_error[count++].setText("* Number of kilograms cannot exceed 30.");
+				 eo_error[count++].setText(mActivity.getResources().getString(R.string.kgs_valid));
 			 }else if(Integer.parseInt(noKGsET.getText().toString())==0){
 				 checkErrors += "Number of kilograms cannot be zero.\n";
-				 eo_error[count++].setText("* Number of kilograms cannot be zero.");
+				 eo_error[count++].setText(mActivity.getResources().getString(R.string.kgs_valid));
 			 }
 			 
 			 if(pricePerKGET.getText().toString().equals("")){
 				 checkErrors += "Please insert the price.\n";
-				 eo_error[count++].setText("* Please insert the price.");
+				 eo_error[count++].setText(mActivity.getResources().getString(R.string.price_valid));
 			 }else  if( Integer.parseInt(pricePerKGET.getText().toString())>30){
 				 checkErrors += "Price per kilogram cannot exceed 30 euros.\n";
-				 eo_error[count++].setText("* Price per kilogram cannot exceed 30 euros.");
+				 eo_error[count++].setText(mActivity.getResources().getString(R.string.price_valid));
 			 }
 			 
 			 if(count==0){
