@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.sheel.app.R;
 import com.sheel.datastructures.OfferDisplay2;
 import com.sheel.utils.GuiUtils;
 import com.sheel.utils.SheelMaayaaConstants;
@@ -86,12 +85,12 @@ public class SearchResultsListAdapter extends BaseAdapter {
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			// Read the Layout description from the XML file and load it to the
 			// view
-			listRow = inflater.inflate(R.layout.search_result_summary, null);
+			listRow = inflater.inflate(com.sheel.app.R.layout.search_result_summary, null);
 								
 			// get the different available text fields according to their order
-			TextView summary_name = (TextView) listRow.findViewById(R.id.summary_name);
-			TextView summary_kilos = (TextView) listRow.findViewById(R.id.summary_numberOfKilos);
-			TextView summary_price = (TextView) listRow.findViewById(R.id.summary_price);
+			TextView summary_name = (TextView) listRow.findViewById(com.sheel.app.R.id.summary_name);
+			TextView summary_kilos = (TextView) listRow.findViewById(com.sheel.app.R.id.summary_numberOfKilos);
+			TextView summary_price = (TextView) listRow.findViewById(com.sheel.app.R.id.summary_price);
 		
 			renderFirstTextView(summary_name, offerDisplay, listRow);
 			renderSecondTextView(summary_kilos, offerDisplay, listRow);
@@ -178,14 +177,14 @@ public class SearchResultsListAdapter extends BaseAdapter {
 		
 		if (offerDisplay.getOffer().userStatus == SheelMaayaaConstants.OfferWeightStatus_LESS) {
 			this.swypeCatsGuiUtils.setIconForATextField(context, listRow,
-					R.id.summary_numberOfKilos,
-					R.drawable.sheel_result_arrow_down, 0);
+					com.sheel.app.R.id.summary_numberOfKilos,
+					com.sheel.app.R.drawable.sheel_result_arrow_down, 0);
 		}// end if: put image indicating status -> Offer has less weight ->
 			// wants users with extra weight
 		else {
 			this.swypeCatsGuiUtils.setIconForATextField(context, listRow,
-					R.id.summary_numberOfKilos,
-					R.drawable.sheel_result_arrow_up, 0);
+					com.sheel.app.R.id.summary_numberOfKilos,
+					com.sheel.app.R.drawable.sheel_result_arrow_up, 0);
 		}// end else: put image indicating status -> Offer has more weight ->
 			// wants users with less weight
 	
@@ -232,8 +231,8 @@ public class SearchResultsListAdapter extends BaseAdapter {
 		// Set (Price) according to the offer
 		textView.setText(offerDisplay.getOffer().pricePerKilogram + " Û/"+swypeCatsGuiUtils.getOfferKg());
 		// Add image
-		this.swypeCatsGuiUtils.setIconForATextField(context, listRow, R.id.summary_price,
-				R.drawable.sheel_result_money, 0);
+		this.swypeCatsGuiUtils.setIconForATextField(context, listRow, com.sheel.app.R.id.summary_price,
+				com.sheel.app.R.drawable.sheel_result_money, 0);
 
 	}// end renderFirstTextView
 	
