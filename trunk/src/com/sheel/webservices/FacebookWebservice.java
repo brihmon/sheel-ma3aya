@@ -250,9 +250,9 @@ public class FacebookWebservice {
 			
 			String[] permissions = new String[]{"email"};
 			// Session will expire after 1 hour (number in seconds)
-			long sessionExpiryTime = 60;//3600;
-			//facebook.authorize(parentActivity, permissions, new LoginListener(sessionExpiryTime));
-			facebook.authorize(parentActivity, permissions, new LoginListener());
+			long sessionExpiryTime = 3600;
+			facebook.authorize(parentActivity, permissions, new LoginListener(sessionExpiryTime));
+			//facebook.authorize(parentActivity, permissions, new LoginListener());
 			
 		}// end if : session is ended -> non access token -> request new one
 	
