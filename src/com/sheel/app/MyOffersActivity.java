@@ -361,18 +361,9 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity {
 
 			for (int i = 0; i < jsonArray.length(); i++) {
 
-				Log
-						.e(
-								"loadSearchResultsOnUI: Inisde the loop of my offers: offerDisplay2 ",
-								jsonArray.getJSONObject(i) + "");
 
 				OfferDisplay2 offer = OfferDisplay2.mapOfferNew(jsonArray
 						.getJSONObject(i), airportsList, nationalitiesList);
-
-				Log
-						.e(
-								"loadSearchResultsOnUI: Inisde the loop of my offers: offer ",
-								offer + "");
 
 				try {
 
@@ -388,7 +379,8 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity {
 					// To check if the offer is not confirmed and I am offer
 					// owner
 					if (offer.getOffer().offerStatus
-							.equals(Confirmation.not_confirmed)) {
+							.equals(Confirmation.not_confirmed)) 
+					{
 						searchResults_new.add(OfferDisplay2.mapOfferNew(
 								jsonArray.getJSONObject(i), airportsList,
 								nationalitiesList));
@@ -459,13 +451,15 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity {
 		}// end catch
 
 	}// end loadSearchResultsOnUI
-
+	
+	
 	/**
 	 * After fetching the data from the server, it creates the categories
 	 * depending on the input data. Gives alert if there are no data, and lets
 	 * you go into InsertOffer activity
+	 * 
+	 * @author Hossam_Amer
 	 */
-
 	private void updateCategoriesInSwypeActivity() {
 
 		/**
@@ -524,8 +518,7 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity {
 						+ swypeCatsGuiUtils.getSwpeCats()[0]);
 
 				getCategories()
-						.add(
-								new Category(
+						.add(new Category(
 										"" + swypeCatsGuiUtils.getSwpeCats()[0],
 										HALF_CONFIRMED_ME_CONFIRMED_USER_NOT_OFFER_OWNER,
 										com.sheel.app.R.layout.my_offers_main));
@@ -535,30 +528,6 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity {
 			}// end
 			// if(!searchResults_HalfConfirmedByMeNotDeclaredByMe.isEmpty())
 
-			// ==================================ME Declared Others
-			// CONFIRMED======================================
-			//
-			/**
-			 * Offers HALF CONFIRMED + I HALF CONFIRMED + ME DECLARED
-			 */
-
-			
-
-
-//			// * - Half confirmed offers I confirmed but not declared by me
-//			if (!searchResults_halfConfirmedMeMeDeclared.isEmpty()) {
-//				Log.e("Display Name in My offers DCBME: ", ""
-//						+ swypeCatsGuiUtils.getSwpeCats()[1]);
-//				getCategories().add(
-//						new Category("" + swypeCatsGuiUtils.getSwpeCats()[1],
-//								HALF_CONFIRMED_ME_OFFER_OWNER,
-//								R.layout.my_offers_main));
-//				updateCategoryContent(searchResults_halfConfirmedMeMeDeclared,
-//						index++, false);
-//			}// end if(!searchResults_half.isEmpty())
-
-			// =======================================================================
-			//
 			/**
 			 * Offers HALF CONFIMED + I DID NOT HALF CONFIRMED + ME DECLARED +
 			 * OTHERS + CONFIRMED
@@ -644,6 +613,8 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity {
 					.mapConfirmation(confirmationJSON);
 			Log.e("hashas confirmation", confirmation + "");
 
+			
+			OfferDisplay2 offer = new  OfferDisplay2( confirmation.getUser1(),  confirmation.getFlight(), confirmation.getOffer());
 			/**
 			 * If offer is full confirmed, we need to add it in its appropriate
 			 * group either Confirmed by me as an offer owner or Confirmed by
@@ -656,6 +627,9 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity {
 					&& confirmation.isStatusTransactionUser2()) {
 				// ============Delete offer from UI=========
 
+				
+			
+				
 				// Log.e(TAG, "Dismissing Dialog : " + dialogConfirm);
 				// if(dialogConfirm != null) dialogConfirm.dismiss();
 				Toast.makeText(getApplicationContext(),
@@ -751,5 +725,66 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity {
 
 		return msgBodyOffer;
 	}
+	
+	
+	/**
+	 * Gets the category logic name depending on the check
+	 * @param offer offer fetched from the DB
+	 * @param facebookID facebook id of the logged in uers
+	 * @return
+	 * 			category name
+	 * @author Hossam_Amer
+	 * 
+	 */
+	public String getCategory(OfferDisplay2 offer, String facebookID)
+	{
+		
+		if (offer.getOffer().offerStatus
+				.equals(Confirmation.not_confirmed)) 
+		{
+			
+			return NOT_CONFIRMED;
+		}
+		
+		else if (offer.getOffer().offerStatus
+				.equals(Confirmation.confirmed)) 
+		{
+			if (facebookID.equals(offer.getUser().getFacebookId()))
+				return CONFIRMED_BY_ME_OFFER_OWNER;
+			else
+				return CONFIRMED_BY_OTHER_OFFER_OWNER;
+				
+
+		}
+		else
+		{
+			
+			if((offer.getOffer().offerStatus.equals(Confirmation.half_confirmed_other)))
+			{
+					
+				if(getFacebookService().getFacebookUser().getUserId()
+						.equals(offer.getUser().getFacebookId()))
+				{	
+					
+					return HALF_CONFIRMED_ME_OFFER_OWNER; 
+				}
+				
+				else 
+				{
+					if(!getFacebookService().getFacebookUser().getUserId()
+							.equals(offer.getUser().getFacebookId()))
+					{	
+												
+						return HALF_CONFIRMED_ME_CONFIRMED_USER_NOT_OFFER_OWNER;
+					}
+				}
+			
+			}
+		}	
+		
+		return "";
+		
+		
+	}// end getCategory method
 
 }// end MyOffersActivity
