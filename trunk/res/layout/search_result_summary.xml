@@ -18,53 +18,75 @@ http://developer.android.com/guide/topics/ui/layout-objects.html
 http://developer.android.com/resources/articles/layout-tricks-efficiency.html
 
 @author Hossam Amer (hossam.amer12@gmail.com)
-@author Passant El.Agroudy (passant.elagroudy@gmail.com)
  -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" >
 
+    
+     <TextView
+        android:id="@+id/summary_numberOfKilos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:text="give 5 Kg" 
+        
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignWithParentIfMissing="true"
+        
+        />
+   
+   
+          
+        <TextView
+        android:id="@+id/summary_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:text="5 €/Kg" 
+        
+        
+        
+        android:layout_toRightOf="@id/summary_numberOfKilos"
+        android:layout_alignTop="@id/summary_numberOfKilos"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignWithParentIfMissing="true"
+        
+        />
+   
+   
+    
     <TextView
         android:id="@+id/summary_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignWithParentIfMissing="true"
         android:layout_margin="5dp"
         android:layout_weight="0.25"
-        android:maxLines="3"
-        android:scrollHorizontally="false"
         android:text="Flight LK322 from Cairo 
-        to Geneva on 28/01/2011" />
-
-    <ViewStub
-        android:id="@+id/infoStub"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignWithParentIfMissing="true"
-        android:layout_below="@id/summary_name"
-        android:layout_gravity="bottom"
-        android:inflatedId="@+id/infoStubInflated"
-        android:layout="@layout/stub_view" />
-
-    <TextView
-        android:id="@+id/summary_price"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignWithParentIfMissing="true"
-        android:layout_margin="5dp"
-        android:text="5 €/Kg" />
-
-    <TextView
-        android:id="@+id/summary_numberOfKilos"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        to Geneva on 28/01/2011" 
+        
+        android:layout_toLeftOf="@id/summary_numberOfKilos"
+        android:layout_alignTop="@id/summary_numberOfKilos"
+        android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
+        android:scrollHorizontally="false"
+        android:maxLines="3"
         android:layout_alignWithParentIfMissing="true"
-        android:layout_margin="5dp"
-        android:layout_toLeftOf="@+id/summary_price"
-        android:text="give 5 Kg" />
+        />
+    
+    
+    
+    <ViewStub android:id="@+id/infoStub" android:inflatedId="@+id/infoStubInflated"
+                 android:layout="@layout/stub_view" android:layout_width="fill_parent"
+                 android:layout_height="wrap_content" 
+                 android:layout_gravity="bottom"
+                 android:layout_below="@id/summary_name"
+                 android:layout_alignWithParentIfMissing="true"
+                 />
+    
+                
+  
 
-</RelativeLayout>	
+</RelativeLayout>       
