@@ -986,5 +986,7 @@
   	<string name="Changes_saved_successfully">تم حفظ التغييرات بنجاح</string>
 	<string name="Cannot_save_changes">لا يمكن حفظ التغييرات في الوقت الراهن</string>
   	<string name="I_have_2">  .        لدي</string>
+  	<string name="yes">نعم</string>
+  	
   
 </resources>
