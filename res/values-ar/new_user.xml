@@ -11,6 +11,9 @@
     <string name="passport_photo_toast">برجاء أخذ صورة جواز السفر</string>
     <string name="passport_number_toast">بـرجاء ادخال رقم جواز السفر</string>
     <string name="validation_mismatch_toast">كود التأكيد غير مطابق</string>
+    <string name="network_fail_message_alert">فشل التسجيل لعدم وجود شبكة اتصالات</string>
+    <string name="network_fail_header_alert">شبكة الاتصالات</string>
+    <string name="registering_dialog">جاري التسجيل. برجاء الانتظار..</string>
 
     
  </resources>

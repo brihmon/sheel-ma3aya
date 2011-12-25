@@ -34,7 +34,8 @@
             android:layout_gravity="right"
             android:gravity="right"
             android:singleLine="true"
-            android:textSize="15dp" >
+            android:textSize="15dp" 
+            android:autoText="true">
         </AutoCompleteTextView>
 
         <TextView

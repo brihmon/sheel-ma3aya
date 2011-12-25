@@ -11,6 +11,9 @@
     <string name="passport_photo_toast">Please take the passport photo</string>
     <string name="passport_number_toast">Please insert your passport number</string>
     <string name="validation_mismatch_toast">Validation code mismatch</string>
+    <string name="network_fail_message_alert">Rgistration failed because no network connectivity was detected</string>
+    <string name="network_fail_header_alert">Network Connections</string>
+    <string name="registering_dialog">Registering, Please wait..</string>
 
     
  </resources>
