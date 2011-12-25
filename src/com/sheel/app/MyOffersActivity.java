@@ -377,15 +377,12 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity {
 				try {
 
 					/**
-					 * searchResults_new > Provider for newoffers
-					 * searchResults_fullIDeclared >Provider for offers I
-					 * confirmed and I am the offer owner
-					 * searchResults_fullConfirmedByMeNotDeclaredByMe > Provider
-					 * for offers I confirmed and I NOT am the offer owner
-					 * searchResults_halfConfirmedMeDeclaredOthers > Provider
-					 * for offers I half confirmed and I am NOT the offer owner
-					 * searchResults_DeclaredMeHalfConfirmedMe > Provider for
-					 * offers I am the offer owner, and I confirmed.
+					 * searchResults_new > Provider for new offers
+					 * searchResults_fullIDeclared >Provider for offers I confirmed and I am the offer owner
+					 * searchResults_fullConfirmedByMeNotDeclaredByMe > Provider for offers I confirmed and I NOT am the offer owner
+					 * searchResults_halfConfirmedMeDeclaredOthers > Provider for offers I half confirmed and I am NOT the offer owner 
+					 * searchResults_DeclaredMeHalfConfirmedMe > Provider for offers I am the offer owner, and I confirmed.
+					 * 
 					 */
 
 					// To check if the offer is not confirmed and I am offer
@@ -410,59 +407,42 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity {
 											.getJSONObject(i), airportsList,
 											nationalitiesList));
 					}
-
-					else if (getFacebookService().getFacebookUser().getUserId()
-							.equals(offer.getUser().getFacebookId())) {
-						System.out
-								.println("if(offer.get Offer().offerStatus.equals(Confirmation.half_confirmed_other))(0)");
-						// I Did half confirmed
-
-						if (offer.getOffer().offerStatus
-								.equals(Confirmation.half_confirmed_offerOwner)) {
-							/**
-							 * Offers HALF CONFIRMED + I HALF CONFIRMED + ME
-							 * DECLARED
-							 */
-
-							System.out
-									.println("if(offer.getOffer().offerStatus.equals(Confirmation.half_confirmed_other))(1)");
-							searchResults_halfConfirmedMeMeDeclared
-									.add(OfferDisplay2.mapOfferNew(jsonArray
-											.getJSONObject(i), airportsList,
-											nationalitiesList));
-
-						}
-
-						// it is has been confirmed by other!
-						if (offer.getOffer().offerStatus
-								.equals(Confirmation.half_confirmed_other)) {
-							System.out
-									.println("if(offer.getOffer().offerStatus.equals(Confirmation.half_confirmed_other))(2)");
-							/**
-							 * Offers HALF CONFIRMED + I HALF CONFIRMED + OTHERS
-							 * DECLARED
-							 */
-							searchResults_nothalfConfirmedMeMeDeclaredOthersConfirmed
-									.add(OfferDisplay2.mapOfferNew(jsonArray
-											.getJSONObject(i), airportsList,
-											nationalitiesList));
-						}
-					} else {
-						/**
-						 * Offers HALF CONFIMED + I DID NOT HALF CONFIRMED + ME
-						 * DECLARED + OTHERS + CONFIRMED
-						 */
-
-						if (offer.getOffer().offerStatus
-								.equals(Confirmation.half_confirmed_other)) {
+					
+				else
+				{
+						
+						// Me Declared others confirmed
+						
+						if((offer.getOffer().offerStatus.equals(Confirmation.half_confirmed_other)))
+						{
+								
+						if(getFacebookService().getFacebookUser().getUserId()
+								.equals(offer.getUser().getFacebookId()))
+						{	
+							
 							searchResults_halfConfirmedMeDeclaredOthers
-									.add(OfferDisplay2.mapOfferNew(jsonArray
-											.getJSONObject(i), airportsList,
-											nationalitiesList));
-
+							.add(OfferDisplay2.mapOfferNew(jsonArray
+									.getJSONObject(i), airportsList,
+									nationalitiesList));
 						}
-
 					}
+						
+						else 
+						{
+							if(!getFacebookService().getFacebookUser().getUserId()
+									.equals(offer.getUser().getFacebookId()))
+							{	
+								
+								
+								searchResults_nothalfConfirmedMeMeDeclaredOthersConfirmed
+								.add(OfferDisplay2.mapOfferNew(jsonArray
+										.getJSONObject(i), airportsList,
+										nationalitiesList));
+							}
+						}
+							
+				}
+					
 
 				} catch (Exception e) {
 
@@ -501,17 +481,11 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity {
 		 */
 		if (searchResults_fullConfirmedByMeNotDeclaredByMe.isEmpty()
 				&&
-
 				searchResults_fullIDeclared.isEmpty()
 				&&
-
 				searchResults_halfConfirmedMeDeclaredOthers.isEmpty()
 				&& searchResults_new.isEmpty()
 				&&
-
-				searchResults_halfConfirmedMeMeDeclared.isEmpty()
-				&&
-
 				searchResults_nothalfConfirmedMeMeDeclaredOthersConfirmed
 						.isEmpty())
 
@@ -524,7 +498,7 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity {
 
 			// =====================================NOT
 			// CONFIRMED===================================
-			//
+
 			// * - New offers I declared
 			if (!searchResults_new.isEmpty()) {
 				Log.e("Display Name in My offers DCBME: ", ""
@@ -538,6 +512,7 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity {
 			// =============================Others declared ME
 			// confirmed========================================
 			//
+
 			/**
 			 * Offers HALF CONFIRMED + I HALF CONFIRMED + OTHERS DECLARED
 			 */
@@ -567,17 +542,20 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity {
 			 * Offers HALF CONFIRMED + I HALF CONFIRMED + ME DECLARED
 			 */
 
-			// * - Half confirmed offers I confirmed but not declared by me
-			if (!searchResults_halfConfirmedMeMeDeclared.isEmpty()) {
-				Log.e("Display Name in My offers DCBME: ", ""
-						+ swypeCatsGuiUtils.getSwpeCats()[1]);
-				getCategories().add(
-						new Category("" + swypeCatsGuiUtils.getSwpeCats()[1],
-								HALF_CONFIRMED_ME_OFFER_OWNER,
-								R.layout.my_offers_main));
-				updateCategoryContent(searchResults_halfConfirmedMeMeDeclared,
-						index++, false);
-			}// end if(!searchResults_half.isEmpty())
+			
+
+
+//			// * - Half confirmed offers I confirmed but not declared by me
+//			if (!searchResults_halfConfirmedMeMeDeclared.isEmpty()) {
+//				Log.e("Display Name in My offers DCBME: ", ""
+//						+ swypeCatsGuiUtils.getSwpeCats()[1]);
+//				getCategories().add(
+//						new Category("" + swypeCatsGuiUtils.getSwpeCats()[1],
+//								HALF_CONFIRMED_ME_OFFER_OWNER,
+//								R.layout.my_offers_main));
+//				updateCategoryContent(searchResults_halfConfirmedMeMeDeclared,
+//						index++, false);
+//			}// end if(!searchResults_half.isEmpty())
 
 			// =======================================================================
 			//
@@ -585,6 +563,7 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity {
 			 * Offers HALF CONFIMED + I DID NOT HALF CONFIRMED + ME DECLARED +
 			 * OTHERS + CONFIRMED
 			 */
+
 
 			// * - Half confirmed offers I confirmed but not declared by me
 			if (!searchResults_nothalfConfirmedMeMeDeclaredOthersConfirmed
