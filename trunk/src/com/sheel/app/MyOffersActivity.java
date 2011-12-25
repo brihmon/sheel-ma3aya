@@ -6,6 +6,7 @@ import static com.sheel.utils.SheelMaayaaConstants.HALF_CONFIRMED_ME_CONFIRMED_U
 import static com.sheel.utils.SheelMaayaaConstants.HALF_CONFIRMED_ME_OFFER_OWNER;
 import static com.sheel.utils.SheelMaayaaConstants.HTTP_CONFIRM_OFFER_UI;
 import static com.sheel.utils.SheelMaayaaConstants.HTTP_EDIT_OFFER;
+import static com.sheel.utils.SheelMaayaaConstants.HTTP_EDIT_FLIGHT;
 import static com.sheel.utils.SheelMaayaaConstants.HTTP_GET_MY_OFFERS_FILTER;
 import static com.sheel.utils.SheelMaayaaConstants.HTTP_RESPONSE;
 import static com.sheel.utils.SheelMaayaaConstants.HTTP_STATUS;
@@ -37,7 +38,6 @@ import com.sheel.datastructures.OfferDisplay2;
 import com.sheel.datastructures.User;
 import com.sheel.listeners.InflateListener;
 import com.sheel.listeners.MyOffersInflateListener;
-import com.sheel.utils.DemoPopupWindow;
 import com.sheel.utils.HTTPManager;
 import com.sheel.utils.InternetManager;
 /**
@@ -224,6 +224,7 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity {
 		filter.addAction(HTTP_GET_MY_OFFERS_FILTER);
 		filter.addAction(HTTP_CONFIRM_OFFER_UI);
 		filter.addAction(HTTP_EDIT_OFFER);
+		filter.addAction(HTTP_EDIT_FLIGHT);
 		
 		receiver = new SheelMaayaaBroadCastRec();
 
@@ -248,7 +249,7 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity {
 	 * receive the result from the HTTP request
 	 * 
 	 * @author Hossam_Amer
-	 * 
+	 * @author Mohsen
 	 */
 
 	class SheelMaayaaBroadCastRec extends BroadcastReceiver {
@@ -301,7 +302,21 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity {
 					showEditResult(responseStr);
 					Log.e(TAG, responseStr);
 
-				}// end if Get my offers filter
+				}// end if edit offers filter
+				
+				if (action.equals(HTTP_EDIT_FLIGHT)) {
+					responseStr = intent.getExtras().getString(HTTP_RESPONSE);
+					Log.e(TAG, "Will Start to edit flight");
+					//showEditResult(responseStr);
+					// Dialog dismissing
+					if (dialog != null)
+						dialog.dismiss();
+
+					
+					showEditResult(responseStr);
+					Log.e(TAG, responseStr);
+
+				}// end if edit offers filter
 			 
 				
 			}
