@@ -990,8 +990,8 @@ Hossam Amer
 	<string name="Please_insert_num_kilos_and_price">Please insert the number of kilograms and the corresponding price in euros.</string>
 	<string name="offer_details">Offer details</string>
  	<string name="I_have">I have. . . . . .</string>
- 	<string name="extra_weight_2">  Extra weight</string>
- 	<string name="less_weight_2">  Less weight</string>
+ 	<string name="extra_weight_2">.    Extra weight</string>
+ 	<string name="less_weight_2">.  Less weight</string>
  	<string name="Change">Change</string>
  	<string name="submit">Submit</string>
 	<string name="Amount_euros">*Amount entered should be in euros. Please enter an equivalent amount in euros if the local currency is different.</string>
