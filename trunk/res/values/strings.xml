@@ -970,7 +970,7 @@ Hossam Amer
 	<string name="kgs_valid">Weight should be from 1 to 30 kgs</string>
 	<string name="price_valid">Price should be from 1 to 30 euros</string>
 	<string name="nationality_valid">Please enter a valid nationality</string>
-	
+	<string name="flight_date">Flight date :</string>
 	
 
 	<string name="required">* Required for Registering</string>
@@ -988,6 +988,12 @@ Hossam Amer
 	<string name="Unfortunately_we_cannot_process_your_offer">Unfortunately, we currently cannot process your offer, please try again later.</string>
  	<string name="Please_insert_valid_source_and_destination">Please insert proper source and destination airports</string>
 	<string name="Please_insert_num_kilos_and_price">Please insert the number of kilograms and the corresponding price in euros.</string>
-	 
- 	    
+	<string name="offer_details">Offer details</string>
+ 	<string name="I_have">I have. . . . . .</string>
+ 	<string name="extra_weight_2">  Extra weight</string>
+ 	<string name="less_weight_2">  Less weight</string>
+ 	<string name="Change">Change</string>
+ 	<string name="submit">Submit</string>
+	<string name="Amount_euros">*Amount entered should be in euros. Please enter an equivalent amount in euros if the local currency is different.</string>
+ 	  
 </resources>
