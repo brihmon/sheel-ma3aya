@@ -964,4 +964,11 @@
 	<string name="passport_number">*رقم جواز السفر </string>
 	<string name="passport_photo">*صورة جواز السفر </string>
 	<string name="register">التسجيل</string>
+	<string name="Success">نجاح</string>
+	<string name="your_offer_has_been_posted_successfully">تم نشر عرضك بنجاح</string>
+	<string name="Sorry">نأسف</string>
+	<string name="Unfortunately_we_cannot_process_your_offer">للأسف ،لا يمكننا تسجيل العرض. الرجاء المحاولة مرة أخرى</string>
+	<string name="Please_insert_valid_source_and_destination">من فضلك ادخل المصدر والوجهة الصحيحة لرحلتك</string>
+	<string name="Please_insert_num_kilos_and_price">الرجاء إدخال عدد من الكيلوغرامات والسعر المقابل باليورو.</string>
+  
 </resources>
