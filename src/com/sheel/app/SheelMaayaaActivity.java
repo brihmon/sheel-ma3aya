@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.sheel.datastructures.NavigationItem;
@@ -34,15 +35,35 @@ public class SheelMaayaaActivity extends UserSessionStateMaintainingActivity {
 	private void initDashBoardItems() {
 		NavigationItem[] dashBoardItems = getNavigationItems();
 		// In the same order of the navigation items
-		TextView[] textViewsInDashBoard = new TextView[] {				
+	/*	TextView[] textViewsInDashBoard = new TextView[] {				
 			(TextView)findViewById(R.id.sheel_dashboard_search)	,
 			(TextView)findViewById(R.id.sheel_dashboard_declare),
 			(TextView)findViewById(R.id.sheel_dashboard_myOffers)				
 		};
+		*/
 		
+		ImageButton[] buttonsInDashBoard = new ImageButton[]{
+			(ImageButton)findViewById(R.id.searchOffer_dashboard),
+			(ImageButton)findViewById(R.id.newOffer_dashboard),
+			(ImageButton)findViewById(R.id.viewOffer_dashboard)
+		};
 		GuiUtils localizingGuiUtils = new GuiUtils(getApplicationContext());
+		for (int i =0 ; i< buttonsInDashBoard.length; i++) {
+			ImageButton currentButton = buttonsInDashBoard[i];
+			//currentTextView.setText(dashBoardItems[i].getName());
+			//localizingGuiUtils.setIconForATextField(dashBoardItems[i].getResourceIdOfDashBoard(), currentTextView, 4);
+			System.out.println("i: " +i + " " + currentButton.getId());
+			currentButton.setTag(i);
+			//localizingGuiUtils.setBackgroundOfTextView(currentTextView, leftToRightRsc, rightToLeftRsc)
+			currentButton.setOnClickListener(new View.OnClickListener() {				
+				public void onClick(View v) {					
+					int position = ((Integer)((ImageButton)v).getTag()).intValue();
+					onClick_dashBoardItem(position);					
+				}
+			});
+		}// end for: initialize each text view
 		
-		for (int i =0 ; i< textViewsInDashBoard.length; i++) {
+		/*for (int i =0 ; i< textViewsInDashBoard.length; i++) {
 			TextView currentTextView = textViewsInDashBoard[i];
 			currentTextView.setText(dashBoardItems[i].getName());
 			localizingGuiUtils.setIconForATextField(dashBoardItems[i].getResourceIdOfDashBoard(), currentTextView, 4);
@@ -55,7 +76,8 @@ public class SheelMaayaaActivity extends UserSessionStateMaintainingActivity {
 				}
 			});
 		}// end for: initialize each text view
-	}// end setIconsToDashBoardItems
+*/	
+		}// end setIconsToDashBoardItems
 	
 	@Override 
 	protected void onSaveInstanceState(Bundle outState) {
