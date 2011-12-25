@@ -208,35 +208,7 @@ public class UserSessionStateMaintainingActivity extends Activity {
 		return fbService;
 	}// end getFacebookService
 	
-	/**
-	 * IMPORTANT: Before leaving any activity, you must call this  method to pass
-	 * the important details about session and user 
-	 *	 
-	 * @param typeOfNextActivity
-	 * 		Class type of new activity you intend to navigate to. Write activity name
-	 * 		then call .getClass() method
-	 * 
-	 * @return
-	 * 		Intent containing data needed for the next activity. Use 
-	 * 		{@link Activity#startActivity(Intent)} to start the new activity
-	 */
-	public Intent setSessionInformationBetweenActivities (Class<?> typeOfNextActivity){
-
-		//return new Intent(this, typeOfNextActivity);
-		   Intent mIntent = new Intent(this, typeOfNextActivity);
-		   
-		   if (fbService != null){
-			// Pass variable to detailed view activity using the intent
-			   if (fbService.getFacebookUser() != null)
-			mIntent.putExtra(SharedValuesBetweenActivities.userFacebookId.name(), fbService.getFacebookUser().getUserId());
-			mIntent.putExtra(SharedValuesBetweenActivities.userAccessToken.name(), fbService.getUserAccessToken());
-			mIntent.putExtra(SharedValuesBetweenActivities.accessTokenExpiry.name(), fbService.getUserAccessTokenExpiryTime());
-		   }
-		   
-			return mIntent;
-	}// end SetSessionInformationBetweenActivities
-	
-	
+		
 	public void setFacebookService(FacebookWebservice fbServ){
 		fbService = fbServ;
 	}
