@@ -3,9 +3,12 @@ package com.sheel.utils;
 
  
 
+import java.util.Calendar;
+
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
+import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.IntentFilter;
@@ -14,15 +17,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
-import com.sheel.app.MyOffersActivity;
 import com.sheel.app.R;
+import com.sheel.app.R.id;
+import com.sheel.datastructures.Flight;
 import com.sheel.datastructures.Offer;
 import com.sheel.datastructures.OfferDisplay2;
 import com.sheel.listeners.InflateListener;
@@ -36,6 +43,15 @@ public class DemoPopupWindow extends BetterPopupWindow implements OnClickListene
 	private RadioGroup type;
 	private EditText noKGsET;
 	private EditText pricePerKGET;
+	private TextView mDateDisplay;       
+	private static int mYear;    
+	private static int mMonth;    
+	private static int mDay;
+	EditText flightNumberET ;
+	AutoCompleteTextView sAirportET ;
+	AutoCompleteTextView dAirportET  ;
+	static Calendar datePicked = Calendar.getInstance();
+
 	private TextView eo_error[] = new TextView[2];
 	
 	
@@ -43,6 +59,7 @@ public class DemoPopupWindow extends BetterPopupWindow implements OnClickListene
 	private IntentFilter filter;
 	private BroadcastReceiver br;
  
+	static final int DATE_DIALOG_ID = 1;
 	public static int BUTTON_CALL = 1;
 	public static int BUTTON_SMS = 2;
 	public static int BUTTON_CONFIRM = 4;
@@ -52,7 +69,20 @@ public class DemoPopupWindow extends BetterPopupWindow implements OnClickListene
 	public static int enabledButtons;
 	
 	
-	
+	private DatePickerDialog.OnDateSetListener mDateSetListener =
+            new DatePickerDialog.OnDateSetListener() {
+
+                public void onDateSet(DatePicker view, int year, 
+                                      int monthOfYear, int dayOfMonth) {
+                	datePicked.set(year, monthOfYear, dayOfMonth, 23 , 59 , 59);
+                    mYear = year;
+                    mMonth = monthOfYear;
+                    mDay = dayOfMonth;
+                    updateDisplay();
+                }
+            };
+ 
+ 
 	
 	public DemoPopupWindow(View anchor, OfferDisplay2 offer, Activity activity, InflateListener inflateListener) {
 		super(anchor);
@@ -115,6 +145,8 @@ public class DemoPopupWindow extends BetterPopupWindow implements OnClickListene
 		
 	}
 	AlertDialog dialog;
+	static int src = -1;
+	static int des = -1;
 	@Override
 	public void onClick(View v) {
 		// we'll just display a simple toast on a button click
@@ -139,6 +171,167 @@ public class DemoPopupWindow extends BetterPopupWindow implements OnClickListene
 		}
 		
 		
+		
+		case R.id.edit_flight_cancel:{
+			dialog.dismiss();
+			break;
+		}
+		
+		
+		/****************QUICK ACTION BAR, EDIT FLIGHT SAVE ***********************************/
+		case R.id.edit_flight_save:{
+			  int count = 0;
+			  eo_error[0].setText("");
+			  eo_error[1].setText("");
+			  
+			    if(flightNumberET.getText().length()<3){
+			     eo_error[0].setText(mActivity.getResources().getString(R.string.flight_valid));
+			     count++;
+			     return;
+			     
+			    }
+			    if(!(isAlpha(flightNumberET.getText().charAt(0)) && isAlpha(flightNumberET.getText().charAt(1)))){
+			    	eo_error[0].setText(mActivity.getResources().getString(R.string.flight_valid));
+				     count++;
+				     return;
+			    }
+			    if(sAirportET.getText().toString().length()<4||dAirportET.getText().toString().length()<4){
+			     	eo_error[0].setText(eo_error[0].getText().toString()+
+			     			mActivity.getResources().getString(R.string.Please_insert_valid_source_and_destination));
+				     count++;
+				     return;
+			    }
+			    if(sAirportET.getText().toString().equals(dAirportET.getText().toString())){
+			    	eo_error[count==0?0:1].setText(eo_error[count==0?0:1].getText().toString()+
+			    			mActivity.getResources().getString(R.string.src_des_valid));
+				     count++;
+				     return;
+			    }
+			    if(datePicked.before(Calendar.getInstance())){
+			    	eo_error[count==0?0:1].setText(
+			    			eo_error[count==0?0:1].getText().toString()+
+			    			mActivity.getResources().getString(R.string.date_valid));
+				     count++;
+				     return;
+			    }
+			    
+			   
+			   
+			    
+				Flight flight = new Flight(flightNumberET.getText().toString(),
+							 sAirportET.getText().toString(),
+							 dAirportET.getText().toString(),
+							 mDateDisplay.getText().toString());
+				flight.id = offer.getFlight().id;
+
+				 
+				 
+				
+				String[] airports = mActivity.getResources().getStringArray(R.array.airports_array);
+				des = -1;
+				src = -1;
+				for(int i = 0; i < airports.length ; i++)
+				{
+					if(flight.destination.equals(airports[i]))
+					{
+						flight.destination = i+"";
+						des = i;
+					}
+					if(flight.source.equals(airports[i]))
+					{
+						flight.source = i+"";
+						src = i;
+					}			
+				}
+				
+				if(des == -1){
+					eo_error[count==0?0:1].setText(mActivity.getResources().getString(R.string.des_valid));
+					 count++;
+				}
+				if(src == -1){
+					eo_error[count==0?0:1].setText(mActivity.getResources().getString(R.string.source_valid));
+					 count++;
+				}
+				if(count>0)
+					return;
+			
+			
+			break;
+		}
+		
+		/*****************Quick action bar , Edit Flight clicked******************************/
+		case R.id.qa_editFlight:{
+			LayoutInflater inflater =
+					(LayoutInflater) this.anchor.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+			View edit_flight =   inflater.inflate(R.layout.edit_flight, null);
+			
+		    AlertDialog.Builder alert = new AlertDialog.Builder(mActivity);
+			alert.setTitle(mActivity.getResources().getString(R.string.flight_details));
+			alert.setMessage(mActivity.getResources().getString(R.string.Please_make_changes));
+			alert.setView(edit_flight);
+		    dialog = alert.create();
+			dialog.show();
+			
+			Button b1 = (Button)dialog.findViewById(R.id.edit_flight_cancel);
+			b1.setOnClickListener(this);
+			Button b2 = (Button)dialog.findViewById(R.id.edit_flight_save);
+			b2.setOnClickListener(this);
+			
+			 String[] airports = mActivity.getResources().getStringArray(R.array.airports_array);
+			 
+			  AutoCompleteTextView textView = 
+					  (AutoCompleteTextView)  dialog.findViewById(R.id.sAirport);
+			  ArrayAdapter<String> adapter = 
+					  new ArrayAdapter<String>(mActivity, R.layout.list_item, airports);
+			  textView.setAdapter(adapter);
+			 
+			  AutoCompleteTextView textView2 = 
+					  (AutoCompleteTextView)  dialog.findViewById(R.id.dAirport);
+			  ArrayAdapter<String> adapter2 = 
+					  new ArrayAdapter<String>(mActivity, R.layout.list_item, airports);
+			  textView2.setAdapter(adapter2);
+			 
+		    mDateDisplay = (TextView ) dialog.findViewById(R.id.editText1);   	
+			
+			Button bb = (Button)dialog.findViewById(R.id.the_change_button); 
+			bb.setOnClickListener(this);
+			
+			flightNumberET = (EditText) dialog.findViewById(R.id.fNum);
+			sAirportET = (AutoCompleteTextView) dialog.findViewById(R.id.sAirport);
+			dAirportET = (AutoCompleteTextView) dialog.findViewById(R.id.dAirport);
+			//src = Integer.parseInt(offer.getFlight().getSource());
+			//des = Integer.parseInt(offer.getFlight().getDestination());
+			
+			flightNumberET.setText(offer.getFlight().getFlightNumber());
+	        sAirportET.setText(offer.getFlight().getSource());
+	        dAirportET.setText(offer.getFlight().getDestination());
+			mDateDisplay.setText(offer.getFlight().departureDate);
+			String[] date = offer.getFlight().departureDate.split("-");
+			mMonth = Integer.parseInt(date[0])-1;
+			mDay =  Integer.parseInt(date[1]);
+			mYear =  Integer.parseInt(date[2]);
+			
+			datePicked.set(mYear, mMonth, mDay, 23 , 59 , 59);
+			eo_error[0] = (TextView)dialog.findViewById(R.id.edit_error1);
+		    eo_error[1] = (TextView)dialog.findViewById(R.id.edit_error2);
+			
+			
+			break;
+		}
+		
+		
+		/***************** On change date clicked *************************************/
+		
+		case R.id.the_change_button:{
+			 
+			DatePickerDialog dp = new DatePickerDialog(mActivity,
+                    mDateSetListener,
+                    mYear, mMonth, mDay);   
+			dp.show();
+
+			break;
+		}
 		
 		/*****************Quick action bar , Edit Offer clicked******************************/
 		
@@ -171,7 +364,11 @@ public class DemoPopupWindow extends BetterPopupWindow implements OnClickListene
 	        noKGsET.setText(offer.getOffer().getNoOfKilograms()+"");
         	pricePerKGET.setText(offer.getOffer().getPricePerKilogram()+"");
         	type.check(offer.getOffer().getUserStatus()==0?R.id.edit_avWeight:R.id.edit_exWeight);
-		
+        	String[]date = offer.getFlight().getDepartureDate().split("-");
+        	mMonth = Integer.parseInt(date[0]) -1;
+        	mDay = Integer.parseInt(date[1]);
+        	mYear = Integer.parseInt(date[2]);
+        	datePicked.set(mYear, mMonth, mDay, 23 , 59 , 59);
 
 			break;
 		}
@@ -238,7 +435,7 @@ public class DemoPopupWindow extends BetterPopupWindow implements OnClickListene
 			
 			
 			
-			//dialog.dismiss();
+	 
 		}
 		
 		
@@ -246,4 +443,25 @@ public class DemoPopupWindow extends BetterPopupWindow implements OnClickListene
 		 
 		 
 	}
+	
+	
+	  private void updateDisplay() {
+	    	
+	        mDateDisplay.setText(
+	            new StringBuilder()//
+	                    // Month is 0 based so add 1
+	                    .append(mMonth + 1).append("-")
+	                    .append(mDay).append("-")
+	                    .append(mYear));
+	        
+
+	        
+	    }
+	  
+	  public boolean isAlpha(char c){
+			 return (c<='Z'&&c>='A'||c>='a'&&c<='z');
+		 }
+
+	
+	
 }
