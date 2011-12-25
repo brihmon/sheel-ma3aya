@@ -1,13 +1,19 @@
 package com.sheel.app;
 
+import static com.sheel.utils.SheelMaayaaConstants.HTTP_RESPONSE;
+
 import java.util.Calendar;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -19,74 +25,65 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.sheel.datastructures.Flight;
 import com.sheel.datastructures.Offer;
+import com.sheel.utils.HTTPManager;
+import com.sheel.utils.SheelMaayaaConstants;
 
 /**
  * @author Mohsen
  */
 public class InsertOfferActivity extends UserSessionStateMaintainingActivity {
 	static Offer offer ;// = new Offer(0,0,-1,"INVALID");
-    private EditText noKGsET;
+	static Flight flight = new Flight("","","","");
+	static final int DATE_DIALOG_ID = 1;
+	
+	/************** UI Components*******************/
+	private EditText noKGsET;
 	private EditText pricePerKGET;
 	private RadioGroup type;
-	
-static Flight flight = new Flight("","","","");
-	
 	private TextView mDateDisplay;       
 	private int mYear;    
 	private int mMonth;    
 	private int mDay;
-//	private int mHour;
-//    private int mMinute;
-//	private TextView mTimeDisplay;
-	//private Button mPickTime;
-	
-//	static final int TIME_DIALOG_ID = 0;
-	static final int DATE_DIALOG_ID = 1;
-	
-	 EditText flightNumberET ;
-	 AutoCompleteTextView sAirportET ;
-	 AutoCompleteTextView dAirportET  ;
-	 static ProgressDialog dialog;
-	 static Calendar datePicked = Calendar.getInstance();
-	 
-		private DatePickerDialog.OnDateSetListener mDateSetListener =
-	            new DatePickerDialog.OnDateSetListener() {
+	EditText flightNumberET ;
+	AutoCompleteTextView sAirportET ;
+	AutoCompleteTextView dAirportET  ;
+	static ProgressDialog dialog;
+	static Calendar datePicked = Calendar.getInstance();
 
-	                public void onDateSet(DatePicker view, int year, 
-	                                      int monthOfYear, int dayOfMonth) {
-	                	InsertOfferActivity.datePicked.set(year, monthOfYear, dayOfMonth, 23 , 59 , 59);
-	                    mYear = year;
-	                    mMonth = monthOfYear;
-	                    mDay = dayOfMonth;
-	                    updateDisplay();
-	                }
-	            };
-/*   
-    private TimePickerDialog.OnTimeSetListener mTimeSetListener =
-        	    new TimePickerDialog.OnTimeSetListener() {
-        	        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-        	            mHour = hourOfDay;
-        	            mMinute = minute;
-        	            updateDisplay();
-        	        }
-        	    };
-*/	            
+	 /************* INTERNET COMPONENTS ********************/
+	
+	IntentFilter filter;
+	BroadcastReceiver br;
+	
+	 
+	 
+	private DatePickerDialog.OnDateSetListener mDateSetListener =
+            new DatePickerDialog.OnDateSetListener() {
+
+                public void onDateSet(DatePicker view, int year, 
+                                      int monthOfYear, int dayOfMonth) {
+                	InsertOfferActivity.datePicked.set(year, monthOfYear, dayOfMonth, 23 , 59 , 59);
+                    mYear = year;
+                    mMonth = monthOfYear;
+                    mDay = dayOfMonth;
+                    updateDisplay();
+                }
+            };
+ 
+            
 	 protected Dialog onCreateDialog(int id) {
 	                switch (id) {
 	                case DATE_DIALOG_ID:
 	                    return new DatePickerDialog(this,
 	                                mDateSetListener,
-	                                mYear, mMonth, mDay);  
-/*	                case TIME_DIALOG_ID:
-	                    return new TimePickerDialog(this,
-	                            mTimeSetListener, mHour, mMinute, false);
-*/	                 
+	                                mYear, mMonth, mDay);               
 
 	                }
 	                return null;
 	            }
 	
-	 @Override
+	 
+	 	@Override
 	    public void onCreate(Bundle savedInstanceState) {
 	        super.onCreate(savedInstanceState);
 	        setContentView(R.layout.insert_offer_2);
@@ -126,36 +123,14 @@ static Flight flight = new Flight("","","","");
 			  textView2.setAdapter(adapter2);
 			 
 			  TextView  date = (TextView )findViewById(R.id.editText1);      
-//		      TextView  time = (TextView )findViewById(R.id.editText2);  
-		        
+    
 		      mDateDisplay = date;
-//		      mTimeDisplay = time;
-		        
-		        
-/*		      time.setOnClickListener(new View.OnClickListener() {
-		            public void onClick(View v) {
-		                showDialog(TIME_DIALOG_ID);
-		            }
-		        });
-*/		      
-/*		       date.setOnClickListener(
-		        		(new OnClickListener() {
-							public void onClick(View arg0) {
-								showDialog(DATE_DIALOG_ID);
-							}
-						}));*/
 		       
 		       final Calendar c = Calendar.getInstance();
 		        mYear = c.get(Calendar.YEAR);
 		        mMonth = c.get(Calendar.MONTH);
 		        mDay = c.get(Calendar.DAY_OF_MONTH);
 
-//		        final Calendar c2 = Calendar.getInstance();
-//		        mHour = c2.get(Calendar.HOUR_OF_DAY);
-//		        mMinute = c2.get(Calendar.MINUTE);
-
-		        // display the current date
-		        
 		        if(flight.getDepartureDate().equals("")){
 		        updateDisplay();
 		        }
@@ -184,12 +159,45 @@ static Flight flight = new Flight("","","","");
 	                    .append(mDay).append("-")
 	                    .append(mYear));
 	        
-	/*        mTimeDisplay.setText(
-	                new StringBuilder()
-	                        .append(pad(mHour)).append(":")
-	                        .append(pad(mMinute)));*/
+
 	        
 	    }
+  
+	 
+  
+  
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		
+		filter = new IntentFilter();
+		filter.addAction(SheelMaayaaConstants.HTTP_INSERT_OFFER);		
+		br = new BroadcastReceiver() {
+			
+			@Override
+			public void onReceive(Context context, Intent intent) {
+				String responseStr = intent.getExtras().getString(HTTP_RESPONSE);
+				//((TextView) findViewById(R.id.deactivate_response)).setText(responseStr);
+			  	 if((!(dialog==null))&&dialog.isShowing()){
+         		 dialog.dismiss();
+         	 }
+         	 if(responseStr.equals("OK")){
+         	 ///////////// SHOULD GO HERE TO ANOTHER ACTIVITY
+               
+               showMessageBox("Message","Your offer has been posted successfully!");
+               
+         	 }
+          	 else{
+         	 showMessageBox("Sorry","Unfortunatly, we currently cannot process your offer, please try again later.");
+        	 }
+           }
+		};
+				 
+		registerReceiver(br, filter);
+	}
+  
+  
 	 
   public void onClick_submit(View v){
 	    extractOffer();
@@ -201,7 +209,12 @@ static Flight flight = new Flight("","","","");
 	    	return;
 	    }
 	    if(sAirportET.getText().toString().length()<4||dAirportET.getText().toString().length()<4){
-	    	errors+="Please insert the complete flight info";
+	    	errors+="Please insert proper source and destination airports";
+	    	showErrors(errors);
+	    	return;
+	    }
+	    if(sAirportET.getText().toString().equals(dAirportET.getText().toString())){
+	    	errors+="Source and destination airports cannot be the same";
 	    	showErrors(errors);
 	    	return;
 	    }
@@ -219,7 +232,10 @@ static Flight flight = new Flight("","","","");
 					 sAirportET.getText().toString(),
 					 dAirportET.getText().toString(),
 					 mDateDisplay.getText().toString());
-		 
+		
+	//	filter.addAction(SheelMaayaaConstants.HTTP_DEACTIVATE_OFFER);	
+	
+		
 ////		SheelMaaayaClient sc = new SheelMaaayaClient() {
 ////			
 ////			@Override
@@ -247,30 +263,34 @@ static Flight flight = new Flight("","","","");
 ////			}
 ////		};
 ////		
-//		Gson gson = new Gson();
-//		String[] airports = getResources().getStringArray(R.array.airports_array);
-//		for(int i = 0; i < airports.length ; i++)
-//		{
-//			if(flight.destination.equals(airports[i]))
-//			{
-//				flight.destination = i+"";
-//			}
-//			if(flight.source.equals(airports[i]))
-//			{
-//				flight.source = i+"";
-//			}
-//			
-//		}
-//		String input = gson.toJson(flight);
-//		input+= "<>"+gson.toJson(offer);
+		Gson gson = new Gson();
+		String[] airports = getResources().getStringArray(R.array.airports_array);
+		for(int i = 0; i < airports.length ; i++)
+		{
+			if(flight.destination.equals(airports[i]))
+			{
+				flight.destination = i+"";
+			}
+			if(flight.source.equals(airports[i]))
+			{
+				flight.source = i+"";
+			}			
+		}
+		
+		String input = gson.toJson(flight);
+		input+= "<>"+gson.toJson(offer);
 //
 //		try{
 //			sc.runHttpPost("/insertnewoffer/"+getFacebookService().getFacebookUser().getUserId(), input);
 //		}catch(Exception e){
 //			sc.runHttpPost("/insertnewoffer/"+0, input);
 //		}
-//		
-		 
+		filter = new IntentFilter();
+		filter.addAction(SheelMaayaaConstants.HTTP_INSERT_OFFER);
+		registerReceiver(br, filter);
+		HTTPManager.startHttpService("/insertnewoffer/"+getFacebookService().getFacebookUser().getUserId(),
+												input , SheelMaayaaConstants.HTTP_INSERT_OFFER, getApplicationContext());
+	 Log.e("User id ", getFacebookService().getFacebookUser().getUserId());
 		
 	}
 
@@ -278,6 +298,7 @@ protected void onPause() {
 		// TODO Auto-generated method stub
 		super.onPause();
 		dialog = null;
+		unregisterReceiver(br);
 	}
 
 public void showMessageBox(String title,String message){
