@@ -31,6 +31,17 @@ import com.sheel.utils.SheelMaayaaConstants;
 /**
  * @author Mohsen
  */
+
+
+
+
+/******************************************* IF YOU COMMENT THIS CODE, BAD LUCK WILL HAPPEN TO YOU *******************/
+/******************************************* IF YOU COMMENT THIS CODE, BAD LUCK WILL HAPPEN TO YOU *******************/
+/******************************************* IF YOU COMMENT THIS CODE, BAD LUCK WILL HAPPEN TO YOU *******************/
+/******************************************* IF YOU COMMENT THIS CODE, BAD LUCK WILL HAPPEN TO YOU *******************/
+/******************************************* IF YOU COMMENT THIS CODE, BAD LUCK WILL HAPPEN TO YOU *******************/
+
+
 public class InsertOfferActivity extends UserSessionStateMaintainingActivity {
 	static Offer offer ;// = new Offer(0,0,-1,"INVALID");
 	static Flight flight = new Flight("","","","");
@@ -99,17 +110,17 @@ public class InsertOfferActivity extends UserSessionStateMaintainingActivity {
 	        else{
 	        	type.check(R.id.exWeight);
 	        }
-	        
+	        String[] airports = getResources().getStringArray(R.array.airports_array);
+			
 	        flightNumberET = (EditText) findViewById(R.id.fNum);
 			 sAirportET = (AutoCompleteTextView) findViewById(R.id.sAirport);
 			 dAirportET = (AutoCompleteTextView) findViewById(R.id.dAirport);
 	         flightNumberET.setText(flight.getFlightNumber());
-	         sAirportET.setText(flight.getSource());
-	         dAirportET.setText(flight.getDestination());
+	         sAirportET.setText((src!=-1?airports[src]:flight.getSource()));
+	         dAirportET.setText(des!=-1?airports[des]:flight.getDestination());
 	        
 	        
-	          String[] airports = getResources().getStringArray(R.array.airports_array);
-			
+	          
 			  AutoCompleteTextView textView = 
 					  (AutoCompleteTextView) findViewById(R.id.sAirport);
 			  ArrayAdapter<String> adapter = 
@@ -198,12 +209,26 @@ public class InsertOfferActivity extends UserSessionStateMaintainingActivity {
 	}
   
   
+	 static int des = -1;
+	 static int src = -1;
+
+	 public boolean isAlpha(char c){
+		 return (c<='Z'&&c>='A'||c>='a'&&c<='z');
+	 }
 	 
   public void onClick_submit(View v){
-	    extractOffer();
+	    
+	  	if(!extractOffer()){
+	  		return;
+	  	}
 	    String errors = "";
 	    
 	    if(flightNumberET.getText().length()<3){
+	    	errors+="Please insert a valid flight number";
+	    	showErrors(errors);
+	    	return;
+	    }
+	    if(!(isAlpha(flightNumberET.getText().charAt(0)) && isAlpha(flightNumberET.getText().charAt(1)))){
 	    	errors+="Please insert a valid flight number";
 	    	showErrors(errors);
 	    	return;
@@ -224,67 +249,51 @@ public class InsertOfferActivity extends UserSessionStateMaintainingActivity {
 	    	return;
 	    }
 	    
-	    dialog = new ProgressDialog(this);
-      dialog.setMessage("Please wait");
-      dialog.show();
+	   
 	    
 		flight = new Flight(flightNumberET.getText().toString(),
 					 sAirportET.getText().toString(),
 					 dAirportET.getText().toString(),
 					 mDateDisplay.getText().toString());
 		
-	//	filter.addAction(SheelMaayaaConstants.HTTP_DEACTIVATE_OFFER);	
-	
+
+		 
+		 
 		
-////		SheelMaaayaClient sc = new SheelMaaayaClient() {
-////			
-////			@Override
-////			public void doSomething() {
-////				final String str = this.rspStr;
-////				 
-////							 runOnUiThread(new Runnable()
-////                           {
-//////                               @Override
-////                               public void run()
-////                               {
-////                              	 if((!(dialog==null))&&dialog.isShowing()){
-////                              		 dialog.dismiss();
-////                              	 }
-////                              	 if(str.equals("OK")){
-////                              	 ///////////// SHOULD GO HERE TO ANOTHER ACTIVITY
-////                                   showMessageBox("Message","Your offer has been posted successfully!");
-////                              	 }
-////                              	 else{
-////                              	 showMessageBox("Server Error!","Unfortunatly, we currently cannot process your offer, please try again later.");
-////                              	 }
-////                               }
-////                           });
-////
-////			}
-////		};
-////		
-		Gson gson = new Gson();
 		String[] airports = getResources().getStringArray(R.array.airports_array);
+		des = -1;
+		src = -1;
 		for(int i = 0; i < airports.length ; i++)
 		{
 			if(flight.destination.equals(airports[i]))
 			{
 				flight.destination = i+"";
+				des = i;
 			}
 			if(flight.source.equals(airports[i]))
 			{
 				flight.source = i+"";
+				src = i;
 			}			
 		}
 		
+		if(des == -1){
+			showErrors("Please insert a valid flight destination");
+			return;
+		}
+		if(src == -1){
+			showErrors("Please insert a valid flight source");
+			return;
+		}
+		
+		Gson gson = new Gson();
+		  dialog = new ProgressDialog(this);
+	      dialog.setMessage("Please wait");
+	      dialog.show();
+		
 		String input = gson.toJson(flight);
 		input+= "<>"+gson.toJson(offer);
-//
-//		try{
-//			sc.runHttpPost("/insertnewoffer/"+getFacebookService().getFacebookUser().getUserId(), input);
-//		}catch(Exception e){
-//			sc.runHttpPost("/insertnewoffer/"+0, input);
-//		}
+
 		filter = new IntentFilter();
 		filter.addAction(SheelMaayaaConstants.HTTP_INSERT_OFFER);
 		registerReceiver(br, filter);
@@ -315,7 +324,7 @@ public void onClick_change(View v){
 }
 	 
 	 
-public void extractOffer(){
+public boolean extractOffer(){
 		 
 		 ////////////////////////////////////////////SOME VALIDATION///////////////////////////////////////////////
 		 String checkErrors = "";
@@ -335,7 +344,7 @@ public void extractOffer(){
 		 }
 		 if(!checkErrors.equals("")){
 			 showErrors(checkErrors);
-			 return;
+			 return false;
 		 }
 		 ////////////////////////////////////////////SOME VALIDATION///////////////////////////////////////////////
 			
@@ -346,6 +355,7 @@ public void extractOffer(){
 				 Integer.parseInt(pricePerKGET.getText().toString()):0,
 				 type.getCheckedRadioButtonId()==R.id.exWeight?1:0,
 				 "new");
+		 return true;
 		 
 	 }
 	 
