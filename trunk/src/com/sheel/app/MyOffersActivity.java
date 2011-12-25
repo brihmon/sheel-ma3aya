@@ -39,8 +39,10 @@ import com.sheel.datastructures.OfferDisplay2;
 import com.sheel.datastructures.User;
 import com.sheel.listeners.InflateListener;
 import com.sheel.listeners.MyOffersInflateListener;
+import com.sheel.utils.DemoPopupWindow;
 import com.sheel.utils.HTTPManager;
 import com.sheel.utils.InternetManager;
+
 /**
  * This activity is used for displaying and interacting with the offers of the
  * logged-in user.
@@ -74,27 +76,33 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity {
 	ArrayList<OfferDisplay2> searchResults_new = new ArrayList<OfferDisplay2>();
 
 	/**
-	 * Offers half-confirmed that the logged in user is not the offer owner.
+	 * Offers full-confirmed retrieved from the database but I am the offer
+	 * owner.
 	 */
-	ArrayList<OfferDisplay2> searchResults_HalfConfirmedByMeNotDeclaredByMe = new ArrayList<OfferDisplay2>();
+	ArrayList<OfferDisplay2> searchResults_fullIDeclared = new ArrayList<OfferDisplay2>();
 
 	/**
-	 * Offers half-confirmed declared and half-confirmed by the user retrieved
-	 * from the database.
-	 */
-	ArrayList<OfferDisplay2> searchResults_half = new ArrayList<OfferDisplay2>();
-
-	/**
-	 * Offers full-confirmed retrieved from the database but I am the offer owner.
-	 */
-	ArrayList<OfferDisplay2> searchResults_full = new ArrayList<OfferDisplay2>();
-
-	/**
-	 * Offers full-confirmed retrieved from the database but I am not the offer owner.
+	 * Offers full-confirmed retrieved from the database but I am not the offer
+	 * owner.
 	 */
 	ArrayList<OfferDisplay2> searchResults_fullConfirmedByMeNotDeclaredByMe = new ArrayList<OfferDisplay2>();
 
-	
+	/**
+	 * Offers HALF CONFIRMED + I HALF CONFIRMED + OTHERS DECLARED
+	 */
+	ArrayList<OfferDisplay2> searchResults_halfConfirmedMeDeclaredOthers = new ArrayList<OfferDisplay2>();
+
+	/**
+	 * Offers HALF CONFIRMED + I HALF CONFIRMED + ME DECLARED
+	 */
+	ArrayList<OfferDisplay2> searchResults_halfConfirmedMeMeDeclared = new ArrayList<OfferDisplay2>();
+
+	/**
+	 * Offers HALF CONFIMED + I DID NOT HALF CONFIRMED + ME DECLARED + OTHERS +
+	 * CONFIRMED
+	 */
+	ArrayList<OfferDisplay2> searchResults_nothalfConfirmedMeMeDeclaredOthersConfirmed = new ArrayList<OfferDisplay2>();
+
 	/**
 	 * Dialog for displaying the loading pop-up for the user
 	 */
@@ -128,11 +136,12 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity {
 			if ((ArrayList<Category>) super.getLastNonConfigurationInstance() == null) {
 
 				// Create a new list
-				searchResults_half = new ArrayList<OfferDisplay2>();
-				searchResults_full = new ArrayList<OfferDisplay2>();
-				searchResults_HalfConfirmedByMeNotDeclaredByMe = new ArrayList<OfferDisplay2>();
+				searchResults_fullIDeclared = new ArrayList<OfferDisplay2>();
 				searchResults_new = new ArrayList<OfferDisplay2>();
 				searchResults_fullConfirmedByMeNotDeclaredByMe = new ArrayList<OfferDisplay2>();
+				searchResults_halfConfirmedMeMeDeclared = new ArrayList<OfferDisplay2>();
+				searchResults_halfConfirmedMeDeclaredOthers = new ArrayList<OfferDisplay2>();
+				searchResults_nothalfConfirmedMeMeDeclaredOthersConfirmed = new ArrayList<OfferDisplay2>();
 
 				// ======Start the HTTP Request=========
 				path = "/getmyoffers/"
@@ -160,30 +169,30 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity {
 	 */
 
 	private void noInternetConnectionHandler() {
-		this.swypeCatsGuiUtils.showAlertWhenNoResultsAreAvailable(this, swypeCatsGuiUtils.dialogInternetConnection
-				, swypeCatsGuiUtils.okay, SheelMaayaaActivity.class, "", FilterPreferencesActivity.class);
+		this.swypeCatsGuiUtils.showAlertWhenNoResultsAreAvailable(this,
+				swypeCatsGuiUtils.dialogInternetConnection,
+				swypeCatsGuiUtils.okay, SheelMaayaaActivity.class, "",
+				FilterPreferencesActivity.class);
 	}
 
 	/**
 	 * Used to specify the class used as a list adapter for the displayed lists
 	 * in the swiper. {@link MyOffersResultsListAdapter} is used
 	 * 
-	 * @author 
-	 * 		Passant El.Agroudy (passant.elagroudy@gmail.com)
+	 * @author Passant El.Agroudy (passant.elagroudy@gmail.com)
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public Class getClassOfListAdapter() {
 		return MyOffersResultsListAdapter.class;
 	}// end getClassOfListAdapter
-	
+
 	/**
 	 * Used to specify the class used as an inflate listener for the accordian
 	 * (found in each row for showing more details).
 	 * {@link MyOffersInflateListener} is used
 	 * 
-	 * @author 
-	 * 		Passant El.Agroudy (passant.elagroudy@gmail.com)
+	 * @author Passant El.Agroudy (passant.elagroudy@gmail.com)
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
@@ -225,9 +234,7 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity {
 		filter.addAction(HTTP_GET_MY_OFFERS_FILTER);
 		filter.addAction(HTTP_CONFIRM_OFFER_UI);
 		filter.addAction(HTTP_EDIT_OFFER);
-		filter.addAction(HTTP_EDIT_FLIGHT);
-		filter.addAction(HTTP_DEACTIVATE_OFFER);
-		
+
 		receiver = new SheelMaayaaBroadCastRec();
 
 		Log.e(TAG, "Receiver Registered");
@@ -251,7 +258,7 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity {
 	 * receive the result from the HTTP request
 	 * 
 	 * @author Hossam_Amer
-	 * @author Mohsen
+	 * 
 	 */
 
 	class SheelMaayaaBroadCastRec extends BroadcastReceiver {
@@ -262,104 +269,74 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity {
 
 			Log.e(TAG, intent.getAction());
 			String action = intent.getAction();
-			
-			// If I need to update the UI of the confirm offer, go update it without any further check.
-			if(action.equals(HTTP_CONFIRM_OFFER_UI))
-			{
+
+			// If I need to update the UI of the confirm offer, go update it
+			// without any further check.
+			if (action.equals(HTTP_CONFIRM_OFFER_UI)) {
 				String res = intent.getExtras().getString("response");
-				Log.e("I am Child Broad Cast receiver taking the UI update", "updateOffersOnUI()");
+				Log.e("I am Child Broad Cast receiver taking the UI update",
+						"updateOffersOnUI()");
 				updateOffersOnUI(res);
-				Log.e("I am Child Broad Cast receiver finishing the UI update", "updateOffersOnUI()");
-				
-			}
-			else
-			{
-			int httpStatus = intent.getExtras().getInt(HTTP_STATUS);
-			Log.e(TAG, "HTTPSTATUS: " + httpStatus);
+				Log.e("I am Child Broad Cast receiver finishing the UI update",
+						"updateOffersOnUI()");
 
-			String responseStr;
-			if (httpStatus == HttpStatus.SC_OK) {
+			} else {
+				int httpStatus = intent.getExtras().getInt(HTTP_STATUS);
+				Log.e(TAG, "HTTPSTATUS: " + httpStatus);
 
-				if (action.equals(HTTP_GET_MY_OFFERS_FILTER)) {
-					responseStr = intent.getExtras().getString(HTTP_RESPONSE);
-					Log.e(TAG, "Will Start to deal/load with my offers");
-					loadSearchResultsOnUI(responseStr);
+				String responseStr;
+				if (httpStatus == HttpStatus.SC_OK) {
 
-					// Dialog dismissing
-					if (dialog != null)
-						dialog.dismiss();
-					Log.e(TAG, responseStr);
+					if (action.equals(HTTP_GET_MY_OFFERS_FILTER)) {
+						responseStr = intent.getExtras().getString(
+								HTTP_RESPONSE);
+						Log.e(TAG, "Will Start to deal/load with my offers");
+						loadSearchResultsOnUI(responseStr);
 
-				}// end if Get my offers filter
-				
-				if (action.equals(HTTP_EDIT_OFFER)) {
-					responseStr = intent.getExtras().getString(HTTP_RESPONSE);
-					Log.e(TAG, "Will Start to edit offers");
-					//showEditResult(responseStr);
-					// Dialog dismissing
-					if (dialog != null)
-						dialog.dismiss();
+						// Dialog dismissing
+						if (dialog != null)
+							dialog.dismiss();
+						Log.e(TAG, responseStr);
 
-					
-					showEditResult(responseStr);
-					Log.e(TAG, responseStr);
+					}// end if Get my offers filter
 
-				}// end if edit offers filter
-				
-				if (action.equals(HTTP_EDIT_FLIGHT)) {
-					responseStr = intent.getExtras().getString(HTTP_RESPONSE);
-					Log.e(TAG, "Will Start to edit flight");
-					//showEditResult(responseStr);
-					// Dialog dismissing
-					if (dialog != null)
-						dialog.dismiss();
+					if (action.equals(HTTP_EDIT_OFFER)) {
+						responseStr = intent.getExtras().getString(
+								HTTP_RESPONSE);
+						Log.e(TAG, "Will Start to edit offers");
+						// showEditResult(responseStr);
+						// Dialog dismissing
+						if (dialog != null)
+							dialog.dismiss();
 
-					
-					showEditResult(responseStr);
-					Log.e(TAG, responseStr);
+						showEditResult(responseStr);
+						Log.e(TAG, responseStr);
 
-				}// end if edit flight filter
-				
-				if (action.equals(HTTP_DEACTIVATE_OFFER)) {
-					responseStr = intent.getExtras().getString(HTTP_RESPONSE);
-					Log.e(TAG, "deactivating offer");
-					//showEditResult(responseStr);
-					// Dialog dismissing
-					if (dialog != null)
-						dialog.dismiss();
+					}// end if Get my offers filter
 
-					
-					showEditResult(responseStr);
-					Log.e(TAG, responseStr);
-
-				}// end if edit flight filter
-			 
-				
-			}
+				}
 			}// end if (httpStatus == HttpStatus.SC_OK) {
-			
-		
+
 		}// end onReceive
 
 	}// end class SheelMaayaaBroadCastRec
 
-	
-	private void showEditResult(String rsp){
-		 AlertDialog alertDialog;
-		 alertDialog = new AlertDialog.Builder(this).create();
-		 
-		 
-		 if(rsp.equals("OK")){
-		 alertDialog.setTitle(getResources().getString(R.string.Success));
-		 alertDialog.setMessage(getResources().getString(R.string.Changes_saved_successfully));
-		 }else{
-			 alertDialog.setTitle(getResources().getString(R.string.Sorry));
-			 alertDialog.setMessage(getResources().getString(R.string.Cannot_save_changes));
-		 }
-		 alertDialog.show();
+	private void showEditResult(String rsp) {
+		AlertDialog alertDialog;
+		alertDialog = new AlertDialog.Builder(this).create();
+
+		if (rsp.equals("OK")) {
+			alertDialog.setTitle(getResources().getString(R.string.Success));
+			alertDialog.setMessage(getResources().getString(
+					R.string.Changes_saved_successfully));
+		} else {
+			alertDialog.setTitle(getResources().getString(R.string.Sorry));
+			alertDialog.setMessage(getResources().getString(
+					R.string.Cannot_save_changes));
+		}
+		alertDialog.show();
 	}
-	
-	
+
 	/**
 	 * Updates the UI with the offers confirmed by the database. It fetches the
 	 * offers that are either one from 4 categories: - New offers I declared -
@@ -384,80 +361,112 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity {
 
 			for (int i = 0; i < jsonArray.length(); i++) {
 
-				Log.e("loadSearchResultsOnUI: Inisde the loop of my offers: offerDisplay2 ",
-						jsonArray.getJSONObject(i) + "");
+				Log
+						.e(
+								"loadSearchResultsOnUI: Inisde the loop of my offers: offerDisplay2 ",
+								jsonArray.getJSONObject(i) + "");
 
-				OfferDisplay2 offer = OfferDisplay2.mapOfferNew(
-						jsonArray.getJSONObject(i), airportsList,
-						nationalitiesList);
+				OfferDisplay2 offer = OfferDisplay2.mapOfferNew(jsonArray
+						.getJSONObject(i), airportsList, nationalitiesList);
 
-				Log.e("loadSearchResultsOnUI: Inisde the loop of my offers: offer ",
-						offer + "");
-					
-				try
-				{
-				// To check if the offer is half confirmed by an offer owner, and I am that offer owner.
-				if (offer.getOffer().offerStatus
-						.equals(Confirmation.half_confirmed_offerOwner)
-						&& getFacebookService().getFacebookUser().getUserId().equals(offer.getUser().getFacebookId()))
-					searchResults_half.add(OfferDisplay2.mapOfferNew(
-							jsonArray.getJSONObject(i), airportsList,
-							nationalitiesList));
-				// To check if the offer is half confirmed by an offer owner, and I am that offer owner.
-				if (offer.getOffer().offerStatus
-						.equals(Confirmation.half_confirmed_offerOwner)
-						&& !getFacebookService().getFacebookUser().getUserId().equals(offer.getUser().getFacebookId()))
-					searchResults_HalfConfirmedByMeNotDeclaredByMe.add(OfferDisplay2.mapOfferNew(
-							jsonArray.getJSONObject(i), airportsList,
-							nationalitiesList));
-				
-				// To check if the offer is half confirmed by other but declared by Offer owner, and I am this other
-				else if (offer.getOffer().offerStatus
-						.equals(Confirmation.half_confirmed_other)
-						&& !getFacebookService().getFacebookUser().getUserId().equals(offer.getUser().getFacebookId()))
-					searchResults_HalfConfirmedByMeNotDeclaredByMe
-							.add(OfferDisplay2.mapOfferNew(
-									jsonArray.getJSONObject(i), airportsList,
-									nationalitiesList));
-				
-				else if (offer.getOffer().offerStatus
-						.equals(Confirmation.half_confirmed_other)
-						&& getFacebookService().getFacebookUser().getUserId().equals(offer.getUser().getFacebookId()))
-					searchResults_half
-							.add(OfferDisplay2.mapOfferNew(
-									jsonArray.getJSONObject(i), airportsList,
-									nationalitiesList));
-				
-				
-				
-				// To check if the offer is confirmed and I am the offer owner.
-				else if (offer.getOffer().offerStatus
-						.equals(Confirmation.confirmed)
-						&& getFacebookService().getFacebookUser().getUserId().equals(offer.getUser().getFacebookId()))
-					searchResults_full.add(OfferDisplay2.mapOfferNew(
-							jsonArray.getJSONObject(i), airportsList,
-							nationalitiesList));
-				
-				// To check if the offer is not confirmed and I am offer owner
-				else if (offer.getOffer().offerStatus
-						.equals(Confirmation.not_confirmed)
-						&& getFacebookService().getFacebookUser().getUserId().equals(offer.getUser().getFacebookId()))
-					searchResults_new.add(OfferDisplay2.mapOfferNew(
-							jsonArray.getJSONObject(i), airportsList,
-							nationalitiesList));
-				
-				// To check if the offer is full confirmed and I am not offer owner
-				else if (offer.getOffer().offerStatus
-						.equals(Confirmation.confirmed)
-						&& !getFacebookService().getFacebookUser().getUserId().equals(offer.getUser().getFacebookId()))
-					searchResults_fullConfirmedByMeNotDeclaredByMe.add(OfferDisplay2.mapOfferNew(
-							jsonArray.getJSONObject(i), airportsList,
-							nationalitiesList));
-				// 
-				}
-				catch (Exception e) {
-					
-					Log.e(TAG, "Nast offer");
+				Log
+						.e(
+								"loadSearchResultsOnUI: Inisde the loop of my offers: offer ",
+								offer + "");
+
+				try {
+
+					/**
+					 * searchResults_new > Provider for newoffers
+					 * searchResults_fullIDeclared >Provider for offers I
+					 * confirmed and I am the offer owner
+					 * searchResults_fullConfirmedByMeNotDeclaredByMe > Provider
+					 * for offers I confirmed and I NOT am the offer owner
+					 * searchResults_halfConfirmedMeDeclaredOthers > Provider
+					 * for offers I half confirmed and I am NOT the offer owner
+					 * searchResults_DeclaredMeHalfConfirmedMe > Provider for
+					 * offers I am the offer owner, and I confirmed.
+					 */
+
+					// To check if the offer is not confirmed and I am offer
+					// owner
+					if (offer.getOffer().offerStatus
+							.equals(Confirmation.not_confirmed)) {
+						searchResults_new.add(OfferDisplay2.mapOfferNew(
+								jsonArray.getJSONObject(i), airportsList,
+								nationalitiesList));
+					}
+
+					else if (offer.getOffer().offerStatus
+							.equals(Confirmation.confirmed)) {
+						if (getFacebookService().getFacebookUser().getUserId()
+								.equals(offer.getUser().getFacebookId()))
+							searchResults_fullIDeclared.add(OfferDisplay2
+									.mapOfferNew(jsonArray.getJSONObject(i),
+											airportsList, nationalitiesList));
+						else
+							searchResults_fullConfirmedByMeNotDeclaredByMe
+									.add(OfferDisplay2.mapOfferNew(jsonArray
+											.getJSONObject(i), airportsList,
+											nationalitiesList));
+					}
+
+					else if (getFacebookService().getFacebookUser().getUserId()
+							.equals(offer.getUser().getFacebookId())) {
+						System.out
+								.println("if(offer.get Offer().offerStatus.equals(Confirmation.half_confirmed_other))(0)");
+						// I Did half confirmed
+
+						if (offer.getOffer().offerStatus
+								.equals(Confirmation.half_confirmed_offerOwner)) {
+							/**
+							 * Offers HALF CONFIRMED + I HALF CONFIRMED + ME
+							 * DECLARED
+							 */
+
+							System.out
+									.println("if(offer.getOffer().offerStatus.equals(Confirmation.half_confirmed_other))(1)");
+							searchResults_halfConfirmedMeMeDeclared
+									.add(OfferDisplay2.mapOfferNew(jsonArray
+											.getJSONObject(i), airportsList,
+											nationalitiesList));
+
+						}
+
+						// it is has been confirmed by other!
+						if (offer.getOffer().offerStatus
+								.equals(Confirmation.half_confirmed_other)) {
+							System.out
+									.println("if(offer.getOffer().offerStatus.equals(Confirmation.half_confirmed_other))(2)");
+							/**
+							 * Offers HALF CONFIRMED + I HALF CONFIRMED + OTHERS
+							 * DECLARED
+							 */
+							searchResults_nothalfConfirmedMeMeDeclaredOthersConfirmed
+									.add(OfferDisplay2.mapOfferNew(jsonArray
+											.getJSONObject(i), airportsList,
+											nationalitiesList));
+						}
+					} else {
+						/**
+						 * Offers HALF CONFIMED + I DID NOT HALF CONFIRMED + ME
+						 * DECLARED + OTHERS + CONFIRMED
+						 */
+
+						if (offer.getOffer().offerStatus
+								.equals(Confirmation.half_confirmed_other)) {
+							searchResults_halfConfirmedMeDeclaredOthers
+									.add(OfferDisplay2.mapOfferNew(jsonArray
+											.getJSONObject(i), airportsList,
+											nationalitiesList));
+
+						}
+
+					}
+
+				} catch (Exception e) {
+
+					Log.e(TAG, "Nasty offer");
 				}
 			}// end for
 
@@ -479,9 +488,33 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity {
 
 	private void updateCategoriesInSwypeActivity() {
 
-		if (searchResults_full.isEmpty() && searchResults_half.isEmpty()
-				&& searchResults_HalfConfirmedByMeNotDeclaredByMe.isEmpty()
-				&& searchResults_new.isEmpty() && searchResults_HalfConfirmedByMeNotDeclaredByMe.isEmpty())
+		/**
+		 * searchResults_new > Provider for new offers searchResults_full >
+		 * Provider for offers I confirmed and I am the offer owner
+		 * searchResults_fullConfirmedByMeNotDeclaredByMe > Provider for offers
+		 * I confirmed and I NOT am the offer owner searchResults_half >
+		 * Provider for offers I half confirmed and I am the offer owner
+		 * searchResults_HalfConfirmedByMeNotDeclaredByMe > Provider for offers
+		 * I half confirmed and I am NOT the offer owner
+		 * searchResults_halfConfirmedMeDeclaredOthersConfirmed > Provider for
+		 * offers I am the offer owner, and others confirmed.
+		 */
+		if (searchResults_fullConfirmedByMeNotDeclaredByMe.isEmpty()
+				&&
+
+				searchResults_fullIDeclared.isEmpty()
+				&&
+
+				searchResults_halfConfirmedMeDeclaredOthers.isEmpty()
+				&& searchResults_new.isEmpty()
+				&&
+
+				searchResults_halfConfirmedMeMeDeclared.isEmpty()
+				&&
+
+				searchResults_nothalfConfirmedMeMeDeclaredOthersConfirmed
+						.isEmpty())
+
 			super.swypeCatsGuiUtils.showAlertWhenNoResultsAreAvailable(this,
 					"You do not have any offers yet! ", "Declare new offer",
 					InsertOfferActivity.class, "Change filters",
@@ -489,40 +522,8 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity {
 		else {
 			int index = 0;
 
-			// =============================HALF CONFIRMED NOT DECLARED ME========================================
-			// 
-
-			// * - Half confirmed offers I confirmed but not declared by me (I
-			// am not offer owner)
-			if (!searchResults_HalfConfirmedByMeNotDeclaredByMe.isEmpty()) {
-				Log.e("Display Name in My offers DCBME: ", ""
-						+ swypeCatsGuiUtils.getSwpeCats()[0]);
-				getCategories()
-						.add(new Category(
-								"" + swypeCatsGuiUtils.getSwpeCats()[0],
-								HALF_CONFIRMED_ME_CONFIRMED_USER_NOT_OFFER_OWNER,
-								R.layout.my_offers_main));
-				updateCategoryContent(
-						searchResults_HalfConfirmedByMeNotDeclaredByMe,
-						index++, false);
-			}// end
-				// if(!searchResults_HalfConfirmedByMeNotDeclaredByMe.isEmpty())
-
-			// ==================================HALF CONFIRMED BY ME======================================
-			// 
-
-			// * - Half confirmed offers I confirmed but not declared by me
-			if (!searchResults_half.isEmpty()) {
-				Log.e("Display Name in My offers DCBME: ", ""
-						+ swypeCatsGuiUtils.getSwpeCats()[1]);
-				getCategories().add(
-						new Category("" + swypeCatsGuiUtils.getSwpeCats()[1],
-								HALF_CONFIRMED_ME_OFFER_OWNER,
-								R.layout.my_offers_main));
-				updateCategoryContent(searchResults_half, index++, false);
-			}// end if(!searchResults_half.isEmpty())
-
-			// =====================================NOT CONFIRMED===================================
+			// =====================================NOT
+			// CONFIRMED===================================
 			//
 			// * - New offers I declared
 			if (!searchResults_new.isEmpty()) {
@@ -533,34 +534,105 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity {
 								NOT_CONFIRMED, R.layout.my_offers_main));
 				updateCategoryContent(searchResults_new, index++, false);
 			}// end if(!searchResults_new.isEmpty())
-				// ========================================FULL CONFIRMED DECLARED BY ME================================
-				//
+
+			// =============================Others declared ME
+			// confirmed========================================
+			//
+			/**
+			 * Offers HALF CONFIRMED + I HALF CONFIRMED + OTHERS DECLARED
+			 */
+
+			// * - Half confirmed offers I confirmed but not declared by me (I
+			// am not offer owner)
+			if (!searchResults_halfConfirmedMeDeclaredOthers.isEmpty()) {
+				Log.e("Display Name in My offers DCBME: ", ""
+						+ swypeCatsGuiUtils.getSwpeCats()[0]);
+
+				getCategories()
+						.add(
+								new Category(
+										"" + swypeCatsGuiUtils.getSwpeCats()[0],
+										HALF_CONFIRMED_ME_CONFIRMED_USER_NOT_OFFER_OWNER,
+										com.sheel.app.R.layout.my_offers_main));
+				updateCategoryContent(
+						searchResults_halfConfirmedMeDeclaredOthers, index++,
+						false);
+			}// end
+			// if(!searchResults_HalfConfirmedByMeNotDeclaredByMe.isEmpty())
+
+			// ==================================ME Declared Others
+			// CONFIRMED======================================
+			//
+			/**
+			 * Offers HALF CONFIRMED + I HALF CONFIRMED + ME DECLARED
+			 */
+
+			// * - Half confirmed offers I confirmed but not declared by me
+			if (!searchResults_halfConfirmedMeMeDeclared.isEmpty()) {
+				Log.e("Display Name in My offers DCBME: ", ""
+						+ swypeCatsGuiUtils.getSwpeCats()[1]);
+				getCategories().add(
+						new Category("" + swypeCatsGuiUtils.getSwpeCats()[1],
+								HALF_CONFIRMED_ME_OFFER_OWNER,
+								R.layout.my_offers_main));
+				updateCategoryContent(searchResults_halfConfirmedMeMeDeclared,
+						index++, false);
+			}// end if(!searchResults_half.isEmpty())
+
+			// =======================================================================
+			//
+			/**
+			 * Offers HALF CONFIMED + I DID NOT HALF CONFIRMED + ME DECLARED +
+			 * OTHERS + CONFIRMED
+			 */
+
+			// * - Half confirmed offers I confirmed but not declared by me
+			if (!searchResults_nothalfConfirmedMeMeDeclaredOthersConfirmed
+					.isEmpty()) {
+				Log.e("Display Name in My offers DCBME: ", ""
+						+ swypeCatsGuiUtils.getSwpeCats()[8]);
+				getCategories().add(
+						new Category("" + swypeCatsGuiUtils.getSwpeCats()[8],
+								HALF_CONFIRMED_ME_OFFER_OWNER,
+								R.layout.my_offers_main));
+				updateCategoryContent(
+						searchResults_nothalfConfirmedMeMeDeclaredOthersConfirmed,
+						index++, false);
+			}// end if(!searchResults_half.isEmpty())
+			// ========================================FULL CONFIRMED DECLARED
+			// BY ME================================
+			//
 
 			// * - Confirmed offers, I am the offer owner
-			if (!searchResults_full.isEmpty()) {
+			if (!searchResults_fullIDeclared.isEmpty()) {
 				Log.e("Display Name in My offers DCBME: ", ""
 						+ swypeCatsGuiUtils.getSwpeCats()[3]);
 				getCategories().add(
 						new Category("" + swypeCatsGuiUtils.getSwpeCats()[3],
-								CONFIRMED_BY_ME_OFFER_OWNER, R.layout.my_offers_main));
-				updateCategoryContent(searchResults_full, index, false);
+								CONFIRMED_BY_ME_OFFER_OWNER,
+								R.layout.my_offers_main));
+				updateCategoryContent(searchResults_fullIDeclared, index, false);
 			}// end if(!searchResults_full.isEmpty())
 
-			// ========================================FULL CONFIRMED DECLARED BY OTHER================================
+			// ========================================FULL CONFIRMED DECLARED
+			// BY OTHER================================
 			//
-			
-			
+
 			// * - Confirmed offers, I am not the offer owner
 			if (!searchResults_fullConfirmedByMeNotDeclaredByMe.isEmpty()) {
 				Log.e("Display Name in My offers DCBOTHER: ", ""
 						+ swypeCatsGuiUtils.getSwpeCats()[7]);
 				getCategories().add(
 						new Category("" + swypeCatsGuiUtils.getSwpeCats()[7],
-								CONFIRMED_BY_OTHER_OFFER_OWNER, R.layout.my_offers_main));
-				updateCategoryContent(searchResults_fullConfirmedByMeNotDeclaredByMe, index, false);
+								CONFIRMED_BY_OTHER_OFFER_OWNER,
+								R.layout.my_offers_main));
+				updateCategoryContent(
+						searchResults_fullConfirmedByMeNotDeclaredByMe, index,
+						false);
 			}// end if(!searchResults_full.isEmpty())
 
-			// ============================================================================================
+			// =====================================================
+			// =======================================
 
 		}// end else
 
@@ -581,7 +653,7 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity {
 	private void updateOffersOnUI(String response) {
 
 		super.reponseStr = response;
-//		super.updateOffersOnUI(super.reponseStr);
+		// super.updateOffersOnUI(super.reponseStr);
 		Log.e("Update on Response UI SUPER CALLED IN CHILD : ",
 				super.reponseStr);
 		try {
@@ -595,11 +667,12 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity {
 
 			/**
 			 * If offer is full confirmed, we need to add it in its appropriate
-			 * group either Confirmed by me as an offer owner
-			 * or Confirmed by other as an offer owner.
+			 * group either Confirmed by me as an offer owner or Confirmed by
+			 * other as an offer owner.
+			 * 
 			 * @see updateCategoriesInSwypeActivity for checks
 			 */
-			
+
 			if (confirmation.isStatusTransactionUser1()
 					&& confirmation.isStatusTransactionUser2()) {
 				// ============Delete offer from UI=========
@@ -617,34 +690,30 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity {
 						Toast.LENGTH_SHORT).show();
 
 				// If User 1 is the Offer owner
-				if (getFacebookService().getFacebookUser().getUserId()
-						.equals(confirmation.getUser1().getFacebookId()))
-					InflateListener.sendSMS(
-							getSMSContentForConfirmation(
-									confirmation.getOffer().userStatus,
-									confirmation.getUser1(),
-									confirmation.getUser2(),
-									confirmation.getOffer(),
-									confirmation.getFlight()), confirmation
-									.getUser2().mobileNumber,
+				if (getFacebookService().getFacebookUser().getUserId().equals(
+						confirmation.getUser1().getFacebookId()))
+					InflateListener.sendSMS(getSMSContentForConfirmation(
+							confirmation.getOffer().userStatus, confirmation
+									.getUser1(), confirmation.getUser2(),
+							confirmation.getOffer(), confirmation.getFlight()),
+							confirmation.getUser2().mobileNumber,
 							MyOffersActivity.this);
 
 				else
-					InflateListener.sendSMS(
-							getSMSContentForConfirmation(
-									confirmation.getOffer().userStatus,
-									confirmation.getUser2(),
-									confirmation.getUser1(),
-									confirmation.getOffer(),
-									confirmation.getFlight()), confirmation
-									.getUser1().mobileNumber,
+					InflateListener.sendSMS(getSMSContentForConfirmation(
+							confirmation.getOffer().userStatus, confirmation
+									.getUser2(), confirmation.getUser1(),
+							confirmation.getOffer(), confirmation.getFlight()),
+							confirmation.getUser1().mobileNumber,
 							MyOffersActivity.this);
-				
+
 				// If the offer is half confirmed by Offer owner
 				/**
-				 * You need to check whether the offer is half confirmed by whom 
+				 * You need to check whether the offer is half confirmed by whom
 				 * and it in its group
-				 * @see Check the groups in SheelMaayaaConstants for logic names.
+				 * 
+				 * @see Check the groups in SheelMaayaaConstants for logic
+				 *      names.
 				 */
 			} else if (confirmation.isStatusTransactionUser1()) {
 
@@ -653,9 +722,11 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity {
 						Toast.LENGTH_SHORT).show();
 
 				/**
-				 * You need to check whether the offer is half confirmed by whom 
+				 * You need to check whether the offer is half confirmed by whom
 				 * and it in its group
-				 * @see Check the statuses in SheelMaayaaConstants for logic names.
+				 * 
+				 * @see Check the statuses in SheelMaayaaConstants for logic
+				 *      names.
 				 */
 				// If the offer is half confirmed by not an Offer owner
 			} else if (confirmation.isStatusTransactionUser2()) {
