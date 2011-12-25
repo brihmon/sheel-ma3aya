@@ -19,8 +19,6 @@ package com.viewpagerindicator;
 
 import java.util.ArrayList;
 
-import com.sheel.app.R;
-
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
@@ -129,7 +127,7 @@ public class TitlePageIndicator extends View implements PageIndicator {
     }
 
     public TitlePageIndicator(Context context, AttributeSet attrs) {
-        this(context, attrs, R.attr.vpiTitlePageIndicatorStyle);
+        this(context, attrs, com.sheel.app.R.attr.vpiTitlePageIndicatorStyle);
     }
 
     public TitlePageIndicator(Context context, AttributeSet attrs, int defStyle) {
@@ -137,38 +135,38 @@ public class TitlePageIndicator extends View implements PageIndicator {
 
         //Load defaults from resources
         final Resources res = getResources();
-        final int defaultFooterColor = res.getColor(R.color.default_title_indicator_footer_color);
-        final float defaultFooterLineHeight = res.getDimension(R.dimen.default_title_indicator_footer_line_height);
-        final int defaultFooterIndicatorStyle = res.getInteger(R.integer.default_title_indicator_footer_indicator_style);
-        final float defaultFooterIndicatorHeight = res.getDimension(R.dimen.default_title_indicator_footer_indicator_height);
-        final float defaultFooterIndicatorUnderlinePadding = res.getDimension(R.dimen.default_title_indicator_footer_indicator_underline_padding);
-        final float defaultFooterPadding = res.getDimension(R.dimen.default_title_indicator_footer_padding);
-        final int defaultSelectedColor = res.getColor(R.color.default_title_indicator_selected_color);
-        final boolean defaultSelectedBold = res.getBoolean(R.bool.default_title_indicator_selected_bold);
-        final int defaultTextColor = res.getColor(R.color.default_title_indicator_text_color);
-        final float defaultTextSize = res.getDimension(R.dimen.default_title_indicator_text_size);
-        final float defaultTitlePadding = res.getDimension(R.dimen.default_title_indicator_title_padding);
-        final float defaultClipPadding = res.getDimension(R.dimen.default_title_indicator_clip_padding);
-        final float defaultTopPadding = res.getDimension(R.dimen.default_title_indicator_top_padding);
+        final int defaultFooterColor = res.getColor(com.sheel.app.R.color.default_title_indicator_footer_color);
+        final float defaultFooterLineHeight = res.getDimension(com.sheel.app.R.dimen.default_title_indicator_footer_line_height);
+        final int defaultFooterIndicatorStyle = res.getInteger(com.sheel.app.R.integer.default_title_indicator_footer_indicator_style);
+        final float defaultFooterIndicatorHeight = res.getDimension(com.sheel.app.R.dimen.default_title_indicator_footer_indicator_height);
+        final float defaultFooterIndicatorUnderlinePadding = res.getDimension(com.sheel.app.R.dimen.default_title_indicator_footer_indicator_underline_padding);
+        final float defaultFooterPadding = res.getDimension(com.sheel.app.R.dimen.default_title_indicator_footer_padding);
+        final int defaultSelectedColor = res.getColor(com.sheel.app.R.color.default_title_indicator_selected_color);
+        final boolean defaultSelectedBold = res.getBoolean(com.sheel.app.R.bool.default_title_indicator_selected_bold);
+        final int defaultTextColor = res.getColor(com.sheel.app.R.color.default_title_indicator_text_color);
+        final float defaultTextSize = res.getDimension(com.sheel.app.R.dimen.default_title_indicator_text_size);
+        final float defaultTitlePadding = res.getDimension(com.sheel.app.R.dimen.default_title_indicator_title_padding);
+        final float defaultClipPadding = res.getDimension(com.sheel.app.R.dimen.default_title_indicator_clip_padding);
+        final float defaultTopPadding = res.getDimension(com.sheel.app.R.dimen.default_title_indicator_top_padding);
 
         //Retrieve styles attributes
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.TitlePageIndicator, defStyle, R.style.Widget_TitlePageIndicator);
+        TypedArray a = context.obtainStyledAttributes(attrs, com.sheel.app.R.styleable.TitlePageIndicator, defStyle, com.sheel.app.R.style.Widget_TitlePageIndicator);
 
         //Retrieve the colors to be used for this view and apply them.
-        mFooterLineHeight = a.getDimension(R.styleable.TitlePageIndicator_footerLineHeight, defaultFooterLineHeight);
-        mFooterIndicatorStyle = IndicatorStyle.fromValue(a.getInteger(R.styleable.TitlePageIndicator_footerIndicatorStyle, defaultFooterIndicatorStyle));
-        mFooterIndicatorHeight = a.getDimension(R.styleable.TitlePageIndicator_footerIndicatorHeight, defaultFooterIndicatorHeight);
-        mFooterIndicatorUnderlinePadding = a.getDimension(R.styleable.TitlePageIndicator_footerIndicatorUnderlinePadding, defaultFooterIndicatorUnderlinePadding);
-        mFooterPadding = a.getDimension(R.styleable.TitlePageIndicator_footerPadding, defaultFooterPadding);
-        mTopPadding = a.getDimension(R.styleable.TitlePageIndicator_topPadding, defaultTopPadding);
-        mTitlePadding = a.getDimension(R.styleable.TitlePageIndicator_titlePadding, defaultTitlePadding);
-        mClipPadding = a.getDimension(R.styleable.TitlePageIndicator_clipPadding, defaultClipPadding);
-        mColorSelected = a.getColor(R.styleable.TitlePageIndicator_selectedColor, defaultSelectedColor);
-        mColorText = a.getColor(R.styleable.TitlePageIndicator_textColor, defaultTextColor);
-        mBoldText = a.getBoolean(R.styleable.TitlePageIndicator_selectedBold, defaultSelectedBold);
+        mFooterLineHeight = a.getDimension(com.sheel.app.R.styleable.TitlePageIndicator_footerLineHeight, defaultFooterLineHeight);
+        mFooterIndicatorStyle = IndicatorStyle.fromValue(a.getInteger(com.sheel.app.R.styleable.TitlePageIndicator_footerIndicatorStyle, defaultFooterIndicatorStyle));
+        mFooterIndicatorHeight = a.getDimension(com.sheel.app.R.styleable.TitlePageIndicator_footerIndicatorHeight, defaultFooterIndicatorHeight);
+        mFooterIndicatorUnderlinePadding = a.getDimension(com.sheel.app.R.styleable.TitlePageIndicator_footerIndicatorUnderlinePadding, defaultFooterIndicatorUnderlinePadding);
+        mFooterPadding = a.getDimension(com.sheel.app.R.styleable.TitlePageIndicator_footerPadding, defaultFooterPadding);
+        mTopPadding = a.getDimension(com.sheel.app.R.styleable.TitlePageIndicator_topPadding, defaultTopPadding);
+        mTitlePadding = a.getDimension(com.sheel.app.R.styleable.TitlePageIndicator_titlePadding, defaultTitlePadding);
+        mClipPadding = a.getDimension(com.sheel.app.R.styleable.TitlePageIndicator_clipPadding, defaultClipPadding);
+        mColorSelected = a.getColor(com.sheel.app.R.styleable.TitlePageIndicator_selectedColor, defaultSelectedColor);
+        mColorText = a.getColor(com.sheel.app.R.styleable.TitlePageIndicator_textColor, defaultTextColor);
+        mBoldText = a.getBoolean(com.sheel.app.R.styleable.TitlePageIndicator_selectedBold, defaultSelectedBold);
 
-        final float textSize = a.getDimension(R.styleable.TitlePageIndicator_textSize, defaultTextSize);
-        final int footerColor = a.getColor(R.styleable.TitlePageIndicator_footerColor, defaultFooterColor);
+        final float textSize = a.getDimension(com.sheel.app.R.styleable.TitlePageIndicator_textSize, defaultTextSize);
+        final int footerColor = a.getColor(com.sheel.app.R.styleable.TitlePageIndicator_footerColor, defaultFooterColor);
         mPaintText = new Paint();
         mPaintText.setTextSize(textSize);
         mPaintText.setAntiAlias(true);
@@ -616,7 +614,7 @@ public class TitlePageIndicator extends View implements PageIndicator {
         return bounds;
     }
 
-    @Override
+//    @Override
     public void setViewPager(ViewPager view) {
         final PagerAdapter adapter = view.getAdapter();
         if (adapter == null) {
@@ -631,13 +629,13 @@ public class TitlePageIndicator extends View implements PageIndicator {
         invalidate();
     }
 
-    @Override
+//    @Override
     public void setViewPager(ViewPager view, int initialPosition) {
         setViewPager(view);
         setCurrentItem(initialPosition);
     }
 
-    @Override
+//    @Override
     public void notifyDataSetChanged() {
         invalidate();
     }
@@ -651,7 +649,7 @@ public class TitlePageIndicator extends View implements PageIndicator {
         mCenterItemClickListener = listener;
     }
 
-    @Override
+//    @Override
     public void setCurrentItem(int item) {
         if (mViewPager == null) {
             throw new IllegalStateException("ViewPager has not been bound.");
@@ -661,7 +659,7 @@ public class TitlePageIndicator extends View implements PageIndicator {
         invalidate();
     }
 
-    @Override
+//    @Override
     public void onPageScrollStateChanged(int state) {
         mScrollState = state;
 
@@ -670,7 +668,7 @@ public class TitlePageIndicator extends View implements PageIndicator {
         }
     }
 
-    @Override
+//    @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
         mCurrentPage = position;
         mCurrentOffset = positionOffsetPixels;
@@ -681,7 +679,7 @@ public class TitlePageIndicator extends View implements PageIndicator {
         }
     }
 
-    @Override
+//    @Override
     public void onPageSelected(int position) {
         if (mScrollState == ViewPager.SCROLL_STATE_IDLE) {
             mCurrentPage = position;
@@ -693,7 +691,7 @@ public class TitlePageIndicator extends View implements PageIndicator {
         }
     }
 
-    @Override
+//    @Override
     public void setOnPageChangeListener(ViewPager.OnPageChangeListener listener) {
         mListener = listener;
     }
@@ -789,12 +787,12 @@ public class TitlePageIndicator extends View implements PageIndicator {
         }
 
         public static final Parcelable.Creator<SavedState> CREATOR = new Parcelable.Creator<SavedState>() {
-            @Override
+//            @Override
             public SavedState createFromParcel(Parcel in) {
                 return new SavedState(in);
             }
 
-            @Override
+//            @Override
             public SavedState[] newArray(int size) {
                 return new SavedState[size];
             }
