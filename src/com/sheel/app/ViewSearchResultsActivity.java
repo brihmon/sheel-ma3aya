@@ -364,27 +364,50 @@ public class ViewSearchResultsActivity extends SwypingHorizontalViewsActivity {
      * 
      * @author 
      *		Magued George (magued.george1990@gmail.com)
+     *@author 
+     *		Passant El.Agroudy (passant.elagroudy@gmail.com)
      */
 	private void loadSearchResultsOnUI(String responseStr) 
 	{
 		try {
 			
-			JSONArray jsonArray = new JSONArray(responseStr);
-        	OfferDisplay2 offerDisplay;
-        	
-       	 	for (int i = 0; i < jsonArray.length(); i++) {    
-	       	 	
-       	 		offerDisplay = OfferDisplay2.mapOffer(jsonArray.getJSONObject(i), airportsList, nationalitiesList);
-	       	 	
-       	 		if(facebookStatus.equals(OwnerFacebookStatus.UNRELATED.name())) 
-	       	 		searchResults.add(offerDisplay);
-	      		                                    		 
-       	 		else		 
-       	 			addOfferToMap(offersFromUsers, offerDisplay.getUser().getFacebookId(), offerDisplay);
-	   	     	 
-       	 	}// end for 
-       	
-       	 	
+			System.out.println("Response string from search: " + responseStr);
+
+			if (!responseStr.equals("") || !(responseStr == null)) {
+
+				JSONArray jsonArray = new JSONArray(responseStr);
+				OfferDisplay2 offerDisplay;
+
+				String facebookIdOfLoggedInUser = getFacebookService()
+						.getFacebookUser().getUserId();
+
+				for (int i = 0; i < jsonArray.length(); i++) {
+
+					offerDisplay = OfferDisplay2.mapOffer(
+							jsonArray.getJSONObject(i), airportsList,
+							nationalitiesList);
+					String facebookIdOfOfferOwner = offerDisplay.getUser()
+							.getFacebookId();
+
+					if (!facebookIdOfOfferOwner
+							.equals(facebookIdOfLoggedInUser)) {
+						if (facebookStatus.equals(OwnerFacebookStatus.UNRELATED
+								.name()))
+							searchResults.add(offerDisplay);
+
+						else
+							addOfferToMap(offersFromUsers, offerDisplay
+									.getUser().getFacebookId(), offerDisplay);
+
+					}/*
+					 * end if: remove offers from the offer owner (already
+					 * displayed in my offers)
+					 */
+
+				}// end for
+
+			}// end if: some results were found -> parse : added by passant
+
        	 	if (offersFromUsers.size() > 0 && !facebookStatus.equals(OwnerFacebookStatus.UNRELATED.name())) {
     			categorizeOffersUsingFacebook(offersFromUsers, facebook);
     		}// end if: offersWrappers list is not empty & facebook search required -> do
@@ -394,7 +417,8 @@ public class ViewSearchResultsActivity extends SwypingHorizontalViewsActivity {
     
 			
 			} catch (JSONException e) {
-				// TODO Auto-generated catch block
+				// Say no offers exist
+				updateDisplayedSearchResults(null, null, searchResults);
 				e.printStackTrace();
 			}
 		
