@@ -390,8 +390,20 @@ public class OfferDisplay2 {
 			Log.e("Map Offer: ", (i++) + " offer: " + offer.getId() );// 11
 		}
 			
-			String sourceNew = airports[Integer.parseInt(source)];
-			String destinationNew = airports[Integer.parseInt(destination)];
+			int sourceIndex = Integer.parseInt(source);
+			int destinationIndex = Integer.parseInt(destination);
+			String sourceNew  = "";
+			String destinationNew = "";
+			
+			if(sourceIndex < 0 || sourceIndex >= airports.length)
+				sourceNew = "N/A";
+			else
+				sourceNew= airports[sourceIndex];
+			
+			if(destinationIndex < 0 || destinationIndex >= airports.length)
+				destinationNew = "N/A";
+			else
+				destinationNew= airports[destinationIndex];
 				
 			Flight flight = new Flight(flightNumber, sourceNew, destinationNew, departureDate);
 			
@@ -417,22 +429,34 @@ public class OfferDisplay2 {
 	
 	private static User createUser(JSONObject userJSON, String[] nationalities) throws JSONException
 	{
-		String ownerId = userJSON.getString("facebookAccount");
-		String firstName = userJSON.getString("firstName");
-		String middleName = userJSON.getString("middleName");
-		String lastName = userJSON.getString("lastName");
-		String email = userJSON.getString("email");
-		String mobile = userJSON.getString("mobileNumber");
-		String gender = userJSON.getString("gender");
-		String nationality = userJSON.getString("nationality");
-		
-		Log.e("Map Offer: ", (i++) + "" );// 3
-		
-		nationality = nationalities[Integer.parseInt(nationality)];
-		
-		Log.e("Map Offer: ", (i++) + "" );// 4
-		
-		return new User(ownerId, firstName, middleName, lastName, "", "", email, mobile, gender, nationality);
+		try{
+			String ownerId = userJSON.getString("facebookAccount");
+			String firstName = userJSON.getString("firstName");
+			String middleName = userJSON.getString("middleName");
+			String lastName = userJSON.getString("lastName");
+			String email = userJSON.getString("email");
+			String mobile = userJSON.getString("mobileNumber");
+			String gender = userJSON.getString("gender");
+			String nationality = userJSON.getString("nationality");
+			
+			Log.e("Map Offer: ", (i++) + "" );// 3
+			
+			int nationalityIndex = Integer.parseInt(nationality);
+			
+			if(nationalityIndex < 0 || nationalityIndex >= nationalities.length)
+				nationality = "N/A";
+			
+			else
+				nationality = nationalities[nationalityIndex];
+			
+			Log.e("Map Offer: ", (i++) + "" );// 4
+			
+			return new User(ownerId, firstName, middleName, lastName, "", "", email, mobile, gender, nationality);
+		}
+		catch (NumberFormatException e) {
+			Log.e("Create user: ", "index not a number");
+			return null;
+		}
 	}
 
 	
