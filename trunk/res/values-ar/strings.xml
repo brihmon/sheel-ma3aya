@@ -971,10 +971,10 @@
 	<string name="Please_insert_valid_source_and_destination">من فضلك ادخل المصدر والوجهة الصحيحة لرحلتك</string>
 	<string name="Please_insert_num_kilos_and_price">الرجاء إدخال عدد من الكيلوغرامات والسعر المقابل باليورو.</string>
   	<string name="offer_details">تفاصيل العرض</string>
-  	<string name="I_have">لدي. . . . . .</string>
+  	<string name="I_have">لدي</string>
   	<string name="extra_weight_2">  وزن الإضافي</string>
  	<string name="less_weight_2">  وزن أقل</string>
- 	<string name="flight_date">تاريخ الرحلة :</string>
+ 	<string name="flight_date">تاريخ الرحلة</string>
  	<string name="Change">تغيير</string>
  	<string name="submit">إدخال</string>
  	<string name="Amount_euros">* ينبغي أن يكون المبلغ دخل باليورو. يرجى إدخال مبلغ يعادل يورو في حال العملة المحلية المختلفة.</string>
