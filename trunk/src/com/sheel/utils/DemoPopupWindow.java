@@ -177,6 +177,41 @@ public class DemoPopupWindow extends BetterPopupWindow implements OnClickListene
 			break;
 		}
 		
+		/***************************  DEACTIVATING AN OFFER ************************/
+		case R.id.yes_deactivate:{
+		  
+			Log.e("Deactivating offer with id = ", offer.getFlight().id+"");
+        	HTTPManager.startHttpService("/deactivateoffer/ab",
+        			offer.getOffer().id+"" , SheelMaayaaConstants.HTTP_DEACTIVATE_OFFER, mActivity.getApplicationContext());   
+        	dialog.dismiss();
+		
+			break;
+		}
+		
+		case R.id.no_deactivate:{
+			dialog.dismiss();
+			break;
+		}
+		
+		case R.id.qa_deactivate:{
+			LayoutInflater inflater =
+					(LayoutInflater) this.anchor.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+			View deactivate_offer =   inflater.inflate(R.layout.deactivate_offer, null);
+			
+		    AlertDialog.Builder alert = new AlertDialog.Builder(mActivity);
+			alert.setView(deactivate_offer);
+		    dialog = alert.create();
+			dialog.show();
+			
+			Button b1 = (Button)dialog.findViewById(R.id.yes_deactivate);
+			b1.setOnClickListener(this);
+			Button b2 = (Button)dialog.findViewById(R.id.no_deactivate);
+			b2.setOnClickListener(this);
+	
+			break;
+		}
+		
 		
 		/****************QUICK ACTION BAR, EDIT FLIGHT SAVE ***********************************/
 		case R.id.edit_flight_save:{

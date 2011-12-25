@@ -7,6 +7,7 @@ import static com.sheel.utils.SheelMaayaaConstants.HALF_CONFIRMED_ME_OFFER_OWNER
 import static com.sheel.utils.SheelMaayaaConstants.HTTP_CONFIRM_OFFER_UI;
 import static com.sheel.utils.SheelMaayaaConstants.HTTP_EDIT_OFFER;
 import static com.sheel.utils.SheelMaayaaConstants.HTTP_EDIT_FLIGHT;
+import static com.sheel.utils.SheelMaayaaConstants.HTTP_DEACTIVATE_OFFER;
 import static com.sheel.utils.SheelMaayaaConstants.HTTP_GET_MY_OFFERS_FILTER;
 import static com.sheel.utils.SheelMaayaaConstants.HTTP_RESPONSE;
 import static com.sheel.utils.SheelMaayaaConstants.HTTP_STATUS;
@@ -225,6 +226,7 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity {
 		filter.addAction(HTTP_CONFIRM_OFFER_UI);
 		filter.addAction(HTTP_EDIT_OFFER);
 		filter.addAction(HTTP_EDIT_FLIGHT);
+		filter.addAction(HTTP_DEACTIVATE_OFFER);
 		
 		receiver = new SheelMaayaaBroadCastRec();
 
@@ -316,7 +318,21 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity {
 					showEditResult(responseStr);
 					Log.e(TAG, responseStr);
 
-				}// end if edit offers filter
+				}// end if edit flight filter
+				
+				if (action.equals(HTTP_DEACTIVATE_OFFER)) {
+					responseStr = intent.getExtras().getString(HTTP_RESPONSE);
+					Log.e(TAG, "deactivating offer");
+					//showEditResult(responseStr);
+					// Dialog dismissing
+					if (dialog != null)
+						dialog.dismiss();
+
+					
+					showEditResult(responseStr);
+					Log.e(TAG, responseStr);
+
+				}// end if edit flight filter
 			 
 				
 			}
