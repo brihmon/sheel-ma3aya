@@ -61,11 +61,25 @@ import com.sheel.webservices.FacebookWebservice;
  */
 public class NewUserActivity extends UserSessionStateMaintainingActivity {
 
-
+	/**
+	 * Request code for camera image activity
+	 */
 	private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
+
+	/**
+	 * Uri for the passport imafe file
+	 */
 	private Uri fileUri;
+
+	/**
+	 * Tag for MyActivity
+	 */
 	private static final String TAG = "MyActivity";
-	
+
+	/**
+	 * Key for position used to get the activity the user needs to be diverted
+	 * to, after registration
+	 */
 	public static final String POSITION_KEY = "position";
 
 	/**
@@ -79,6 +93,9 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 	 */
 	private SheelMaayaaBroadCastRec receiver;
 
+	/**
+	 * Dialog used to show the progress bar at registration time
+	 */
 	ProgressDialog dialog;
 
 	/** Path string where the taken passport photo is saved */
@@ -91,9 +108,14 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 	EditText mobileNumberField;
 	/** Passport number field. Required to register */
 	EditText passportNumberField;
-
+	/**
+	 * Mobile Number validation field, used to enter the validation code sent in message. Required to register
+	 */
 	EditText validationCodeField;
 
+	/**
+	 * Image view to preview the passport image thumbnail taken by the user
+	 */
 	ImageView i;
 
 	String gender = ""; /* Declaration of gender string */
@@ -111,22 +133,49 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 
 	String LoggedID;
 
+	/**
+	 * Validation code sent by message to the user. Default 853589
+	 */
 	int code = 853589;
+	/**
+	 * The validation code the user has entered
+	 */
 	String userValidationCode;
 	/**
 	 * Boolean variable to check that all the required fields are filled and in
 	 * the right format. True if everything is valid. False otherwise
 	 */
 	boolean allValid = false;
-
+	
+	/**
+	 * Boolean variable to check if validation code is valid
+	 */
 	boolean codeValid = false;
+	/**
+	 * Boolean variable to check if the nationality entered by the user is valid
+	 */
 	boolean nationalityValid = false;
+	/**
+	 * Boolean variable to check if the server response was received
+	 */
 	boolean gotResponse = false;
+	/**
+	 * Boolean variable to check that the user has taken the photo of his passport
+	 */
 	boolean photoTaken = false;
+	/**
+	 * Boolean variable to check if the mobile number entered by the user is valid
+	 */
 	boolean mobileValid = false;
-	Bundle savedBundle;
 
+	/**
+	 * Array of all the nationalities
+	 */
 	String[] nationalityStrings;
+	
+	/**
+	 * Bitmap of the passport photo
+	 */
 	Bitmap bitmap;
 
 	/** Called when the activity is first created. */
@@ -179,7 +228,7 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 		ImagePath = savedInstanceState.getString("ImageView");
 		code = savedInstanceState.getInt("ValCode");
 		if (ImagePath.length() > 2)
-		onPhotoTaken();
+			onPhotoTaken();
 		System.out.println("onRestoreInstanceState");
 	}
 
@@ -190,7 +239,6 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 		} catch (Exception e) {
 			System.out.println("CATCHED");
 		}
-		// onSaveInstanceState(savedBundle);
 		System.out.println("onDestroy");
 		super.onDestroy();
 	}
@@ -207,7 +255,6 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 
 	@Override
 	protected void onRestart() {
-		// onRestoreInstanceState(savedBundle);
 		try {
 			unregisterReceiver(receiver);
 		} catch (Exception e) {
@@ -220,7 +267,6 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 
 	@Override
 	protected void onResume() {
-		// onRestoreInstanceState(savedBundle);
 		System.out.println("onResume");
 		super.onResume();
 
@@ -264,8 +310,9 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 					return true;
 				}
 				nationalityValid = false;
-				Toast toast = Toast.makeText(NewUserActivity.this,
-						getResources().getString(R.string.nationality_toast), 0);
+				Toast toast = Toast
+						.makeText(NewUserActivity.this, getResources()
+								.getString(R.string.nationality_toast), 0);
 				toast.show();
 				return false;
 			}
@@ -298,7 +345,8 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 				}
 				codeValid = false;
 				Toast toast = Toast.makeText(NewUserActivity.this,
-						getResources().getString(R.string.country_code_toast), 0);
+						getResources().getString(R.string.country_code_toast),
+						0);
 				toast.show();
 				return false;
 			}
@@ -323,7 +371,7 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 	/** Method called when the take photo button is clicked to open the camera */
 	public void onClick_takePhoto(View v) {
 
-		//if(bitmap!=null) bitmap.recycle();
+		// if(bitmap!=null) bitmap.recycle();
 		// Set the path where the taken photo will be saved
 		ImagePath = Environment.getExternalStorageDirectory().getPath()
 				+ File.separatorChar + "Android/data/"
@@ -368,11 +416,16 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 				onPhotoTaken();
 			} else if (resultCode == RESULT_CANCELED) {
 				// User cancelled the image capture
-				Toast.makeText(this, getResources().getString(R.string.camera_cancelled_toast), Toast.LENGTH_LONG).show();
+				Toast.makeText(
+						this,
+						getResources().getString(
+								R.string.camera_cancelled_toast),
+						Toast.LENGTH_LONG).show();
 			} else {
 				// Image capture failed, advise user
-				Toast.makeText(this,getResources().getString(R.string.camera_failed_toast), Toast.LENGTH_LONG)
-						.show();
+				Toast.makeText(this,
+						getResources().getString(R.string.camera_failed_toast),
+						Toast.LENGTH_LONG).show();
 			}
 		}
 
@@ -381,7 +434,7 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 	protected void onPhotoTaken() {
 
 		bitmap = BitmapFactory.decodeFile(ImagePath);
-	
+
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		bitmap.compress(Bitmap.CompressFormat.JPEG, 0, baos); // bm is the
 																// bitmap object
@@ -395,20 +448,21 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 	}
 
 	public void OnClick_mobileValidate(View v) {
-		
+
 		mobileNumber = (mobileNumberField.getText().toString());
 		String countryCode = countryCodes.getText().toString();
-		System.out.println("MOB: "+mobileNumber.length() + " Code: " + countryCode.length());
+		System.out.println("MOB: " + mobileNumber.length() + " Code: "
+				+ countryCode.length());
 		if (mobileNumber.length() < 1 || countryCode.length() < 1) {
 			Toast.makeText(getBaseContext(),
 					getResources().getString(R.string.mobile_toast),
 					Toast.LENGTH_SHORT).show();
-		} else if(codeValid) {
+		} else if (codeValid) {
 			validationCodeField.setEnabled(true);
-			
+
 			double code1 = Math.random() * 12345;
 			code = (int) code1;
-			
+
 			String SENT = "SMS_SENT";
 			String DELIVERED = "SMS_DELIVERED";
 
@@ -473,13 +527,13 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 					mobileNumber,
 					("This is a message from SheelMaaya /n Validation Code:" + code),
 					null, null);
-			Toast.makeText(this, getResources().getString(R.string.sms_toast), Toast.LENGTH_LONG).show();
-		}
-		else{
-			Toast toast = Toast.makeText(NewUserActivity.this,
-					getResources().getString(R.string.country_code_toast), 0);
+			Toast.makeText(this, getResources().getString(R.string.sms_toast),
+					Toast.LENGTH_LONG).show();
+		} else {
+			Toast toast = Toast.makeText(NewUserActivity.this, getResources()
+					.getString(R.string.country_code_toast), 0);
 			toast.show();
-			
+
 		}
 	}
 
@@ -489,7 +543,8 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 
 		} else {
 			photoTaken = false;
-			Toast.makeText(this, getResources().getString(R.string.passport_photo_toast),
+			Toast.makeText(this,
+					getResources().getString(R.string.passport_photo_toast),
 					Toast.LENGTH_LONG).show();
 		}
 	}
@@ -512,14 +567,21 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 					System.out.println(code + " " + userValidationCode);
 					mobileValid = true;
 				} else {
-					Toast.makeText(this, getResources().getString(R.string.validation_mismatch_toast), 0).show();
+					Toast.makeText(
+							this,
+							getResources().getString(
+									R.string.validation_mismatch_toast), 0)
+							.show();
 				}
 				if (mobileValid) {
-					if(!(passportNumber.length() > 0)){
-						Toast.makeText(this, getResources().getString(R.string.passport_number_toast), 0).show();
-					}
-					else{
-					photoValidation(passportImage);
+					if (!(passportNumber.length() > 0)) {
+						Toast.makeText(
+								this,
+								getResources().getString(
+										R.string.passport_number_toast), 0)
+								.show();
+					} else {
+						photoValidation(passportImage);
 					}
 				}
 			}
@@ -617,29 +679,36 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 						String input = gson.toJson(user);
 						System.out.println("GSONSTRING: " + input);
 
-
-						dialog = ProgressDialog.show(NewUserActivity.this, "",
-								getResources().getString(R.string.registering_dialog), true, false);
+						dialog = ProgressDialog.show(
+								NewUserActivity.this,
+								"",
+								getResources().getString(
+										R.string.registering_dialog), true,
+								false);
 						dialog.setCancelable(false);
 
 						HTTPManager.startHttpService(path, input,
 								HTTP_REGISTER_USER, getApplicationContext());
-						Toast.makeText(NewUserActivity.this,
-								getResources().getString(R.string.success_registration_toast), Toast.LENGTH_LONG)
-								.show();
+						Toast.makeText(
+								NewUserActivity.this,
+								getResources().getString(
+										R.string.success_registration_toast),
+								Toast.LENGTH_LONG).show();
 
 						System.out.println("Done in DataBase");
 
-
 					} else if (responseStr.equalsIgnoreCase("true")) {
 
-
-						Bundle extras = getIntent().getExtras(); 
+						Bundle extras = getIntent().getExtras();
 						int pos = 0;
-						if (extras != null) pos = extras.getInt(POSITION_KEY);
-						System.out.println("Navigating too: "+ NAVIGATION_ITEMS[pos].getActivityType().getName());
-						
-						Intent navigateToIntent = new Intent(getBaseContext(), NAVIGATION_ITEMS[pos].getActivityType());
+						if (extras != null)
+							pos = extras.getInt(POSITION_KEY);
+						System.out.println("Navigating too: "
+								+ NAVIGATION_ITEMS[pos].getActivityType()
+										.getName());
+
+						Intent navigateToIntent = new Intent(getBaseContext(),
+								NAVIGATION_ITEMS[pos].getActivityType());
 						startActivity(navigateToIntent);
 						finish();
 
@@ -651,13 +720,17 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 
 				} else if (action.equals(HTTP_REGISTER_USER)) {
 
-					
-					Bundle extras = getIntent().getExtras(); 
+					Bundle extras = getIntent().getExtras();
 					int pos = 0;
-					if (extras != null) pos = extras.getInt(POSITION_KEY);
-					System.out.println("Navigating too: "+ NAVIGATION_ITEMS[pos].getActivityType().getName());
-					
-					Intent navigateToIntent = new Intent(getBaseContext(), NAVIGATION_ITEMS[pos].getActivityType());
+					if (extras != null)
+						pos = extras.getInt(POSITION_KEY);
+					System.out
+							.println("Navigating too: "
+									+ NAVIGATION_ITEMS[pos].getActivityType()
+											.getName());
+
+					Intent navigateToIntent = new Intent(getBaseContext(),
+							NAVIGATION_ITEMS[pos].getActivityType());
 					startActivity(navigateToIntent);
 					finish();
 				}
@@ -705,19 +778,21 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 			userValidationCode = validationCodeField.getText().toString();
 
 			validate();
-			if (allValid ){
+			if (allValid) {
 
 				String path = "/checkRegistered/" + faceBookID;
 
 				HTTPManager.startHttpService(path, HTTP_CHECK_REGISTERED,
 						getApplicationContext());
-				}
+			}
 		} else {
 			// NO INTERNET AVAILABLE, DO STUFF..
 
-			showAlert(getResources().getString(R.string.network_fail_header_alert),
-					getResources().getString(R.string.network_fail_message_alert))
-					.show();
+			showAlert(
+					getResources()
+							.getString(R.string.network_fail_header_alert),
+					getResources().getString(
+							R.string.network_fail_message_alert)).show();
 		}
 	}
 
