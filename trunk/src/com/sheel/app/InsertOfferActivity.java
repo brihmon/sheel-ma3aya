@@ -290,7 +290,7 @@ public class InsertOfferActivity extends UserSessionStateMaintainingActivity {
 		
 		Gson gson = new Gson();
 		  dialog = new ProgressDialog(this);
-	      dialog.setMessage("Please wait");
+	      dialog.setMessage(getResources().getString(R.string.please_wait));
 	      dialog.show();
 		
 		String input = gson.toJson(flight);
