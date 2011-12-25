@@ -191,11 +191,11 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 
 	}
 
+	/**
+	 * Save all the data entered by the user in the instanceState to be restored later
+	 */
 	@Override
 	public void onSaveInstanceState(Bundle savedInstanceState) {
-		// Save UI state changes to the savedInstanceState.
-		// This bundle will be passed to onCreate if the process is
-		// killed and restarted.
 		savedInstanceState.putString("MobileCode", countryCodes.getText()
 				.toString());
 		savedInstanceState.putString("MobileNumber", mobileNumberField
@@ -212,12 +212,15 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 
 		super.onSaveInstanceState(savedInstanceState);
 	}
-
+	
+	
+/**
+ * Restore all the previously entered data from the instanceState
+ */
 	@Override
 	public void onRestoreInstanceState(Bundle savedInstanceState) {
 		super.onRestoreInstanceState(savedInstanceState);
-		// Restore UI state from the savedInstanceState.
-		// This bundle has also been passed to onCreate.
+
 		countryCodes.setText(savedInstanceState.getString("MobileCode"));
 		mobileNumberField.setText(savedInstanceState.getString("MobileNumber"));
 		validationCodeField.setText(savedInstanceState
@@ -317,7 +320,7 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 				return false;
 			}
 
-			// @Override
+
 			public CharSequence fixText(CharSequence invalidText) {
 
 				return invalidText;
@@ -335,7 +338,7 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 		countryCodes.setAdapter(adapter);
 		Validator MobileValidator = new Validator() {
 
-			// @Override
+
 			public boolean isValid(CharSequence text) {
 				Log.v("Test", "Checking if valid: " + text);
 				Arrays.sort(codeStrings);
@@ -351,7 +354,6 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 				return false;
 			}
 
-			// @Override
 			public CharSequence fixText(CharSequence invalidText) {
 
 				return invalidText;
@@ -371,7 +373,7 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 	/** Method called when the take photo button is clicked to open the camera */
 	public void onClick_takePhoto(View v) {
 
-		// if(bitmap!=null) bitmap.recycle();
+
 		// Set the path where the taken photo will be saved
 		ImagePath = Environment.getExternalStorageDirectory().getPath()
 				+ File.separatorChar + "Android/data/"
@@ -404,6 +406,7 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 		startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
 	} // end onClick_takePhoto
 
+
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
@@ -427,10 +430,13 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 						getResources().getString(R.string.camera_failed_toast),
 						Toast.LENGTH_LONG).show();
 			}
-		}
+		}// end CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE
 
-	}
-
+	}// end onActivityResult
+	
+/**
+ * method used to convert the image taken to bitmap and set the image view to the thumbnail of the image
+ */
 	protected void onPhotoTaken() {
 
 		bitmap = BitmapFactory.decodeFile(ImagePath);
@@ -445,8 +451,12 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 		i.setImageBitmap(bitmap);
 		System.out.println("Photo Success");
 
-	}
+	}//end onPhotoTaken
 
+	/**
+	 * Method used to send a validation code in a message to the user
+	 * @param v
+	 */
 	public void OnClick_mobileValidate(View v) {
 
 		mobileNumber = (mobileNumberField.getText().toString());
