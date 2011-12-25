@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+ <ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="440px"
+    android:layout_height="wrap_content" 
+    android:scrollbars="vertical"
+    > 
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:stretchColumns="1"
+    android:orientation="vertical" 
+    >
+    
+
+    
+    <TableRow>
+    
+    <EditText android:id="@+id/fNum"/>
+    <TextView android:text="@string/flight_number"
+        android:layout_gravity="center"/>
+    </TableRow>
+    
+    <TableRow > 
+        <TextView android:text=""/>
+    <TextView android:text="@string/source"
+        android:layout_gravity="center"/>
+     
+    </TableRow>
+     
+  
+           <AutoCompleteTextView         
+    android:id="@+id/sAirport"      
+    android:layout_width="fill_parent"        
+    android:layout_height="wrap_content"     />   
+  
+        
+   
+    <TableRow>
+         <TextView android:text=""/>
+    <TextView android:text="@string/destination"
+        android:layout_gravity="center"
+       />
+    
+    </TableRow>
+       <AutoCompleteTextView       
+    android:id="@+id/dAirport"        
+    android:layout_width="fill_parent"        
+    android:layout_height="wrap_content"   />     
+    
+     <TableRow >
+    
+           <Button
+        android:id="@+id/the_change_button"
+        android:layout_marginTop="2px"
+        android:text="@string/Change"
+        android:maxWidth="150px" />
+         
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+    <TextView android:text="@string/flight_date" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+    <TextView android:id="@+id/editText1" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+    </LinearLayout>
+    
+   
+
+
+           
+    
+    </TableRow>
+
+        <!-- 
+    <TextView android:text="Departure time :"/>
+    <TextView android:id="@+id/editText2" 
+    android:layout_height="wrap_content" 
+    android:layout_width="wrap_content" 
+    android:clickable="true">
+    </TextView> 
+  
+     
+    
+ <TextView android:text="Go to main page ..."
+     		android:clickable="true"
+     		android:onClick="onClick_goMainPage"
+     		android:textColor="@android:color/background_light"
+     		/>-->
+        <TextView android:id="@+id/edit_error1"
+                  android:layout_width="wrap_content"
+   				   android:layout_height="wrap_content"
+   				   android:layout_gravity="right"
+                 		android:textColor="#CC0000"/>
+             
+             <TextView android:id="@+id/edit_error2"
+                   android:layout_width="wrap_content"
+   				   android:layout_height="wrap_content"
+   				   android:layout_gravity="right"
+                 		android:textColor="#CC0000"/>
+<TableRow>
+    
+ 
+    <Button
+        android:id="@+id/edit_flight_cancel"
+         android:width="220px"
+        android:layout_height="wrap_content"
+        android:text="@string/Cancel" />
+    
+        <Button
+        android:id="@+id/edit_flight_save"
+          android:width="220px"
+        android:layout_height="wrap_content"
+        android:text="@string/Save" />
+    
+</TableRow>
+ 
+</TableLayout>
+</ScrollView>
