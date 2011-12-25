@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.sheel.datastructures.FacebookUser;
+import com.sheel.datastructures.NavigationItem;
 import com.sheel.datastructures.enums.SharedValuesBetweenActivities;
 import com.sheel.listeners.LoginDataBaseListener;
 import com.sheel.webservices.FacebookWebservice;
@@ -38,8 +39,16 @@ public class UserSessionStateMaintainingActivity extends Activity {
 		new NavigationItem(getResources().getString(R.id.menu_main_myoffers), R.drawable.sheel_menu_main_myoffers, R.drawable.sheel_menu_main_myoffers, MyOffersActivity.class),
 		new NavigationItem(getResources().getString(R.id.menu_main_logout), R.drawable.sheel_menu_main_logout, R.drawable.sheel_menu_main_logout, SheelMaayaaActivity.class),
 			
-	};
+	};		
 	*/
+	
+	private final NavigationItem[] NAVIGATION_ITEMS = new NavigationItem[] {
+		new NavigationItem("Search existing offers", R.drawable.sheel_menu_main_search, R.drawable.sheel_dashboard_search_en, GetUserInfoActivity.class),
+		new NavigationItem("Declare New Offer", R.drawable.sheel_menu_main_declare, R.drawable.sheel_dashboard_declare_en, InsertOfferActivity.class),
+		new NavigationItem("View My Offers", R.drawable.sheel_menu_main_myoffers, R.drawable.sheel_dashboard_myoffers_en, MyOffersActivity.class),
+		new NavigationItem("Logout", R.drawable.sheel_menu_main_logout, R.drawable.sheel_menu_main_logout, SheelMaayaaActivity.class)
+	};
+	
 	/**
 	 * It handles all requests to facebook API. Moreover, it has
 	 * all related info to logged in user and session
@@ -75,13 +84,21 @@ public class UserSessionStateMaintainingActivity extends Activity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		/**
 		 * This method is used to create the main menu of the app
-		 * @author 
-		 * 		Passant El.Agroudy (passant.elagroudy@gmail.com)
+		 * 
+		 * @author Passant El.Agroudy (passant.elagroudy@gmail.com)
 		 */
+		if (this.getClass().equals(SheelMaayaaActivity.class)) {
+			return false;
+		}// end if: in the dashboard view hide menu
 		MenuInflater inflater = getMenuInflater();
-	    inflater.inflate(R.layout.menu_main, menu);
-	    return true;
+		inflater.inflate(R.layout.menu_main, menu);
+		return true;
+
 	}// end onCreateOptionsMenu
+	
+	public NavigationItem[] getNavigationItems() {
+		return NAVIGATION_ITEMS;
+	}
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
@@ -217,27 +234,33 @@ public class UserSessionStateMaintainingActivity extends Activity {
 			fbService = new FacebookWebservice();
 		
 	if(!getFacebookService().getFacebookUser().isRequestedBeforeSuccessfully()){
-		CheckUserLoginStatusFromDbListener dbListener = new CheckUserLoginStatusFromDbListener(filter);
+		CheckUserLoginStatusFromDbListener dbListener = new CheckUserLoginStatusFromDbListener(filter,position);
 		registerReceiver(dbListener, filter);
 		getFacebookService().login(this, true, true, dbListener, getApplicationContext());
 		System.out.println("First time to register receiver");
 	}
 	else{
-		System.out.println("already registered receiver");
+		System.out.println("already registered receiver -> move to activity");
+		goToActivity(NAVIGATION_ITEMS[position].getActivityType());
 	}
 		
 	}// end onClick_dashBoardItem
 	
 	class CheckUserLoginStatusFromDbListener extends LoginDataBaseListener{
+		/**
+		 * Element position in the list to know which activity should it divert to
+		 */
+		int position;
 
-		public CheckUserLoginStatusFromDbListener(IntentFilter filterToAddActionTo){
-			super(filterToAddActionTo);			
+		public CheckUserLoginStatusFromDbListener(IntentFilter filterToAddActionTo, int position){
+			super(filterToAddActionTo);		
+			this.position = position;
 		}// end constructor
 		
 		public void doActionUserIsRegistered() {
 			System.out.println("doActionUserIsRegistered from UserSessionMaintainingActivity");
 			Toast.makeText(getApplicationContext(), "The user is logging in", Toast.LENGTH_LONG).show();
-			goToActivity(ConnectorUserActionsActivity.class);
+			goToActivity(NAVIGATION_ITEMS[position].getActivityType());
 		}// end doActionUserIsRegistered
 
 		public void doActionUserIsNotRegistered() {

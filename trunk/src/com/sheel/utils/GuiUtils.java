@@ -456,6 +456,11 @@ public final class GuiUtils extends Activity{
     	
     }// end SetIconForATextField
 	
+    public void setIconForATextField(int rscId, TextView textView, int mode) {
+    	Drawable img = this.mContext.getResources().getDrawable(rscId);
+    	setIconForATextField(img, textView, mode);
+    }
+    
 	/**
 	 * Used to add an image to the left side of a text view.
 	 * 
@@ -482,6 +487,7 @@ public final class GuiUtils extends Activity{
     	case 1:img.setBounds( 0, 0, 50, 50 ); break;
     	case 2:img.setBounds( 0, 0, 80, 80 ); break;
     	case 3:img.setBounds( 0, 0, 33, 33 ); break;
+    	case 4:img.setBounds(0, 0, 60, 60); break;
     	default:img.setBounds( 0, 0, 50, 50 ); break;
     	}// end switch : specify size according to mode
     	//In case of left to right put the icon on the left, put it on the right otherwise
@@ -497,19 +503,12 @@ public final class GuiUtils extends Activity{
     	
     }// end setIconForATextField
  
-    public void addRightButtonToTextField(Context appContext, TextView textView, String txt) {
-    	
-    	Button btn = new Button(appContext);
-    	btn.setText("mutual");
-    	
-    	
-    	
-    	//if(this.writingMode.equals("LeftToRight"))
-    	//	textView.setCompoundDrawables(null, null, btn, null);
-    	//else
-    	//	textView.setCompoundDrawables(null, null, img, null);
-    	
-    }// end addRightButtonToTextField
+	  public void setBackgroundOfTextView(TextView textView,int leftToRightRsc ,int rightToLeftRsc) {
+		  if(this.writingMode.equals("LeftToRight"))
+	    		textView.setBackgroundResource(leftToRightRsc);
+	    	else
+	    		textView.setBackgroundResource(rightToLeftRsc);	    	
+	  }// end setBackgroundOfTextView
     
     public void createDialogueWithScrollableList(Context appContext,Activity activity,  String title , String[] data) {
     	AlertDialog.Builder builder = new AlertDialog.Builder(activity);
