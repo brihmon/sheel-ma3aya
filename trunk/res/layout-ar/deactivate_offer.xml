@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <TextView android:text="@string/are_you_sure_you_want_to_deactivate"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+          android:layout_width="fill_parent"
+            android:layout_height="fill_parent"/>
+    
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal" >
+
+         <Button android:id="@+id/no_deactivate"
+            android:text="@string/no"
+            android:width="220px"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"/>
+        <Button android:id="@+id/yes_deactivate"
+            android:text="@string/yes"
+            android:width="220px"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"/>
+      
+
+</LinearLayout>
+    
+
+</LinearLayout>
