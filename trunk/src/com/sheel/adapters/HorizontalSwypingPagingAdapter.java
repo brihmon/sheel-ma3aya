@@ -16,7 +16,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
-import com.sheel.app.R;
 import com.sheel.datastructures.Category;
 import com.sheel.datastructures.FacebookUser;
 import com.sheel.datastructures.OfferDisplay2;
@@ -152,8 +151,8 @@ public class HorizontalSwypingPagingAdapter extends PagerAdapter  implements Tit
 				
 					if (v != null) 
 					{
-						ViewStub stub = (ViewStub) v.findViewById(R.id.infoStub);
-						View inflated = (View) v.findViewById(R.id.infoStubInflated);
+						ViewStub stub = (ViewStub) v.findViewById(com.sheel.app.R.id.infoStub);
+						View inflated = (View) v.findViewById(com.sheel.app.R.id.infoStubInflated);
 						
 						toggleVisibilityOfStub(stub, position);
 						toggleVisibilityOfStubInfo(inflated);
@@ -197,7 +196,8 @@ public class HorizontalSwypingPagingAdapter extends PagerAdapter  implements Tit
 		
 		System.out.println("HorizontalSwypingPager: instantiateItem: offers: " + categories.get(position).getOffersDisplayed() );
 		
-		ListView displayList = (ListView)view.findViewById(R.id.list);
+		
+		ListView displayList = (ListView)view.findViewById(com.sheel.app.R.id.list);
 		
 		
 		if (displayList != null) {
