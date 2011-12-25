@@ -333,7 +333,13 @@ public class OfferDisplay2 {
 			
 			Log.e("Map Offer: ", (i++) + "" );// 3
 			
-			nationality = nationalities[Integer.parseInt(nationality)];
+			int nationalityIndex = Integer.parseInt(nationality);
+			
+			if(nationalityIndex < 0 || nationalityIndex >= nationalities.length)
+				nationality = "N/A";
+			
+			else
+				nationality = nationalities[nationalityIndex];
 			
 			Log.e("Map Offer: ", (i++) + "" );// 4
 			
@@ -402,6 +408,10 @@ public class OfferDisplay2 {
 			i = 0;
 			return null;
 		}
+	catch (NumberFormatException e) {
+		Log.e("Map Offer: ", "index not a number");
+		return null;
+	}
 	}//end method mapOffer
 	
 	
