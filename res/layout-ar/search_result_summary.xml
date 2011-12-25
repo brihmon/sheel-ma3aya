@@ -18,6 +18,7 @@ http://developer.android.com/guide/topics/ui/layout-objects.html
 http://developer.android.com/resources/articles/layout-tricks-efficiency.html
 
 @author Hossam Amer (hossam.amer12@gmail.com)
+@author Passant El.Agroudy (passant.elagroudy@gmail.com)
  -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
@@ -30,7 +31,7 @@ http://developer.android.com/resources/articles/layout-tricks-efficiency.html
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:text="give 5 Kg" 
-        
+        android:layout_toRightOf="@id/summary_price"
         android:layout_centerHorizontal="true"
         android:layout_alignParentTop="true"
         android:layout_alignWithParentIfMissing="true"
@@ -48,7 +49,7 @@ http://developer.android.com/resources/articles/layout-tricks-efficiency.html
         
         
         
-        android:layout_toLeftOf="@id/summary_numberOfKilos"
+        
         android:layout_alignTop="@id/summary_numberOfKilos"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
