@@ -37,7 +37,7 @@ public class UserSessionStateMaintainingActivity extends Activity {
 	 * Encapuslators for different info needed for navigation items (menus, dash board, etc.)
 	 * @see NavigationItem
 	 */
-	private final NavigationItem[] NAVIGATION_ITEMS = new NavigationItem[] {
+	 final NavigationItem[] NAVIGATION_ITEMS = new NavigationItem[] {
 		new NavigationItem("Search existing offers", R.drawable.sheel_menu_main_search, R.drawable.sheel_dashboard_search_en, GetUserInfoActivity.class),
 		new NavigationItem("Declare New Offer", R.drawable.sheel_menu_main_declare, R.drawable.sheel_dashboard_declare_en, InsertOfferActivity.class),
 		new NavigationItem("View My Offers", R.drawable.sheel_menu_main_myoffers, R.drawable.sheel_dashboard_myoffers_en, MyOffersActivity.class),
@@ -219,7 +219,13 @@ public class UserSessionStateMaintainingActivity extends Activity {
 		Intent intent = new Intent(this.getApplicationContext(), typeOfNextActivity);
 		startActivity(intent);
 	}// end goToActivity
-	
+
+	public void goToActivity(int position, Class<?> typeOfNextActivity) {
+		Intent intent = new Intent(this.getApplicationContext(), typeOfNextActivity);
+		intent.putExtra(NewUserActivity.POSITION_KEY, position);
+		startActivity(intent);
+	}// end goToActivity
+
 	/**
 	 * Used to lock current state of orientation.
 	 * i.e: If mobile in landscape mode, lock it to landscape.
@@ -272,7 +278,7 @@ public class UserSessionStateMaintainingActivity extends Activity {
 		}// end constructor
 		
 		public void doActionUserIsRegistered() {
-			System.out.println("doActionUserIsRegistered from UserSessionMaintainingActivity");
+			System.out.println("doActionUserIsRegistered from UserSessionMaintainingActivity ");
 			Toast.makeText(getApplicationContext(), "The user is logging in", Toast.LENGTH_LONG).show();
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
 			goToActivity(NAVIGATION_ITEMS[position].getActivityType());
@@ -282,7 +288,7 @@ public class UserSessionStateMaintainingActivity extends Activity {
 			System.out.println("doActionUserIsNotRegistered from UserSessionMaintainingActivity");	
 			Toast.makeText(getApplicationContext(), "The user needs to register", Toast.LENGTH_LONG).show();
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
-			goToActivity(NewUserActivity.class);			
+			goToActivity(position,NewUserActivity.class);			
 		}// end doActionUserIsNotRegistered
 		
 	}// end CheckUserLoginStatusFromDbListener

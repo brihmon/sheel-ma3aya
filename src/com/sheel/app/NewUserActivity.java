@@ -71,6 +71,8 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 	private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
 	private Uri fileUri;
 	private static final String TAG = "MyActivity";
+	
+	public static final String POSITION_KEY = "position";
 
 	/**
 	 * Filter added for this activity to filter the actions received by the
@@ -661,12 +663,14 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 						// public void onClick(DialogInterface dialog, int
 						// which) {
 
-						Intent statedIntent = new Intent(getBaseContext(),
-								ConnectorUserActionsActivity.class);
-						statedIntent.putExtra(
-								ConnectorUserActionsActivity.LOGGED_ID_KEY,
-								faceBookID);
-						startActivity(statedIntent);
+						Bundle extras = getIntent().getExtras(); 
+						int pos = 0;
+						if (extras != null) pos = extras.getInt(POSITION_KEY);
+						System.out.println("Navigating too: "+ NAVIGATION_ITEMS[pos].getActivityType().getName());
+						
+						Intent navigateToIntent = new Intent(getBaseContext(), NAVIGATION_ITEMS[pos].getActivityType());
+						startActivity(navigateToIntent);
+						finish();
 						// }
 						// });
 						// a.show();
@@ -677,12 +681,15 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 					Log.e(TAG, responseStr);
 
 				} else if (action.equals(HTTP_REGISTER_USER)) {
-					Intent statedIntent = new Intent(getBaseContext(),
-							ConnectorUserActionsActivity.class);
-					statedIntent.putExtra(
-							ConnectorUserActionsActivity.LOGGED_ID_KEY,
-							faceBookID);
-					startActivity(statedIntent);
+
+					
+					Bundle extras = getIntent().getExtras(); 
+					int pos = 0;
+					if (extras != null) pos = extras.getInt(POSITION_KEY);
+					System.out.println("Navigating too: "+ NAVIGATION_ITEMS[pos].getActivityType().getName());
+					
+					Intent navigateToIntent = new Intent(getBaseContext(), NAVIGATION_ITEMS[pos].getActivityType());
+					startActivity(navigateToIntent);
 					finish();
 				}
 
@@ -780,7 +787,7 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 + "gABAQAAAQABAAD/2wB/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBA"
 		 		+"gABAQAAAQABAAD/2wB/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBA";
 			*/ 		//passportImage = passportImage.substring(50, 100);
-					System.out.println("SUB: " + passportImage.length());
+					System.out.println("SUBBBB: " + passportImage.length());
 			}
 		} else {
 			// NO INTERNET AVAILABLE, DO STUFF..
