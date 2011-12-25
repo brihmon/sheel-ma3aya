@@ -545,8 +545,13 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 			toast.show();
 
 		}
-	}
-
+	}//end OnClick_mobileValidate
+	
+	
+/**
+ * Method used to check if the user has taken the passport photo
+ * @param passporttemp
+ */
 	public void photoValidation(String passporttemp) {
 		if (passporttemp.length() > 0) {
 			photoTaken = true;
@@ -557,8 +562,11 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 					getResources().getString(R.string.passport_photo_toast),
 					Toast.LENGTH_LONG).show();
 		}
-	}
+	}//end photoValidation
 
+	/**
+	 * 
+	 */
 	public void validate() {
 		String countryCode = countryCodes.getText().toString();
 
