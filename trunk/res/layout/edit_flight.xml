@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+ <ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="440px"
+    android:layout_height="wrap_content" 
+    android:scrollbars="vertical"
+    > 
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_marginTop="20px"
+    android:stretchColumns="1"
+    android:orientation="vertical" 
+    >
+    
+
+    
+    <TableRow    android:layout_marginBottom="30px">
+    <TextView android:text="@string/flight_number"/>
+    <EditText android:id="@+id/fNum"/>
+    </TableRow>
+    
+    <TableRow > 
+    <TextView android:text="@string/source"/>
+     
+    </TableRow>
+     
+  
+           <AutoCompleteTextView         
+    android:id="@+id/sAirport"      
+       android:layout_marginBottom="30px"  
+    android:layout_width="fill_parent"        
+    android:layout_height="wrap_content"     />   
+  
+        
+   
+    <TableRow>
+    <TextView android:text="@string/destination"/>
+    
+    </TableRow>
+       <AutoCompleteTextView      
+              android:layout_marginBottom="30px"   
+    android:id="@+id/dAirport"        
+    android:layout_width="fill_parent"        
+    android:layout_height="wrap_content"   />     
+    
+     <TableRow    android:layout_marginBottom="30px">
+    <TextView android:text="@string/flight_date"/>
+    <TextView  android:id="@+id/editText1" 
+    android:layout_height="wrap_content" 
+    android:layout_width="wrap_content"
+    android:clickable="true">
+ 
+        <requestFocus></requestFocus>
+    </TextView >
+       <Button android:text="@string/Change"
+     android:layout_marginTop="2px"
+     android:onClick="onClick_change"></Button>
+           
+    
+    </TableRow>
+
+        <!-- 
+    <TextView android:text="Departure time :"/>
+    <TextView android:id="@+id/editText2" 
+    android:layout_height="wrap_content" 
+    android:layout_width="wrap_content" 
+    android:clickable="true">
+    </TextView> 
+  
+     
+    
+ <TextView android:text="Go to main page ..."
+     		android:clickable="true"
+     		android:onClick="onClick_goMainPage"
+     		android:textColor="@android:color/background_light"
+     		/>-->
+        <TextView android:id="@+id/edit_error1"
+                  android:layout_width="wrap_content"
+   				   android:layout_height="wrap_content"
+                 		android:textColor="#CC0000"/>
+             
+             <TextView android:id="@+id/edit_error2"
+                   android:layout_width="wrap_content"
+   				   android:layout_height="wrap_content"
+                 		android:textColor="#CC0000"/>
+<TableRow>
+    
+    <Button
+        android:id="@+id/edit_flight_save"
+         
+        android:layout_height="wrap_content"
+        android:text="@string/Save" />
+
+    <Button
+        android:id="@+id/edit_flight_cancel"
+         
+        android:layout_height="wrap_content"
+        android:text="@string/Cancel" />
+    
+</TableRow>
+ 
+</TableLayout>
+</ScrollView>
