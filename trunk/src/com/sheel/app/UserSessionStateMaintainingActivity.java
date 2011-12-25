@@ -286,7 +286,7 @@ public class UserSessionStateMaintainingActivity extends Activity {
 
 		public void doActionUserIsNotRegistered() {
 			System.out.println("doActionUserIsNotRegistered from UserSessionMaintainingActivity");	
-			Toast.makeText(getApplicationContext(), "The user needs to register", Toast.LENGTH_LONG).show();
+			Toast.makeText(getApplicationContext(), getResources().getString(R.string.registration_toast), Toast.LENGTH_LONG).show();
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
 			goToActivity(position,NewUserActivity.class);			
 		}// end doActionUserIsNotRegistered

@@ -77,117 +77,14 @@
             android:id="@+id/validationCode"
             android:inputType="number"
             android:layout_width="100dp"
-            android:layout_height="35dp" 
+            android:layout_height="35dp"
+            android:hint="@string/validation_hint"
+            android:enabled="false"
             android:textSize="15dp">
         </EditText>
         
     </TableRow>
         
-
-    <!-- Email 
-
-    <TableRow >
-
-        <TextView
-            android:id="@+id/textView8"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="8dip"
-            android:text="Email* " >
-        </TextView>
-
-        <EditText
-            android:id="@+id/email"
-            android:layout_width="fill_parent"
-            android:layout_height="35dp"
-            android:layout_column="1" >
-        </EditText>
-    </TableRow>
-
-   
-
-    <TableRow >
-
-        <TextView
-            android:id="@+id/textView6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="8dip"
-            android:text="First Name* " >
-        </TextView>
-
-        <EditText
-            android:id="@+id/FirstName"
-            android:layout_width="wrap_content"
-            android:layout_height="35dp" >
-        </EditText>
-    </TableRow>
- 
-
-    <TableRow >
-
-        <TextView
-            android:id="@+id/textView4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="8dip"
-            android:text="Middle Name " >
-        </TextView>
-
-        <EditText
-            android:id="@+id/MiddleName"
-            android:layout_width="fill_parent"
-            android:layout_height="35dp" >
-        </EditText>
-    </TableRow>
-
-    <TableRow >
-
-        <TextView
-            android:id="@+id/textView9"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:padding="8dip"
-            android:text="Last Name* " >
-        </TextView>
-
-        <EditText
-            android:id="@+id/LastName"
-            android:layout_width="fill_parent"
-            android:layout_height="35dp" >
-        </EditText>
-
-
-    </TableRow>
-
-    <TableRow >
-
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="8dip"
-            android:text="Gender " >
-        </TextView>
-
-        <RadioButton
-            android:id="@+id/toggleMale"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:drawableBottom="@drawable/gender_male"
-            android:onClick="onClick_male" >
-        </RadioButton>
-
-        <RadioButton
-            android:id="@+id/toggleFemale"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:layout_column="2"
-            android:drawableBottom="@drawable/gender_female"
-            android:onClick="onClick_female" />
-    </TableRow>
-    -->
      <!-- Nationality -->
 
     <TableRow android:layout_marginTop="5dp">
