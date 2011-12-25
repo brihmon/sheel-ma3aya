@@ -7,6 +7,7 @@ import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -16,6 +17,7 @@ import com.sheel.datastructures.FacebookUser;
 import com.sheel.datastructures.NavigationItem;
 import com.sheel.datastructures.enums.SharedValuesBetweenActivities;
 import com.sheel.listeners.LoginDataBaseListener;
+import com.sheel.utils.GuiUtils;
 import com.sheel.webservices.FacebookWebservice;
 
 /**
@@ -64,10 +66,52 @@ public class UserSessionStateMaintainingActivity extends Activity {
 		else
 			Log.e(TAG_CLASS_PACKAGE,"Facebook service is not initialized yet");
 		
+		/**
+		 * on creating a new activity -> check the facebook session status.
+		 * If not connected, tell the user and prompt login 
+		 * The if statement to exclude the case of the dashboard,
+		 * because already each button checks 
+		 */
+		if (!this.getClass().equals(SheelMaayaaActivity.class)) {
+			validateSession(true);
+		}// end if 
 	
 		// do any logic you want
 		
 	}// end onCreate
+	
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onKeyDown(int, android.view.KeyEvent)
+	 */
+//	@Override
+//	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		/**
+		 * Used to check on the back button that the facebook
+		 * session hasn't expired yet. If it expired it shows
+		 * a warning message to the user and diverts him to dash 
+		 * board
+		 * @author Passant El.Agroudy (passant.elagroudy@gmail.com)
+		 */
+	//	if (keyCode == KeyEvent.KEYCODE_BACK) {
+	 //       validateSession(true);
+	        //return true;
+	  //  }
+	   // return super.onKeyDown(keyCode, event);
+//	}// end onKeyDown
+	
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onStart()
+	 */
+	@Override
+	protected void onRestart() {
+		/**
+		 * Used to check on restarting an activity if the facebook
+		 * session is valid or not
+		 * @author Passant El.Agroudy (passant.elagroudy@gmail.com)
+		 */
+		super.onRestart();
+		validateSession(true);
+	}// end onStart
 	
 	@Override 
     protected void onActivityResult(int requestCode, int resultCode, android.content.Intent data) {
@@ -131,16 +175,7 @@ public class UserSessionStateMaintainingActivity extends Activity {
 		Intent intent = new Intent(this, typeOfNextActivity);
 		startActivity(intent);
 		return true;
-		
-//		if (item.getItemId() == R.id.menu_main_logout) {
-//			if (getFacebookService() != null)
-//				getFacebookService().logout(this);
-//				/* because the session is static, if not set to null, the app
-//				 * will never login again until it is closed then re-opened*/
-//			setFacebookService(null);
-//		}// end if : user wants to logout
-//		
-		
+				
 	}// end onOptionsItemSelected
 	
 	/**
@@ -250,8 +285,12 @@ public class UserSessionStateMaintainingActivity extends Activity {
 		if (fbService == null)
 			fbService = new FacebookWebservice();
 
+		System.out.println("onClick_dashBoardItem: IsvalidSession? "+ getFacebookService().isSessionValid());
+	
+		validateSession(false);
+		
 		if (!getFacebookService().getFacebookUser()
-				.isRequestedBeforeSuccessfully()) {
+				.isRequestedBeforeSuccessfully() ) {
 			CheckUserLoginStatusFromDbListener dbListener = new CheckUserLoginStatusFromDbListener(
 					filter, position);
 			registerReceiver(dbListener, filter);
@@ -266,6 +305,55 @@ public class UserSessionStateMaintainingActivity extends Activity {
 
 	}// end onClick_dashBoardItem
 
+	/**
+	 * Used to validate the facebook session.
+	 * If the session has expired, it shows a warning message for the
+	 * user and diverts him to the dash board optionally
+	 * 
+	 * @param goToDashboard
+	 * 		<ul>
+	 * 			<li><code>true</code>: go to dash baord after log out</li>
+	 * 			<li><code>false</code>: just logout and initialize service</li>
+	 * 		<ul>
+	 * @author 
+	 *		Passant El.Agroudy (passant.elagroudy@gmail.com)
+	 */
+	public void validateSession(boolean goToDashboard) {
+		
+		Log.e(TAG_CLASS_PACKAGE, "validate session");
+		if (getFacebookService() != null) {
+			if (!getFacebookService().isSessionValid()) {			
+				
+				getFacebookService().logout(this);
+				
+							
+				setFacebookService(new FacebookWebservice());				
+
+				if (goToDashboard) {
+					GuiUtils localizedGuiUtils = new GuiUtils(
+							getApplicationContext());
+						
+					localizedGuiUtils.showAlertWhenNoResultsAreAvailable(this,
+							"Your sessionhas expired",
+							localizedGuiUtils.getOkay(),
+							SheelMaayaaActivity.class, null, null);
+										
+					goToActivity(SheelMaayaaActivity.class);
+				}
+			}// end if: session has expired -> force logout
+		}// end if: avoid null poionter exceptions when app is opened
+	}// end validateSession
+	
+	/**
+	 * Class used to listen to the responses of the Database for 
+	 * checking whether the logging user exists -or needs to register
+	 * 
+	 * @author 
+	 *		Passant El.Agroudy (passant.elagroudy@gmail.com)
+	 * @author 
+	 *		Nada Emad
+	 *
+	 */
 	class CheckUserLoginStatusFromDbListener extends LoginDataBaseListener{
 		/**
 		 * Element position in the list to know which activity should it divert to
