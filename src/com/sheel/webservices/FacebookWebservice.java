@@ -1,5 +1,6 @@
 package com.sheel.webservices;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Iterator;
@@ -62,7 +63,7 @@ public class FacebookWebservice {
 	/**
 	 * Instance of facebook for accessing all the features
 	 */
-	private Facebook facebook = new Facebook(APP_ID);
+	private final Facebook facebook = new Facebook(APP_ID);
 	/**
 	 * Asynchronous API requests to avoid blocking the UI thread
 	 */
@@ -82,6 +83,7 @@ public class FacebookWebservice {
 	 * Default constructor
 	 */
 	public FacebookWebservice(){
+		//this.facebook.setAccessExpires(3600000);
 		
 	}// end constructor
 	
@@ -189,10 +191,45 @@ public class FacebookWebservice {
 		 *
 		 */
 		class LoginListener extends AppDialogListener{
+			
+			/**
+			 * Number of seconds after which the session expires
+			 */
+			private long expiryTime = -1;
+			
+			/**
+			 * Default constructor. It does not set an expiry time for the 
+			 * session. It uses the default one sent by facebook
+			 */
+			public LoginListener() {
+				
+			}// end constructor
+			
+			/**
+			 * Constructor used to set expiry time for the session in seconds
+			 * 
+			 * @param expiryTime
+			 * 		Expiry time in seconds with no fractions (number of seconds
+			 * 		after which the session expires)
+			 * 
+			 * Note that the session does not expire from facebook server side
+			 * except after default time. However, {@link isSessionValid} can be
+			 * used to detect if session is valid or not. If not then log out
+			 * explicitly and then promote logging in again
+			 */
+			public LoginListener(long expiryTime) {
+				this.expiryTime = expiryTime; 
+			}// end constructor
 					
 			@Override
 			public void onComplete(Bundle values) {
 				Log.e(TAG_CLASS_PACKAGE,"login: onComplete: Login successful " );
+				
+				if (expiryTime > -1) {
+					facebook.setAccessExpiresIn(expiryTime+"");
+				}
+				
+				Log.e(TAG_CLASS_PACKAGE,"login: onComplete: curernt remaining num of millisecs: " + facebook.getAccessExpires());
 			
 				if (getUserInfo){
 					Log.e(TAG_CLASS_PACKAGE, "login: onComplete: getUserInformation for app");
@@ -211,8 +248,10 @@ public class FacebookWebservice {
 			
 			Log.e(TAG_CLASS_PACKAGE,"Login: session expired");
 			
-			//String[] permissions = new String[]{"email","user_about_me"};
 			String[] permissions = new String[]{"email"};
+			// Session will expire after 1 hour (number in seconds)
+			long sessionExpiryTime = 60;//3600;
+			//facebook.authorize(parentActivity, permissions, new LoginListener(sessionExpiryTime));
 			facebook.authorize(parentActivity, permissions, new LoginListener());
 			
 		}// end if : session is ended -> non access token -> request new one
@@ -264,6 +303,7 @@ public class FacebookWebservice {
 	 */
 	public void getUserInformation(boolean isForApp,final LoginDataBaseListener dbListener, final Context appContext){
 			
+		System.out.println("Remaining time for session timeout: " + facebook.getAccessExpires());
 		if (facebook.isSessionValid()){
 			String fields="";
 			
@@ -276,6 +316,9 @@ public class FacebookWebservice {
 			}// end else: get all possible info about the user		
 	
 		}// end if : get information if session is valid
+		else {
+			Log.e(TAG_CLASS_PACKAGE,"getUserInformation: session has expired");
+		}
 		
 	}// end getUserInformationForApp
 		
@@ -300,31 +343,6 @@ public class FacebookWebservice {
 	 */
 	public void getUserInformation(String fields){
 		
-		/*class BasicInfoListener extends AppRequestListener{
-			
-			Semaphore dataIsReceived = new Semaphore(0);
-			
-			@Override
-			public void onComplete(String response, Object state) {
-				Log.e(TAG_CLASS_PACKAGE,"getUserInformation: onComplete: LoggedIn user response=" + response);
-				fbUser = new FacebookUser(response,true);
-				Log.e(TAG_CLASS_PACKAGE,"getUserInformation: onComplete: LoggedIn user=" + fbUser);
-				dataIsReceived.release();
-			}// end onComplete
-			
-			public Semaphore getSemaphore(){
-				return this.dataIsReceived;
-			}
-		}// end class
-		
-		if (facebook.isSessionValid()){
-		
-			Log.e(TAG_CLASS_PACKAGE,"getUserInformation: Requested fields: " + fields);
-			BasicInfoListener listener = new BasicInfoListener();
-			asyncFacebookRunner.request("me"+fields, listener);
-			blockThreadUntilAllOffersAreProcessed(listener.getSemaphore());
-		}// end if : get information if session is valid
-		*/
 		getUserInformation(fields, false, null, null);
 	}// end getUserInformationForApp
 	
@@ -488,7 +506,11 @@ public class FacebookWebservice {
 			return result;
 		}else{
 			Log.e(TAG_CLASS_PACKAGE,methodName + " : session expired -> no search -> return empty list");
-			return new ArrayList<ArrayList<?>>();
+			ArrayList<OfferDisplay2> offers = new ArrayList<OfferDisplay2>();
+			ArrayList<String> offersOwnersIds = new ArrayList<String>();
+			ArrayList<ArrayList<?>> result = new ArrayList<ArrayList<?>>();
+			result.add(offers); result.add(offersOwnersIds);
+			return result;
 		}// end else
 		
 	}// end filterOffersFromOwnersWithMutualFriends
@@ -603,7 +625,12 @@ public class FacebookWebservice {
 			return result;
 		}else{
 			Log.e(TAG_CLASS_PACKAGE,methodName + " : session expired -> no search -> return empty list");
-			return new ArrayList<ArrayList<?>>();
+			
+			ArrayList<OfferDisplay2> offers = new ArrayList<OfferDisplay2>();
+			ArrayList<String> offersOwnersIds = new ArrayList<String>();
+			ArrayList<ArrayList<?>> result = new ArrayList<ArrayList<?>>();
+			result.add(offers); result.add(offersOwnersIds);
+			return result;
 		}// end else
 	
 	}// end filterOffersFromOwnersWithMutualFriends
