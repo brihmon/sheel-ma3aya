@@ -5,6 +5,7 @@ import static com.sheel.utils.SheelMaayaaConstants.CONFIRMED_BY_OTHER_OFFER_OWNE
 import static com.sheel.utils.SheelMaayaaConstants.HALF_CONFIRMED_ME_CONFIRMED_USER_NOT_OFFER_OWNER;
 import static com.sheel.utils.SheelMaayaaConstants.HALF_CONFIRMED_ME_OFFER_OWNER;
 import static com.sheel.utils.SheelMaayaaConstants.HTTP_CONFIRM_OFFER_UI;
+import static com.sheel.utils.SheelMaayaaConstants.HTTP_EDIT_OFFER;
 import static com.sheel.utils.SheelMaayaaConstants.HTTP_GET_MY_OFFERS_FILTER;
 import static com.sheel.utils.SheelMaayaaConstants.HTTP_RESPONSE;
 import static com.sheel.utils.SheelMaayaaConstants.HTTP_STATUS;
@@ -17,6 +18,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -35,6 +37,7 @@ import com.sheel.datastructures.OfferDisplay2;
 import com.sheel.datastructures.User;
 import com.sheel.listeners.InflateListener;
 import com.sheel.listeners.MyOffersInflateListener;
+import com.sheel.utils.DemoPopupWindow;
 import com.sheel.utils.HTTPManager;
 import com.sheel.utils.InternetManager;
 /**
@@ -94,7 +97,7 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity {
 	/**
 	 * Dialog for displaying the loading pop-up for the user
 	 */
-	ProgressDialog dialog;
+	public ProgressDialog dialog;
 
 	/**
 	 * Airports list used for localization
@@ -220,7 +223,8 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity {
 		// Add the filters of your activity
 		filter.addAction(HTTP_GET_MY_OFFERS_FILTER);
 		filter.addAction(HTTP_CONFIRM_OFFER_UI);
-
+		filter.addAction(HTTP_EDIT_OFFER);
+		
 		receiver = new SheelMaayaaBroadCastRec();
 
 		Log.e(TAG, "Receiver Registered");
@@ -284,6 +288,22 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity {
 					Log.e(TAG, responseStr);
 
 				}// end if Get my offers filter
+				
+				if (action.equals(HTTP_EDIT_OFFER)) {
+					responseStr = intent.getExtras().getString(HTTP_RESPONSE);
+					Log.e(TAG, "Will Start to edit offers");
+					//showEditResult(responseStr);
+					// Dialog dismissing
+					if (dialog != null)
+						dialog.dismiss();
+
+					
+					showEditResult(responseStr);
+					Log.e(TAG, responseStr);
+
+				}// end if Get my offers filter
+			 
+				
 			}
 			}// end if (httpStatus == HttpStatus.SC_OK) {
 			
@@ -292,6 +312,23 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity {
 
 	}// end class SheelMaayaaBroadCastRec
 
+	
+	private void showEditResult(String rsp){
+		 AlertDialog alertDialog;
+		 alertDialog = new AlertDialog.Builder(this).create();
+		 
+		 
+		 if(rsp.equals("OK")){
+		 alertDialog.setTitle(getResources().getString(R.string.Success));
+		 alertDialog.setMessage("Changes saved successfully");
+		 }else{
+			 alertDialog.setTitle(getResources().getString(R.string.Sorry));
+			 alertDialog.setMessage("Changes saved successfully");
+		 }
+		 alertDialog.show();
+	}
+	
+	
 	/**
 	 * Updates the UI with the offers confirmed by the database. It fetches the
 	 * offers that are either one from 4 categories: - New offers I declared -
