@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewStub;
 import android.widget.TextView;
 
-import com.sheel.app.R;
 import com.sheel.datastructures.Confirmation;
 import com.sheel.datastructures.FacebookUser;
 import com.sheel.datastructures.OfferDisplay2;
@@ -113,7 +112,7 @@ public class MyOffersInflateListener extends InflateListener{
 			
 			if (inflated != null) {
 				this.swypeCatsGuiUtils.setIconForATextField(mContext, inflated, textView,
-						R.drawable.sheel_result_email, 3);
+						com.sheel.app.R.drawable.sheel_result_email, 3);
 			}// end if
 		}
 		
@@ -122,7 +121,7 @@ public class MyOffersInflateListener extends InflateListener{
 			textView.setText(offerDisplay.userOther.email);
 			if (inflated != null) {
 				this.swypeCatsGuiUtils.setIconForATextField(mContext, inflated, textView,
-						R.drawable.sheel_result_email, 3);
+						com.sheel.app.R.drawable.sheel_result_email, 3);
 			}// end if
 		}
 		}
@@ -160,7 +159,7 @@ public class MyOffersInflateListener extends InflateListener{
 			
 			if (inflated != null) {
 				this.swypeCatsGuiUtils.setIconForATextField(mContext, inflated, textView,
-						R.drawable.sheel_result_email, 3);
+						com.sheel.app.R.drawable.sheel_result_email, 3);
 			}// end if
 		}
 		
@@ -169,7 +168,7 @@ public class MyOffersInflateListener extends InflateListener{
 			textView.setText(offerDisplay.userOther.mobileNumber);
 			if (inflated != null) {
 				this.swypeCatsGuiUtils.setIconForATextField(mContext, inflated, textView,
-						R.drawable.sheel_result_email, 3);
+						com.sheel.app.R.drawable.sheel_result_email, 3);
 			}// end if
 		}
 		}

@@ -16,7 +16,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.sheel.app.FilterPreferencesActivity;
-import com.sheel.app.R;
 import com.sheel.app.SheelMaayaaActivity;
 import com.sheel.datastructures.FacebookUser;
 import com.sheel.datastructures.Flight;
@@ -134,7 +133,7 @@ public class InflateListener implements OnInflateListener, OnClickListener {
 	//	buttonIDs[0] = R.id.details_button_call; 
 	//	buttonIDs[1] = R.id.details_button_confirm;
 	//	buttonIDs[2] = R.id.details_button_sendSms;
-		buttonIDs[0] = R.id.details_button_options;
+		buttonIDs[0] = com.sheel.app.R.id.details_button_options;
 
 	}
 
@@ -146,11 +145,11 @@ public class InflateListener implements OnInflateListener, OnClickListener {
 		/**
 		 * Initialize the summary (nationality + gender + facebook extra info)
 		 */
-		TextView details_summary = (TextView)inflated.findViewById(R.id.sheel_details_textView_summary);
-		TextView details_facebook = (TextView)inflated.findViewById(R.id.sheel_details_textView_facebookInfo);
-		TextView details_email = (TextView)inflated.findViewById(R.id.sheel_details_textView_email);
-		TextView details_telephone = (TextView)inflated.findViewById(R.id.sheel_details_textView_telephone);
-		TextView details_flight = (TextView)inflated.findViewById(R.id.sheel_details_textView_flight);
+		TextView details_summary = (TextView)inflated.findViewById(com.sheel.app.R.id.sheel_details_textView_summary);
+		TextView details_facebook = (TextView)inflated.findViewById(com.sheel.app.R.id.sheel_details_textView_facebookInfo);
+		TextView details_email = (TextView)inflated.findViewById(com.sheel.app.R.id.sheel_details_textView_email);
+		TextView details_telephone = (TextView)inflated.findViewById(com.sheel.app.R.id.sheel_details_textView_telephone);
+		TextView details_flight = (TextView)inflated.findViewById(com.sheel.app.R.id.sheel_details_textView_flight);
 		
 		renderFirstTextView(details_summary, offerDisplay, inflated);
 		renderFacebookExtraInfoTextView(details_facebook, offerDisplay, inflated);
@@ -216,10 +215,10 @@ public class InflateListener implements OnInflateListener, OnClickListener {
 		textView.setText(detailsSummary);
 		
 		if (offerDisplay.getUser().gender.equals(SheelMaayaaConstants.GENDER_FEMALE)) {
-			this.swypeCatsGuiUtils.setIconForATextField(mContext, inflated, textView, R.drawable.sheel_gender_female, 3);
+			this.swypeCatsGuiUtils.setIconForATextField(mContext, inflated, textView, com.sheel.app.R.drawable.sheel_gender_female, 3);
 		}// end if : offer owner is a female
 		else {
-			this.swypeCatsGuiUtils.setIconForATextField(mContext, inflated, textView, R.drawable.sheel_gender_male, 3);
+			this.swypeCatsGuiUtils.setIconForATextField(mContext, inflated, textView, com.sheel.app.R.drawable.sheel_gender_male, 3);
 		}// end if:offer owner is a male or unknown -> show icon
 				
 	}// end renderFirstTextView
@@ -311,7 +310,7 @@ public class InflateListener implements OnInflateListener, OnClickListener {
 		textView.setText(offerDisplay.getUser().email);
 		if (inflated != null) {
 			this.swypeCatsGuiUtils.setIconForATextField(mContext, inflated, textView,
-					R.drawable.sheel_result_email, 3);
+					com.sheel.app.R.drawable.sheel_result_email, 3);
 		}// end if
 		
 	}// end renderSecondTextView
@@ -344,7 +343,7 @@ public class InflateListener implements OnInflateListener, OnClickListener {
 		
 		textView.setText(offerDisplay.getUser().mobileNumber);
 		if (inflated != null) {
-			this.swypeCatsGuiUtils.setIconForATextField(mContext, inflated, textView, R.drawable.sheel_result_phone, 3);
+			this.swypeCatsGuiUtils.setIconForATextField(mContext, inflated, textView, com.sheel.app.R.drawable.sheel_result_phone, 3);
 		}// end if
 		
 	}// end renderThirdTextView
@@ -379,7 +378,7 @@ public class InflateListener implements OnInflateListener, OnClickListener {
 		
 		textView.setText(offerDisplay.getFlight().displayFlight(swypeCatsGuiUtils));
 		if (inflated != null) {
-			this.swypeCatsGuiUtils.setIconForATextField(mContext, inflated, textView, R.drawable.sheel_result_flight, 0);
+			this.swypeCatsGuiUtils.setIconForATextField(mContext, inflated, textView, com.sheel.app.R.drawable.sheel_result_flight, 0);
 		}// end if
 		
 	}// end renderFourthTextView
@@ -449,7 +448,7 @@ public class InflateListener implements OnInflateListener, OnClickListener {
 		case R.id.details_button_confirm:
 			onClick_confirm(v);
 			break; */
-		case R.id.details_button_options:
+		case com.sheel.app.R.id.details_button_options:
 			onClick_options(v);
 			break;
 	
@@ -540,16 +539,16 @@ public class InflateListener implements OnInflateListener, OnClickListener {
 		if(InternetManager.isInternetOn(mContext))
 		{	
 			AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
-			builder.setMessage(R.string._hossamConfirmYesNo)
+			builder.setMessage(com.sheel.app.R.string._hossamConfirmYesNo)
 			       .setCancelable(false)
-			       .setPositiveButton(R.string._hossamYes, new DialogInterface.OnClickListener() {
+			       .setPositiveButton(com.sheel.app.R.string._hossamYes, new DialogInterface.OnClickListener() {
 			           public void onClick(DialogInterface dialog2, int id) { 
 			        	   
 			        		
 							confirmOffer();
 			           }
 			       });
-			builder.setNegativeButton(R.string._hossamNo, new DialogInterface.OnClickListener() {
+			builder.setNegativeButton(com.sheel.app.R.string._hossamNo, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog2, int whichButton) {
 		        	   dialog2.cancel();
                 }
@@ -563,12 +562,12 @@ public class InflateListener implements OnInflateListener, OnClickListener {
 		else
 		{
 			AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
-			builder.setMessage("" + R.string._hossamInternetConn)
+			builder.setMessage("" + com.sheel.app.R.string._hossamInternetConn)
 			       .setCancelable(false)
-			       .setPositiveButton( "" + R.string._hossamOk, new DialogInterface.OnClickListener() {
+			       .setPositiveButton( "" + com.sheel.app.R.string._hossamOk, new DialogInterface.OnClickListener() {
 			           public void onClick(DialogInterface dialog, int id) {
 			        	   dialog.cancel();
-			        	   swypeCatsGuiUtils.showAlertWhenNoResultsAreAvailable(mActivity, "" + R.string._hossamOk
+			        	   swypeCatsGuiUtils.showAlertWhenNoResultsAreAvailable(mActivity, "" + com.sheel.app.R.string._hossamOk
 				       				, swypeCatsGuiUtils.okay, SheelMaayaaActivity.class, "", FilterPreferencesActivity.class);
 			           }
 			       
