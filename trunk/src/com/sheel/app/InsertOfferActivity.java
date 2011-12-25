@@ -196,11 +196,13 @@ public class InsertOfferActivity extends UserSessionStateMaintainingActivity {
          	 if(responseStr.equals("OK")){
          	 ///////////// SHOULD GO HERE TO ANOTHER ACTIVITY
                
-               showMessageBox("Message","Your offer has been posted successfully!");
+               showMessageBox(getResources().getString(R.string.Success),
+            		   getResources().getString(R.string.your_offer_has_been_posted_successfully));
                
          	 }
           	 else{
-         	 showMessageBox("Sorry","Unfortunatly, we currently cannot process your offer, please try again later.");
+         	 showMessageBox(getResources().getString(R.string.Sorry),
+         			getResources().getString(R.string.Unfortunately_we_cannot_process_your_offer));
         	 }
            }
 		};
@@ -224,27 +226,27 @@ public class InsertOfferActivity extends UserSessionStateMaintainingActivity {
 	    String errors = "";
 	    
 	    if(flightNumberET.getText().length()<3){
-	    	errors+="Please insert a valid flight number";
+	    	errors+= getResources().getString(R.string.flight_valid);
 	    	showErrors(errors);
 	    	return;
 	    }
 	    if(!(isAlpha(flightNumberET.getText().charAt(0)) && isAlpha(flightNumberET.getText().charAt(1)))){
-	    	errors+="Please insert a valid flight number";
+	    	errors+=getResources().getString(R.string.flight_valid);
 	    	showErrors(errors);
 	    	return;
 	    }
 	    if(sAirportET.getText().toString().length()<4||dAirportET.getText().toString().length()<4){
-	    	errors+="Please insert proper source and destination airports";
+	    	errors+=getResources().getString(R.string.Please_insert_valid_source_and_destination);
 	    	showErrors(errors);
 	    	return;
 	    }
 	    if(sAirportET.getText().toString().equals(dAirportET.getText().toString())){
-	    	errors+="Source and destination airports cannot be the same";
+	    	errors+=getResources().getString(R.string.src_des_valid);
 	    	showErrors(errors);
 	    	return;
 	    }
 	    if(datePicked.before(Calendar.getInstance())){
-	    	errors+="Please insert a valid date";
+	    	errors+=getResources().getString(R.string.date_valid);
 	    	showErrors(errors);
 	    	return;
 	    }
@@ -278,11 +280,11 @@ public class InsertOfferActivity extends UserSessionStateMaintainingActivity {
 		}
 		
 		if(des == -1){
-			showErrors("Please insert a valid flight destination");
+			showErrors(getResources().getString(R.string.des_valid));
 			return;
 		}
 		if(src == -1){
-			showErrors("Please insert a valid flight source");
+			showErrors(getResources().getString(R.string.source_valid));
 			return;
 		}
 		
@@ -331,15 +333,15 @@ public boolean extractOffer(){
 		 
 		 if(noKGsET.getText().toString().equals("")||
 		    pricePerKGET.getText().toString().equals("")){
-			 checkErrors += "Please insert the number of kilograms and the corresponding price.\n";
+			 checkErrors += getResources().getString(R.string.Please_insert_num_kilos_and_price)+"\n";
 		 }
 		 else{
 			 
 		 if(Integer.parseInt(noKGsET.getText().toString())>30){
-			 checkErrors += "Number of kilograms cannot exceed 30.\n";
+			 checkErrors += getResources().getString(R.string.kgs_valid)+"\n";
 		 }
 		 if( Integer.parseInt(pricePerKGET.getText().toString())>30){
-			 checkErrors += "Price per kilogram cannot exceed 30 euros.\n";
+			 checkErrors += getResources().getString(R.string.price_valid)+"\n";
 		 }
 		 }
 		 if(!checkErrors.equals("")){
@@ -362,7 +364,7 @@ public boolean extractOffer(){
 	 public void showErrors(String message){
 		 AlertDialog alertDialog;
 		 alertDialog = new AlertDialog.Builder(this).create();
-		 alertDialog.setTitle("Invalid input");
+		 alertDialog.setTitle(getResources().getString(R.string.invalid_input));
 		 alertDialog.setMessage(message);
 		 alertDialog.show();
 	 }
