@@ -61,12 +61,6 @@ import com.sheel.webservices.FacebookWebservice;
  */
 public class NewUserActivity extends UserSessionStateMaintainingActivity {
 
-	public static final String FIRST_NAME_KEY = "firstName";
-	public static final String MIDDLE_NAME_KEY = "middleName";
-	public static final String LAST_NAME_KEY = "lastName";
-	public static final String EMAIL_KEY = "email";
-	public static final String GENDER_KEY = "gender";
-	public static final String PASSPORT_IMAGE_KEY = "passportImage";
 
 	private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
 	private Uri fileUri;
@@ -129,7 +123,7 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 	boolean nationalityValid = false;
 	boolean gotResponse = false;
 	boolean photoTaken = false;
-	boolean mobileValid = true;
+	boolean mobileValid = false;
 	Bundle savedBundle;
 
 	String[] nationalityStrings;
@@ -140,7 +134,6 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		System.out.println("OnCreate");
-		// onRestoreInstanceState(savedBundle);
 		// Set the contentView of this activity to the the register
 		setContentView(R.layout.register);
 
@@ -167,9 +160,7 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 		savedInstanceState.putInt("ValCode", code);
 		savedInstanceState.putString("ImageView", ImagePath);
 		System.out.println("In SaveInstanceState ");
-		//if(bitmap!=null)
-		//bitmap.recycle();
-		// etc.
+
 		super.onSaveInstanceState(savedInstanceState);
 	}
 
@@ -206,16 +197,12 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 
 	@Override
 	protected void onPause() {
-		// try{ unregisterReceiver(receiver);
-		// }catch(Exception e){System.out.println("CATCHED");}
-		// onSaveInstanceState(savedBundle);
+
 		System.out.println("onPause");
 		super.onPause();
 
 		// Cancel out the dialog
 		dialog = null;
-		// Unregister the receiver onPause
-		// unregisterReceiver(receiver);
 	}
 
 	@Override
@@ -547,13 +534,11 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 
 	public void GetUserFacebookID() {
 		String tempID = "";
-		// getFacebookService().getUserInformation(true);
 		if (getFacebookService() != null) {
 
 			if (!getFacebookService().getFacebookUser()
 					.isRequestedBeforeSuccessfully()) {
 
-				// getFacebookService().getUserInformation(true);
 			} else {
 				tempID = getFacebookService().getFacebookUser().getUserId();
 				firstName = getFacebookService().getFacebookUser()
@@ -598,10 +583,8 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 	public AlertDialog showAlert(String title, String message) {
 		AlertDialog alertDialog;
 		alertDialog = new AlertDialog.Builder(this).create();
-		// alertDialog.setButton(, listener)
 		alertDialog.setTitle(title);
 		alertDialog.setMessage(message);
-		// alertDialog.show();
 		return alertDialog;
 	}
 
@@ -621,22 +604,9 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 					String responseStr = intent.getExtras().getString(
 							HTTP_RESPONSE);
 
-					//Toast.makeText(NewUserActivity.this, responseStr,
-						//	Toast.LENGTH_LONG).show();
 					if (responseStr.equals("false")) {
 						System.out.println("Not found");
-						String path = "/registeruser";/*
-													 * " + faceBookID + "/
-													 * " + email + "/" +
-													 * firstName + "/" +
-													 * middleName + "/" +
-													 * lastName + "/" +
-													 * mobileNumber + "/" +
-													 * nationality + "/" +
-													 * passportNumber + "/" +
-													 * gender + "/" +
-													 * passportImage;
-													 */
+						String path = "/registeruser";
 
 						User user = new User("", firstName, middleName,
 								lastName, passportImage, passportNumber, email,
@@ -662,14 +632,7 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 
 
 					} else if (responseStr.equalsIgnoreCase("true")) {
-						// AlertDialog a =
-						// showAlert("Registration failed","Sorry you are already registered");
-						// a.setButton("ok", new
-						// android.content.DialogInterface.OnClickListener() {
 
-						// @Override
-						// public void onClick(DialogInterface dialog, int
-						// which) {
 
 						Bundle extras = getIntent().getExtras(); 
 						int pos = 0;
@@ -679,9 +642,7 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 						Intent navigateToIntent = new Intent(getBaseContext(), NAVIGATION_ITEMS[pos].getActivityType());
 						startActivity(navigateToIntent);
 						finish();
-						// }
-						// });
-						// a.show();
+
 						System.out.println("Already Registered");
 					}
 					// Dialog dismissing
@@ -707,7 +668,6 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 	}
 
 	public void OnClick_register(View v) {
-		// if(isInternetOn())
 		if (InternetManager.isInternetOn(getApplicationContext())) {
 			// INTERNET IS AVAILABLE, DO STUFF..
 			System.out.println("CONNECCTIVITY OK");
@@ -744,27 +704,17 @@ public class NewUserActivity extends UserSessionStateMaintainingActivity {
 
 			userValidationCode = validationCodeField.getText().toString();
 
-			System.out.println("Before Validate " + allValid);
 			validate();
-			System.out.println("After Validate " + allValid);
-			if (allValid == false)
-				//Toast.makeText(this, "Please fill all the data", 0).show();
-				System.out.println("Please fill al the data");
-			else {
+			if (allValid ){
 
 				String path = "/checkRegistered/" + faceBookID;
 
-				// sc.runHttpRequest("/checkRegistered/" + faceBookID);
 				HTTPManager.startHttpService(path, HTTP_CHECK_REGISTERED,
 						getApplicationContext());
 				}
 		} else {
 			// NO INTERNET AVAILABLE, DO STUFF..
-			// GuiUtils gu = new GuiUtils(this);
-			// gu.showAlertWhenNoResultsAreAvailable(this,
-			// getResources().getString(R.string._hossamInternetConn)
-			// , gu.okay, ConnectorUserActionsActivity.class, "",
-			// FilterPreferencesActivity.class);
+
 			showAlert(getResources().getString(R.string.network_fail_header_alert),
 					getResources().getString(R.string.network_fail_message_alert))
 					.show();
