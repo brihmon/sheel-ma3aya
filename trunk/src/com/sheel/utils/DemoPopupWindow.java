@@ -5,9 +5,11 @@ package com.sheel.utils;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.IntentFilter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -18,7 +20,10 @@ import android.widget.RadioGroup;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.sheel.app.MyOffersActivity;
 import com.sheel.app.R;
+import com.sheel.datastructures.Offer;
 import com.sheel.datastructures.OfferDisplay2;
 import com.sheel.listeners.InflateListener;
 
@@ -45,6 +50,8 @@ public class DemoPopupWindow extends BetterPopupWindow implements OnClickListene
 	public static int BUTTON_DEACTIVATE = 16;
 	
 	public static int enabledButtons;
+	
+	
 	
 	
 	public DemoPopupWindow(View anchor, OfferDisplay2 offer, Activity activity, InflateListener inflateListener) {
@@ -164,7 +171,8 @@ public class DemoPopupWindow extends BetterPopupWindow implements OnClickListene
 	        noKGsET.setText(offer.getOffer().getNoOfKilograms()+"");
         	pricePerKGET.setText(offer.getOffer().getPricePerKilogram()+"");
         	type.check(offer.getOffer().getUserStatus()==0?R.id.edit_avWeight:R.id.edit_exWeight);
-			
+		
+
 			break;
 		}
 		
@@ -203,6 +211,27 @@ public class DemoPopupWindow extends BetterPopupWindow implements OnClickListene
 				 eo_error[count++].setText("* Price per kilogram cannot exceed 30 euros.");
 			 }
 			 
+			 if(count==0){
+			 
+		    	Gson gson = new Gson();
+	        	
+	        	offer.getOffer().setPricePerKilogram(Integer.parseInt(noKGsET.getText().toString()));
+	        	offer.getOffer().setNoOfKilograms((Integer.parseInt(pricePerKGET.getText().toString())));
+	        	offer.getOffer().setUserStatus(type.getCheckedRadioButtonId()==R.id.edit_exWeight?1:0);
+	        	
+	        	
+	        	Offer offerIn = offer.getOffer();
+		  	    String input = gson.toJson(offerIn);
+		  	    Log.e("JSON SENT = ", input);
+	        	HTTPManager.startHttpService("/editoffer",
+				input , SheelMaayaaConstants.HTTP_EDIT_OFFER, mActivity.getApplicationContext());   
+	        	dialog.dismiss();
+	        
+	        	
+	        	
+			 }
+			 
+			 
 			 break;
 			 }
 			 
@@ -213,8 +242,8 @@ public class DemoPopupWindow extends BetterPopupWindow implements OnClickListene
 		}
 		
 		
-		
-		 
 		this.dismiss();
+		 
+		 
 	}
 }
