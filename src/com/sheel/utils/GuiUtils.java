@@ -16,8 +16,6 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.sheel.app.R;
-
 /**
  * Class used to contain common methods relevant to UI
  * for showing consistent alerts and components
@@ -128,28 +126,28 @@ public final class GuiUtils extends Activity{
 		
 		//============Add your resources here=============
 		
-		swpeCats = mContext.getResources().getStringArray(R.array._swyperCats);
-		okay = mContext.getResources().getString(R.string._hossamOk);
-		Yes =  mContext.getResources().getString(R.string._hossamYes);
-		No =  mContext.getResources().getString(R.string._hossamNo);
-		loadingConfirmation =  mContext.getResources().getString(R.string._hossamConfirmPending);
-		alreadyConfirmed =  mContext.getResources().getString(R.string._hossamAlreadyConfirmed);
-		confirmedByTwoUsers =  mContext.getResources().getString(R.string._hossamConfirmedByTwoUsers);
-		confirmedByAnotherPerson =  mContext.getResources().getString(R.string._hossamConfirmedByAnotherPerson);
-		confirmationMail =  mContext.getResources().getString(R.string._hossamConfirmationMail);
-		writingMode = mContext.getResources().getString(R.string._hossamWritingmode);
-		flightWord = mContext.getResources().getString(R.string._hossamFlight);
-		flightFrom = mContext.getResources().getString(R.string._hossamFlightFrom);
-		flightTo = mContext.getResources().getString(R.string._hossamFlightTo);
-		flightOn = mContext.getResources().getString(R.string._hossamFlightOn);
-		offerKg = mContext.getResources().getString(R.string._hossamOfferKg);
-		dialogNoResultsMyOffers1 = mContext.getResources().getString(R.string._hossamDialogNoResultsMyOffers1);
-		dialogNoResultsMyOffers2 = mContext.getResources().getString(R.string._hossamDialogNoResultsMyOffers2);
-		dialogNoResultsViewOffers1= mContext.getResources().getString(R.string._hossamDialogNoResultsViewOffers1);
-		dialogNoResultsViewOffers2= mContext.getResources().getString(R.string._hossamDialogNoResultsViewOffers2);
-		dialogInternetConnection = mContext.getResources().getString(R.string._hossamInternetConn);
-		dialogFetchMyOffers = mContext.getResources().getString(R.string._hossamfetchingMyOffers);
-		dialogFetchOtherOffers = mContext.getResources().getString(R.string._hossamfetchingOtherOffers);
+		swpeCats = mContext.getResources().getStringArray(com.sheel.app.R.array._swyperCats);
+		okay = mContext.getResources().getString(com.sheel.app.R.string._hossamOk);
+		Yes =  mContext.getResources().getString(com.sheel.app.R.string._hossamYes);
+		No =  mContext.getResources().getString(com.sheel.app.R.string._hossamNo);
+		loadingConfirmation =  mContext.getResources().getString(com.sheel.app.R.string._hossamConfirmPending);
+		alreadyConfirmed =  mContext.getResources().getString(com.sheel.app.R.string._hossamAlreadyConfirmed);
+		confirmedByTwoUsers =  mContext.getResources().getString(com.sheel.app.R.string._hossamConfirmedByTwoUsers);
+		confirmedByAnotherPerson =  mContext.getResources().getString(com.sheel.app.R.string._hossamConfirmedByAnotherPerson);
+		confirmationMail =  mContext.getResources().getString(com.sheel.app.R.string._hossamConfirmationMail);
+		writingMode = mContext.getResources().getString(com.sheel.app.R.string._hossamWritingmode);
+		flightWord = mContext.getResources().getString(com.sheel.app.R.string._hossamFlight);
+		flightFrom = mContext.getResources().getString(com.sheel.app.R.string._hossamFlightFrom);
+		flightTo = mContext.getResources().getString(com.sheel.app.R.string._hossamFlightTo);
+		flightOn = mContext.getResources().getString(com.sheel.app.R.string._hossamFlightOn);
+		offerKg = mContext.getResources().getString(com.sheel.app.R.string._hossamOfferKg);
+		dialogNoResultsMyOffers1 = mContext.getResources().getString(com.sheel.app.R.string._hossamDialogNoResultsMyOffers1);
+		dialogNoResultsMyOffers2 = mContext.getResources().getString(com.sheel.app.R.string._hossamDialogNoResultsMyOffers2);
+		dialogNoResultsViewOffers1= mContext.getResources().getString(com.sheel.app.R.string._hossamDialogNoResultsViewOffers1);
+		dialogNoResultsViewOffers2= mContext.getResources().getString(com.sheel.app.R.string._hossamDialogNoResultsViewOffers2);
+		dialogInternetConnection = mContext.getResources().getString(com.sheel.app.R.string._hossamInternetConn);
+		dialogFetchMyOffers = mContext.getResources().getString(com.sheel.app.R.string._hossamfetchingMyOffers);
+		dialogFetchOtherOffers = mContext.getResources().getString(com.sheel.app.R.string._hossamfetchingOtherOffers);
 	}
 	
 	
@@ -521,7 +519,7 @@ public final class GuiUtils extends Activity{
     	builder.setView(modeList);
     	builder.setPositiveButton(okay, new DialogInterface.OnClickListener() {
 			
-			@Override
+//			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				dialog.dismiss();				
 			}
