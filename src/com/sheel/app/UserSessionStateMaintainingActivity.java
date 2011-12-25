@@ -31,17 +31,10 @@ public class UserSessionStateMaintainingActivity extends Activity {
 	 * Constant used for tracing purposes "class name (package name)"
 	 */
 	private final String TAG_CLASS_PACKAGE = "UserSessionStateMaintainingActivity (com.sheel.app): ";
-	
-/*	private final  NavigationItem[] NAVIGATION_ITEMS = new NavigationItem[] {
-		
-		new NavigationItem(getResources().getString(R.id.menu_main_search), R.drawable.sheel_menu_main_search, R.drawable.sheel_menu_main_search, GetUserInfoActivity.class),
-		new NavigationItem(getResources().getString(R.id.menu_main_declare), R.drawable.sheel_menu_main_declare, R.drawable.sheel_menu_main_declare, InsertOfferActivity.class),
-		new NavigationItem(getResources().getString(R.id.menu_main_myoffers), R.drawable.sheel_menu_main_myoffers, R.drawable.sheel_menu_main_myoffers, MyOffersActivity.class),
-		new NavigationItem(getResources().getString(R.id.menu_main_logout), R.drawable.sheel_menu_main_logout, R.drawable.sheel_menu_main_logout, SheelMaayaaActivity.class),
-			
-	};		
-	*/
-	
+	/**
+	 * Encapuslators for different info needed for navigation items (menus, dash board, etc.)
+	 * @see NavigationItem
+	 */
 	private final NavigationItem[] NAVIGATION_ITEMS = new NavigationItem[] {
 		new NavigationItem("Search existing offers", R.drawable.sheel_menu_main_search, R.drawable.sheel_dashboard_search_en, GetUserInfoActivity.class),
 		new NavigationItem("Declare New Offer", R.drawable.sheel_menu_main_declare, R.drawable.sheel_dashboard_declare_en, InsertOfferActivity.class),
@@ -271,5 +264,4 @@ public class UserSessionStateMaintainingActivity extends Activity {
 		
 	}// end CheckUserLoginStatusFromDbListener
 	
-
 }// end class
