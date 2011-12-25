@@ -356,7 +356,7 @@ public class ViewSearchResultsActivity extends SwypingHorizontalViewsActivity {
 //		 builder.show();
 	
 			this.swypeCatsGuiUtils.showAlertWhenNoResultsAreAvailable(this, swypeCatsGuiUtils.dialogInternetConnection
-					, swypeCatsGuiUtils.okay, ConnectorUserActionsActivity.class, "", FilterPreferencesActivity.class);
+					, swypeCatsGuiUtils.okay, SheelMaayaaActivity.class, "", FilterPreferencesActivity.class);
 	}
 	
 	/**
