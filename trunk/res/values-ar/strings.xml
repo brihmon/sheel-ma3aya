@@ -979,8 +979,11 @@
  	<string name="submit">إدخال</string>
  	<string name="Amount_euros">* ينبغي أن يكون المبلغ دخل باليورو. يرجى إدخال مبلغ يعادل يورو في حال العملة المحلية المختلفة.</string>
  	<string name="please_wait">يرجى الانتظار</string>
-	    
-  	
+	<string name="Please_make_changes">يرجى إجراء التغييرات المطلوبة، ثم انقر على حفظ</string>
+  	<string name="Save">حفظ</string>
+  	<string name="Cancel">إلغاء</string>
+  	<string name="Changes_saved_successfully">تم حفظ التغييرات بنجاح</string>
+	<string name="Cannot_save_changes">لا يمكن حفظ التغييرات في الوقت الراهن</string>
   	
   
 </resources>

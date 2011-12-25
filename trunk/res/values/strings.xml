@@ -996,5 +996,10 @@ Hossam Amer
  	<string name="submit">Submit</string>
 	<string name="Amount_euros">*Amount entered should be in euros. Please enter an equivalent amount in euros if the local currency is different.</string>
  	<string name="please_wait">Please wait</string>
-	   
+ 	<string name="Please_make_changes">Please make the desired changes, then click Save</string>
+ 	<string name="Save">Save</string>
+	<string name="Cancel">Cancel</string>
+	<string name="Changes_saved_successfully">Changes saved successfully</string>
+	<string name="Cannot_save_changes">Unfortunately, we cannot currently save your changes. Please try again.</string>
+  	  
 </resources>
