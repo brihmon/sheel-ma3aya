@@ -3,6 +3,11 @@ package com.sheel.app;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+
+import com.sheel.datastructures.NavigationItem;
+import com.sheel.utils.GuiUtils;
 
 /**
  * Connector activity used as a welcome page for the application
@@ -21,8 +26,36 @@ public class SheelMaayaaActivity extends UserSessionStateMaintainingActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {		
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.connector_welcome_page);		
+		//setContentView(R.layout.connector_welcome_page);	
+		setContentView(R.layout.sheel_dashboard);
+		initDashBoardItems();
 	}// end onCreate
+	
+	private void initDashBoardItems() {
+		NavigationItem[] dashBoardItems = getNavigationItems();
+		// In the same order of the navigation items
+		TextView[] textViewsInDashBoard = new TextView[] {				
+			(TextView)findViewById(R.id.sheel_dashboard_search)	,
+			(TextView)findViewById(R.id.sheel_dashboard_declare),
+			(TextView)findViewById(R.id.sheel_dashboard_myOffers)				
+		};
+		
+		GuiUtils localizingGuiUtils = new GuiUtils(getApplicationContext());
+		
+		for (int i =0 ; i< textViewsInDashBoard.length; i++) {
+			TextView currentTextView = textViewsInDashBoard[i];
+			currentTextView.setText(dashBoardItems[i].getName());
+			localizingGuiUtils.setIconForATextField(dashBoardItems[i].getResourceIdOfDashBoard(), currentTextView, 4);
+			currentTextView.setTag(i);
+			//localizingGuiUtils.setBackgroundOfTextView(currentTextView, leftToRightRsc, rightToLeftRsc)
+			currentTextView.setOnClickListener(new View.OnClickListener() {				
+				public void onClick(View v) {					
+					int position = ((Integer)((TextView)v).getTag()).intValue();
+					onClick_dashBoardItem(position);					
+				}
+			});
+		}// end for: initialize each text view
+	}// end setIconsToDashBoardItems
 	
 	@Override 
 	protected void onSaveInstanceState(Bundle outState) {
