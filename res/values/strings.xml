@@ -1001,5 +1001,7 @@ Hossam Amer
 	<string name="Cancel">Cancel</string>
 	<string name="Changes_saved_successfully">Changes saved successfully</string>
 	<string name="Cannot_save_changes">Unfortunately, we cannot currently save your changes. Please try again.</string>
-  	  
+  	<string name="offer_details_2">Offer details</string>
+  	<string name="I_have_2">I have. . . . . .</string>
+ 	
 </resources>

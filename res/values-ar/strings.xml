@@ -971,6 +971,7 @@
 	<string name="Please_insert_valid_source_and_destination">من فضلك ادخل المصدر والوجهة الصحيحة لرحلتك</string>
 	<string name="Please_insert_num_kilos_and_price">الرجاء إدخال عدد من الكيلوغرامات والسعر المقابل باليورو.</string>
   	<string name="offer_details">تفاصيل العرض</string>
+  	<string name="offer_details_2"> .     تفاصيل العرض     .</string>
   	<string name="I_have">لدي</string>
   	<string name="extra_weight_2">  وزن الإضافي</string>
  	<string name="less_weight_2">  وزن أقل</string>
@@ -979,11 +980,11 @@
  	<string name="submit">إدخال</string>
  	<string name="Amount_euros">* ينبغي أن يكون المبلغ دخل باليورو. يرجى إدخال مبلغ يعادل يورو في حال العملة المحلية المختلفة.</string>
  	<string name="please_wait">يرجى الانتظار</string>
-	<string name="Please_make_changes">يرجى إجراء التغييرات المطلوبة، ثم انقر على حفظ</string>
+	<string name="Please_make_changes">.     يرجى إجراء التغييرات المطلوبة، ثم انقر على حفظ</string>
   	<string name="Save">حفظ</string>
   	<string name="Cancel">إلغاء</string>
   	<string name="Changes_saved_successfully">تم حفظ التغييرات بنجاح</string>
 	<string name="Cannot_save_changes">لا يمكن حفظ التغييرات في الوقت الراهن</string>
-  	
+  	<string name="I_have_2">  .        لدي</string>
   
 </resources>
