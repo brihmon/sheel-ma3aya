@@ -1004,5 +1004,8 @@ Hossam Amer
   	<string name="offer_details_2">Offer details</string>
   	<string name="I_have_2">I have. . . . . .</string>
   	<string name="yes">Yes</string>
- 	
+  	<string name="no">No</string>
+  	<string name="are_you_sure_you_want_to_deactivate">Are you sure you want to deactivate this offer?</string>
+ 	<string name="offer_deactivated">Offer deactivated successfully</string>
+  	    
 </resources>

@@ -987,6 +987,7 @@
 	<string name="Cannot_save_changes">لا يمكن حفظ التغييرات في الوقت الراهن</string>
   	<string name="I_have_2">  .        لدي</string>
   	<string name="yes">نعم</string>
-  	
-  
+  	<string name="no">لا</string>
+  	<string name="are_you_sure_you_want_to_deactivate">هل أنت متأكد أنك تريد إلغاء هذا العرض؟</string>
+    <string name="offer_deactivated">تم إلغاء العرض بنجاح</string>
 </resources>
