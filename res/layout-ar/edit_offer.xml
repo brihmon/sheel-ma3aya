@@ -15,8 +15,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20px"
-        android:layout_marginLeft="20px"
-        android:text="@string/I_have"/>
+        android:layout_gravity="center"
+        android:text="@string/I_have_2"/>
     
      <RadioGroup android:id="@+id/edit_offer_type" android:orientation="horizontal"
             android:layout_width="wrap_content"
@@ -80,11 +80,13 @@
              <TextView android:id="@+id/edit_error1"
                   android:layout_width="wrap_content"
    				   android:layout_height="wrap_content"
+   				   android:layout_gravity="right"
                  		android:textColor="#CC0000"/>
              
              <TextView android:id="@+id/edit_error2"
                    android:layout_width="wrap_content"
    				   android:layout_height="wrap_content"
+   				    android:layout_gravity="right"
                  		android:textColor="#CC0000"/>
              
        
@@ -95,17 +97,18 @@
     android:background="#AAAAAA"
     android:orientation="horizontal" >
 
+            <Button
+        android:id="@+id/edit_offer_cancel"
+        android:layout_width="220px"
+        android:layout_height="wrap_content"
+        android:text="@string/Cancel" />
     <Button
         android:id="@+id/edit_offer_save"
         android:layout_width="220px"
         android:layout_height="wrap_content"
         android:text="@string/Save" />
 
-    <Button
-        android:id="@+id/edit_offer_cancel"
-        android:layout_width="220px"
-        android:layout_height="wrap_content"
-        android:text="@string/Cancel" />
+ 
 		    
              </LinearLayout>
     </LinearLayout>
