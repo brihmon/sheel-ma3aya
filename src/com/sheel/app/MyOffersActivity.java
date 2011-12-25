@@ -320,10 +320,10 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity {
 		 
 		 if(rsp.equals("OK")){
 		 alertDialog.setTitle(getResources().getString(R.string.Success));
-		 alertDialog.setMessage("Changes saved successfully");
+		 alertDialog.setMessage(getResources().getString(R.string.Changes_saved_successfully));
 		 }else{
 			 alertDialog.setTitle(getResources().getString(R.string.Sorry));
-			 alertDialog.setMessage("Changes saved successfully");
+			 alertDialog.setMessage(getResources().getString(R.string.Cannot_save_changes));
 		 }
 		 alertDialog.show();
 	}
