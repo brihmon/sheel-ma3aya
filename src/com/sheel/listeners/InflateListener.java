@@ -91,7 +91,7 @@ public class InflateListener implements OnInflateListener, OnClickListener {
 	/**
 	 * Current user logged In
 	 */
-	private FacebookUser mUser;
+	public FacebookUser mUser;
 
 
 	
@@ -253,7 +253,7 @@ public class InflateListener implements OnInflateListener, OnClickListener {
 			/* (non-Javadoc)
 			 * @see android.view.View.OnClickListener#onClick(android.view.View)
 			 */
-			@Override
+//			@Override
 			public void onClick(View v) {
 				swypeCatsGuiUtils.createDialogueWithScrollableList(mContext,mActivity,this.title,this.dataDisplayed);
 			}// end onClick: open a dialog with names of mutual friends
