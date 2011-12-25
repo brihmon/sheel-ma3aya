@@ -567,9 +567,9 @@ public class InflateListener implements OnInflateListener, OnClickListener {
 			       .setCancelable(false)
 			       .setPositiveButton( "" + R.string._hossamOk, new DialogInterface.OnClickListener() {
 			           public void onClick(DialogInterface dialog, int id) {
+			        	   dialog.cancel();
 			        	   swypeCatsGuiUtils.showAlertWhenNoResultsAreAvailable(mActivity, "" + R.string._hossamOk
 				       				, swypeCatsGuiUtils.okay, SheelMaayaaActivity.class, "", FilterPreferencesActivity.class);
-			        	   dialog.cancel();
 			           }
 			       
 			       });
