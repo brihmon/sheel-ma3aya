@@ -335,15 +335,33 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity {
 					searchResults_half.add(OfferDisplay2.mapOfferNew(
 							jsonArray.getJSONObject(i), airportsList,
 							nationalitiesList));
+				// To check if the offer is half confirmed by an offer owner, and I am that offer owner.
+				if (offer.getOffer().offerStatus
+						.equals(Confirmation.half_confirmed_offerOwner)
+						&& !getFacebookService().getFacebookUser().getUserId().equals(offer.getUser().getFacebookId()))
+					searchResults_HalfConfirmedByMeNotDeclaredByMe.add(OfferDisplay2.mapOfferNew(
+							jsonArray.getJSONObject(i), airportsList,
+							nationalitiesList));
 				
 				// To check if the offer is half confirmed by other but declared by Offer owner, and I am this other
 				else if (offer.getOffer().offerStatus
 						.equals(Confirmation.half_confirmed_other)
-						&& getFacebookService().getFacebookUser().getUserId().equals(offer.getUser().getFacebookId()))
+						&& !getFacebookService().getFacebookUser().getUserId().equals(offer.getUser().getFacebookId()))
 					searchResults_HalfConfirmedByMeNotDeclaredByMe
 							.add(OfferDisplay2.mapOfferNew(
 									jsonArray.getJSONObject(i), airportsList,
 									nationalitiesList));
+				
+				else if (offer.getOffer().offerStatus
+						.equals(Confirmation.half_confirmed_other)
+						&& getFacebookService().getFacebookUser().getUserId().equals(offer.getUser().getFacebookId()))
+					searchResults_half
+							.add(OfferDisplay2.mapOfferNew(
+									jsonArray.getJSONObject(i), airportsList,
+									nationalitiesList));
+				
+				
+				
 				// To check if the offer is confirmed and I am the offer owner.
 				else if (offer.getOffer().offerStatus
 						.equals(Confirmation.confirmed)
@@ -363,7 +381,7 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity {
 				// To check if the offer is full confirmed and I am not offer owner
 				else if (offer.getOffer().offerStatus
 						.equals(Confirmation.confirmed)
-						&& getFacebookService().getFacebookUser().getUserId().equals(offer.getUser().getFacebookId()))
+						&& !getFacebookService().getFacebookUser().getUserId().equals(offer.getUser().getFacebookId()))
 					searchResults_fullConfirmedByMeNotDeclaredByMe.add(OfferDisplay2.mapOfferNew(
 							jsonArray.getJSONObject(i), airportsList,
 							nationalitiesList));
