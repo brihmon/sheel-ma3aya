@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+ <ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" 
+    android:scrollbars="vertical"
+    > 
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_marginTop="20px"
+    android:stretchColumns="1"
+    android:orientation="vertical" 
+    android:background="#004D79"
+    >
+     <TableRow android:layout_marginBottom="30px">
+         <TextView android:text=""/>
+	<TextView android:text="@string/offer_details"
+     android:textColorHighlight="@android:color/primary_text_light"
+     android:textAppearance="?android:attr/textAppearanceMedium"
+     android:layout_marginBottom="20px"
+	 />
+</TableRow>
+
+    <TableRow android:layout_marginBottom="30px">
+     <RadioGroup android:id="@+id/typesOffers">
+		<RadioButton android:id="@+id/exWeight"
+		android:text="@string/extra_weight_2"/>
+		<RadioButton android:id="@+id/avWeight"
+		android:text="@string/less_weight_2"/>
+	</RadioGroup>
+	  <TextView android:text="@string/I_have"
+	      		android:layout_gravity="right"/>
+    </TableRow>
+    
+    
+    <TableRow android:layout_marginBottom="30px">
+     
+    <EditText android:id="@+id/kgs"
+        	  android:inputType="number"/>
+    <TextView android:text="@string/weight_in_kgs"
+        		android:layout_gravity="right"/>
+    
+    </TableRow>
+    
+    <!-- 
+    <TableRow>
+    <TextView android:text="Currency :"/>
+    <Spinner         
+    android:id="@+id/spinner"        
+    android:layout_width="fill_parent"        
+    android:layout_height="wrap_content"        
+    android:prompt="@string/currencies2"/>
+    </TableRow>
+     -->
+     <TableRow android:layout_marginBottom="30px">
+    
+    <EditText android:id="@+id/price"
+        	  android:inputType="number"/>
+     <TextView android:text="@string/price_per_kg"
+          android:layout_gravity="right"/>
+    </TableRow>
+    <TableRow    android:layout_marginBottom="30px">
+        <TextView android:text=""/>
+	<TextView android:text="@string/flight_details"
+     android:textColorHighlight="@android:color/primary_text_light"
+     android:textAppearance="?android:attr/textAppearanceMedium"
+     android:layout_marginBottom="15px"
+     android:layout_gravity="right"
+	 />
+</TableRow>
+
+  
+    
+    
+    <TableRow    android:layout_marginBottom="30px">
+     
+    <EditText android:id="@+id/fNum"/>
+    <TextView android:text="@string/flight_number"
+         android:layout_gravity="right"/>
+    </TableRow>
+    
+    <TableRow > 
+        <TextView android:text=""/>
+    <TextView android:text="@string/source"
+         android:layout_gravity="right"/>
+     
+    </TableRow>
+     
+  
+           <AutoCompleteTextView         
+    android:id="@+id/sAirport"      
+       android:layout_marginBottom="30px"  
+    android:layout_width="fill_parent"        
+    android:layout_height="wrap_content"     />   
+  
+        
+   
+    <TableRow>
+        <TextView android:text=""/>
+    <TextView android:text="@string/destination"
+         android:layout_gravity="right"/>
+    
+    </TableRow>
+       <AutoCompleteTextView      
+              android:layout_marginBottom="30px"   
+    android:id="@+id/dAirport"        
+    android:layout_width="fill_parent"        
+    android:layout_height="wrap_content"   />     
+    
+     <TableRow    android:layout_marginBottom="30px">
+          <Button android:text="@string/Change"
+     android:layout_marginTop="2px"
+     android:onClick="onClick_change"></Button>
+     
+    <TextView  android:id="@+id/editText1" 
+    android:layout_height="wrap_content" 
+    android:layout_width="wrap_content"
+    android:clickable="true"/>
+ <TextView android:text="@string/flight_date" android:layout_marginLeft="-100px"/>
+        
+    
+      
+           
+    
+    </TableRow>
+
+        <!-- 
+    <TextView android:text="Departure time :"/>
+    <TextView android:id="@+id/editText2" 
+    android:layout_height="wrap_content" 
+    android:layout_width="wrap_content" 
+    android:clickable="true">
+    </TextView> 
+  
+     
+    
+ <TextView android:text="Go to main page ..."
+     		android:clickable="true"
+     		android:onClick="onClick_goMainPage"
+     		android:textColor="@android:color/background_light"
+     		/>-->
+   
+    <Button android:text="@string/submit"
+     android:layout_marginTop="40px"
+     android:onClick="onClick_submit"></Button>
+   <TextView android:text="@string/Amount_euros"
+       android:layout_gravity="right"></TextView>
+
+ 
+</TableLayout>
+</ScrollView>
