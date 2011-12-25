@@ -995,5 +995,6 @@ Hossam Amer
  	<string name="Change">Change</string>
  	<string name="submit">Submit</string>
 	<string name="Amount_euros">*Amount entered should be in euros. Please enter an equivalent amount in euros if the local currency is different.</string>
- 	  
+ 	<string name="please_wait">Please wait</string>
+	   
 </resources>
