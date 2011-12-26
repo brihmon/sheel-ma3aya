@@ -42,8 +42,8 @@ public class MyOffersResultsListAdapter extends SearchResultsListAdapter {
 		/**
 		 * If you want to set it to flight details instead of name
 		 */
-		textView.setText(offerDisplay.getFlight().displayFlight(super.swypeCatsGuiUtils));
-		
+		//textView.setText(offerDisplay.getFlight().displayFlight(super.swypeCatsGuiUtils));
+		textView.setText(offerDisplay.getFlight().displayFlightName(swypeCatsGuiUtils));
 	}// end renderFirstTextView
 
 }// end class

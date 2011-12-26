@@ -107,6 +107,23 @@ public class Flight
 //			swypeCatsGuiUtils.getFlightOn() + " " + departureDate ;
 	    }// end displayFlight
 	    
+	    /**
+	     * Used to display flight Name  in the details view of the offers.
+	     * 
+	     * @param swypeCatsGuiUtils 
+	     * 		Object contains all the localized strings.
+	     * @return
+	     * 		String with the format: 
+	     * 		The format is: Flight (x)  
+	     * 
+	     * @author 
+	     *		Passant El.Agroudy (passant.elagroudy@gmail.com)
+	     
+	     */
+	    public String displayFlightName (GuiUtils swypeCatsGuiUtils) {
+	    	return swypeCatsGuiUtils.getFlightWord()+ "(" + flightNumber + ") " ;
+	    }
+	    
 		@Override
 		public String toString() {
 			return "Flight {id=" + id + ", flightNumber=" + flightNumber
