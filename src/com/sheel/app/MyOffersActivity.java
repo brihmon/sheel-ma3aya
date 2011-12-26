@@ -406,35 +406,35 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity {
 				{
 					Log.e("Offers half confirmed ID: ", ""+ offer.getOffer().id);
 						
-						// Me Declared others confirmed
-						
+						// Me Declared others confirmed						
 						if((offer.getOffer().offerStatus.equals(Confirmation.half_confirmed_other)))
 						{
 								
 						if(getFacebookService().getFacebookUser().getUserId()
 								.equals(offer.getUser().getFacebookId()))
-						{	
+						{
+							
+							Log.e("searchResults_HALF_DECLARED_ME_CONFIRMED_OTHER: ", ""+ offer.getOffer().id);
+
 							
 							searchResults_HALF_DECLARED_ME_CONFIRMED_OTHER
 							.add(OfferDisplay2.mapOfferNew(jsonArray
 									.getJSONObject(i), airportsList,
 									nationalitiesList));
 						}
+							
 					}
-						
-						else 
+						else
 						{
-							if(!getFacebookService().getFacebookUser().getUserId()
-									.equals(offer.getUser().getFacebookId()))
-							{	
-								
-								
-								searchResults_HALF_DECLARED_OTHER_CONFIRMED_ME
-								.add(OfferDisplay2.mapOfferNew(jsonArray
-										.getJSONObject(i), airportsList,
-										nationalitiesList));
-							}
+							Log.e("searchResults_HALF_DECLARED_OTHER_CONFIRMED_ME: ", ""+ offer.getOffer().id);
+							searchResults_HALF_DECLARED_OTHER_CONFIRMED_ME
+							.add(OfferDisplay2.mapOfferNew(jsonArray
+									.getJSONObject(i), airportsList,
+									nationalitiesList));
+					
 						}
+						
+						
 							
 				}
 					
