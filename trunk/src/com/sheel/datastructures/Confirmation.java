@@ -24,6 +24,8 @@ public class Confirmation {
 	private Flight flight;
 	private Offer offer;
 	
+	public User offerOwner;
+	
 	/**
 	 * Indicates User confirmed first exchange of luggage
 	 */
@@ -45,7 +47,7 @@ public class Confirmation {
 	
 	
 	 public Confirmation(User user1, User user2, Flight flight, Offer offer, 
-			 boolean statusTransactionUser1, boolean statusTransactionUser2) {
+			 boolean statusTransactionUser1, boolean statusTransactionUser2, User offerOwner) {
 
 		this.setUser1(user1);
 		this.setUser2(user2);
@@ -53,6 +55,7 @@ public class Confirmation {
 		this.setOffer(offer);
 		this.setStatusTransactionUser1(statusTransactionUser1);
 		this.setStatusTransactionUser2(statusTransactionUser2);
+		this.offerOwner = offerOwner;
 		
 	}
 	
@@ -142,7 +145,8 @@ public class Confirmation {
 		
 			offerJSON = confirmationJSON.getJSONObject("offer");
 			flightJSON = offerJSON.getJSONObject("flight");
-		
+			JSONObject offerOwnerJSON = offerJSON.getJSONObject("user"); 
+			
 			//Get the statuses of transaction of confirmation
 			boolean statusTransactionUser1 = confirmationJSON.getBoolean("statusTransactionUser1");
 			boolean statusTransactionUser2 = confirmationJSON.getBoolean("statusTransactionUser2");
@@ -192,6 +196,21 @@ public class Confirmation {
 			
 			Log.e(TAG, offer + "");
 			
+			// Get the offer owner
+			
+			System.out.println("getting offer owner: " + offerJSON);
+			ownerId = offerOwnerJSON.getString("facebookAccount");
+			firstName = offerOwnerJSON.getString("firstName");
+			middleName = offerOwnerJSON.getString("middleName");
+			lastName = offerOwnerJSON.getString("lastName");
+			email = offerOwnerJSON.getString("email");
+			mobile = offerOwnerJSON.getString("mobileNumber");
+			gender = offerOwnerJSON.getString("gender");
+			nationality = offerOwnerJSON.getString("nationality");
+			
+			User offerOwner = new User(ownerId, firstName, middleName, lastName, "", "", email, mobile, gender, nationality);
+			
+			System.out.println("getting offer owner done: " + offerJSON);
 			//Create flight
 		
 			flightNumber = flightJSON.getString("flightNumber");
@@ -203,7 +222,7 @@ public class Confirmation {
 			
 			Log.e(TAG, flight + "");
 			
-			Confirmation confirmation = new Confirmation(user1, user2, flight, offer, statusTransactionUser1, statusTransactionUser2);
+			Confirmation confirmation = new Confirmation(user1, user2, flight, offer, statusTransactionUser1, statusTransactionUser2, offerOwner);
 			Log.e(TAG, confirmation + "");
 			return confirmation;
 
@@ -211,7 +230,7 @@ public class Confirmation {
 		} catch (Exception e) {
 			// TODO: handle exception
 			
-			return new Confirmation(user1, user2, flight, offer, false, false);
+			return new Confirmation(user1, user2, flight, offer, false, false, null);
 		}
 	}
 

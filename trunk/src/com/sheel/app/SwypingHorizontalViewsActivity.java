@@ -309,14 +309,18 @@ public class SwypingHorizontalViewsActivity extends UserSessionStateMaintainingA
      * 		Name of the category. It is not case sensitive
      * @param newOffer
      * 		Offer to be added
+     * @param	
+     * 			Display name of the offer
      * @author 
      *		Passant El.Agroudy (passant.elagroudy@gmail.com)
+     *@author Hossam_Amer
      */
-    public void addOfferInCategory(String categoryName, OfferDisplay2 newOffer) {
+    public void addOfferInCategory(String categoryName, OfferDisplay2 newOffer, String displayName) {
     	int categoryIndex = findCategoryBy(categoryName);
     	
+    	
     	if (categoryIndex == -1) {
-    		addCategory(new Category(categoryName, R.layout.my_offers_main, newOffer));
+    		addCategory(new Category(displayName, R.layout.my_offers_main, newOffer, categoryName));
     	}// end if: category is not found-> create new one and add offer
     	else {
     		this.categories.get(categoryIndex).addOffer(newOffer); 
@@ -485,7 +489,7 @@ public class SwypingHorizontalViewsActivity extends UserSessionStateMaintainingA
 							Intent data = new Intent(HTTP_CONFIRM_OFFER_UI);
 							data.putExtra("response", responseStr);
 							sendBroadcast(data);
-							
+							Log.e("I am broadCasting data", "Super class");
 							
 							
 						}

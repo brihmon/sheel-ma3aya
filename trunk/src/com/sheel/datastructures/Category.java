@@ -111,6 +111,33 @@ public class Category {
 	}// end constructor
 	
 	/**
+	 * Constructor for creating a new category
+	 * 
+	 * @param name
+	 * 		Name of the category that will appear in the indicator
+	 * 		on the top of the page
+	 * @param layoutId
+	 * 		Layout ID of the XML file used for inflating the category.
+	 * 		Use <code>R.layout.STH</code>
+	 * @param
+	 * 		logicName the name of the category in logic
+	 * @param
+	 * 		new offer to be added
+	 * @return
+	 * 		List of components to be displayed. 
+	 */
+	public Category (String name , int layoutId , OfferDisplay2 offerWrapper, String logicName) {
+		this.logicName = logicName;
+		this.displayName = name;
+		this.layoutId = layoutId;
+		this.offersWrappers = new ArrayList<OfferDisplay2>();
+		this.offersWrappers.add(offerWrapper);
+	}// end constructor
+	
+	
+	
+	
+	/**
 	 * Returns name of the category that will appear in the indicator
 	 * 
 	 * @return
