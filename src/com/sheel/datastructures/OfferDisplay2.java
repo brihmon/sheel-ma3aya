@@ -313,14 +313,14 @@ public class OfferDisplay2 {
 	{
 		try {
 			
-			Log.e("Map Offer: ", (i++) + "" );// 0
+//			Log.e("Map Offer: ", (i++) + "" );// 0
 			
 			JSONObject userJSON = offerJSON.getJSONObject("user");
 			
-			Log.e("Map Offer: ", (i++) + "" );// 1
+//			Log.e("Map Offer: ", (i++) + "" );// 1
 			
 			JSONObject flightJSON = offerJSON.getJSONObject("flight");
-			Log.e("Map Offer: ", (i++) + "" );// 2
+//			Log.e("Map Offer: ", (i++) + "" );// 2
 			
 			String ownerId = userJSON.getString("facebookAccount");
 			String firstName = userJSON.getString("firstName");
@@ -331,7 +331,7 @@ public class OfferDisplay2 {
 			String gender = userJSON.getString("gender");
 			String nationality = userJSON.getString("nationality");
 			
-			Log.e("Map Offer: ", (i++) + "" );// 3
+//			Log.e("Map Offer: ", (i++) + "" );// 3
 			
 			int nationalityIndex = Integer.parseInt(nationality);
 			
@@ -341,11 +341,11 @@ public class OfferDisplay2 {
 			else
 				nationality = nationalities[nationalityIndex];
 			
-			Log.e("Map Offer: ", (i++) + "" );// 4
+//			Log.e("Map Offer: ", (i++) + "" );// 4
 			
 			User user = new User(ownerId, firstName, middleName, lastName, "", "", email, mobile, gender, nationality);
 			
-			Log.e("Map Offer: ", (i++) + "" );// 5
+//			Log.e("Map Offer: ", (i++) + "" );// 5
 			
 			Long offerId = offerJSON.getLong("id");
 			String offerstatus = offerJSON.getString("offerStatus");
@@ -355,17 +355,17 @@ public class OfferDisplay2 {
 			
 			Offer offer = new Offer(offerId, kgs, price, userstatus, offerstatus);
 			
-			Log.e("Map Offer: ", (i++) + " offer: " + offer.getId() );// 6
+//			Log.e("Map Offer: ", (i++) + " offer: " + offer.getId() );// 6
 			String flightNumber;
 		try
 		{
 			flightNumber = flightJSON.getString("flightNumber");
-			Log.e("Map Offer: ", (i++) + " offer: " + offer.getId() );// 7
+//			Log.e("Map Offer: ", (i++) + " offer: " + offer.getId() );// 7
 		}
 		catch (Exception e) {
 			// TODO: handle exception
 			flightNumber = "";
-			Log.e("Map Offer: ", (i++) + " offer: " + offer.getId() );// 8
+//			Log.e("Map Offer: ", (i++) + " offer: " + offer.getId() );// 8
 		}
 		String source = "";
 		String destination = "";
@@ -373,12 +373,12 @@ public class OfferDisplay2 {
 		try
 		{
 			source = flightJSON.getString("source");
-			Log.e("Map Offer: ", (i++) + " offer: " + offer.getId() );// 9
+//			Log.e("Map Offer: ", (i++) + " offer: " + offer.getId() );// 9
 			
 		}
 		catch (Exception e) {
 			// TODO: handle exception
-			Log.e("Map Offer: ", (i++) + " offer: " + offer.getId() );// 10
+//			Log.e("Map Offer: ", (i++) + " offer: " + offer.getId() );// 10
 		}
 		try
 		{
@@ -387,7 +387,7 @@ public class OfferDisplay2 {
 		} 
 		catch (Exception e) {
 			// TODO: handle exception
-			Log.e("Map Offer: ", (i++) + " offer: " + offer.getId() );// 11
+//			Log.e("Map Offer: ", (i++) + " offer: " + offer.getId() );// 11
 		}
 			
 			int sourceIndex = Integer.parseInt(source);
@@ -407,7 +407,7 @@ public class OfferDisplay2 {
 				
 			Flight flight = new Flight(flightNumber, sourceNew, destinationNew, departureDate);
 			
-			Log.e("Map Offer: ", (i++) + "" );// 12
+//			Log.e("Map Offer: ", (i++) + "" );// 12
 			
 			i = 0;
 			return new OfferDisplay2(user, flight, offer);
@@ -416,12 +416,12 @@ public class OfferDisplay2 {
 		} 
 	catch (JSONException e) {
 			// TODO: handle exception
-			Log.e("Map Offer: ", (i++) + "" );// 12
+//			Log.e("Map Offer: ", (i++) + "" );// 12
 			i = 0;
 			return null;
 		}
 	catch (NumberFormatException e) {
-		Log.e("Map Offer: ", "index not a number");
+//		Log.e("Map Offer: ", "index not a number");
 		return null;
 	}
 	}//end method mapOffer
@@ -439,7 +439,7 @@ public class OfferDisplay2 {
 			String gender = userJSON.getString("gender");
 			String nationality = userJSON.getString("nationality");
 			
-			Log.e("Map Offer: ", (i++) + "" );// 3
+//			Log.e("Map Offer: ", (i++) + "" );// 3
 			
 			int nationalityIndex = Integer.parseInt(nationality);
 			
@@ -449,7 +449,7 @@ public class OfferDisplay2 {
 			else
 				nationality = nationalities[nationalityIndex];
 			
-			Log.e("Map Offer: ", (i++) + "" );// 4
+//			Log.e("Map Offer: ", (i++) + "" );// 4
 			
 			return new User(ownerId, firstName, middleName, lastName, "", "", email, mobile, gender, nationality);
 		}
@@ -469,7 +469,7 @@ public class OfferDisplay2 {
 		try {
 			
 			
-			Log.e("Map Offer: ", (i++) + "" );// 0
+//			Log.e("Map Offer: ", (i++) + "" );// 0
 			
 			// First thing try to get the other side of the offer
 			 userOtherJSON = offerHelperJSON.getJSONObject("userOther");
