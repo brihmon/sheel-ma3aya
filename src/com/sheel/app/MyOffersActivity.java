@@ -6,12 +6,12 @@ import static com.sheel.utils.SheelMaayaaConstants.HALF_CONFIRMED_ME_CONFIRMED_U
 import static com.sheel.utils.SheelMaayaaConstants.HALF_CONFIRMED_ME_OFFER_OWNER;
 import static com.sheel.utils.SheelMaayaaConstants.HTTP_CONFIRM_OFFER_UI;
 import static com.sheel.utils.SheelMaayaaConstants.HTTP_EDIT_OFFER;
-import static com.sheel.utils.SheelMaayaaConstants.HTTP_EDIT_FLIGHT;
-import static com.sheel.utils.SheelMaayaaConstants.HTTP_DEACTIVATE_OFFER;
 import static com.sheel.utils.SheelMaayaaConstants.HTTP_GET_MY_OFFERS_FILTER;
 import static com.sheel.utils.SheelMaayaaConstants.HTTP_RESPONSE;
 import static com.sheel.utils.SheelMaayaaConstants.HTTP_STATUS;
 import static com.sheel.utils.SheelMaayaaConstants.NOT_CONFIRMED;
+
+import static com.sheel.utils.SheelMaayaaConstants.*;
 
 import java.util.ArrayList;
 
@@ -28,7 +28,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.sheel.adapters.MyOffersResultsListAdapter;
 import com.sheel.datastructures.Category;
@@ -39,7 +38,6 @@ import com.sheel.datastructures.OfferDisplay2;
 import com.sheel.datastructures.User;
 import com.sheel.listeners.InflateListener;
 import com.sheel.listeners.MyOffersInflateListener;
-import com.sheel.utils.DemoPopupWindow;
 import com.sheel.utils.HTTPManager;
 import com.sheel.utils.InternetManager;
 
@@ -90,12 +88,12 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity {
 	/**
 	 * Offers HALF CONFIRMED + I HALF CONFIRMED + OTHERS DECLARED
 	 */
-	ArrayList<OfferDisplay2> searchResults_halfConfirmedMeDeclaredOthers = new ArrayList<OfferDisplay2>();
+	ArrayList<OfferDisplay2> searchResults_HALF_DECLARED_ME_CONFIRMED_OTHER= new ArrayList<OfferDisplay2>();
 
 	/**
 	 * Offers HALF CONFIRMED + I HALF CONFIRMED + ME DECLARED
 	 */
-	ArrayList<OfferDisplay2> searchResults_halfConfirmedMeMeDeclared = new ArrayList<OfferDisplay2>();
+	ArrayList<OfferDisplay2> searchResults_HALF_DECLARED_OTHER_CONFIRMED_ME = new ArrayList<OfferDisplay2>();
 
 	/**
 	 * Offers HALF CONFIMED + I DID NOT HALF CONFIRMED + ME DECLARED + OTHERS +
@@ -139,8 +137,8 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity {
 				searchResults_fullIDeclared = new ArrayList<OfferDisplay2>();
 				searchResults_new = new ArrayList<OfferDisplay2>();
 				searchResults_fullConfirmedByMeNotDeclaredByMe = new ArrayList<OfferDisplay2>();
-				searchResults_halfConfirmedMeMeDeclared = new ArrayList<OfferDisplay2>();
-				searchResults_halfConfirmedMeDeclaredOthers = new ArrayList<OfferDisplay2>();
+				searchResults_HALF_DECLARED_ME_CONFIRMED_OTHER = new ArrayList<OfferDisplay2>();
+				searchResults_HALF_DECLARED_OTHER_CONFIRMED_ME = new ArrayList<OfferDisplay2>();
 				searchResults_nothalfConfirmedMeMeDeclaredOthersConfirmed = new ArrayList<OfferDisplay2>();
 
 				// ======Start the HTTP Request=========
@@ -381,13 +379,17 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity {
 					if (offer.getOffer().offerStatus
 							.equals(Confirmation.not_confirmed)) 
 					{
+						Log.e("Offers new ID: ", ""+ offer.getOffer().id);
+						
 						searchResults_new.add(OfferDisplay2.mapOfferNew(
 								jsonArray.getJSONObject(i), airportsList,
 								nationalitiesList));
 					}
 
 					else if (offer.getOffer().offerStatus
-							.equals(Confirmation.confirmed)) {
+							.equals(Confirmation.confirmed)) 
+					{
+						Log.e("Offers confirmed ID: ", ""+offer.getOffer().id);
 						if (getFacebookService().getFacebookUser().getUserId()
 								.equals(offer.getUser().getFacebookId()))
 							searchResults_fullIDeclared.add(OfferDisplay2
@@ -402,6 +404,7 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity {
 					
 				else
 				{
+					Log.e("Offers half confirmed ID: ", ""+ offer.getOffer().id);
 						
 						// Me Declared others confirmed
 						
@@ -412,7 +415,7 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity {
 								.equals(offer.getUser().getFacebookId()))
 						{	
 							
-							searchResults_halfConfirmedMeDeclaredOthers
+							searchResults_HALF_DECLARED_ME_CONFIRMED_OTHER
 							.add(OfferDisplay2.mapOfferNew(jsonArray
 									.getJSONObject(i), airportsList,
 									nationalitiesList));
@@ -426,7 +429,7 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity {
 							{	
 								
 								
-								searchResults_nothalfConfirmedMeMeDeclaredOthersConfirmed
+								searchResults_HALF_DECLARED_OTHER_CONFIRMED_ME
 								.add(OfferDisplay2.mapOfferNew(jsonArray
 										.getJSONObject(i), airportsList,
 										nationalitiesList));
@@ -477,10 +480,10 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity {
 				&&
 				searchResults_fullIDeclared.isEmpty()
 				&&
-				searchResults_halfConfirmedMeDeclaredOthers.isEmpty()
+				searchResults_HALF_DECLARED_ME_CONFIRMED_OTHER.isEmpty()
 				&& searchResults_new.isEmpty()
 				&&
-				searchResults_nothalfConfirmedMeMeDeclaredOthersConfirmed
+				searchResults_HALF_DECLARED_OTHER_CONFIRMED_ME
 						.isEmpty())
 
 			super.swypeCatsGuiUtils.showAlertWhenNoResultsAreAvailable(this,
@@ -513,17 +516,17 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity {
 
 			// * - Half confirmed offers I confirmed but not declared by me (I
 			// am not offer owner)
-			if (!searchResults_halfConfirmedMeDeclaredOthers.isEmpty()) {
+			if (!searchResults_HALF_DECLARED_ME_CONFIRMED_OTHER.isEmpty()) {
 				Log.e("Display Name in My offers DCBME: ", ""
-						+ swypeCatsGuiUtils.getSwpeCats()[0]);
+						+ swypeCatsGuiUtils.getSwpeCats()[8]);
 
 				getCategories()
 						.add(new Category(
-										"" + swypeCatsGuiUtils.getSwpeCats()[0],
-										HALF_CONFIRMED_ME_CONFIRMED_USER_NOT_OFFER_OWNER,
+										"" + swypeCatsGuiUtils.getSwpeCats()[8],
+										HALF_DECLARE_ME_CONFIRM_ME,
 										com.sheel.app.R.layout.my_offers_main));
 				updateCategoryContent(
-						searchResults_halfConfirmedMeDeclaredOthers, index++,
+						searchResults_HALF_DECLARED_ME_CONFIRMED_OTHER, index++,
 						false);
 			}// end
 			// if(!searchResults_HalfConfirmedByMeNotDeclaredByMe.isEmpty())
@@ -535,16 +538,16 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity {
 
 
 			// * - Half confirmed offers I confirmed but not declared by me
-			if (!searchResults_nothalfConfirmedMeMeDeclaredOthersConfirmed
+			if (!searchResults_HALF_DECLARED_OTHER_CONFIRMED_ME
 					.isEmpty()) {
 				Log.e("Display Name in My offers DCBME: ", ""
-						+ swypeCatsGuiUtils.getSwpeCats()[8]);
+						+ swypeCatsGuiUtils.getSwpeCats()[0]);
 				getCategories().add(
 						new Category("" + swypeCatsGuiUtils.getSwpeCats()[8],
-								HALF_CONFIRMED_ME_OFFER_OWNER,
+								HALF_DECLARE_OTHER_CONFIRM_ME,
 								R.layout.my_offers_main));
 				updateCategoryContent(
-						searchResults_nothalfConfirmedMeMeDeclaredOthersConfirmed,
+						searchResults_HALF_DECLARED_OTHER_CONFIRMED_ME,
 						index++, false);
 			}// end if(!searchResults_half.isEmpty())
 			// ========================================FULL CONFIRMED DECLARED
@@ -557,7 +560,7 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity {
 						+ swypeCatsGuiUtils.getSwpeCats()[3]);
 				getCategories().add(
 						new Category("" + swypeCatsGuiUtils.getSwpeCats()[3],
-								CONFIRMED_BY_ME_OFFER_OWNER,
+								FULL_DECLARE_ME,
 								R.layout.my_offers_main));
 				updateCategoryContent(searchResults_fullIDeclared, index, false);
 			}// end if(!searchResults_full.isEmpty())
@@ -572,7 +575,7 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity {
 						+ swypeCatsGuiUtils.getSwpeCats()[7]);
 				getCategories().add(
 						new Category("" + swypeCatsGuiUtils.getSwpeCats()[7],
-								CONFIRMED_BY_OTHER_OFFER_OWNER,
+								FULL_DECLARE_OTHER,
 								R.layout.my_offers_main));
 				updateCategoryContent(
 						searchResults_fullConfirmedByMeNotDeclaredByMe, index,
@@ -617,8 +620,8 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity {
 				
 				String currentCategoryLogicName = getCategory(offer, getFacebookService().getFacebookUser().getUserId());
 				
-				if(currentCategoryLogicName.equals(CONFIRMED_BY_OTHER_OFFER_OWNER)
-						|| currentCategoryLogicName.equals(HALF_CONFIRMED_ME_CONFIRMED_USER_NOT_OFFER_OWNER))
+				if(currentCategoryLogicName.equals(FULL_DECLARE_OTHER)
+						|| currentCategoryLogicName.equals(HALF_DECLARE_ME_CONFIRM_ME))
 				{
 					offer.userOther = confirmation.getUser2();
 				}
@@ -708,9 +711,9 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity {
 				.equals(Confirmation.confirmed)) 
 		{
 			if (facebookID.equals(offer.getUser().getFacebookId()))
-				return CONFIRMED_BY_ME_OFFER_OWNER;
+				return FULL_DECLARE_ME;
 			else
-				return CONFIRMED_BY_OTHER_OFFER_OWNER;
+				return FULL_DECLARE_ME;
 				
 
 		}
@@ -724,7 +727,7 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity {
 						.equals(offer.getUser().getFacebookId()))
 				{	
 					
-					return HALF_CONFIRMED_ME_OFFER_OWNER; 
+					return HALF_DECLARE_ME_CONFIRM_ME; 
 				}
 				
 				else 
@@ -733,7 +736,7 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity {
 							.equals(offer.getUser().getFacebookId()))
 					{	
 												
-						return HALF_CONFIRMED_ME_CONFIRMED_USER_NOT_OFFER_OWNER;
+						return HALF_DECLARE_OTHER_CONFIRM_ME;
 					}
 				}
 			
@@ -767,7 +770,7 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity {
 		{
 			currentCategoryDisplayName = swypeCatsGuiUtils.swpeCats[2] ;
 		}
-		else if(currentCategoryLogicName.equals(HALF_CONFIRMED_ME_OFFER_OWNER))
+		else if(currentCategoryLogicName.equals(HALF_DECLARE_OTHER_CONFIRM_ME))
 		{
 			currentCategoryDisplayName = swypeCatsGuiUtils.getSwpeCats()[8];
 			
