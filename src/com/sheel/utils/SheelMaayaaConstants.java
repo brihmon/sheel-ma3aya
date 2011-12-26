@@ -73,4 +73,14 @@ public interface SheelMaayaaConstants {
 	final String NOT_CONFIRMED = "New";
 	
 	
+	/**
+	 * Constant Statuses of the confirmation will be used inside the logic of the confirmation.
+	 */
+	final String FULL_DECLARE_ME = "Confirmed_1";
+	final String FULL_DECLARE_OTHER = "Confirmed_2";
+	final String HALF_DECLARE_ME_CONFIRM_ME = "Me Half-Confirmed";
+	final String HALF_DECLARE_OTHER_CONFIRM_ME = "Not Me Half-Confirmed ";
+	
+	
+	
 }
