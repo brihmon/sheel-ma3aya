@@ -599,95 +599,53 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity {
 	 * @author Passant El.Agroudy
 	 */
 	private void updateOffersOnUI(String response) {
-
+		
+		Log.e("Hello from updateOffers upon confirmation", "Conf");
 		super.reponseStr = response;
 		// super.updateOffersOnUI(super.reponseStr);
 		Log.e("Update on Response UI SUPER CALLED IN CHILD : ",
 				super.reponseStr);
 		try {
-
+			
 			JSONObject confirmationJSON = new JSONObject(super.reponseStr);
-			Log.e("hashas confirmationJSON: ", confirmationJSON + "");
 
 			Confirmation confirmation = Confirmation
 					.mapConfirmation(confirmationJSON);
-			Log.e("hashas confirmation", confirmation + "");
-
-			
-			OfferDisplay2 offer = new  OfferDisplay2( confirmation.getUser1(),  confirmation.getFlight(), confirmation.getOffer());
-			/**
-			 * If offer is full confirmed, we need to add it in its appropriate
-			 * group either Confirmed by me as an offer owner or Confirmed by
-			 * other as an offer owner.
-			 * 
-			 * @see updateCategoriesInSwypeActivity for checks
-			 */
-
-			if (confirmation.isStatusTransactionUser1()
-					&& confirmation.isStatusTransactionUser2()) {
-				// ============Delete offer from UI=========
-
+				OfferDisplay2 offer = new OfferDisplay2(confirmation.offerOwner, confirmation.getFlight(), confirmation.getOffer());
 				
-			
+				Log.e("hashas offer display", offer + "");
 				
-				// Log.e(TAG, "Dismissing Dialog : " + dialogConfirm);
-				// if(dialogConfirm != null) dialogConfirm.dismiss();
-				Toast.makeText(getApplicationContext(),
-						getString(R.string._hossamConfirmedByTwoUsers),
-						Toast.LENGTH_SHORT).show();
-				Toast.makeText(
-						getApplicationContext(),
-						getFacebookService().getFacebookUser().getFirstName()
-								+ ", "
-								+ getString(R.string._hossamConfirmationMail),
-						Toast.LENGTH_SHORT).show();
+				String currentCategoryLogicName = getCategory(offer, getFacebookService().getFacebookUser().getUserId());
+				
+				if(currentCategoryLogicName.equals(CONFIRMED_BY_OTHER_OFFER_OWNER)
+						|| currentCategoryLogicName.equals(HALF_CONFIRMED_ME_CONFIRMED_USER_NOT_OFFER_OWNER))
+				{
+					offer.userOther = confirmation.getUser2();
+				}
 
-				// If User 1 is the Offer owner
-				if (getFacebookService().getFacebookUser().getUserId().equals(
-						confirmation.getUser1().getFacebookId()))
-					InflateListener.sendSMS(getSMSContentForConfirmation(
-							confirmation.getOffer().userStatus, confirmation
-									.getUser1(), confirmation.getUser2(),
-							confirmation.getOffer(), confirmation.getFlight()),
-							confirmation.getUser2().mobileNumber,
-							MyOffersActivity.this);
+				String currentCategoryDisplayName = getCategoryDisplayName(currentCategoryLogicName);
+				addOfferInCategory(currentCategoryLogicName, offer, currentCategoryDisplayName);
+					
+				if(offer.getOffer().offerStatus.equals(Confirmation.confirmed))
+				{
+                    // If User 1 is the Offer owner
+                    if (getFacebookService().getFacebookUser().getUserId().equals(
+                                    confirmation.getUser1().getFacebookId()))
+                            InflateListener.sendSMS(getSMSContentForConfirmation(
+                                            confirmation.getOffer().userStatus, confirmation
+                                                            .getUser1(), confirmation.getUser2(),
+                                            confirmation.getOffer(), confirmation.getFlight()),
+                                            confirmation.getUser2().mobileNumber,
+                                            MyOffersActivity.this);
 
-				else
-					InflateListener.sendSMS(getSMSContentForConfirmation(
-							confirmation.getOffer().userStatus, confirmation
-									.getUser2(), confirmation.getUser1(),
-							confirmation.getOffer(), confirmation.getFlight()),
-							confirmation.getUser1().mobileNumber,
-							MyOffersActivity.this);
-
-				// If the offer is half confirmed by Offer owner
-				/**
-				 * You need to check whether the offer is half confirmed by whom
-				 * and it in its group
-				 * 
-				 * @see Check the groups in SheelMaayaaConstants for logic
-				 *      names.
-				 */
-			} else if (confirmation.isStatusTransactionUser1()) {
-
-				Toast.makeText(getApplicationContext(),
-						"Hello offer Owner, you have confirmed this offer",
-						Toast.LENGTH_SHORT).show();
-
-				/**
-				 * You need to check whether the offer is half confirmed by whom
-				 * and it in its group
-				 * 
-				 * @see Check the statuses in SheelMaayaaConstants for logic
-				 *      names.
-				 */
-				// If the offer is half confirmed by not an Offer owner
-			} else if (confirmation.isStatusTransactionUser2()) {
-				Toast.makeText(getApplicationContext(),
-						"Hello offer other, you have confirmed this offer",
-						Toast.LENGTH_SHORT).show();
-			}
-
+                    else
+                            InflateListener.sendSMS(getSMSContentForConfirmation(
+                                            confirmation.getOffer().userStatus, confirmation
+                                                            .getUser2(), confirmation.getUser1(),
+                                            confirmation.getOffer(), confirmation.getFlight()),
+                                            confirmation.getUser1().mobileNumber,
+                                            MyOffersActivity.this);
+				}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -786,5 +744,41 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity {
 		
 		
 	}// end getCategory method
+	
+	
+	/**
+	 * Gets the category display name
+	 * @param currentCategoryLogicName Current category name in logic
+	 * @return	
+	 * 		display name of the category
+	 */
+	private String getCategoryDisplayName(String currentCategoryLogicName)
+	{
+		String currentCategoryDisplayName = "";
+		if(currentCategoryLogicName.equals(CONFIRMED_BY_ME_OFFER_OWNER))
+		{
+			currentCategoryDisplayName = swypeCatsGuiUtils.swpeCats[3] ;
+		}
+		else if(currentCategoryLogicName.equals(CONFIRMED_BY_OTHER_OFFER_OWNER))
+		{
+			currentCategoryDisplayName = swypeCatsGuiUtils.swpeCats[7] ;
+		}
+		else if (currentCategoryLogicName.equals(NOT_CONFIRMED))
+		{
+			currentCategoryDisplayName = swypeCatsGuiUtils.swpeCats[2] ;
+		}
+		else if(currentCategoryLogicName.equals(HALF_CONFIRMED_ME_OFFER_OWNER))
+		{
+			currentCategoryDisplayName = swypeCatsGuiUtils.getSwpeCats()[8];
+			
+		}
+		else 
+		{
+			currentCategoryDisplayName = swypeCatsGuiUtils.swpeCats[0];
+		}
+		
+		return currentCategoryDisplayName;
+	}
+	
 
 }// end MyOffersActivity
