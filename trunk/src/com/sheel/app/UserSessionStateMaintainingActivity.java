@@ -339,7 +339,7 @@ public class UserSessionStateMaintainingActivity extends Activity {
 		
 		public void doActionUserIsRegistered() {
 			System.out.println("doActionUserIsRegistered from UserSessionMaintainingActivity ");
-			Toast.makeText(getApplicationContext(), "The user is logging in", Toast.LENGTH_LONG).show();
+//			Toast.makeText(getApplicationContext(), "The user is logging in", Toast.LENGTH_LONG).show();
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
 			goToActivity(NAVIGATION_ITEMS[position].getActivityType());
 		}// end doActionUserIsRegistered
