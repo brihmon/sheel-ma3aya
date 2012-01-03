@@ -225,11 +225,11 @@ public class SearchResultsListAdapter extends BaseAdapter {
 
 		
 		if (offerDisplay.getOffer().pricePerKilogram <=9) {
-			textView.setText("0" +offerDisplay.getOffer().pricePerKilogram + " Û/"+swypeCatsGuiUtils.getOfferKg());
+			textView.setText("0" +offerDisplay.getOffer().pricePerKilogram + " â‚¬/"+swypeCatsGuiUtils.getOfferKg());
 		}// end if: add extra space for alignment
 		else
 		// Set (Price) according to the offer
-		textView.setText(offerDisplay.getOffer().pricePerKilogram + " Û/"+swypeCatsGuiUtils.getOfferKg());
+		textView.setText(offerDisplay.getOffer().pricePerKilogram + " â‚¬/"+swypeCatsGuiUtils.getOfferKg());
 		// Add image
 		this.swypeCatsGuiUtils.setIconForATextField(context, listRow, com.sheel.app.R.id.summary_price,
 				com.sheel.app.R.drawable.sheel_result_money, 0);

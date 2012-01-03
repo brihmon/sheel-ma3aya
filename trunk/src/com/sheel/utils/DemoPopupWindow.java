@@ -27,6 +27,8 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.sheel.app.R;
+import com.sheel.app.R.id;
 import com.sheel.datastructures.Flight;
 import com.sheel.datastructures.Offer;
 import com.sheel.datastructures.OfferDisplay2;
@@ -94,40 +96,40 @@ public class DemoPopupWindow extends BetterPopupWindow implements OnClickListene
 		LayoutInflater inflater =
 				(LayoutInflater) this.anchor.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-		ViewGroup root = (ViewGroup) inflater.inflate(com.sheel.app.R.layout.popup_grid_layout, null);
+		ViewGroup root = (ViewGroup) inflater.inflate(R.layout.popup_grid_layout, null);
 
 
 		if((enabledButtons&BUTTON_CALL)==0){
-		((TableRow)(root.findViewById(com.sheel.app.R.id.qa_call).getParent())).removeView(root.findViewById(com.sheel.app.R.id.qa_call));
+		((TableRow)(root.findViewById(R.id.qa_call).getParent())).removeView(root.findViewById(R.id.qa_call));
 		}
 		else{
-			(root.findViewById(com.sheel.app.R.id.qa_call)).setOnClickListener(this);
+			(root.findViewById(R.id.qa_call)).setOnClickListener(this);
 		}
 		if((enabledButtons&BUTTON_SMS)==0){
-		((TableRow)(root.findViewById(com.sheel.app.R.id.qa_sms).getParent())).removeView(root.findViewById(com.sheel.app.R.id.qa_sms));
+		((TableRow)(root.findViewById(R.id.qa_sms).getParent())).removeView(root.findViewById(R.id.qa_sms));
 		}else
 		{
-			(root.findViewById(com.sheel.app.R.id.qa_sms)).setOnClickListener(this);
+			(root.findViewById(R.id.qa_sms)).setOnClickListener(this);
 		}
 		
 		if((enabledButtons&BUTTON_EDIT)==0){
-		((TableRow)(root.findViewById(com.sheel.app.R.id.qa_editOffer).getParent())).removeView(root.findViewById(com.sheel.app.R.id.qa_editOffer));
-		((TableRow)(root.findViewById(com.sheel.app.R.id.qa_editFlight).getParent())).removeView(root.findViewById(com.sheel.app.R.id.qa_editFlight));
+		((TableRow)(root.findViewById(R.id.qa_editOffer).getParent())).removeView(root.findViewById(R.id.qa_editOffer));
+		((TableRow)(root.findViewById(R.id.qa_editFlight).getParent())).removeView(root.findViewById(R.id.qa_editFlight));
 		}else{
-			(root.findViewById(com.sheel.app.R.id.qa_editOffer)).setOnClickListener(this);
-			(root.findViewById(com.sheel.app.R.id.qa_editFlight)).setOnClickListener(this);
+			(root.findViewById(R.id.qa_editOffer)).setOnClickListener(this);
+			(root.findViewById(R.id.qa_editFlight)).setOnClickListener(this);
 		}
 		
 		if((enabledButtons&BUTTON_CONFIRM)==0){
-			((TableRow)(root.findViewById(com.sheel.app.R.id.qa_confirm).getParent())).removeView(root.findViewById(com.sheel.app.R.id.qa_confirm));
+			((TableRow)(root.findViewById(R.id.qa_confirm).getParent())).removeView(root.findViewById(R.id.qa_confirm));
 		}else{
-			(root.findViewById(com.sheel.app.R.id.qa_confirm)).setOnClickListener(this);
+			(root.findViewById(R.id.qa_confirm)).setOnClickListener(this);
 		}
 		
 		if((enabledButtons&BUTTON_DEACTIVATE)==0){
-			((TableRow)(root.findViewById(com.sheel.app.R.id.qa_deactivate).getParent())).removeView(root.findViewById(com.sheel.app.R.id.qa_deactivate));
+			((TableRow)(root.findViewById(R.id.qa_deactivate).getParent())).removeView(root.findViewById(R.id.qa_deactivate));
 		}else{
-			(root.findViewById(com.sheel.app.R.id.qa_deactivate)).setOnClickListener(this);
+			(root.findViewById(R.id.qa_deactivate)).setOnClickListener(this);
 		}
 						
 						//b.setOnClickListener(this);
@@ -145,7 +147,7 @@ public class DemoPopupWindow extends BetterPopupWindow implements OnClickListene
 	AlertDialog dialog;
 	static int src = -1;
 	static int des = -1;
-//	@Override
+	@Override
 	public void onClick(View v) {
 		// we'll just display a simple toast on a button click
 		Button b = (Button) v;
@@ -153,30 +155,30 @@ public class DemoPopupWindow extends BetterPopupWindow implements OnClickListene
 		switch(b.getId()){
 		
 		
-		case com.sheel.app.R.id.qa_confirm:{
+		case R.id.qa_confirm:{
 			inflateListener.onClick_confirm(v);
 			break;
 		}
 		
-		case com.sheel.app.R.id.qa_sms:{
+		case R.id.qa_sms:{
 			 inflateListener.onClick_button2(v);
 			 break;
 		}
 		
-		case com.sheel.app.R.id.qa_call:{
+		case R.id.qa_call:{
 			inflateListener.onClick_button1(v);
 			break;
 		}
 		
 		
 		
-		case com.sheel.app.R.id.edit_flight_cancel:{
+		case R.id.edit_flight_cancel:{
 			dialog.dismiss();
 			break;
 		}
 		
 		/***************************  DEACTIVATING AN OFFER ************************/
-		case com.sheel.app.R.id.yes_deactivate:{
+		case R.id.yes_deactivate:{
 		  
 			Log.e("Deactivating offer with id = ", offer.getFlight().id+"");
         	HTTPManager.startHttpService("/deactivateoffer/ab",
@@ -186,25 +188,25 @@ public class DemoPopupWindow extends BetterPopupWindow implements OnClickListene
 			break;
 		}
 		
-		case com.sheel.app.R.id.no_deactivate:{
+		case R.id.no_deactivate:{
 			dialog.dismiss();
 			break;
 		}
 		
-		case com.sheel.app.R.id.qa_deactivate:{
+		case R.id.qa_deactivate:{
 			LayoutInflater inflater =
 					(LayoutInflater) this.anchor.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-			View deactivate_offer =   inflater.inflate(com.sheel.app.R.layout.deactivate_offer, null);
+			View deactivate_offer =   inflater.inflate(R.layout.deactivate_offer, null);
 			
 		    AlertDialog.Builder alert = new AlertDialog.Builder(mActivity);
 			alert.setView(deactivate_offer);
 		    dialog = alert.create();
 			dialog.show();
 			
-			Button b1 = (Button)dialog.findViewById(com.sheel.app.R.id.yes_deactivate);
+			Button b1 = (Button)dialog.findViewById(R.id.yes_deactivate);
 			b1.setOnClickListener(this);
-			Button b2 = (Button)dialog.findViewById(com.sheel.app.R.id.no_deactivate);
+			Button b2 = (Button)dialog.findViewById(R.id.no_deactivate);
 			b2.setOnClickListener(this);
 	
 			break;
@@ -212,38 +214,38 @@ public class DemoPopupWindow extends BetterPopupWindow implements OnClickListene
 		
 		
 		/****************QUICK ACTION BAR, EDIT FLIGHT SAVE ***********************************/
-		case com.sheel.app.R.id.edit_flight_save:{
+		case R.id.edit_flight_save:{
 			  int count = 0;
 			  eo_error[0].setText("");
 			  eo_error[1].setText("");
 			  
 			    if(flightNumberET.getText().length()<3){
-			     eo_error[0].setText(mActivity.getResources().getString(com.sheel.app.R.string.flight_valid));
+			     eo_error[0].setText(mActivity.getResources().getString(R.string.flight_valid));
 			     count++;
 			     return;
 			     
 			    }
 			    if(!(isAlpha(flightNumberET.getText().charAt(0)) && isAlpha(flightNumberET.getText().charAt(1)))){
-			    	eo_error[0].setText(mActivity.getResources().getString(com.sheel.app.R.string.flight_valid));
+			    	eo_error[0].setText(mActivity.getResources().getString(R.string.flight_valid));
 				     count++;
 				     return;
 			    }
 			    if(sAirportET.getText().toString().length()<4||dAirportET.getText().toString().length()<4){
 			     	eo_error[0].setText(eo_error[0].getText().toString()+
-			     			mActivity.getResources().getString(com.sheel.app.R.string.Please_insert_valid_source_and_destination));
+			     			mActivity.getResources().getString(R.string.Please_insert_valid_source_and_destination));
 				     count++;
 				     return;
 			    }
 			    if(sAirportET.getText().toString().equals(dAirportET.getText().toString())){
 			    	eo_error[count==0?0:1].setText(eo_error[count==0?0:1].getText().toString()+
-			    			mActivity.getResources().getString(com.sheel.app.R.string.src_des_valid));
+			    			mActivity.getResources().getString(R.string.src_des_valid));
 				     count++;
 				     return;
 			    }
 			    if(datePicked.before(Calendar.getInstance())){
 			    	eo_error[count==0?0:1].setText(
 			    			eo_error[count==0?0:1].getText().toString()+
-			    			mActivity.getResources().getString(com.sheel.app.R.string.date_valid));
+			    			mActivity.getResources().getString(R.string.date_valid));
 				     count++;
 				     return;
 			    }
@@ -263,7 +265,7 @@ public class DemoPopupWindow extends BetterPopupWindow implements OnClickListene
 				
 				 
 				
-				String[] airports = mActivity.getResources().getStringArray(com.sheel.app.R.array.airports_array);
+				String[] airports = mActivity.getResources().getStringArray(R.array.airports_array);
 				des = -1;
 				src = -1;
 				for(int i = 0; i < airports.length ; i++)
@@ -281,13 +283,13 @@ public class DemoPopupWindow extends BetterPopupWindow implements OnClickListene
 				}
 				
 				if(des == -1){
-					eo_error[count==0?0:1].setText(mActivity.getResources().getString(com.sheel.app.R.string.des_valid));
+					eo_error[count==0?0:1].setText(mActivity.getResources().getString(R.string.des_valid));
 					 count++;
 				}else{
 					offer.getFlight().destination = des+"";
 				}
 				if(src == -1){
-					eo_error[count==0?0:1].setText(mActivity.getResources().getString(com.sheel.app.R.string.source_valid));
+					eo_error[count==0?0:1].setText(mActivity.getResources().getString(R.string.source_valid));
 					 count++;
 				}else{
 					offer.getFlight().source = src+"";
@@ -300,10 +302,10 @@ public class DemoPopupWindow extends BetterPopupWindow implements OnClickListene
 	         
 		  	    String input = gson.toJson(offer.getFlight());
 		  	    Log.e("JSON SENT = ", offer.getFlight().id+"");
-//	        	HTTPManager.startHttpService("/editflight/"+offer.getOffer().id,
-//				input , SheelMaayaaConstants.HTTP_EDIT_FLIGHT, mActivity.getApplicationContext());   
-//	        	offer.getFlight().setSource(airports[src]);
-//				offer.getFlight().setDestination(airports[des]);
+	        	HTTPManager.startHttpService("/editflight/"+offer.getOffer().id,
+				input , SheelMaayaaConstants.HTTP_EDIT_FLIGHT, mActivity.getApplicationContext());   
+	        	offer.getFlight().setSource(airports[src]);
+				offer.getFlight().setDestination(airports[des]);
 			
 	        	dialog.dismiss();
 			
@@ -312,46 +314,46 @@ public class DemoPopupWindow extends BetterPopupWindow implements OnClickListene
 		}
 		
 		/*****************Quick action bar , Edit Flight clicked******************************/
-		case com.sheel.app.R.id.qa_editFlight:{
+		case R.id.qa_editFlight:{
 			LayoutInflater inflater =
 					(LayoutInflater) this.anchor.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-			View edit_flight =   inflater.inflate(com.sheel.app.R.layout.edit_flight, null);
+			View edit_flight =   inflater.inflate(R.layout.edit_flight, null);
 			
 		    AlertDialog.Builder alert = new AlertDialog.Builder(mActivity);
-			alert.setTitle(mActivity.getResources().getString(com.sheel.app.R.string.flight_details));
-			alert.setMessage(mActivity.getResources().getString(com.sheel.app.R.string.Please_make_changes));
+			alert.setTitle(mActivity.getResources().getString(R.string.flight_details));
+			alert.setMessage(mActivity.getResources().getString(R.string.Please_make_changes));
 			alert.setView(edit_flight);
 		    dialog = alert.create();
 			dialog.show();
 			
-			Button b1 = (Button)dialog.findViewById(com.sheel.app.R.id.edit_flight_cancel);
+			Button b1 = (Button)dialog.findViewById(R.id.edit_flight_cancel);
 			b1.setOnClickListener(this);
-			Button b2 = (Button)dialog.findViewById(com.sheel.app.R.id.edit_flight_save);
+			Button b2 = (Button)dialog.findViewById(R.id.edit_flight_save);
 			b2.setOnClickListener(this);
 			
-			 String[] airports = mActivity.getResources().getStringArray(com.sheel.app.R.array.airports_array);
+			 String[] airports = mActivity.getResources().getStringArray(R.array.airports_array);
 			 
 			  AutoCompleteTextView textView = 
-					  (AutoCompleteTextView)  dialog.findViewById(com.sheel.app.R.id.sAirport);
+					  (AutoCompleteTextView)  dialog.findViewById(R.id.sAirport);
 			  ArrayAdapter<String> adapter = 
-					  new ArrayAdapter<String>(mActivity, com.sheel.app.R.layout.list_item, airports);
+					  new ArrayAdapter<String>(mActivity, R.layout.list_item, airports);
 			  textView.setAdapter(adapter);
 			 
 			  AutoCompleteTextView textView2 = 
-					  (AutoCompleteTextView)  dialog.findViewById(com.sheel.app.R.id.dAirport);
+					  (AutoCompleteTextView)  dialog.findViewById(R.id.dAirport);
 			  ArrayAdapter<String> adapter2 = 
-					  new ArrayAdapter<String>(mActivity, com.sheel.app.R.layout.list_item, airports);
+					  new ArrayAdapter<String>(mActivity, R.layout.list_item, airports);
 			  textView2.setAdapter(adapter2);
 			 
-		    mDateDisplay = (TextView ) dialog.findViewById(com.sheel.app.R.id.editText1);   	
+		    mDateDisplay = (TextView ) dialog.findViewById(R.id.editText1);   	
 			
-			Button bb = (Button)dialog.findViewById(com.sheel.app.R.id.the_change_button); 
+			Button bb = (Button)dialog.findViewById(R.id.the_change_button); 
 			bb.setOnClickListener(this);
 			
-			flightNumberET = (EditText) dialog.findViewById(com.sheel.app.R.id.fNum);
-			sAirportET = (AutoCompleteTextView) dialog.findViewById(com.sheel.app.R.id.sAirport);
-			dAirportET = (AutoCompleteTextView) dialog.findViewById(com.sheel.app.R.id.dAirport);
+			flightNumberET = (EditText) dialog.findViewById(R.id.fNum);
+			sAirportET = (AutoCompleteTextView) dialog.findViewById(R.id.sAirport);
+			dAirportET = (AutoCompleteTextView) dialog.findViewById(R.id.dAirport);
 			//src = Integer.parseInt(offer.getFlight().getSource());
 			//des = Integer.parseInt(offer.getFlight().getDestination());
 			
@@ -365,8 +367,8 @@ public class DemoPopupWindow extends BetterPopupWindow implements OnClickListene
 			mYear =  Integer.parseInt(date[2]);
 			
 			datePicked.set(mYear, mMonth, mDay, 23 , 59 , 59);
-			eo_error[0] = (TextView)dialog.findViewById(com.sheel.app.R.id.edit_error1);
-		    eo_error[1] = (TextView)dialog.findViewById(com.sheel.app.R.id.edit_error2);
+			eo_error[0] = (TextView)dialog.findViewById(R.id.edit_error1);
+		    eo_error[1] = (TextView)dialog.findViewById(R.id.edit_error2);
 			
 			
 			break;
@@ -375,7 +377,7 @@ public class DemoPopupWindow extends BetterPopupWindow implements OnClickListene
 		
 		/***************** On change date clicked *************************************/
 		
-		case com.sheel.app.R.id.the_change_button:{
+		case R.id.the_change_button:{
 			 
 			DatePickerDialog dp = new DatePickerDialog(mActivity,
                     mDateSetListener,
@@ -387,35 +389,35 @@ public class DemoPopupWindow extends BetterPopupWindow implements OnClickListene
 		
 		/*****************Quick action bar , Edit Offer clicked******************************/
 		
-		case com.sheel.app.R.id.qa_editOffer:{
+		case R.id.qa_editOffer:{
 			LayoutInflater inflater =
 					(LayoutInflater) this.anchor.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-			View edit_offer =   inflater.inflate(com.sheel.app.R.layout.edit_offer, null);
+			View edit_offer =   inflater.inflate(R.layout.edit_offer, null);
 			
 		    AlertDialog.Builder alert = new AlertDialog.Builder(mActivity);
-			alert.setTitle(mActivity.getResources().getString(com.sheel.app.R.string.offer_details));
-			alert.setMessage(mActivity.getResources().getString(com.sheel.app.R.string.Please_make_changes));
+			alert.setTitle(mActivity.getResources().getString(R.string.offer_details));
+			alert.setMessage(mActivity.getResources().getString(R.string.Please_make_changes));
 			alert.setView(edit_offer);
 		    dialog = alert.create();
 			dialog.show();
 			
-			Button b1 = (Button)dialog.findViewById(com.sheel.app.R.id.edit_offer_cancel);
+			Button b1 = (Button)dialog.findViewById(R.id.edit_offer_cancel);
 			b1.setOnClickListener(this);
-			Button b2 = (Button)dialog.findViewById(com.sheel.app.R.id.edit_offer_save);
+			Button b2 = (Button)dialog.findViewById(R.id.edit_offer_save);
 			b2.setOnClickListener(this);
 			
-			noKGsET = (EditText)dialog.findViewById(com.sheel.app.R.id.edit_offer_kgs);
-	        pricePerKGET = (EditText)dialog.findViewById(com.sheel.app.R.id.edit_offer_price);
-	        type = (RadioGroup)dialog.findViewById(com.sheel.app.R.id.edit_offer_type);
+			noKGsET = (EditText)dialog.findViewById(R.id.edit_offer_kgs);
+	        pricePerKGET = (EditText)dialog.findViewById(R.id.edit_offer_price);
+	        type = (RadioGroup)dialog.findViewById(R.id.edit_offer_type);
 	        
 	       
-	        eo_error[0] = (TextView)dialog.findViewById(com.sheel.app.R.id.edit_error1);
-	        eo_error[1] = (TextView)dialog.findViewById(com.sheel.app.R.id.edit_error2);
+	        eo_error[0] = (TextView)dialog.findViewById(R.id.edit_error1);
+	        eo_error[1] = (TextView)dialog.findViewById(R.id.edit_error2);
 	        
 	        noKGsET.setText(offer.getOffer().getNoOfKilograms()+"");
         	pricePerKGET.setText(offer.getOffer().getPricePerKilogram()+"");
-        	type.check(offer.getOffer().getUserStatus()==0?com.sheel.app.R.id.edit_avWeight:com.sheel.app.R.id.edit_exWeight);
+        	type.check(offer.getOffer().getUserStatus()==0?R.id.edit_avWeight:R.id.edit_exWeight);
         	String[]date = offer.getFlight().getDepartureDate().split("-");
         	mMonth = Integer.parseInt(date[0]) -1;
         	mDay = Integer.parseInt(date[1]);
@@ -427,14 +429,14 @@ public class DemoPopupWindow extends BetterPopupWindow implements OnClickListene
 		
 		/*****************Edit offer , cancel clicked******************************/
 		
-		case com.sheel.app.R.id.edit_offer_cancel:{
+		case R.id.edit_offer_cancel:{
 			dialog.dismiss();
 			break;
 		}
 		
 		/*****************Edit offer , save clicked******************************/
 		
-		case com.sheel.app.R.id.edit_offer_save:{
+		case R.id.edit_offer_save:{
 			
 			 String checkErrors = "";
 			 for(int i = 0 ; i < 2 ; i++)
@@ -443,30 +445,30 @@ public class DemoPopupWindow extends BetterPopupWindow implements OnClickListene
 			 
 			 if(noKGsET.getText().toString().equals("")){
 				 checkErrors += "Please insert the number of kilograms.\n";
-				 eo_error[count++].setText(mActivity.getResources().getString(com.sheel.app.R.string.kgs_valid));
+				 eo_error[count++].setText(mActivity.getResources().getString(R.string.kgs_valid));
 			 } else if(Integer.parseInt(noKGsET.getText().toString())>30){
 				 checkErrors += "Number of kilograms cannot exceed 30.\n";
-				 eo_error[count++].setText(mActivity.getResources().getString(com.sheel.app.R.string.kgs_valid));
+				 eo_error[count++].setText(mActivity.getResources().getString(R.string.kgs_valid));
 			 }else if(Integer.parseInt(noKGsET.getText().toString())==0){
 				 checkErrors += "Number of kilograms cannot be zero.\n";
-				 eo_error[count++].setText(mActivity.getResources().getString(com.sheel.app.R.string.kgs_valid));
+				 eo_error[count++].setText(mActivity.getResources().getString(R.string.kgs_valid));
 			 }
 			 
 			 if(pricePerKGET.getText().toString().equals("")){
 				 checkErrors += "Please insert the price.\n";
-				 eo_error[count++].setText(mActivity.getResources().getString(com.sheel.app.R.string.price_valid));
+				 eo_error[count++].setText(mActivity.getResources().getString(R.string.price_valid));
 			 }else  if( Integer.parseInt(pricePerKGET.getText().toString())>30){
 				 checkErrors += "Price per kilogram cannot exceed 30 euros.\n";
-				 eo_error[count++].setText(mActivity.getResources().getString(com.sheel.app.R.string.price_valid));
+				 eo_error[count++].setText(mActivity.getResources().getString(R.string.price_valid));
 			 }
 			 
 			 if(count==0){
 			 
 		    	Gson gson = new Gson();
 	        	
-	        	offer.getOffer().setPricePerKilogram(Integer.parseInt(noKGsET.getText().toString()));
-	        	offer.getOffer().setNoOfKilograms((Integer.parseInt(pricePerKGET.getText().toString())));
-	        	offer.getOffer().setUserStatus(type.getCheckedRadioButtonId()==com.sheel.app.R.id.edit_exWeight?1:0);
+	        	offer.getOffer().setPricePerKilogram(Integer.parseInt(pricePerKGET.getText().toString()));
+	        	offer.getOffer().setNoOfKilograms((Integer.parseInt(noKGsET.getText().toString())));
+	        	offer.getOffer().setUserStatus(type.getCheckedRadioButtonId()==R.id.edit_exWeight?1:0);
 	        	
 	        	
 	        	Offer offerIn = offer.getOffer();
