@@ -348,7 +348,6 @@ public class GetUserInfoActivity extends UserSessionStateMaintainingActivity {
 	     */
 	 public String removeSpaces(String str){
 			str = str.trim();			
-			str = str.replaceAll(" ", "%20");
 			return str;
 	}
 	 

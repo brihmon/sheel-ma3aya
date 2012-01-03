@@ -271,7 +271,6 @@ public class FilterPreferencesActivity extends UserSessionStateMaintainingActivi
      */
 	public String removeSpaces(String str){
 		str = str.trim();
-		str = str.replaceAll(" ", "%20");
 		return str;
 	}
 	
