@@ -215,7 +215,7 @@ public class InsertOfferActivity extends UserSessionStateMaintainingActivity {
 	 static int src = -1;
 
 	 public boolean isAlpha(char c){
-		 return (c<='Z'&&c>='A'||c>='a'&&c<='z');
+		 return (c<='Z'&&c>='A');
 	 }
 	 
   public void onClick_submit(View v){

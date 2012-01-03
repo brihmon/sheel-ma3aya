@@ -5,6 +5,8 @@ import static com.sheel.utils.SheelMaayaaConstants.CONFIRMED_BY_OTHER_OFFER_OWNE
 import static com.sheel.utils.SheelMaayaaConstants.HALF_CONFIRMED_ME_CONFIRMED_USER_NOT_OFFER_OWNER;
 import static com.sheel.utils.SheelMaayaaConstants.HALF_CONFIRMED_ME_OFFER_OWNER;
 import static com.sheel.utils.SheelMaayaaConstants.HTTP_CONFIRM_OFFER_UI;
+import static com.sheel.utils.SheelMaayaaConstants.HTTP_DEACTIVATE_OFFER;
+import static com.sheel.utils.SheelMaayaaConstants.HTTP_EDIT_FLIGHT;
 import static com.sheel.utils.SheelMaayaaConstants.HTTP_EDIT_OFFER;
 import static com.sheel.utils.SheelMaayaaConstants.HTTP_GET_MY_OFFERS_FILTER;
 import static com.sheel.utils.SheelMaayaaConstants.HTTP_RESPONSE;
@@ -232,7 +234,8 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity {
 		filter.addAction(HTTP_GET_MY_OFFERS_FILTER);
 		filter.addAction(HTTP_CONFIRM_OFFER_UI);
 		filter.addAction(HTTP_EDIT_OFFER);
-
+		filter.addAction(HTTP_EDIT_FLIGHT);
+		filter.addAction(HTTP_DEACTIVATE_OFFER);
 		receiver = new SheelMaayaaBroadCastRec();
 
 		Log.e(TAG, "Receiver Registered");
@@ -298,21 +301,56 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity {
 
 					}// end if Get my offers filter
 
+				
+
 					if (action.equals(HTTP_EDIT_OFFER)) {
-						responseStr = intent.getExtras().getString(
-								HTTP_RESPONSE);
+						responseStr = intent.getExtras().getString(HTTP_RESPONSE);
 						Log.e(TAG, "Will Start to edit offers");
-						// showEditResult(responseStr);
+						//showEditResult(responseStr);
 						// Dialog dismissing
 						if (dialog != null)
 							dialog.dismiss();
 
+						
 						showEditResult(responseStr);
 						Log.e(TAG, responseStr);
 
-					}// end if Get my offers filter
+					}// end if edit offers filter
+					
+					if (action.equals(HTTP_EDIT_FLIGHT)) {
+						responseStr = intent.getExtras().getString(HTTP_RESPONSE);
+						Log.e(TAG, "Will Start to edit flight");
+						//showEditResult(responseStr);
+						// Dialog dismissing
+						if (dialog != null)
+							dialog.dismiss();
 
-				}
+						
+						showEditResult(responseStr);
+						Log.e(TAG, responseStr);
+
+					}// end if edit flight filter
+					
+					if (action.equals(HTTP_DEACTIVATE_OFFER)) {
+						responseStr = intent.getExtras().getString(HTTP_RESPONSE);
+						Log.e(TAG, "deactivating offer");
+						//showEditResult(responseStr);
+						// Dialog dismissing
+						if (dialog != null)
+							dialog.dismiss();
+
+						
+						showEditResult(responseStr);
+						Log.e(TAG, responseStr);
+
+					}// end if edit flight filter
+				 
+					
+				
+				}// end if (httpStatus == HttpStatus.SC_OK) {
+				
+					
+				
 			}// end if (httpStatus == HttpStatus.SC_OK) {
 
 		}// end onReceive
@@ -364,7 +402,10 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity {
 						.getJSONObject(i), airportsList, nationalitiesList);
 
 				try {
-
+					if(offer.getOffer().offerStatus.equals("deactivated")){
+						continue;
+					}
+					
 					/**
 					 * searchResults_new > Provider for new offers
 					 * searchResults_fullIDeclared >Provider for offers I confirmed and I am the offer owner
@@ -772,12 +813,12 @@ public class MyOffersActivity extends SwypingHorizontalViewsActivity {
 		}
 		else if(currentCategoryLogicName.equals(HALF_DECLARE_OTHER_CONFIRM_ME))
 		{
-			currentCategoryDisplayName = swypeCatsGuiUtils.getSwpeCats()[8];
+			currentCategoryDisplayName = swypeCatsGuiUtils.getSwpeCats()[0];
 			
 		}
 		else 
 		{
-			currentCategoryDisplayName = swypeCatsGuiUtils.swpeCats[0];
+			currentCategoryDisplayName = swypeCatsGuiUtils.swpeCats[8];
 		}
 		
 		return currentCategoryDisplayName;
